@@ -1,0 +1,27 @@
+# run_at_utc 2026-11-15T07:10:12Z
+# cwd: Call360-frontend
+# command: npx playwright test --reporter=list
+[WebServer] INFO:     Started server process [96443]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+E2E schema reset and 4 accounts created
+
+Running 11 tests using 1 worker
+
+  ✓   1 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1280px (1.9s)
+  ✓   2 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1440px (1.9s)
+  ✓   3 [chromium] › e2e/a11y.spec.ts:37:1 › FE-04 unauthorized and session-expired screens are accessible (965ms)
+  ✓   4 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1280px (752ms)
+  ✓   5 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1440px (743ms)
+  ✓   6 [chromium] › e2e/auth.spec.ts:4:1 › E2E-01 unauthenticated redirect, login, landing with real session data, logout (952ms)
+  ✓   7 [chromium] › e2e/auth.spec.ts:28:1 › E2E-15 tokens only in HttpOnly cookies; no storage or URL tokens; CSRF and origin enforced (452ms)
+  ✓   8 [chromium] › e2e/auth.spec.ts:52:1 › D-23 two tabs refreshing an expired access token concurrently keep the session (853ms)
+  ✓   9 [chromium] › e2e/auth.spec.ts:71:1 › E2E-18 (partial) branding and terminology (444ms)
+  ✓  10 [chromium] › e2e/permissions.spec.ts:4:1 › E2E-10 (partial) USER is denied Administration in the UI and by the API (521ms)
+  ✓  11 [chromium] › e2e/permissions.spec.ts:14:1 › E2E-13 (partial) ADMIN disables a user: that user is signed out on the next request; audit shows before/after (1.3s)
+
+  11 passed (13.2s)
+# exit_code 0

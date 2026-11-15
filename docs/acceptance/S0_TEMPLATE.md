@@ -6,6 +6,8 @@
 
 ## Source revisions (all required)
 
+Use commit SHAs when commits are authorised; otherwise record the base SHA plus the `scripts/evidence_manifest.py` SHA-256 (ADR-0003 §6).
+
 | Repo / artifact | Exact value | Evidence link |
 |---|---|---|
 | `Call360-specs` commit SHA | TBD | TBD |
@@ -28,7 +30,7 @@ List each S0/P0 requirement ID, test case and pass/fail evidence. Do not copy a 
 - Verify product branding is `Call360`, detail page and breadcrumb are `Call Detail`, and no screen is labelled “Call 360”.
 - Verify unauthorized access, loading, empty, partial, failed artifact, 1280px/1440px desktop, keyboard navigation.
 
-Commands run, timestamps, output paths, test count and CI job URLs: TBD.
+Commands run, timestamps, output paths and test counts (local run logs; no CI in local development): TBD.
 
 ## Open defects / risks / owner decisions
 

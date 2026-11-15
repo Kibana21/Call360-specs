@@ -1,0 +1,9 @@
+# run_at_utc 2026-11-15T07:10:12Z
+# cwd: Call360-frontend
+# command: npm run api:check
+
+> call360-frontend@0.1.0 api:check
+> node scripts/api-generate.mjs --check
+
+api:check OK (openapi f6ce8c890c4f846f6121cb7e6770cd68f5b43256bacfdf5d208c23b2a6d129e1)
+# exit_code 0

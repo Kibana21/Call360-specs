@@ -1,0 +1,20 @@
+# run_at_utc 2026-11-15T07:10:12Z
+# cwd: Call360-backend
+# command: uv run pytest -p no:warnings -v
+============================= test session starts ==============================
+platform darwin -- Python 3.12.12, pytest-9.2.0, pluggy-1.7.0
+rootdir: /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0
+collected 73 items
+
+tests/test_audit.py ....                                                 [  5%]
+tests/test_auth.py ...................                                   [ 31%]
+tests/test_authz_admin.py .....................                          [ 60%]
+tests/test_contract.py .                                                 [ 61%]
+tests/test_db_isolation.py .............                                 [ 79%]
+tests/test_tokens.py ...............                                     [100%]
+
+============================== 73 passed in 8.83s ==============================
+# exit_code 0

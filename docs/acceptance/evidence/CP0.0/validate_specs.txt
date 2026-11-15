@@ -1,0 +1,5 @@
+# run_at_utc 2026-11-15T05:47:53Z
+# command: python3 -I scripts/validate_specs.py
+PASS: 237 requirements, 55 tests, staged three-repo Call360 v0.3 pack
+PASS: 51 CP0.0 specification checks (S0 matrix 70 requirements, 95 tests; 80 endpoints; 63 tables; 29 routes; 33 contradictions; 8 ADRs)
+# exit_code 0

@@ -2,6 +2,13 @@
 
 **Status:** Proposed design contract, v0.3. Actual table naming and indexing to be finalized with backend ADR before implementation. This document is authoritative on object identity and historical invariants, not a SQL migration.
 
+> **CP0.0 note (2026-11-15):** The Stage 0 physical model is specified in `S0_DATA_MODEL.md`, which maps every S0 table to an entity below. Refinements made there without changing grain:
+> - Identity tables use the security doc's names: `principal`, `identity_binding`, `local_credential`, `app_group`, `group_membership`, `group_role_mapping`, `group_scope_mapping`, `refresh_token` (C-5).
+> - Case holds are a separate auditable `case_hold` record; blocking holds prevent a case from becoming callable (C-12, ADR-0008 §2).
+> - `conversation_session` carries immutable pins to the script version + manifest hash, the risk assessment + snapshot hash, the policy fact snapshot + hash and the contact snapshot (D-6, ADR-0005 §4), in addition to the `survey_run` pin.
+> - The script lifecycle is fixed by ADR-0007.
+> - `is_synthetic` is a provenance attribute, not a permanent constraint (ADR-0008 §6).
+
 ## Canonical entity relationship view
 
 ```mermaid

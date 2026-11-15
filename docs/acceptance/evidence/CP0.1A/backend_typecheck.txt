@@ -1,0 +1,6 @@
+# run_at_utc 2026-11-15T06:55:18Z
+# cwd: Call360-backend
+# command: make typecheck
+uv run mypy app
+Success: no issues found in 25 source files
+# exit_code 0

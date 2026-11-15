@@ -1,0 +1,18 @@
+# run_at_utc 2026-11-15T06:55:18Z
+# cwd: Call360-frontend
+# command: npm run build
+
+> call360-frontend@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v8.3.8 building client environment for production...
+transforming...
+✓ 87 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/assets/index-DWIjx3sB.css   25.99 kB │ gzip:  6.96 kB
+dist/assets/index-D-G1Ysb-.js   258.42 kB │ gzip: 82.45 kB
+
+✓ built in 57ms
+# exit_code 0

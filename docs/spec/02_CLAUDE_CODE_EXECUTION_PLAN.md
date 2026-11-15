@@ -1,8 +1,10 @@
 # Claude Code Execution Plan — Call360
 
 **Companion to:** `01_MASTER_BRD.md`  
-**Version:** 0.2 | **Date:** 15 November 2026  
+**Version:** 0.3 (v0.3 staging overlay in §B0; CP0.0 overlay below) | **Date:** 15 November 2026  
 **Intent:** Use this as a stage-gated build contract for Claude Code. Do not paste the entire BRD as an instruction to implement everything at once.
+
+> **CP0.0 overlay (2026-11-15, pending owner acceptance):** Stage 0 checkpoints, their numbering (CP0.0–CP0.6), deliverables and acceptance are defined in `docs/plans/S0_IMPLEMENTATION_PLAN.md`, which supersedes the S0 checkpoint names in §C and §B0. The mapping is in that plan, §5 (C-28). Architecture defaults in §A2 are confirmed or refined by ADR-0003…0008. "Survey Library"/`/api/v1/surveys` wording below is retained unchanged under exception EXC-001; the UI module is **Script Studio** (ADR-0007). In local development, CI/PR items (§A1.8, §A4.3, §A4.8, §F) are performed as local commands with captured output (MULTI_REPO_ARCHITECTURE §9). No requirement is changed by this overlay.
 
 ---
 

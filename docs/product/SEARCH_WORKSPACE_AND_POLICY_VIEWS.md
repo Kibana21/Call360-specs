@@ -6,7 +6,7 @@
 
 **Product:** Call360. **Individual callback case investigation page:** **Call Detail** (`/cases/:caseId`), not “Call 360.” Policy context is displayed in `Policy Detail` (`/policies/:policyId`); never mix a policy identifier with a callback case identifier. Crosslinks preserve state and access checks.
 
-Suggested primary navigation: **Overview**, **Call Explorer**, **Policy Explorer**, **SBQ Risk**, **Survey Studio**, **Data Intake**, **Review Workbench**, **Analytics**, **Administration**; Voice Studio and Live Monitor appear by applicable stage. The app has one persistent global search box with keyboard shortcut, recent authorized records and clear entity-type icons.
+Primary navigation is defined in `SCREEN_NAMING_AND_ROUTES.md` (owner decision C-1, CP0.0): the approved mockup's grouped structure with canonical labels — **Overview**, **Call Explorer**, **Policy Explorer**, **SBQ Risk Workbench**, Work Queues, Voice Studio, **Script Studio**, Assignment Rules, **Review Workbench**, Search, **Analytics**, **Data Intake**, **Administration**; later-stage items appear disabled with their stage. The app has one persistent global search box with keyboard shortcut, recent authorized records and clear entity-type icons.
 
 ## Global Search coverage
 

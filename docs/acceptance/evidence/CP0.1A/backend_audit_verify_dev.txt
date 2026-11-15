@@ -1,0 +1,6 @@
+# run_at_utc 2026-11-15T06:55:18Z
+# cwd: Call360-backend
+# command: make audit-verify
+uv run call360 audit-verify
+Audit chain OK: 4 events; head e8ef15b26bb4e76e029db9626adc39045e4d441ce73d8599951af4157edeba0a
+# exit_code 0

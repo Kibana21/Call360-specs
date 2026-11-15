@@ -23,7 +23,7 @@
 
 ## Required authoring UX
 
-`Survey Studio` opens the versioned **Script Library**; users can browse published, draft, scheduled, withdrawn and superseded scripts. A script detail shows modular structure and question counts, applicability, effective dates, language variants, owner, change log and affected cases. Separate tabs: **Questions**, **Routing Rules**, **Expected Answers**, **Review & Publish**, **Version Diff**, **Simulation**.
+**Script Studio** (ADR-0007) opens the versioned **Script Library**; users can browse published, draft, scheduled, withdrawn and superseded scripts. A script detail shows modular structure and question counts, applicability, effective dates, language variants, owner, change log and affected cases. Separate tabs: **Questions**, **Routing Rules**, **Expected Answers**, **Review & Publish**, **Version Diff**, **Simulation**.
 
 Question editor requires: stable code, question intention, exact customer wording, delivery mode (`CONVERSATIONAL`/`CONTROLLED_TTS`/`EXACT_AUDIO`), type (`YES_NO`/`NUMERIC`/`ENUM`/`FREE_TEXT`/`ACKNOWLEDGEMENT`), mandatory, localized versions, clarification text, max repetition, skip/conditional rule, expected answer policy, whether evidence is required, prohibited assertions and escalation/rule references. Preserve author, timestamps and revision reason. External URL/document citation is recorded as source metadata, not treated as automatically binding.
 

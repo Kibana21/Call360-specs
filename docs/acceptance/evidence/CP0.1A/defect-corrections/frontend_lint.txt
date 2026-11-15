@@ -1,0 +1,7 @@
+# run_at_utc 2026-11-15T07:10:12Z
+# cwd: Call360-frontend
+# command: npm run lint
+
+> call360-frontend@0.1.0 lint
+> eslint .
+# exit_code 0

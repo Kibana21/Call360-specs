@@ -1,0 +1,37 @@
+# run_at_utc 2026-11-15T06:55:18Z
+# cwd: Call360-frontend
+# command: npx vitest run --reporter=verbose
+
+ RUN  v4.1.12 /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend
+
+ ✓ src/api/session.test.ts > safeReturnPath > /admin/users -> /admin/users 3ms
+ ✓ src/api/session.test.ts > safeReturnPath > /admin/users?x=1 -> /admin/users?x=1 1ms
+ ✓ src/api/session.test.ts > safeReturnPath > https://evil.example -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > //evil.example/x -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > /\evil -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > null -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > /login -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > /session-expired?x -> / 0ms
+ ✓ src/api/session.test.ts > readCookie > reads a cookie by name 0ms
+ ✓ src/api/session.test.ts > apiFetch > adds the CSRF header only to state-changing requests 3ms
+ ✓ src/api/session.test.ts > apiFetch > refreshes once on an expired access token and retries the original request 1ms
+ ✓ src/api/session.test.ts > apiFetch > does not call refresh when a sibling tab already refreshed (probe succeeds) 0ms
+ ✓ src/api/session.test.ts > apiFetch > treats 409 REFRESH_SUPERSEDED as success and retries with current cookies 0ms
+ ✓ src/api/session.test.ts > apiFetch > shares one refresh between concurrent callers in a tab 6ms
+ ✓ src/api/session.test.ts > apiFetch > signals session expiry when refresh fails and never writes browser storage 1ms
+ ✓ src/api/session.test.ts > apiFetch > does not attempt refresh for the login endpoint 0ms
+ ✓ src/App.test.tsx > authentication screens > redirects anonymous users to login and shows a generic failure message 132ms
+ ✓ src/App.test.tsx > authentication screens > shows throttling feedback on 429 68ms
+ ✓ src/App.test.tsx > application shell > renders the mockup navigation groups with stage-gated items and real session data 43ms
+ ✓ src/App.test.tsx > application shell > sends a USER who opens Administration to the Unauthorized screen 14ms
+ ✓ src/App.test.tsx > admin users states > loading then table, with self-disable prevented 20ms
+ ✓ src/App.test.tsx > admin users states > empty state 12ms
+ ✓ src/App.test.tsx > admin users states > error state shows the correlation reference 16ms
+ ✓ src/App.test.tsx > admin users states > forbidden state when the server denies the request 12ms
+ ✓ src/App.test.tsx > admin users states > disable requires a reason and sends If-Match with the row version 66ms
+
+ Test Files  2 passed (2)
+      Tests  25 passed (25)
+   Start at  14:55:31
+   Duration  820ms (transform 77ms, setup 64ms, import 152ms, tests 402ms, environment 350ms)
+# exit_code 0

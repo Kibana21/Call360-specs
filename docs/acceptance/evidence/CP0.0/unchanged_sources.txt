@@ -1,0 +1,6 @@
+# run_at_utc 2026-11-15T05:47:53Z
+# command: git diff --stat HEAD -- docs/spec/01_MASTER_BRD.md docs/spec/03_REQUIREMENTS_REGISTER.csv docs/spec/REQUIREMENT_COUNTS.json
+# (empty diff above = unchanged)
+8b1b0cd72e311b5091704775d1c6b6053d83863c67a44bb29ebc8e0d04a4c004  docs/spec/01_MASTER_BRD.md
+0815fdad6ef8e27ce033a2e59c28f2bc33972b9230737ec3a6868353469bb495  docs/spec/03_REQUIREMENTS_REGISTER.csv
+887893e2b6127baa619a78906394b3ec547635fef7b55052487058d850871887  docs/spec/REQUIREMENT_COUNTS.json

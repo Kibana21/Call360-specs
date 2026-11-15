@@ -68,7 +68,7 @@ If Claude Code is invoked from the workspace root, it must read **all three** re
 |---|---|---|---|
 | S0 | BRD/ADRs/contracts/test matrix | Domain schema, initial endpoints, real data seed, auth | Polished navigation, Overview, Call Explorer, **Call Detail**, surveys read-only |
 | S1 | Recording/session acceptance | Secure voice session, sideband, media events/manifests | Browser mic/WebRTC, streaming transcript, playback/error UI |
-| S2 | Script governance criteria | Versioned surveys, state machine, approval, controlled audio mode | Survey Studio, simulator, question progress |
+| S2 | Script governance criteria | Versioned scripts, state machine, approval, controlled audio mode | Script Studio, simulator, question progress |
 | S3 | Compliance/review criteria | Answer schemas, rules, findings, review audit, exports | Evidence player, Review Workbench, structured output view |
 | S4 | KPI/operations definitions | Intake, queue/campaign/jobs/metrics/monitor streams | Live Monitor, dashboards, campaigns and analytics |
 | S5 | Security/privacy approvals | Entra, ABAC, retention, evaluated models | Permission-driven UI, protected evidence/export UX |
@@ -85,3 +85,13 @@ A seeded case with 3 contact attempts (no answer → busy → connected) must ap
 - No production launch or real outbound dialing without AIA Legal/Privacy/S&C/InfoSec approval and Genesys licensing/configuration verification.
 - The canonical OpenAPI producer is backend; the specs repository should **not** maintain a competing hand-edited copy of executable schemas.
 - If a repo is missing locally or inaccessible, log the blockage; do not silently create a substitute repository with the same name.
+
+## 9. Local development mode (owner decision, CP0.0, 2026-11-15)
+
+During local development, the owner has suspended §4 (branching and release coordination) and §5 (CI responsibilities) as **mechanisms**. Their **checks are not suspended**:
+
+- No GitHub Actions, CI/CD, PR workflows, branch protection, GitHub App credentials or cross-repository automation are created.
+- Every check listed in §5 runs as a documented local command, and the captured output is the evidence. This covers specs validation, lint and types, tests, migration from empty, seed determinism, OpenAPI determinism and drift, generated-client parity, secret scanning and security suites. See ADR-0003 §5 and `docs/plans/S0_IMPLEMENTATION_PLAN.md` §4.
+- Commits, pushes, merges and branches happen only on explicit owner authorisation. Without commits, evidence records the base SHA plus a deterministic file manifest (ADR-0003 §6). §3 step E and §7 "SHA tuple" are read accordingly.
+- The parent workspace directory's name and capitalisation (`call360/` in §1, `Call360/` on disk) are not significant, because it is not a repository.
+- When company-hosted Git and CI are confirmed (§8), these local commands become the CI jobs unchanged.

@@ -1,6 +1,6 @@
 # Call360 — API contract ownership, generated clients and compatibility
 
-**Contract ID:** CALL360-CONTRACT-001 | **Status:** proposed for S0 ADR acceptance
+**Contract ID:** CALL360-CONTRACT-001 | **Status:** proposed for S0 ADR acceptance; conventions fixed by ADR-0006 and the S0 endpoint set catalogued in `S0_API_CATALOGUE.md` (CP0.0, 2026-11-15)
 
 ## Source of truth
 
@@ -20,15 +20,15 @@
 - `GET /api/v1/sessions/{session_id}`
 - `GET /api/v1/sessions/{session_id}/transcript` (including evidence status)
 - `GET /api/v1/sessions/{session_id}/media` (authorized metadata; no public object URLs)
-- `GET /api/v1/surveys` and `GET /api/v1/surveys/{survey_id}/versions`
-- `GET /api/v1/health/ready` and role/scope demo endpoints as approved
+- `GET /api/v1/scripts`, `GET /api/v1/scripts/{script_family_id}/versions` and `GET /api/v1/script-versions/{script_version_id}` (Script Studio naming, ADR-0007)
+- Unauthenticated, unversioned `GET /health/live` and `GET /health/ready` (no internal detail); details at authenticated `GET /api/v1/admin/system-health` (C-16)
 - `POST /api/v1/demo/sessions` from S1, idempotent; provider secrets never exposed
 
 These paths are proposals until executable schemas/tests land. Keep a single owner of definitions and record changes in an ADR. The `/cases/{case_id}` endpoint corresponds to the **Call Detail** React route `/cases/:caseId`; they are not the same URL space.
 
 ## Wire contract requirements
 
-- IDs are opaque stable strings; timestamps UTC ISO 8601 with offsets; states are documented enums; missing/unknown evidence is explicitly represented.
+- IDs are opaque stable strings; timestamps UTC ISO 8601 with offsets; states are documented enums; missing/unknown evidence is explicitly represented through the availability object `{status: AVAILABLE|NOT_AVAILABLE|FAILED|RESTRICTED, reason_code, stage_note}` (ADR-0006; persisted BRD §3.3 enums unchanged).
 - Request and response schemas must be typed and generated. Sensitive fields masked or omitted by server-side authorization, not simply hidden in React.
 - Mutations require idempotency key, actor, reason/correlation where relevant. No unapproved side effects or call completion on timeouts.
 - Add request trace/correlation IDs and pagination metadata. Report distinct case vs attempt vs session metrics; denominators must not be conflated.
@@ -37,10 +37,10 @@ These paths are proposals until executable schemas/tests land. Keep a single own
 
 ## Compatibility and publication
 
-1. Backend PR: generate `openapi.json` from clean app bootstrap and run checksum/stability test.
+1. Backend change (local development: no PR/CI — run `make openapi contract-check` locally and record output; see MULTI_REPO_ARCHITECTURE §9): generate `openapi.json` from clean app bootstrap and run checksum/stability test.
 2. Consumer check: compare current artifact with the frontend's pinned artifact; classify as additive, behavior change or breaking.
 3. Additive deploy: backend first with old-client support, frontend next. Breaking change: ADR, versioned endpoint/field support, rollout and rollback plan.
-4. Frontend PR: regenerate client deterministically, no manual DTO drift, compile tests and real API E2E.
+4. Frontend change: regenerate client deterministically (`npm run api:generate`), `npm run api:check` for drift against the pinned and sibling backend artifact, compile tests and real API E2E.
 5. Acceptance: record backend SHA, frontend SHA, specs SHA, OpenAPI SHA-256 and migration revision in `docs/acceptance/Sx.md`.
 
 ## Cross-repo contract negative tests
@@ -49,5 +49,5 @@ These paths are proposals until executable schemas/tests land. Keep a single own
 - Case with multiple attempts does not double count dashboard KPIs.
 - Null/missing recording or transcript produces explicit `NOT_AVAILABLE`/failure states and readable UI.
 - Forward-compatible additive fields do not break an older client.
-- A changed schema without regenerated frontend types fails CI.
+- A changed schema without regenerated frontend types fails `npm run api:check` (the local gate).
 - Post-call late/replayed events do not rewrite source evidence or falsely change final status.

@@ -1,6 +1,7 @@
 # ADR-0002: Use Call360 for product and Call Detail for investigation
 
 **Status:** Project naming selected by requester; formal AIA brand clearance pending  
+**Amended by:** ADR-0007 (2026-11-15) — the script editor is named **Script Studio**; all other decisions below stand.  
 **Date:** 2026-11-15
 
 ## Context
