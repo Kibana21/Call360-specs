@@ -42,10 +42,10 @@
 | API-019 | GET | `/admin/sessions` | `admin.sessions.manage` | — | Active sessions (no token material) | — | CP0.1B |
 | API-020 | POST | `/admin/sessions/{session_id}/revoke` | `admin.sessions.manage` | — | `204`; `reason` required | — | CP0.1B |
 | API-021 | GET | `/admin/audit-events` | `audit.read` | — | Cursor list; filters: actor, action, entity, outcome, time range | — | CP0.1A |
-| API-022 | GET | `/admin/code-lists` | `config.read` | — | Lists with their active version, values and governed flag | — | CP0.1B |
-| API-023 | POST | `/admin/code-lists/{code}/versions` | `config.manage` | — | Activates a new version of a **non-governed** list; `reason` required (Idem) | `403 GOVERNED_LIST_READ_ONLY` | CP0.1B |
-| API-024 | GET | `/admin/feature-flags` | `config.read` | — | Flags with stage gate | — | CP0.1B |
-| API-025 | PATCH | `/admin/feature-flags/{code}` | `config.manage` | — | Toggles; `reason` required (If-Match); stage-gated flags cannot be enabled before their stage | `422 STAGE_GATED` | CP0.1B |
+| API-022 | GET | `/admin/code-lists` | `config.read` | — | Every list with `governed`, active version, values (code, label, attributes, sort order) and **full version history with each version's values** (historical explainability, ADMIN-004) | — | CP0.1B |
+| API-023 | POST | `/admin/code-lists/{code}/versions` | `config.manage` | — | Creates a version (DRAFT) and activates it atomically, superseding the previous ACTIVE version, for a **non-governed** list. Body `{based_on_version, values[], reason}` (`reason` required). For `market`, the code set must equal the active version's | `403 GOVERNED_LIST_READ_ONLY`, `404 NOT_FOUND`, `409 CONFLICT_STALE_VERSION`, `422 CODE_SET_CHANGE_NOT_ALLOWED`, `422 DUPLICATE_CODE` | CP0.1B |
+| API-024 | GET | `/admin/feature-flags` | `config.read` | — | Flags with `enabled`, `stage_gate`, `locked` (stage not yet reached), `row_version` and change history | — | CP0.1B |
+| API-025 | PATCH | `/admin/feature-flags/{code}` | `config.manage` | — | Sets `enabled`; `reason` required (If-Match `row_version`). A flag whose stage gate is later than the current stage (S0) cannot be enabled | `422 STAGE_GATED`, `409 CONFLICT_ROW_VERSION`, `428 IF_MATCH_REQUIRED`, `422 NO_CHANGE`, `404 NOT_FOUND` | CP0.1B |
 | API-026 | GET | `/admin/system-health` | `system.health.read` | — | DB, migration head, data policy, mock-upstream reachability, audit chain head digest, OpenAPI SHA | — | CP0.1B |
 | API-027 | GET | `/admin/integrations` | `intake.read` | — | Configured connectors, environment availability, last run | — | CP0.4 |
 

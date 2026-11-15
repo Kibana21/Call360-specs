@@ -81,7 +81,7 @@
 | ADMIN-001 | P0 | F | Admin dashboard: users, groups, memberships, sessions, audit events, feature settings | CP0.1A, CP0.1B, CP0.5 | E2E-13 |
 | ADMIN-002 | P0 | P | Change history (who, when, old/new, reason, origin) for users, groups, mappings, configuration, policy corrections and intake. Script, rule and risk history is shown from seeded publication records, because they cannot be edited in S0. Integration configuration is not editable in S0 | CP0.1A–CP0.4 | BE-AUD-04, BE-ING-05 |
 | ADMIN-003 | P0 | F | Reserved approve, publish, override, recording, export and unmask permissions not grantable to ADMIN | CP0.1A | BE-IAM-03 |
-| ADMIN-004 | P0 | F | Versioned code lists and feature flags; historical values resolvable; governed lists read-only | CP0.1B | BE-CFG-01 |
+| ADMIN-004 | P0 | F | Versioned code lists and feature flags; historical values resolvable; governed lists read-only | CP0.1B | BE-CFG-01, BE-CFG-02, BE-CFG-03, E2E-20 |
 
 **Totals (validator-checked):**
 - **F: 55**
@@ -118,7 +118,9 @@ No S0 requirement is BLOCKED.
 | BE-AUD-02 | unit + DB | backend | `audit-verify` passes on clean data and reports first break after tamper | T-55 |
 | BE-AUD-03 | API | backend | Security events recorded with required metadata and without secrets | — |
 | BE-AUD-04 | API | backend | Admin changes record before/after, reason, actor and correlation ID | — |
-| BE-CFG-01 | API + DB | backend | New code-list version keeps old values resolvable; governed lists read-only; stage-gated flags cannot be enabled | — |
+| BE-CFG-01 | API + DB | backend | Code lists: create-and-activate is atomic and supersedes the previous version; ACTIVE and SUPERSEDED versions and their values are immutable (DB triggers); earlier versions' values stay resolvable; governed lists return 403 and are audited; market code-set changes are rejected; stale `based_on_version` returns 409; reason required; audit before/after; USER denied | — |
+| BE-CFG-02 | API + DB | backend | Feature flags: stage-locked flags cannot be enabled (422, audited); a stage-reached test fixture flag toggles with If-Match and reason; history rows are insert-only; USER denied | — |
+| BE-CFG-03 | migration | backend | Migration 0002 is additive: CP0.1A rows (principals, sessions, audit events) survive upgrade and downgrade; seed is idempotent (re-run inserts nothing); exactly 20 tables at head | — |
 | BE-DATA-01 | migration | backend | Migrate from empty to head; downgrade 1; re-upgrade. At each checkpoint's head, the schema contains exactly the tables whose Build column is at or before that checkpoint (59 at the end of S0); the four deferred tables do not exist | — |
 | BE-DATA-02 | seed | backend | Seed twice on a freshly reset schema gives identical content digest | — |
 | BE-DATA-03 | seed invariants | backend | Volumes, golden fixtures, role edges, attempt/session linkage (INV-01, INV-03) | T-21 |
@@ -189,6 +191,7 @@ No S0 requirement is BLOCKED.
 | E2E-17 | Playwright | frontend | axe, keyboard-only path through main flow, 1280 and 1440 px layouts | — |
 | E2E-18 | Playwright | frontend | Title "Call360"; Call Detail heading and breadcrumb; "Script Studio" label; no "Call 360" or "Survey Studio" label anywhere | — |
 | E2E-19 | Playwright | frontend | Admin corrects a policy premium; history shows diff, actor and reason; the earlier session's snapshot value is unchanged | T-33 |
+| E2E-20 | Playwright | frontend | Administration → Configuration: lists, governed badges, version history; ADMIN creates a new market-label version (non-governed) and sees history; governed lists offer no edit action and their API call is denied; stage-locked flags shown locked and their enable call returns 422; USER is denied | — |
 | DOC-01 | document review | specs | Threat model complete; every threat has a mitigation and a test ID or residual risk | — |
 | DOC-02 | document review | specs | ASVS matrix complete; every control area has tests or a residual risk and an owner | — |
 | SPEC-01 | validator | specs | `scripts/validate_specs.py` passes (existing and CP0.0 checks) | — |

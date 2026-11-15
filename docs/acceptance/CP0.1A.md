@@ -1,6 +1,6 @@
 # CP0.1A — Core authentication and application shell: acceptance checklist
 
-**Checkpoint status:** IMPLEMENTED AND VERIFIED (2026-11-15). **Awaiting owner demonstration and acceptance.** CP0.1B and CP0.2 are not started.
+**Checkpoint status:** **ACCEPTED** by the project owner on 2026-11-15, after manual review of the running application and the authorised defect corrections. CP0.1B and CP0.2 are not started.
 **Scope source:** `docs/plans/S0_IMPLEMENTATION_PLAN.md` (CP0.1A). Design references: ADR-0003…0006, `S0_IDENTITY_ACCESS_DESIGN.md` (§3–§8, §10), `S0_DATA_MODEL.md` §4.1 (Build = CP0.1A), `S0_API_CATALOGUE.md` (Build = CP0.1A), `S0_SCREEN_SPEC.md`, `S0_TEST_MATRIX.md`.
 
 ## 1. Decisions recorded (owner, 2026-11-15)
@@ -42,7 +42,7 @@
 | AC-0.1A-09 | ADMIN reaches Users and Audit. USER gets Unauthorized in the UI and 403 from the API, audited. Every route declares a permission; reserved permissions cannot be granted | BE-SEC-01, BE-IAM-02 (role half), BE-IAM-03, E2E-10 (partial) | PASS — BE-SEC-01 (exact 10-route surface), BE-IAM-02/03, E2E-10 (partial) |
 | AC-0.1A-10 | Logout invalidates the session (next call returns 401). Admin disable ends the user's session on the next request, with before/after audit | BE-AUTH-06, BE-AUD-04, E2E-13 (partial) | PASS — BE-AUTH-06, BE-AUD-04, E2E-13 (partial) |
 | AC-0.1A-11 | The audit trail is append-only (UPDATE/DELETE rejected) and `audit-verify` passes; security events contain no secrets | BE-AUD-01, 02, 03 | PASS — BE-AUD-01 (UPDATE/DELETE/TRUNCATE), BE-AUD-02 (tamper detected), BE-AUD-03; dev chain verifies |
-| AC-0.1A-12 | The shell reproduces the mockup's sidebar groups, header, breadcrumb, user controls and visual identity; the landing shows real `/me` data only; disabled items carry stage labels; title "Call360"; OpenAPI deterministic; `api:check` passes; axe has zero serious violations; secret scans clean; specs validator passes | FE-01, FE-03, FE-04, E2E-18 (partial), BE-CT-01, SCAN-02, SPEC-01 | PASS (automated) — FE-01, FE-03, FE-04/axe at 1280 and 1440 px, E2E-18 (partial), BE-CT-01, SCAN-01/02, SPEC-01. **Visual fidelity to the mockup needs owner confirmation at the demonstration**; deviations DV-01, 02, 10, 11, 12 recorded |
+| AC-0.1A-12 | The shell reproduces the mockup's sidebar groups, header, breadcrumb, user controls and visual identity; the landing shows real `/me` data only; disabled items carry stage labels; title "Call360"; OpenAPI deterministic; `api:check` passes; axe has zero serious violations; secret scans clean; specs validator passes | FE-01, FE-03, FE-04, E2E-18 (partial), BE-CT-01, SCAN-02, SPEC-01 | PASS (automated) — FE-01, FE-03, FE-04/axe at 1280 and 1440 px, E2E-18 (partial), BE-CT-01, SCAN-01/02, SPEC-01. **Visual fidelity confirmed by the owner** after defect corrections UI-1…UI-4 (§4a); deviations DV-01, 02, 10, 11, 12 recorded |
 
 ## 4. Evidence
 
@@ -87,8 +87,47 @@ All outputs are in `docs/acceptance/evidence/CP0.1A/`, from a single run on 2026
 - During setup, a failing `CREATE ROLE` printed two generated, never-used test-role passwords to the local console. Neither was ever applied: the role did not exist until the corrected run, which generated a new password and printed nothing. All engines now use `hide_parameters=True`.
 - One early planted-secret probe was not detected for an unexplained reason. Five subsequent realistic probes were all detected.
 
+## 4a. Owner-review defect corrections (authorised 2026-11-15)
+
+| Item | Correction | Verification |
+|---|---|---|
+| UI-1 | Sidebar section-heading spacing restored to the mockup's rule (20 px; 6 px for the first) | Playwright checks computed padding at 1280 and 1440 px |
+| UI-2 | Compact right-aligned stage indicators (clock icon = later in Stage 0; "S4" chip); no truncated labels; full stage text in the tooltip and for screen readers | Playwright asserts no clipped labels |
+| UI-3 | Role badges: ADMIN purple, USER grey (Users and landing page) | Playwright class check |
+| UI-4 | Sign in label centred between icon and chevron | Playwright geometry check (≤ 2 px) |
+| UI-5 | No change; keyboard reachability verified at a 560 px viewport height | Playwright Tab-order check |
+| Scanner | Call360-specific gitleaks rules (PostgreSQL credential URLs; pepper, CSRF, password and token assignments) plus a synthetic-fixture self-test that runs before every scan | 11 formats × 50 samples detected 50/50 in both repos; 0 false positives on placeholders and ordinary code |
+
+**Regression evidence** is in `docs/acceptance/evidence/CP0.1A/defect-corrections/`. All 16 checks exited 0:
+
+| Check | Result |
+|---|---|
+| Backend tests | 73 passed |
+| Frontend unit tests | 25 passed |
+| Playwright | 11 passed |
+| Lint, types, contract, build | Clean |
+| Secret scans (repos and bundle) | Clean |
+| npm audit | 0 vulnerabilities |
+| Audit chain, validator | PASS |
+
+**Final state at acceptance** (per ADR-0003 §6, the owner's commits replace the manifests as the primary reference):
+- **Backend:** commit `cc57961`, working tree clean.
+- **Frontend:** commit `9ee9f3c`, working tree clean.
+- **Specs:** commit `a08b7b6`, plus this uncommitted acceptance-record update.
+- The owner committed and pushed all three to `origin/main` at 2026-11-15 15:12 +08:00.
+- **OpenAPI SHA-256:** `f6ce8c890c4f846f6121cb7e6770cd68f5b43256bacfdf5d208c23b2a6d129e1`.
+- **Migration head:** `0001_identity_foundation`.
+- **History scan at acceptance:** gitleaks over the committed history of all three repos, with the Call360 rules.
+  - No credential and no secret file was ever tracked.
+  - No literal development database URL appears in any commit.
+  - Only known false positives were found: BRD and register prose, and the public OpenAPI checksum.
+
+**Credential exposure note:** while developing the self-test, a scanner fixture briefly contained a literal connection string with the development database password. It was caught by the new rule and replaced before the owner's 15:12 commit (verified: absent from all commits). Rotating that password is recommended (owner action; not performed).
+
+**Residual risks unchanged:** RR-01, RR-04, RR-05, RR-11 and the limitations listed in §4. Default gitleaks rules give 2 known false positives on prose in the frozen BRD and register, relevant if specs scanning is added later.
+
 ## 5. Acceptance
 
 | Role | Name | Date | Decision |
 |---|---|---|---|
-| Project owner | — | — | PENDING (after demonstration) |
+| Project owner | Project owner | 2026-11-15 | **ACCEPTED** — "I ACCEPT CP0.1A — Core Authentication and Application Shell" (manual review of the running application; evidence §4, §4a) |

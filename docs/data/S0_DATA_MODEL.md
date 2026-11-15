@@ -98,11 +98,11 @@ Column flags: **P** = provenance and `is_synthetic` common columns apply; **E** 
 | `login_attempt` | one login attempt | NEW: throttling and IAM-011 | `username_hash`, `ip`, `occurred_at`, `outcome` (no password, no raw username) | I | CP0.1A |
 | `audit_event` | one meaningful action | `audit_event` | ADR-0005 §1 columns; `prev_hash`, `row_hash` | I | CP0.1A |
 | `saved_view` | one user's saved filter view | NEW: SEARCH-004 | `owner_principal_id`, `name`, `view_type` (`CALL_EXPLORER`, `POLICY_EXPLORER`, `RISK_WORKBENCH`), `filter_json` (schema-validated), `sort`; UNIQUE (`owner_principal_id`, `view_type`, `name`) | — | CP0.3 |
-| `code_list` | one value list | NEW: ADMIN-004 / RISK-006 | `code` UNIQUE (for example `market`, `sbq_risk_band`, `risk_factor`, `case_hold_reason`, `case_closure_reason`, `finding_materiality_policy`, `kpi_sla_exemption_rule`, `case_cancellation_reason`, `callable_party_roles`, `synthetic_contact_ranges`) | — | CP0.1B |
-| `code_list_version` | one immutable version of a list | NEW: ADMIN-004 | `code_list_id`, `version`, `effective_from`, `status` (`DRAFT`, `ACTIVE`, `SUPERSEDED`), `change_reason` | IF | CP0.1B |
-| `code_value` | one value in a list version | NEW: ADMIN-004 | `code_list_version_id`, `code`, `label`, `attributes jsonb`, `sort_order` | IF | CP0.1B |
-| `feature_flag` | one feature toggle | NEW: ADMIN-004 | `code` UNIQUE, `enabled`, `description`, `stage_gate` | — | CP0.1B |
-| `feature_flag_change` | one flag change | NEW: ADMIN-004 | `feature_flag_id`, `old`, `new`, `reason`, `changed_by` | I | CP0.1B |
+| `code_list` | one value list | NEW: ADMIN-004 / RISK-006 | `code` UNIQUE, `name`, `description`, `governed` (D-25 classification), `created_at`; lists: `market`, `sbq_risk_band`, `risk_factor`, `case_hold_reason`, `case_closure_reason`, `case_cancellation_reason`, `finding_materiality_policy`, `kpi_sla_exemption_rule`, `callable_party_roles`, `synthetic_contact_ranges` | — | CP0.1B |
+| `code_list_version` | one immutable version of a list | NEW: ADMIN-004 | `code_list_id`, `version`, `status` (`DRAFT` → `ACTIVE` → `SUPERSEDED`, one-way, trigger-enforced), `effective_from`, `activated_at`, `superseded_at`, `change_reason`, `created_by`; UNIQUE (`code_list_id`, `version`); at most one `ACTIVE` per list (partial unique index); only `DRAFT` versions may be deleted | IF | CP0.1B |
+| `code_value` | one value in a list version | NEW: ADMIN-004 | `code_list_version_id`, `code`, `label`, `attributes jsonb`, `sort_order`; UNIQUE (`code_list_version_id`, `code`); immutable unless its version is `DRAFT` (trigger) | IF | CP0.1B |
+| `feature_flag` | one feature toggle | NEW: ADMIN-004 | `code` UNIQUE, `description`, `enabled`, `stage_gate` (`S0`…`S6`), `row_version`, `updated_at`, `updated_by`; S0 registry: `voice.browser_sessions` (S1), `scripts.authoring` (S2), `reviews.decisions` (S3), `exports.evidence` (S4), all disabled (D-27) | — | CP0.1B |
+| `feature_flag_change` | one flag change | NEW: ADMIN-004 | `feature_flag_id`, `old_enabled`, `new_enabled`, `reason`, `changed_by`, `changed_at`; insert-only (trigger) | I | CP0.1B |
 
 ### 4.2 Party, policy and sale
 

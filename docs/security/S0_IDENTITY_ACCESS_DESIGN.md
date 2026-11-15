@@ -167,6 +167,19 @@ Reserved permissions exist in the `permission` table with `reserved = true`. The
 
 Some code lists are business-approval governed: `finding_materiality_policy`, `kpi_sla_exemption_rule`, `sbq_risk_band`, `risk_factor` and `callable_party_roles`. In S0 they are **seeded and read-only**, because changing them needs business approval that S0 cannot record. `config.manage` covers only `market` labels, display lists and feature flags.
 
+**Classification of every Stage 0 list.** This was made explicit at CP0.1B-1 (D-25) by applying the rule above. No new business decision is involved.
+
+| List | Governed | Editable through API-023 in S0 | Basis |
+|---|---|---|---|
+| `market` | No | **Labels and display attributes only.** The set of codes is fixed: adding or removing a code is rejected (`422 CODE_SET_CHANGE_NOT_ALLOWED`), because market codes become authorization scopes in CP0.1B-2 | "`market` labels" above |
+| `sbq_risk_band`, `risk_factor`, `callable_party_roles`, `finding_materiality_policy`, `kpi_sla_exemption_rule` | Yes | No (`403 GOVERNED_LIST_READ_ONLY`) | Named above |
+| `case_hold_reason` | Yes | No | Blocking semantics are business rules (ADR-0008 §2); not a market label, display list or flag |
+| `case_closure_reason` | Yes | No | Values pending DEC-008; not a market label, display list or flag |
+| `case_cancellation_reason` | Yes | No | Called "governed" by S0_KPI_DEFINITIONS (`SLA-EX-001`) |
+| `synthetic_contact_ranges` | Yes | No | A data-protection control under `DATA_POLICY=SYNTHETIC_ONLY` (ADR-0008 §6) |
+
+Governed lists receive their version-1 values from the CP0.2 seed (D-26). Business-approved changes arrive with a later approval workflow.
+
 **Security events (IAM-011):**
 
 | Action | Records |

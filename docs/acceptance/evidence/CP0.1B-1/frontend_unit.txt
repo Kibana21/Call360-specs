@@ -1,0 +1,42 @@
+# run_at_utc 2026-11-15T07:33:30Z
+# cwd: Call360-frontend
+# command: npx vitest run --reporter=verbose
+
+ RUN  v4.1.12 /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend
+
+ ✓ src/api/session.test.ts > safeReturnPath > /admin/users -> /admin/users 3ms
+ ✓ src/api/session.test.ts > safeReturnPath > /admin/users?x=1 -> /admin/users?x=1 2ms
+ ✓ src/api/session.test.ts > safeReturnPath > https://evil.example -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > //evil.example/x -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > /\evil -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > null -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > /login -> / 0ms
+ ✓ src/api/session.test.ts > safeReturnPath > /session-expired?x -> / 0ms
+ ✓ src/api/session.test.ts > readCookie > reads a cookie by name 0ms
+ ✓ src/api/session.test.ts > apiFetch > adds the CSRF header only to state-changing requests 4ms
+ ✓ src/api/session.test.ts > apiFetch > refreshes once on an expired access token and retries the original request 1ms
+ ✓ src/api/session.test.ts > apiFetch > does not call refresh when a sibling tab already refreshed (probe succeeds) 1ms
+ ✓ src/api/session.test.ts > apiFetch > treats 409 REFRESH_SUPERSEDED as success and retries with current cookies 1ms
+ ✓ src/api/session.test.ts > apiFetch > shares one refresh between concurrent callers in a tab 7ms
+ ✓ src/api/session.test.ts > apiFetch > signals session expiry when refresh fails and never writes browser storage 1ms
+ ✓ src/api/session.test.ts > apiFetch > does not attempt refresh for the login endpoint 0ms
+ ✓ src/features/admin/ConfigPage.test.tsx > Configuration screen > shows lists with governance, history and locked flags 96ms
+ ✓ src/features/admin/ConfigPage.test.tsx > Configuration screen > governed lists offer no edit action 31ms
+ ✓ src/App.test.tsx > authentication screens > redirects anonymous users to login and shows a generic failure message 123ms
+ ✓ src/App.test.tsx > authentication screens > shows throttling feedback on 429 59ms
+ ✓ src/App.test.tsx > application shell > renders the mockup navigation groups with stage-gated items and real session data 36ms
+ ✓ src/features/admin/ConfigPage.test.tsx > Configuration screen > creates a market label version with the based-on version, fixed codes and a reason 144ms
+ ✓ src/features/admin/ConfigPage.test.tsx > Configuration screen > loading, empty, error and forbidden states 34ms
+ ✓ src/features/admin/ConfigPage.test.tsx > Configuration screen > USER without config.read is sent to Unauthorized 14ms
+ ✓ src/App.test.tsx > application shell > sends a USER who opens Administration to the Unauthorized screen 15ms
+ ✓ src/App.test.tsx > admin users states > loading then table, with self-disable prevented 23ms
+ ✓ src/App.test.tsx > admin users states > empty state 13ms
+ ✓ src/App.test.tsx > admin users states > error state shows the correlation reference 13ms
+ ✓ src/App.test.tsx > admin users states > forbidden state when the server denies the request 12ms
+ ✓ src/App.test.tsx > admin users states > disable requires a reason and sends If-Match with the row version 68ms
+
+ Test Files  3 passed (3)
+      Tests  30 passed (30)
+   Start at  15:33:47
+   Duration  823ms (transform 145ms, setup 106ms, import 306ms, tests 704ms, environment 564ms)
+# exit_code 0

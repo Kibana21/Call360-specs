@@ -1,0 +1,6 @@
+# run_at_utc 2026-11-15T07:33:30Z
+# cwd: Call360-backend
+# command: make contract-check
+uv run python scripts/export_openapi.py --check
+OpenAPI matches (c71599f73f6bc54dae120e89b6728a41324343bc384726efc9f62a92eaad83a0)
+# exit_code 0

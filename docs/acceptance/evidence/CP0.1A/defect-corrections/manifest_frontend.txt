@@ -1,0 +1,5 @@
+repository	Call360-frontend
+base_sha	9ee9f3c273790876bcae58ea34008ea19fa5c5ee
+files	0
+
+manifest_sha256	01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
