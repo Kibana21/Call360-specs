@@ -1,0 +1,4 @@
+# command: npm run -s lint
+# cwd: Call360-frontend
+# date: 2026-11-15T09:25:05Z
+# exit_code 0

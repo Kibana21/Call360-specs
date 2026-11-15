@@ -71,7 +71,7 @@ Each threat links to a test ID in `docs/acceptance/S0_TEST_MATRIX.md` §2, or to
 | ID | Residual risk | Why accepted in S0 | Owner / revisit |
 |---|---|---|---|
 | RR-01 | Database-only audit integrity can be defeated by a DB superuser or owner, or by a backup restore (ADR-0005 §2) | Synthetic data; chain head recorded in evidence | Security owner (TBD); S5 anchoring decision |
-| RR-02 | Contact-value encryption uses a local development key stored on the workstation (S-13) | Synthetic data; exercises the code path | Security owner (TBD); S5 key management |
+| RR-02 | Contact-value and name encryption and the exact-match HMAC use separate local development keys stored on the workstation (S-13, D-34) | Synthetic data; exercises the code path | Security owner (TBD); S5 key management |
 | RR-03 | (a) An attacker replaying a stolen previous-generation token within the 10 s window is not detected as reuse, but gains nothing: no token is issued. (b) Concurrent refreshes from different browsers or devices sharing a session beyond the window still revoke | (a) No credential is minted; the window is configurable. (b) Fails safe; the cross-tab lock removes same-browser races | Engineering; review with S1 telemetry |
 | RR-04 | Local plain-HTTP loopback mode drops `Secure` and `__Host-` cookie attributes | Loopback only; the gate also tests HTTPS mode | Engineering; removed outside local |
 | RR-05 | In-process rate limiter is single-instance and resets on restart | S0 runs one instance | Engineering; shared store in S5 (S-10) |
@@ -80,6 +80,7 @@ Each threat links to a test ID in `docs/acceptance/S0_TEST_MATRIX.md` §2, or to
 | RR-08 | No penetration test, SAST tool or DAST in S0 | Not proportionate for local synthetic S0 | Security owner; required before production (S5) |
 | RR-09 | ASVS mapping is chapter-level until a security reviewer completes requirement-level verification (ASVS matrix) | Mapping requires the official ASVS 5.0.0 text and a reviewer | Security owner (TBD); before S0 acceptance |
 | RR-11 | The development app and migrations connect as `Call360_db_user`, which is a PostgreSQL superuser (automated tests use the least-privilege `call360_test_user`, D-22). An application bug such as SQL injection would therefore have full database rights, and DB-level protections (triggers) can be bypassed by the app's own login | Owner decision D-16: local synthetic data, simplicity. TM-09 mitigations (parameterised queries) still apply | Owner; before any non-synthetic data, use a non-superuser login |
+| RR-12 | The development database password (`Call360_db_user`) is weak and was exposed in an earlier session's conversation and command lines (never in Git). Rotation was **explicitly deferred by the owner** at the CP0.2 development deployment (2026-11-15) | Local synthetic data only; the database listens on localhost | Owner; before any non-synthetic data or shared environment. Procedure: `CP0.2_DEV_DEPLOYMENT.md` step 4 (with step 4b to preserve the data-protection keys) |
 | RR-10 | Security default parameters S-2…S-14 are proposed defaults pending security-owner approval (DEC-026) | Reasonable, standards-aligned defaults | Security owner; at CP0.0 acceptance |
 
 ## 5. Threats inherited by later stages (not mitigated in S0)

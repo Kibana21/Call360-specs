@@ -1,0 +1,25 @@
+HEAD 9f86ce0 (uncommitted F2 work below; F2-specific files marked by path)
+ M .gitleaks.toml
+ M docs/design/DEVIATIONS.md
+ M e2e/auth.spec.ts
+ M scripts/secret-scan.sh
+ M src/App.test.tsx
+ M src/App.tsx
+ M src/api/client.ts
+ M src/api/contract.lock.json
+ M src/api/generated/schema.d.ts
+ M src/api/openapi.pinned.json
+ M src/app/AppShell.tsx
+ M src/app/nav.ts
+ D src/features/HomePage.tsx
+ M src/features/admin/AuditPage.tsx
+ M src/styles/app.css
+ M src/test/render.tsx
+?? e2e/f2-checks.ts
+?? e2e/overview.spec.ts
+?? src/app/GlobalSearch.tsx
+?? src/features/OverviewPage.test.tsx
+?? src/features/OverviewPage.tsx
+?? src/features/admin/AuditPage.test.tsx
+?? src/features/cases/
+?? src/features/search/

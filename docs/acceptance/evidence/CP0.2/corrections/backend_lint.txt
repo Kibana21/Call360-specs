@@ -1,0 +1,6 @@
+# command: uv run ruff check . && uv run ruff format --check .
+# cwd: Call360-backend
+# date: 2026-11-15T09:15:22Z
+All checks passed!
+75 files already formatted
+# exit_code 0

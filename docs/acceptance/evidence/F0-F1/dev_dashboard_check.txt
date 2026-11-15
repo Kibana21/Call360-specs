@@ -1,0 +1,11 @@
+# command: unset CALL360_ENV_FILE; uv run python -W ignore /private/tmp/claude-501/-Users-kartik-Documents-Work-Projects-Call360-Call360/319f0d6f-0c72-42d2-9955-89029e1195f7/scratchpad/dev_dashboard_check.py && uv run call360 audit-verify && uv run alembic current && curl -s http://127.0.0.1:8000/health/ready
+# cwd: Call360-backend
+# date: 2026-11-15T10:12:20Z
+PASS  dev_admin: login 200; roles ['ADMIN']; markets ['SG']; SG cases visible 195; open 132; awaiting review 16; risk open total 132; attention 20; activity 50; MY refs leaked 0; KPI-08 NOT_MEASURED
+PASS  dev_user: login 200; roles ['USER']; markets ['SG']; SG cases visible 195; open 132; awaiting review 16; risk open total 132; attention 20; activity 50; MY refs leaked 0; KPI-08 NOT_MEASURED
+PASS  ADMIN and USER see identical SG numbers (195, 132.0, 132)
+RESULT: ALL PASS
+Audit chain OK: 47 events; head a6234789bc1b3045e7a757273a91b9071dd63b97a6d7d70fd2d3f506819c6a51
+0008_market_scope (head)
+{"status":"ok"}
+# exit_code 0

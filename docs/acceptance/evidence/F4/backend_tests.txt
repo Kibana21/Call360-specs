@@ -1,0 +1,3 @@
+Command: CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -q (schema call360_test)
+247 passed in 88.77s (0:01:28)
+New F4: tests/test_policies.py (15 incl. 5 parametrized sorts); tests/test_authz_admin.py route inventory +6 F4 routes

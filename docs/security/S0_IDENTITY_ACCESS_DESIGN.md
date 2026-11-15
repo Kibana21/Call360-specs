@@ -73,13 +73,13 @@ IdentityProvider
 
 | Group (LOCAL) | Role mapping | Market scope mapping |
 |---|---|---|
-| `LOCAL_ADMIN` | `ADMIN` | `SG`, `MY` |
+| `LOCAL_ADMIN` | `ADMIN` | `SG` |
 | `LOCAL_USER_SG` | `USER` | `SG` |
-| `LOCAL_USER_MY` | `USER` | `MY` |
+| `LOCAL_USER_MY` | `USER` | none (reserved; members see no business records under D-39) |
 
 - **Checkpoints:** groups and group → role mappings are built in CP0.1A. Group → market-scope mappings and their enforcement are built in **CP0.1B-2**, which must be accepted before CP0.3 exposes any market-scoped record. Until then a principal has no market scope, so scoped queries fail closed.
 - **Effective permissions** are the union over active memberships → mappings → roles → permissions.
-- **Effective scope** is the union of mapped markets. A principal with no mapped market sees no business records.
+- **Effective scope** is the union of mapped markets **intersected with the enabled markets, which are `{SG}` in Stage 0 (D-39, Singapore-only)**. A principal with no effective market sees no business records. `MY` records remain in the database but are out of scope for every principal, ADMIN included. Group → scope mappings are seeded, not administered, in S0; multi-country administration is deferred.
 - **External groups (S5)** map onto the same tables by external group ID.
 
 ## 6. Permission catalogue and matrix
@@ -163,7 +163,7 @@ Reserved permissions exist in the `permission` table with `reserved = true`. The
 | Change a group-role or group-scope mapping | `admin.groups.manage` | `ADMIN.GROUP_MAPPING_CHANGED`. An admin cannot remove the last ADMIN mapping, or their own ADMIN membership, without a second admin (lock-out guard) |
 | View or revoke sessions | `admin.sessions.manage` | `ADMIN.SESSION_REVOKED` |
 | Search audit events | `audit.read` | (read, not audited per row) |
-| New code-list version; feature-flag change | `config.manage` | `CONFIG.CODE_LIST_VERSION_ACTIVATED`, `CONFIG.FLAG_CHANGED` |
+| New code-list version; feature-flag change | `config.manage` | `CONFIG.CODE_LIST_VERSION_ACTIVATED`, `CONFIG.FLAG_CHANGED`. Governed version 1 is activated by migration 0007 under the service actor `migration:0007_governed_values` with the same action; its development-only removal is `CONFIG.CODE_LIST_VERSION_REMOVED` |
 
 Some code lists are business-approval governed: `finding_materiality_policy`, `kpi_sla_exemption_rule`, `sbq_risk_band`, `risk_factor` and `callable_party_roles`. In S0 they are **seeded and read-only**, because changing them needs business approval that S0 cannot record. `config.manage` covers only `market` labels, display lists and feature flags.
 
@@ -178,7 +178,9 @@ Some code lists are business-approval governed: `finding_materiality_policy`, `k
 | `case_cancellation_reason` | Yes | No | Called "governed" by S0_KPI_DEFINITIONS (`SLA-EX-001`) |
 | `synthetic_contact_ranges` | Yes | No | A data-protection control under `DATA_POLICY=SYNTHETIC_ONLY` (ADR-0008 §6) |
 
-Governed lists receive their version-1 values from the CP0.2 seed (D-26). Business-approved changes arrive with a later approval workflow.
+Governed lists receive their version-1 values from the CP0.2 migration `0007_governed_values` (D-26; values in S0_DATA_MODEL §6.1). They are synthetic development fixtures, not AIA-approved business rules. Business-approved changes arrive with a later approval workflow.
+
+**Callable party roles (D-36).** A role listed as callable in `callable_party_roles` is only a candidate. A role alone never establishes verified authority or consent. An `AUTHORIZED_CONTACT` is eligible only with recorded, currently valid authorisation evidence on its `policy_party_role`, and every candidate must also pass suppression, consent and valid-method checks. Authority and identity verification at call time is S1 (PARTY-006).
 
 **Security events (IAM-011):**
 
@@ -243,6 +245,15 @@ One existing local PostgreSQL database, **`Call360_db`**, holds everything. No s
    If any check fails, the whole test session aborts before touching the database.
 5. Destructive helpers accept no schema argument. They are hard-wired to `call360_test` and re-check the guards at call time.
 6. Startup readiness (`/health/ready`) verifies the expected database, schema and migration head, and returns 503 on mismatch.
+
+**Data-protection keys (S-13, D-34).** CP0.2 introduces two separate local secrets: an AES-256-GCM key for `party.name_ciphertext` and `contact_method.value_ciphertext`, and an HMAC-SHA-256 key for the exact-match token `contact_method.value_hmac`. They are independent of each other, of the JWT signing keys and of the refresh-token pepper.
+
+| Rule | Detail |
+|---|---|
+| Generation and installation | Only when `IMPLEMENT CP0.2` is given: the backend environment script generates ≥ 32 random bytes per key into gitignored local configuration (`.env`/`.env.test` or `.secrets/`), separately for development and test. Not done during specification work |
+| Handling | Never printed, logged, displayed, committed, placed in fixtures or the frontend bundle. Settings validate the keys whenever present (32 bytes each, distinct) and always require them for `APP_ENV=test`. **Wherever the CP0.2 domain exists in the connected schema** (from migration 0003), the application refuses to start, `/health/ready` fails and the seed refuses if either key is missing; a pre-CP0.2 schema runs without them until it is upgraded. Secret scans cover the new formats |
+| Evidence | Records a key fingerprint (truncated SHA-256 of the key identifier), never key material |
+| Rotation | Out of scope for S0. Changing the HMAC key changes `value_hmac` values and the seed digest (S0_DATA_MODEL §6, D-33). Key management is S5 (RR-02) |
 
 **Residual risk:** the development app connects as a superuser (RR-11). Before any non-synthetic data, replace `Call360_db_user` with a non-superuser application role confined to `call360`.
 

@@ -1,6 +1,6 @@
 # Call360 — Stage 0 requirement-to-test matrix
 
-**Status:** CP0.0 draft, 2026-11-15
+**Status:** CP0.0 draft, 2026-11-15; CP0.2 specification alignment 2026-11-15 (BE-DATA-13 added; BE-DATA-01…04 refined; D-29…D-38)
 **Scope:** all 70 Stage 0 requirements in `docs/spec/03_REQUIREMENTS_REGISTER.csv` (69 P0, 1 P1). The register is **not edited**: its `test_id` column stays empty by decision C-27, and this matrix is the traceability source. The validator checks that every S0 requirement appears in §1 and that every test ID referenced anywhere in the CP0.0 documents is defined in §2.
 
 **Scope classes:**
@@ -26,7 +26,7 @@
 | PARTY-001 | P0 | F | Six party roles on `policy_party_role`; one party, many roles, never duplicated | CP0.2, CP0.5 | BE-DATA-03, E2E-06 |
 | PARTY-002 | P0 | F | Stable source party refs (`external_reference`) and independent contact-method IDs | CP0.2 | BE-DATA-03 |
 | PARTY-003 | P0 | P | Effective-dated contact methods with preference, language, timezone, consent and suppression flags stored; change inserts a new version; attempt snapshots unaffected. **Not in S0:** suppression enforcement during calling (S4, CASE-006) | CP0.2 | BE-DATA-08 |
-| PARTY-004 | P0 | P | Eligibility from governed list `callable_party_roles` plus suppression and missing-contact checks; ineligible gets explicit reason and `NO_ELIGIBLE_CONTACT` blocking hold. **Not in S0:** authority/identity verification at call time (S1, PARTY-006) | CP0.2, CP0.4 | BE-ING-08, BE-DATA-09, E2E-11 |
+| PARTY-004 | P0 | P | Eligibility from governed list `callable_party_roles` plus suppression and missing-contact checks; ineligible gets explicit reason and `NO_ELIGIBLE_CONTACT` blocking hold. A role alone never establishes authority or consent; `AUTHORIZED_CONTACT` needs recorded authorisation evidence (D-36). **Not in S0:** authority/identity verification at call time (S1, PARTY-006) | CP0.2, CP0.4 | BE-ING-08, BE-DATA-03, BE-DATA-09, E2E-11 |
 | PARTY-005 | P0 | F | Masked party and contact cards with role and relationship in Policy Detail and Call Detail | CP0.3, CP0.5 | BE-API-02, BE-SRCH-05, E2E-06 |
 | POL-001 | P0 | F | Policy and sale event separate; multi-sale policy (new business plus top-up) | CP0.2 | BE-DATA-07 |
 | POL-002 | P0 | F | Typed product family, subtype, ILP, premium amount/currency/frequency/term, sum assured, effective dates | CP0.2, CP0.3 | BE-API-02 |
@@ -40,7 +40,7 @@
 | RISK-003 | P0 | D | Typed factor values with input snapshot hash and rule-set version; reproducible | CP0.2 | BE-DATA-11 |
 | RISK-004 | P0 | D | Seeded `SOURCE_ASSIGNED` and `RULE_ASSESSED` (stored synthetic trace) records, visibly distinguished. **No calculation in S0** (RISK-008, S2) | CP0.2, CP0.5 | BE-API-03, E2E-06 |
 | RISK-005 | P0 | D | Risk summary with version and origin on Policy Detail, intake preview and Call Detail | CP0.4, CP0.5 | BE-API-03, E2E-03, E2E-06, E2E-11 |
-| RISK-006 | P0 | P | Factor vocabulary and bands as versioned governed code lists; no thresholds in code. **Not in S0:** business-approved editing of the vocabulary (S2) | CP0.1B, CP0.2 | BE-CFG-01, BE-API-03 |
+| RISK-006 | P0 | P | Factor vocabulary and bands as versioned governed code lists; no thresholds in code. **Not in S0:** business-approved editing of the vocabulary (S2) | CP0.1B, CP0.2 | BE-CFG-01, BE-DATA-13, BE-API-03 |
 | SCR-001 | P0 | D | Family, version, sections, module question references and immutable manifest seeded; ordered common and ILP questions shown | CP0.2, CP0.5 | BE-DATA-04, BE-API-04, E2E-09 |
 | SCR-002 | P0 | D | Expected-answer policy, acceptable variants, policy-fact match and unacceptable outcomes stored and displayed; YES is not universally compliant. Evaluation is S3 | CP0.2, CP0.5 | BE-DATA-12, E2E-09 |
 | SCR-003 | P0 | F | Script Studio search and filter by product, risk, channel, status and effective date | CP0.3, CP0.5 | BE-API-04, E2E-09 |
@@ -109,7 +109,7 @@ No S0 requirement is BLOCKED.
 | BE-IAM-02 | API integration | backend | Group → role mappings (CP0.1A) and group → market-scope mappings (CP0.1B-2); unrecognised group grants nothing; no scope means scoped queries fail closed | — |
 | BE-IAM-03 | unit + API | backend | Reserved permissions cannot be granted; ADMIN lacks them | T-50 (model only) |
 | BE-SEC-01 | route inventory | backend | Every route declares a permission or is on the public allowlist | — |
-| BE-SEC-02 | BOLA matrix | backend | For each object endpoint: other-market ID → 404 + `ACCESS.DENIED_OBJECT`; USER on admin/intake → 403 | T-46, T-49 |
+| BE-SEC-02 | BOLA matrix | backend | For each object endpoint: out-of-scope ID → 404 + `ACCESS.DENIED_OBJECT`. Under D-39 every `MY` record (e.g. `CB-2026-20001`) is out of scope for every principal, ADMIN included, and never appears in lists, counts, facets or suggestions; USER on admin/intake → 403 | T-46, T-49 |
 | BE-SEC-03 | API | backend | Unknown fields, oversize strings and arrays rejected; mass assignment of `created_by`, `state`, `is_synthetic` impossible | — |
 | BE-SEC-04 | API | backend | SQL/LIKE/regex injection payloads in search and filters are parameterised and bounded | T-48 |
 | BE-SEC-05 | API | backend | CSP and security headers present; no CORS allow-origin | — |
@@ -121,10 +121,10 @@ No S0 requirement is BLOCKED.
 | BE-CFG-01 | API + DB | backend | Code lists: create-and-activate is atomic and supersedes the previous version; ACTIVE and SUPERSEDED versions and their values are immutable (DB triggers); earlier versions' values stay resolvable; governed lists return 403 and are audited; market code-set changes are rejected; stale `based_on_version` returns 409; reason required; audit before/after; USER denied | — |
 | BE-CFG-02 | API + DB | backend | Feature flags: stage-locked flags cannot be enabled (422, audited); a stage-reached test fixture flag toggles with If-Match and reason; history rows are insert-only; USER denied | — |
 | BE-CFG-03 | migration | backend | Migration 0002 is additive: CP0.1A rows (principals, sessions, audit events) survive upgrade and downgrade; seed is idempotent (re-run inserts nothing); exactly 20 tables at head | — |
-| BE-DATA-01 | migration | backend | Migrate from empty to head; downgrade 1; re-upgrade. At each checkpoint's head, the schema contains exactly the tables whose Build column is at or before that checkpoint (59 at the end of S0); the four deferred tables do not exist | — |
-| BE-DATA-02 | seed | backend | Seed twice on a freshly reset schema gives identical content digest | — |
-| BE-DATA-03 | seed invariants | backend | Volumes, golden fixtures, role edges, attempt/session linkage (INV-01, INV-03) | T-21 |
-| BE-DATA-04 | DB | backend | Immutable records reject UPDATE/DELETE; pinned version was PUBLISHED at session start (INV-04, INV-09); superseded version still referenced | T-15, T-33 |
+| BE-DATA-01 | migration | backend | Migrate from empty to head; downgrade 1; re-upgrade. At each checkpoint's head, the schema contains exactly the tables of the packages built so far in plan order (54 at the CP0.2 head, before CP0.1B-2; 59 at the end of S0); the four deferred tables do not exist; each CP0.2 revision 0003…0007 downgrades without changing CP0.1A or CP0.1B-1 data | — |
+| BE-DATA-02 | seed | backend | Seed twice on a freshly reset `call360_test` schema with the same keys gives an identical content digest, computed per S0_DATA_MODEL §6 (D-33: canonical business fields and stable comparison values; randomised ciphertext and operational timestamps excluded) | — |
+| BE-DATA-03 | seed invariants | backend | Exact volumes (S0_DATA_MODEL §6.2, including 400 attempts over 250 cases), all 12 golden fixtures, role edges, attempt/session linkage, contact eligibility and authorisation evidence, outcome derivation with `VERIFIED_CONTROL_EVIDENCE_INCOMPLETE` = 0 (INV-01, INV-03, INV-14) | T-21, T-32 |
+| BE-DATA-04 | DB | backend | Immutable records reject UPDATE/DELETE, including question revisions from insert; pinned version valid against its historical publication and effective interval at session start, so a now-`SUPERSEDED` or `WITHDRAWN` version stays valid and a `DRAFT` is rejected (INV-04, INV-09); risk-assessment transitions only per D-31 (INV-13); superseded version still referenced | T-15, T-33 |
 | BE-DATA-05 | DB | backend | Provenance NOT NULL on all **P** tables (INV-07) | T-36 |
 | BE-DATA-06 | DB + API | backend | Three risk concepts in separate structures and labels (INV-08) | — |
 | BE-DATA-07 | DB | backend | Policy with several sale events has distinct cases | T-31 |
@@ -134,6 +134,7 @@ No S0 requirement is BLOCKED.
 | BE-DATA-11 | unit | backend | Stored factor values reproduce `input_snapshot_sha256` | — |
 | BE-DATA-14 | config + DB | backend | Schema isolation: the test role cannot read, write, truncate, alter or drop anything in `call360`; the test harness and Alembic refuse to run if the schema is not `call360_test`, the role is the application role or a superuser, or the role has any privilege on `call360`; reset commands only ever target `call360_test` | — |
 | BE-DATA-12 | seed + API | backend | Question set includes each expected-answer policy; a YES answer to an acknowledgement or narrative question is not auto-compliant | T-44 (data) |
+| BE-DATA-13 | DB | backend | Governed-code integrity (INV-12): each governed decision column rejects an unknown code, a code from the wrong list, and a version that is not `ACTIVE` at insert; a pinned code stays valid after a later version activates; unknown market codes are rejected; the nine governed lists have exactly the §6.1 version-1 values; each activation is audited once (repeated seeding adds no events; a downgrade round trip appends a removal and a re-activation) | — |
 | BE-API-01 | API | backend | Case, attempt and session reads for the golden case | T-21 |
 | BE-API-02 | API | backend | Policy, sale and party reads, typed fields, masking | T-32 (display) |
 | BE-API-03 | API | backend | Risk reads with origin, version and provenance | T-34 (data) |

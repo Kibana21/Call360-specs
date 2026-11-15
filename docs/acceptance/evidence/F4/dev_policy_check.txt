@@ -1,0 +1,51 @@
+[ADMIN]
+  list total=175 paged=175 unique=175 markets=['SG'] non-SG=0
+  facets: {"product_family": {"ENDOWMENT": 52, "ILP": 71, "PROTECTION": 52}, "ilp": {"false": 104, "true": 71}, "band": {"HIGH": 65, "LOW": 57, "MEDIUM": 51, "NOT_ASSESSED": 2}, "sale_type": {"NEW_BUSINESS": 175, "REPLACEMENT": 5, "TOP_UP": 15}, "multi_sale": {"false": 155, "true": 20}}
+  q='POL-MY' → 0
+  q='SALE-MY-000003' → 0
+  q='SALE-MY-000013' → 0
+  q='SALE-MY-000029' → 0
+  q='PTY-0000' → 55
+  multi_sale=true → 20 (['NEW_BUSINESS', 'REPLACEMENT', 'TOP_UP'])
+  POL-SG-000017 ENDOWMENT/IN_FORCE sales=2 top_ups=1 band=LOW owners=['Example P. 017'] cases=[('CB-2026-10005', 'SALE-SG-000018', 'VERIFIED', 'VERIFIED_COMPLIANT'), ('CB-2026-10078', 'SALE-SG-000118', 'AWAITING_CALLBACK', 'OPEN')]
+      SALE-SG-000018 NEW_BUSINESS 2026-08-09 BROKER fsc=FSC-0011 band=LOW snaps=1 risk=[('RULE_ASSESSED', 'LOW', True)] cases=['CB-2026-10005']
+      SALE-SG-000118 TOP_UP 2026-10-15 BANCASSURANCE fsc=FSC-0018 band=LOW snaps=1 risk=[('SOURCE_ASSIGNED', 'LOW', True)] cases=['CB-2026-10078']
+      parties[200]=[('PTY-000017', 'Example P. 017', ['OWNER', 'PAYER', 'PROPOSER'], [('PHONE', 'SYN-TEL-SG-••••17', True), ('EMAIL', 'e•••@example.invalid', True)], 2), ('PTY-000018', 'Example P. 018', ['BENEFICIARY', 'INSURED'], [('PHONE', 'SYN-TEL-SG-••••18', True)], 2)]
+      history lineage=12 types=['policy', 'policy_fact_snapshot', 'policy_party_role', 'risk_assessment', 'sale_event'] field_changes=NOT_AVAILABLE
+  POL-SG-000001 ILP/IN_FORCE sales=1 top_ups=0 band=HIGH owners=['Example P. 001'] cases=[('CB-2026-10482', 'SALE-SG-000001', 'AWAITING_REVIEW', 'OPEN')]
+      SALE-SG-000001 NEW_BUSINESS 2026-10-16 AGENCY fsc=FSC-0013 band=HIGH snaps=1 risk=[('RULE_ASSESSED', 'HIGH', True), ('SOURCE_ASSIGNED', 'HIGH', False)] cases=['CB-2026-10482']
+      parties[200]=[('PTY-000001', 'Example P. 001', ['INSURED', 'OWNER', 'PAYER', 'PROPOSER'], [('PHONE', 'SYN-TEL-SG-••••01', True), ('EMAIL', 'e•••@example.invalid', True)], 1)]
+      history lineage=9 types=['policy', 'policy_fact_snapshot', 'policy_party_role', 'risk_assessment', 'sale_event'] field_changes=NOT_AVAILABLE
+  POL-SG-000138 ILP/IN_FORCE sales=2 top_ups=0 band=LOW owners=['Example P. 189'] cases=[('CB-2026-10102', 'SALE-SG-000147', 'AWAITING_CALLBACK', 'OPEN'), ('CB-2026-10076', 'SALE-SG-000116', 'AWAITING_CALLBACK', 'OPEN')]
+      SALE-SG-000147 NEW_BUSINESS 2026-09-23 BANCASSURANCE fsc=FSC-0022 band=LOW snaps=1 risk=[('SOURCE_ASSIGNED', 'LOW', True)] cases=['CB-2026-10102']
+      SALE-SG-000116 REPLACEMENT 2026-10-20 BANCASSURANCE fsc=FSC-0018 band=LOW snaps=1 risk=[('SOURCE_ASSIGNED', 'LOW', True)] cases=['CB-2026-10076']
+      parties[200]=[('PTY-000189', 'Example P. 189', ['INSURED', 'OWNER', 'PAYER', 'PROPOSER'], [('PHONE', 'SYN-TEL-SG-••••89', True), ('EMAIL', 'e•••@example.invalid', True)], 2)]
+      history lineage=11 types=['policy', 'policy_fact_snapshot', 'policy_party_role', 'risk_assessment', 'sale_event'] field_changes=NOT_AVAILABLE
+  55 MY policies × 4 endpoints + 55 MY sales → [404]
+  search POL-SG-000017 → [('policy', '/policies/080f981b-3e4e-5308-a48f-27550c3cdaf2')]
+[USER]
+  list total=175 paged=175 unique=175 markets=['SG'] non-SG=0
+  facets: {"product_family": {"ENDOWMENT": 52, "ILP": 71, "PROTECTION": 52}, "ilp": {"false": 104, "true": 71}, "band": {"HIGH": 65, "LOW": 57, "MEDIUM": 51, "NOT_ASSESSED": 2}, "sale_type": {"NEW_BUSINESS": 175, "REPLACEMENT": 5, "TOP_UP": 15}, "multi_sale": {"false": 155, "true": 20}}
+  q='POL-MY' → 0
+  q='SALE-MY-000003' → 0
+  q='SALE-MY-000013' → 0
+  q='SALE-MY-000029' → 0
+  q='PTY-0000' → 55
+  multi_sale=true → 20 (['NEW_BUSINESS', 'REPLACEMENT', 'TOP_UP'])
+  POL-SG-000017 ENDOWMENT/IN_FORCE sales=2 top_ups=1 band=LOW owners=['Example P. 017'] cases=[('CB-2026-10005', 'SALE-SG-000018', 'VERIFIED', 'VERIFIED_COMPLIANT'), ('CB-2026-10078', 'SALE-SG-000118', 'AWAITING_CALLBACK', 'OPEN')]
+      SALE-SG-000018 NEW_BUSINESS 2026-08-09 BROKER fsc=FSC-0011 band=LOW snaps=1 risk=[('RULE_ASSESSED', 'LOW', True)] cases=['CB-2026-10005']
+      SALE-SG-000118 TOP_UP 2026-10-15 BANCASSURANCE fsc=FSC-0018 band=LOW snaps=1 risk=[('SOURCE_ASSIGNED', 'LOW', True)] cases=['CB-2026-10078']
+      parties[200]=[('PTY-000017', 'Example P. 017', ['OWNER', 'PAYER', 'PROPOSER'], [('PHONE', 'SYN-TEL-SG-••••17', True), ('EMAIL', 'e•••@example.invalid', True)], 2), ('PTY-000018', 'Example P. 018', ['BENEFICIARY', 'INSURED'], [('PHONE', 'SYN-TEL-SG-••••18', True)], 2)]
+      history lineage=12 types=['policy', 'policy_fact_snapshot', 'policy_party_role', 'risk_assessment', 'sale_event'] field_changes=NOT_AVAILABLE
+  POL-SG-000001 ILP/IN_FORCE sales=1 top_ups=0 band=HIGH owners=['Example P. 001'] cases=[('CB-2026-10482', 'SALE-SG-000001', 'AWAITING_REVIEW', 'OPEN')]
+      SALE-SG-000001 NEW_BUSINESS 2026-10-16 AGENCY fsc=FSC-0013 band=HIGH snaps=1 risk=[('RULE_ASSESSED', 'HIGH', True), ('SOURCE_ASSIGNED', 'HIGH', False)] cases=['CB-2026-10482']
+      parties[200]=[('PTY-000001', 'Example P. 001', ['INSURED', 'OWNER', 'PAYER', 'PROPOSER'], [('PHONE', 'SYN-TEL-SG-••••01', True), ('EMAIL', 'e•••@example.invalid', True)], 1)]
+      history lineage=9 types=['policy', 'policy_fact_snapshot', 'policy_party_role', 'risk_assessment', 'sale_event'] field_changes=NOT_AVAILABLE
+  POL-SG-000138 ILP/IN_FORCE sales=2 top_ups=0 band=LOW owners=['Example P. 189'] cases=[('CB-2026-10102', 'SALE-SG-000147', 'AWAITING_CALLBACK', 'OPEN'), ('CB-2026-10076', 'SALE-SG-000116', 'AWAITING_CALLBACK', 'OPEN')]
+      SALE-SG-000147 NEW_BUSINESS 2026-09-23 BANCASSURANCE fsc=FSC-0022 band=LOW snaps=1 risk=[('SOURCE_ASSIGNED', 'LOW', True)] cases=['CB-2026-10102']
+      SALE-SG-000116 REPLACEMENT 2026-10-20 BANCASSURANCE fsc=FSC-0018 band=LOW snaps=1 risk=[('SOURCE_ASSIGNED', 'LOW', True)] cases=['CB-2026-10076']
+      parties[200]=[('PTY-000189', 'Example P. 189', ['INSURED', 'OWNER', 'PAYER', 'PROPOSER'], [('PHONE', 'SYN-TEL-SG-••••89', True), ('EMAIL', 'e•••@example.invalid', True)], 2)]
+      history lineage=11 types=['policy', 'policy_fact_snapshot', 'policy_party_role', 'risk_assessment', 'sale_event'] field_changes=NOT_AVAILABLE
+  55 MY policies × 4 endpoints + 55 MY sales → [404]
+  search POL-SG-000017 → [('policy', '/policies/080f981b-3e4e-5308-a48f-27550c3cdaf2')]
+problems: 0

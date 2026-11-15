@@ -1,0 +1,31 @@
+[ADMIN]
+  CB-2026-10482 AWAITING_REVIEW/OPEN sla=True band=HIGH blockers=[] attempts=['NO_ANSWER', 'BUSY', 'CONNECTED'] findings=[('HIGH', 'Q-PREMIUM-TERM-YEARS')]
+      SS-2026-10482 v1.1/PUBLISHED pin=True run=COMPLETED controls=False media=NOT_AVAILABLE
+  CB-2026-10483 AWAITING_CALLBACK/OPEN sla=None band=HIGH blockers=[] attempts=['NO_ANSWER', 'NO_ANSWER'] findings=[]
+  CB-2026-20001 MY → [404, 404, 404, 404, 404, 404] OK (404, audited)
+  CB-2026-10490 VALIDATED/OPEN sla=None band=LOW blockers=['HOLD:AWAITING_SCRIPT_ASSIGNMENT'] attempts=[] findings=[]
+  CB-2026-10491 VALIDATED/OPEN sla=None band=HIGH blockers=['HOLD:NO_ELIGIBLE_CONTACT', 'NO_ELIGIBLE_CONTACT'] attempts=[] findings=[]
+  CB-2026-10492 VALIDATED/OPEN sla=None band=None blockers=['HOLD:RISK_TRIAGE'] attempts=[] findings=[]
+  CB-2026-10493 CLOSED_UNVERIFIED/NOT_VERIFIED sla=True band=LOW blockers=['CASE_CLOSED_UNVERIFIED'] attempts=['NO_ANSWER', 'BUSY', 'NO_ANSWER', 'FAILED'] findings=[]
+  CB-2026-10494 CANCELLED/CANCELLED sla=exempt band=HIGH blockers=['CASE_CANCELLED'] attempts=[] findings=[]
+  CB-2026-10495 CANCELLED/CANCELLED sla=True band=HIGH blockers=['CASE_CANCELLED'] attempts=[] findings=[]
+  CB-2026-10496 CANCELLED/CANCELLED sla=True band=HIGH blockers=['CASE_CANCELLED'] attempts=['NO_ANSWER'] findings=[]
+  CB-2026-10497 VERIFIED/VERIFIED_COMPLIANT sla=False band=LOW blockers=['CASE_VERIFIED'] attempts=['CONNECTED'] findings=[]
+      SS-2026-10497 v1.1/PUBLISHED pin=True run=COMPLETED controls=True media=NOT_AVAILABLE
+  CB-2026-10498 VALIDATED/OPEN sla=True band=None blockers=['HOLD:RISK_TRIAGE'] attempts=[] findings=[]
+[USER]
+  CB-2026-10482 AWAITING_REVIEW/OPEN sla=True band=HIGH blockers=[] attempts=['NO_ANSWER', 'BUSY', 'CONNECTED'] findings=[('HIGH', 'Q-PREMIUM-TERM-YEARS')]
+      SS-2026-10482 v1.1/PUBLISHED pin=True run=COMPLETED controls=False media=NOT_AVAILABLE
+  CB-2026-10483 AWAITING_CALLBACK/OPEN sla=None band=HIGH blockers=[] attempts=['NO_ANSWER', 'NO_ANSWER'] findings=[]
+  CB-2026-20001 MY → [404, 404, 404, 404, 404, 404] OK (404, audited)
+  CB-2026-10490 VALIDATED/OPEN sla=None band=LOW blockers=['HOLD:AWAITING_SCRIPT_ASSIGNMENT'] attempts=[] findings=[]
+  CB-2026-10491 VALIDATED/OPEN sla=None band=HIGH blockers=['HOLD:NO_ELIGIBLE_CONTACT', 'NO_ELIGIBLE_CONTACT'] attempts=[] findings=[]
+  CB-2026-10492 VALIDATED/OPEN sla=None band=None blockers=['HOLD:RISK_TRIAGE'] attempts=[] findings=[]
+  CB-2026-10493 CLOSED_UNVERIFIED/NOT_VERIFIED sla=True band=LOW blockers=['CASE_CLOSED_UNVERIFIED'] attempts=['NO_ANSWER', 'BUSY', 'NO_ANSWER', 'FAILED'] findings=[]
+  CB-2026-10494 CANCELLED/CANCELLED sla=exempt band=HIGH blockers=['CASE_CANCELLED'] attempts=[] findings=[]
+  CB-2026-10495 CANCELLED/CANCELLED sla=True band=HIGH blockers=['CASE_CANCELLED'] attempts=[] findings=[]
+  CB-2026-10496 CANCELLED/CANCELLED sla=True band=HIGH blockers=['CASE_CANCELLED'] attempts=['NO_ANSWER'] findings=[]
+  CB-2026-10497 VERIFIED/VERIFIED_COMPLIANT sla=False band=LOW blockers=['CASE_VERIFIED'] attempts=['CONNECTED'] findings=[]
+      SS-2026-10497 v1.1/PUBLISHED pin=True run=COMPLETED controls=True media=NOT_AVAILABLE
+  CB-2026-10498 VALIDATED/OPEN sla=True band=None blockers=['HOLD:RISK_TRIAGE'] attempts=[] findings=[]
+problems: 0

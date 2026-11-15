@@ -1,0 +1,6 @@
+# command: unset CALL360_ENV_FILE; uv run call360 audit-verify && uv run alembic current
+# cwd: Call360-backend
+# date: 2026-11-15T09:45:30Z
+Audit chain OK: 35 events; head fc4f4c8b576eaba18ec0269d57d08fda43d064ef994eee02aa48d9e20cd07a3b
+0007_governed_values (head)
+# exit_code 0

@@ -1,0 +1,13 @@
+# command: npm run -s test
+# cwd: Call360-frontend
+# date: 2026-11-15T09:15:24Z
+
+ RUN  v4.1.12 /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend
+
+
+ Test Files  3 passed (3)
+      Tests  30 passed (30)
+   Start at  17:15:25
+   Duration  1.04s (transform 150ms, setup 180ms, import 386ms, tests 690ms, environment 991ms)
+
+# exit_code 0

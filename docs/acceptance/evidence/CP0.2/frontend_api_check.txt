@@ -1,0 +1,5 @@
+# command: npm run -s api:check
+# cwd: Call360-frontend
+# date: 2026-11-15T08:36:09Z
+api:check OK (openapi c71599f73f6bc54dae120e89b6728a41324343bc384726efc9f62a92eaad83a0)
+# exit_code 0

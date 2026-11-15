@@ -1,0 +1,8 @@
+# command: curl -s -w ' HTTP %{http_code}\n' http://127.0.0.1:8000/health/ready && uv run python -W ignore /private/tmp/claude-501/-Users-kartik-Documents-Work-Projects-Call360-Call360/319f0d6f-0c72-42d2-9955-89029e1195f7/scratchpad/login_check.py
+# cwd: Call360-backend
+# date: 2026-11-15T09:44:28Z
+{"status":"ok"} HTTP 200
+PASS  dev_admin: login 200; roles ['ADMIN']; admin/users 200; admin/code-lists 200 (governed lists at v1: 9)
+PASS  dev_user: login 200; roles ['USER']; admin/users 403; admin/code-lists 403
+RESULT: ALL PASS
+# exit_code 0

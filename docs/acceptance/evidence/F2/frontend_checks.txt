@@ -1,0 +1,23 @@
+== npm run lint
+exit 0
+== npm run typecheck
+exit 0
+== npm run test
+
+ Test Files  6 passed (6)
+      Tests  44 passed (44)
+   Start at  18:47:24
+   Duration  1.27s (transform 458ms, setup 310ms, import 978ms, tests 1.67s, environment 1.86s)
+
+exit 0
+== npm run api:check
+api:check OK (openapi 1cc23a1b422be5748d74d2dd775e4403868f50c587ce0713bc3f192b834e9dd0)
+exit 0
+== npm run build
+computing gzip size...
+dist/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/assets/index-BDoLTXqW.css   28.87 kB │ gzip:  7.55 kB
+dist/assets/index-DFK7ga-C.js   309.66 kB │ gzip: 95.33 kB
+
+✓ built in 60ms
+exit 0

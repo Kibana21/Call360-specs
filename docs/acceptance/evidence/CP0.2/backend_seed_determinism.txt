@@ -1,0 +1,11 @@
+# command: make test-seed
+# cwd: Call360-backend
+# date: 2026-11-15T08:35:39Z
+CALL360_ENV_FILE=.env.test uv run pytest tests/test_domain_seed.py -k be_data_02
+...                                                                      [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3 passed, 23 deselected, 1 warning in 12.78s
+# exit_code 0

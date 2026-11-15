@@ -1,6 +1,6 @@
 # Call360 — Stage 0 canonical data model
 
-**Status:** CP0.0 draft, 2026-11-15. Normative for CP0.1A and CP0.1B (identity, audit, config), CP0.2 (business domain) and later Stage 0 checkpoints per the Build column
+**Status:** CP0.0 draft, 2026-11-15; CP0.2 specification alignment 2026-11-15 (owner decisions D-29…D-38, recorded in `docs/acceptance/CP0.2.md`). Normative for CP0.1A and CP0.1B (identity, audit, config), CP0.2 (business domain) and later Stage 0 checkpoints per the Build column
 **Derives from:** `CANONICAL_GRAIN_AND_RELATIONSHIPS.md` (authoritative on grain and invariants), BRD §2–§3 and §4.4, ADR-0003…0008
 **Physical names** may be refined during implementation, but grain, keys, relationships, enums and immutability rules may not change without a specs change.
 
@@ -24,7 +24,29 @@
 | Provenance | `source_type` (enum below, NOT NULL), `source_system` NOT NULL, `source_reference` NOT NULL, `source_observed_at`, `recorded_at` NOT NULL, `mapping_version`, `intake_item_id` (nullable FK) | all business entity tables marked **P** in §4 |
 | Data classification | `is_synthetic boolean NOT NULL` with no CHECK constraint. Synthetic-only operation is enforced by `DATA_POLICY=SYNTHETIC_ONLY` (ADR-0008 §6) | all business entity tables marked **P** |
 | Evidence origin | `record_origin` ∈ `SYNTHETIC_SEED`, `CALL360_RUNTIME` | evidence/outcome tables marked **E** in §4 |
-| Scope | `market_code` (FK `code_value` in list `market`) | policy, party (derived), sale_event (via policy), callback_case, script_family, regulatory_reference |
+| Scope | `market_code text`: a stable identifier validated against the `market` code set (§2.1) | policy, party (derived), sale_event (via policy), callback_case, script_family, regulatory_reference |
+
+### 2.1 Code-list references (D-30)
+
+Code values are rows of a specific list version (`code_value`, CP0.1B-1), so business rows never hold a plain FK to a `code_value` id. Two reference kinds are used:
+
+| Kind | Columns | Database enforcement |
+|---|---|---|
+| Market scope | `market_code text NOT NULL` | Trigger `assert_market_code`: the code exists in list `market`. The code set is fixed (D-25), so a label change through a new version never touches business rows. CP0.1B-2 scope predicates compare this text |
+| Governed decision code | `<name>_code text` + `<name>_list_version_id uuid`, both NOT NULL whenever the decision is recorded | (1) Composite FK (`<name>_list_version_id`, `<name>_code`) → `code_value (code_list_version_id, code)`: the code exists in that version. (2) Trigger `assert_code_ref('<list>')`: the version belongs to the expected list, so a code from the wrong list is rejected even if the code text exists there. (3) On insert, and on a mutable row when the pair changes, the version must be the list's `ACTIVE` version. The pin is never re-validated afterwards, so a later activation never alters history |
+
+Governed decision columns in S0:
+
+| Column pair | List |
+|---|---|
+| `risk_assessment.band_code` / `band_list_version_id` | `sbq_risk_band` |
+| `risk_factor_result.factor_code` / `factor_list_version_id` | `risk_factor` |
+| `case_hold.hold_reason` / `hold_reason_list_version_id` (`is_blocking` is copied from the value's `blocking` attribute at placement) | `case_hold_reason` |
+| `callback_case.closure_reason` / `closure_reason_list_version_id` | `case_closure_reason` |
+| `callback_case.cancellation_reason` / `cancellation_reason_list_version_id` | `case_cancellation_reason` |
+| `case_contact_selection.rule_basis` (the role code) / `rule_basis_list_version_id` | `callable_party_roles` |
+
+Tested by BE-DATA-13 (INV-12).
 
 ## 3. Enumerations
 
@@ -70,6 +92,16 @@ Values in *italics* are reserved for later stages. A database enum or check acce
 | `identity_provider_kind` | `LOCAL`, *`OIDC_ENTRA`*, *`OIDC_OKTA`* | ADR-0004 |
 | `principal_status` | `ACTIVE`, `DISABLED` | IAM-009 |
 | `audit_outcome` | `SUCCEEDED`, `DENIED`, `FAILED` | ADR-0005 |
+| `obligation_type` | `SALE_VERIFICATION` (the only S0 value) | D-38; BRD §3.1 |
+| `policy_status` | `PROPOSAL`, `IN_FORCE`, `FREE_LOOK_CANCELLED`, `LAPSED`, `TERMINATED` (synthetic) | D-38; POL-002 |
+| `selling_channel` | `AGENCY`, `BANCASSURANCE`, `BROKER`, `DIRECT` (synthetic) | D-38; POL-003 |
+| `consent_status` | `GRANTED`, `WITHDRAWN`, `UNKNOWN` | D-38; PARTY-003 |
+| `contact_ineligibility_reason` | `ROLE_NOT_CALLABLE`, `AUTHORIZATION_NOT_EVIDENCED`, `CONTACT_SUPPRESSED`, `CONSENT_NOT_GRANTED`, `NO_CONTACT_METHOD` | D-36; PARTY-004 |
+| `hold_source` | `SEED`, `INTAKE`, `SYSTEM`, `MANUAL` | ADR-0008 §2 |
+| `script_assignment_origin` | `SEED`, *`ENGINE`* (S2), *`MANUAL_APPROVED`* (S2) | ADR-0008 §1 |
+| `delivery_status` | `DELIVERED`, `REPROMPTED`, `SKIPPED`, `NOT_DELIVERED` | D-38; grain doc `question_execution` |
+| `finding_category` | `FACT_MISMATCH`, `MISSING_MANDATORY_ANSWER`, `UNCLEAR_UNDERSTANDING`, `CONTRADICTORY_ANSWER`, `DISCLOSURE_CONCERN` (synthetic) | D-38 |
+| `finding_origin` | `RULE_EVALUATION`, `NARRATIVE_FLAG`, *`REVIEWER`* (S3) | D-38 |
 
 ## 4. Table catalogue
 
@@ -109,9 +141,9 @@ Column flags: **P** = provenance and `is_synthetic` common columns apply; **E** 
 | Table | Grain (one row per) | Grain-doc mapping | Key columns and constraints | Flags | Build |
 |---|---|---|---|---|---|
 | `party` | real-world person or organisation | `party` | `party_ref` UNIQUE, `kind`, `display_alias` (pseudonymous, searchable), `name_ciphertext`, `masked_name`, `date_of_birth_year` (synthetic only), `personal_data_class`; never keyed by name or phone | P | CP0.2 |
-| `contact_method` | effective-dated reachable method | `contact_method` | `party_id`, `channel`, `value_ciphertext` (AES-GCM), `value_hmac` (exact-match token), `masked_value`, `is_verified`, `preference_rank`, `language`, `timezone`, `consent_status`, `suppressed`, `valid_from`, `valid_to`; a change inserts a new row and closes the old one | P | CP0.2 |
+| `contact_method` | effective-dated reachable method | `contact_method` | `party_id`, `channel`, `value_ciphertext` (AES-GCM), `value_hmac` (exact-match token), `masked_value`, `is_verified`, `preference_rank`, `language`, `timezone`, `consent_status`, `suppressed`, `valid_from`, `valid_to`; a change inserts a new row and closes the old one. Under `SYNTHETIC_ONLY`, values must match a pattern in `synthetic_contact_ranges` (§6.1): phones are non-dialable synthetic identifiers, never E.164 numbers, and emails use `example.invalid` (D-37) | P | CP0.2 |
 | `policy` | issued policy or proposal identity | `policy` | `policy_ref` UNIQUE, `market_code`, `product_code`, `product_family`, `product_subtype`, `is_ilp`, `status`, `premium_amount`, `currency`, `premium_frequency`, `premium_term_years`, `sum_assured`, `sum_assured_currency`, `effective_from`, `effective_to` | P | CP0.2 |
-| `policy_party_role` | role of a party on a policy | `policy_party_role` | `policy_id`, `party_id`, `role`, `valid_from`, `valid_to`; UNIQUE (`policy_id`, `party_id`, `role`, `valid_from`) | P | CP0.2 |
+| `policy_party_role` | role of a party on a policy | `policy_party_role` | `policy_id`, `party_id`, `role`, `valid_from`, `valid_to`, `authorization_ref` (nullable; sourced evidence that the party is authorised to be contacted for this policy), `authorization_valid_from`, `authorization_valid_to`; UNIQUE (`policy_id`, `party_id`, `role`, `valid_from`). A role alone never establishes verified authority or consent (D-36) | P | CP0.2 |
 | `fsc_representative` | sales representative (FSC) | NEW: FSC reference on `sale_event` normalised (POL-003) | `fsc_ref` UNIQUE, `display_name` (synthetic), `channel`, `status` | P | CP0.2 |
 | `sale_event` | distribution/sales transaction | `sale_event` | `sale_ref` UNIQUE, `policy_id`, `sale_event_type`, `sold_at`, `fsc_id` (FK, frozen at sale), `selling_channel`, `selling_location`, `campaign_code`, `proposal_ref`, `product_snapshot jsonb`, `premium_amount`, `currency`; UNIQUE (`source_system`, `source_reference`) | P | CP0.2 |
 | `policy_fact_snapshot` | immutable fact set used for a decision | `policy_fact_snapshot` | `policy_id`, `sale_event_id`, `captured_at`, `schema_version`, `facts jsonb` (including `suitability`, sourced), `field_provenance jsonb`, `sha256` UNIQUE | P, I | CP0.2 |
@@ -125,8 +157,8 @@ Column flags: **P** = provenance and `is_synthetic` common columns apply; **E** 
 | Table | Grain (one row per) | Grain-doc mapping | Key columns and constraints | Flags | Build |
 |---|---|---|---|---|---|
 | `risk_rule_set_version` | one published rule-set version (synthetic, seeded) | `risk_rule_set_version` | `code`, `version`, `effective_from`, `effective_to`, `checksum`, `status`, `content_approval_status = SYNTHETIC_UNAPPROVED`, `author_ref`, `checker_ref` | P, I | CP0.2 |
-| `risk_assessment` | one decision for a sale event at a time | `risk_assessment` | `sale_event_id`, `kind = CALLBACK_SELECTION`, `origin`, `status`, `band_code` (code list), `score` (nullable; only with `rule_set_version_id`), `reason_codes[]`, `explanation`, `source_original_value`, `rule_set_version_id` (required when `RULE_ASSESSED`), `assessed_at`, `valid_at`, `input_snapshot_sha256`, `supersedes_id` | P, IF | CP0.2 |
-| `risk_factor_result` | one evaluated factor in one assessment | `risk_factor_result` | `assessment_id`, `factor_code` (code list `risk_factor`), `value_type`, `value`, `source`, `matched_rule_id`, `weight` (nullable), `result` | P, IF | CP0.2 |
+| `risk_assessment` | one decision for a sale event at a time | `risk_assessment` | `sale_event_id`, `kind = CALLBACK_SELECTION`, `origin`, `status`, `band_code` (code list), `score` (nullable; only with `rule_set_version_id`), `reason_codes[]`, `explanation`, `source_original_value`, `rule_set_version_id` (required when `RULE_ASSESSED`), `assessed_at`, `valid_at`, `input_snapshot_sha256`, `supersedes_id`. Status transitions (D-31): `PROVISIONAL → FINAL`; `PROVISIONAL → SUPERSEDED` or `FINAL → SUPERSEDED` only in the transaction that inserts a successor whose `supersedes_id` references this row; `SUPERSEDED` is terminal. No other column changes once `FINAL` | P, IF | CP0.2 |
+| `risk_factor_result` | one evaluated factor in one assessment | `risk_factor_result` | `assessment_id`, `factor_code` (code list `risk_factor`), `value_type`, `value`, `source`, `matched_rule_id`, `weight` (nullable), `result`; immutable once its assessment is `FINAL` | P, IF | CP0.2 |
 | `risk_override` | one requested or approved risk exception | `risk_override` | defined now, **not used in S0** (override workflow is S2) | — | S2 (not built in S0) |
 
 Effective risk: the most recent `FINAL` assessment for the sale event, unless the case pins a specific one. A `SOURCE_ASSIGNED` band and a `RULE_ASSESSED` band are both kept (grain constraint 7). When they differ, the case gets a `DATA_CONFLICT` or `RISK_TRIAGE` hold (T-34, data level).
@@ -137,10 +169,10 @@ Effective risk: the most recent `FINAL` assessment for the sale event, unless th
 |---|---|---|---|---|---|
 | `script_family` | logical questionnaire family | `script_family` | `code` UNIQUE, `name`, `market_code`, `purpose`, `description` | P | CP0.2 |
 | `script_module` | reusable named question bundle revision | NEW: SCRIPT_GOVERNANCE "script module" | `code` (`COMMON_SALES_CONDUCT`, `PROTECTION`, `ILP`, `ELEVATED_RISK`), `revision`, `kind`, `status` | P, IF | CP0.2 |
-| `script_version` | immutable questionnaire build | `script_version` | `script_family_id`, `version_label`, `status` (`script_version_status`), `validation_status`, `language`, `effective_from`, `effective_to`, `manifest jsonb` (compiled ordered modules and question revisions), `manifest_sha256`, `author_ref`, `reviewer_ref`, `published_at`, `content_approval_status`, `supersedes_id` | P, IF | CP0.2 |
+| `script_version` | immutable questionnaire build | `script_version` | `script_family_id`, `version_label`, `status` (`script_version_status`), `validation_status`, `language`, `effective_from`, `effective_to`, `manifest jsonb` (compiled ordered modules and question revisions), `manifest_sha256`, `author_ref`, `reviewer_ref`, `published_at`, `content_approval_status`, `supersedes_id`. Content is immutable once the status leaves `DRAFT`; afterwards only governed status transitions occur, and `effective_to` may be set once (null → a value ≥ `effective_from`) and never changed (D-32) | P, IF | CP0.2 |
 | `script_section` | ordered module inclusion in a script version | `script_section` | `script_version_id`, `script_module_id`, `order`, `inclusion_condition jsonb`; UNIQUE (`script_version_id`, `order`) | P, IF | CP0.2 |
 | `question_bank_item` | stable semantic question identity | `question_bank_item` | `question_code` UNIQUE, `intent`, `category` | P | CP0.2 |
-| `question_revision` | exact wording and answer-schema revision | `question_revision` | `question_bank_item_id`, `revision`, `language`, `customer_wording`, `delivery_mode`, `answer_type`, `answer_schema jsonb`, `mandatory`, `expected_answer_policy`, `expected_value jsonb`, `acceptable_variants jsonb`, `policy_fact_key` (for `NUMERIC_MATCH_POLICY_FACT`), `unacceptable_outcomes jsonb`, `not_applicable_predicate jsonb`, `evidence_required`, `escalation_rule_ref`, `max_reprompts`, `content_approval_status = SYNTHETIC_UNAPPROVED` | P, I | CP0.2 |
+| `question_revision` | exact wording and answer-schema revision | `question_revision` | `question_bank_item_id`, `revision`, `language`, `customer_wording`, `delivery_mode`, `answer_type`, `answer_schema jsonb`, `mandatory`, `expected_answer_policy`, `expected_value jsonb`, `acceptable_variants jsonb`, `policy_fact_key` (for `NUMERIC_MATCH_POLICY_FACT`), `unacceptable_outcomes jsonb`, `not_applicable_predicate jsonb`, `evidence_required`, `escalation_rule_ref`, `max_reprompts`, `content_approval_status = SYNTHETIC_UNAPPROVED`. Immutable from insert; a correction or edit inserts a new revision (D-35) | P, I | CP0.2 |
 | `module_question` | question revision placed in a module revision | NEW: join (module ↔ question revision) | `script_module_id`, `question_revision_id`, `order`, `branch_condition jsonb` | P, IF | CP0.2 |
 | `script_assignment_rule_version` | effective-dated assignment rule version (seeded, read-only in S0) | `script_assignment_rule_version` | `rule_code`, `version`, `predicate jsonb` (market, product subtype, ILP, risk band, channel, language), `priority`, `specificity`, `target_script_version_id`, `effective_from`, `effective_to`, `status`, `checksum`, `author_ref`, `checker_ref` | P, I | CP0.2 |
 | `script_assignment` | script decision for a case | `script_assignment` | `callback_case_id`, `script_version_id`, `script_manifest_sha256`, `risk_assessment_id`, `policy_fact_snapshot_id`, `matched_rule_version_id`, `rule_trace jsonb` (matched, excluded, precedence), `input_snapshot jsonb` + `input_sha256`, `origin` (`SEED`; S2 adds `ENGINE`, `MANUAL_APPROVED`), `assigned_at`, `assigned_by`, `supersedes_id` | P, I | CP0.2 |
@@ -154,9 +186,9 @@ Effective risk: the most recent `FINAL` assessment for the sale event, unless th
 |---|---|---|---|---|---|
 | `callback_case` | verification obligation for a sale and purpose | `callback_case` | `case_ref` UNIQUE, `sale_event_id`, `obligation_type`, `source_request_ref`, `market_code`, `state`, `closure_reason`, `priority`, `owner_principal_id`, `due_at`, `verified_at`, `closed_at`, `cancellation_reason` (code list `case_cancellation_reason`), `cancelled_recorded_at` (server-set, never client-supplied), `cancellation_authorized_by`, `cancellation_authorization_ref`, `has_blocking_hold`; CHECK: cancellation fields set only when `state = 'CANCELLED'`; UNIQUE (`sale_event_id`, `obligation_type`, `source_request_ref`); CHECK NOT (`has_blocking_hold` AND `state IN ('READY','IN_PROGRESS')`) | P | CP0.2 |
 | `case_hold` | one hold placement on a case | NEW: EXT-001 / C-12 | `callback_case_id`, `hold_reason`, `is_blocking`, `placed_at`, `placed_by`, `placed_reason`, `source`, `released_at`, `released_by`, `release_reason`; partial UNIQUE (`callback_case_id`, `hold_reason`) WHERE `released_at IS NULL` | — (insert; release fields set once) | CP0.2 |
-| `case_contact_selection` | contact eligibility decision for a case | `case_contact_selection` | `callback_case_id`, `party_id`, `policy_party_role_id`, `contact_method_id`, `eligible`, `ineligibility_reason`, `rule_basis` (code list `callable_party_roles` version), `decided_at`, `decided_by`, `supersedes_id` | P, I | CP0.2 |
+| `case_contact_selection` | contact eligibility decision for a case | `case_contact_selection` | `callback_case_id`, `party_id`, `policy_party_role_id`, `contact_method_id`, `eligible`, `ineligibility_reason`, `rule_basis` (code list `callable_party_roles`, code + version, §2.1), `decided_at`, `decided_by`, `supersedes_id`. `eligible = true` only when all hold at `decided_at` (D-36): the role is `callable` in the pinned list version; if the value has `requires_authorization_evidence = true`, the `policy_party_role` has an `authorization_ref` valid at `decided_at`; the method is valid, not suppressed and has `consent_status = GRANTED`. Otherwise `eligible = false` with a `contact_ineligibility_reason`. Eligibility is a data-level pre-check, not verification of authority or identity at call time (S1, PARTY-006) | P, I | CP0.2 |
 | `contact_attempt` | one contact attempt | `contact_attempt` | `attempt_ref` UNIQUE, `callback_case_id`, `sequence`, `transport`, `direction`, `status`, `contacted_party_id`, `contact_method_id`, `contact_snapshot jsonb` (masked value, method version), `scheduled_at`, `started_at`, `ended_at`, `failure_reason`; UNIQUE (`callback_case_id`, `sequence`) | P, E; snapshot I | CP0.2 |
-| `conversation_session` | one connected media interaction | `conversation_session` | `session_ref` UNIQUE, `contact_attempt_id`, `state`, `transport`, `external_session_ref`, `started_at`, `ended_at`, pins per ADR-0005 §4 (`script_version_id`, `script_manifest_sha256`, `risk_assessment_id`, `risk_snapshot_sha256`, `policy_fact_snapshot_id`, `policy_fact_snapshot_sha256`, `contacted_party_id`, `contact_method_snapshot`), `media_status`, `transcript_status` | P, E; pins I | CP0.2 |
+| `conversation_session` | one connected media interaction | `conversation_session` | `session_ref` UNIQUE, `contact_attempt_id`, `state`, `transport`, `external_session_ref`, `started_at`, `ended_at`, pins per ADR-0005 §4 (`script_version_id`, `script_manifest_sha256`, `risk_assessment_id`, `risk_snapshot_sha256`, `policy_fact_snapshot_id`, `policy_fact_snapshot_sha256`, `contacted_party_id`, `contact_method_snapshot`), `media_status`, `transcript_status`. Pin validity is checked against history at insert (INV-09, D-32) | P, E; pins I | CP0.2 |
 | `survey_run` | one execution of a frozen script version in a session | `survey_run` | `session_id`, `script_version_id`, `script_manifest_sha256`, `policy_fact_snapshot_id`, `status`, `started_at`, `completed_at`; partial UNIQUE (`session_id`) WHERE status active (grain constraint 3) | P, E; pins I | CP0.2 |
 | `question_execution` | one asked occurrence of a question | `question_execution` | `survey_run_id`, `question_revision_id`, `order`, `delivery_status`, `retries`, `skip_reason`, `event_range jsonb` | P, E, IF | CP0.2 |
 | `answer_observation` | one raw, extracted or human-updated representation | `answer_observation` | `question_execution_id`, `answer_state`, `typed_value jsonb`, `verbatim_text_redacted`, `transcript_segment_ids[]`, `extraction_engine`, `extraction_version`, `created_by`, `supersedes_id` | P, E, I | CP0.2 |
@@ -181,6 +213,19 @@ Effective risk: the most recent `FINAL` assessment for the sale event, unless th
 | **Stage 0 total** | | **59** |
 | Not built in S0 | `transcript_segment`, `media_asset` (S1) · `risk_override` (S2) · `review_decision` (S3) | 4 |
 
+**Physical order.** Packages are built in plan order (CP0.1B-1 → CP0.2 → CP0.1B-2), so at the CP0.2 head the schema holds the 20 tables of CP0.1A and CP0.1B-1 plus the 34 CP0.2 tables (54, plus `alembic_version`). `group_scope_mapping` is created by the CP0.1B-2 migration that follows. Under D-40 it is created by migration `0008_market_scope` (F0), seeded `LOCAL_ADMIN`→SG and `LOCAL_USER_SG`→SG only (D-39).
+
+**CP0.2 migration assignment (D-29).** Each revision downgrades cleanly to its predecessor without touching CP0.1A or CP0.1B-1 data.
+
+| Revision | Creates | Count |
+|---|---|---|
+| `0003_party_policy_sale` | `party`, `contact_method`, `policy`, `policy_party_role`, `fsc_representative`, `sale_event`, `policy_fact_snapshot`, `external_reference`; enums; provenance columns; `assert_market_code` | 8 |
+| `0004_sbq_risk` | `risk_rule_set_version`, `risk_assessment`, `risk_factor_result`; transition trigger (D-31); `assert_code_ref` | 3 |
+| `0005_scripts_regulatory` | `script_family`, `script_module`, `script_version`, `script_section`, `question_bank_item`, `question_revision`, `module_question`, `script_assignment_rule_version`, `script_assignment`, `regulatory_reference`, `control`, `control_mapping`; lifecycle and immutability triggers | 12 |
+| `0006_case_evidence` | `callback_case`, `case_hold`, `case_contact_selection`, `contact_attempt`, `conversation_session`, `survey_run`, `question_execution`, `answer_observation`, `rule_evaluation`, `finding`, `case_event`; hold trigger and check; pin triggers (D-32) | 11 |
+| `0007_governed_values` | No tables. Version 1 (`ACTIVE`) of the nine governed lists (§6.1) as reference data, `created_by = SYSTEM:seed`. Each activation writes one `CONFIG.CODE_LIST_VERSION_ACTIVATED` audit event (actor `migration:0007_governed_values`, `entity_version` 1, the version id, reference-data version, reason and the values). The bootstrap audit is idempotent: it writes only when the version's latest lifecycle event is not an activation, so repeated seeding adds nothing. The development-only downgrade first writes `CONFIG.CODE_LIST_VERSION_REMOVED`, then refuses if any CP0.2 row exists; history is appended, never erased | 0 |
+| **CP0.2 total** | | **34** |
+
 ## 5. Key relationships and invariants (test-backed)
 
 | # | Invariant | Test |
@@ -193,42 +238,76 @@ Effective risk: the most recent `FINAL` assessment for the sale event, unless th
 | INV-06 | A blocking hold prevents `READY` or `IN_PROGRESS` | BE-DATA-09 |
 | INV-07 | Provenance columns are NOT NULL on every **P** table | BE-DATA-05 |
 | INV-08 | `risk_assessment.kind = CALLBACK_SELECTION`. Suitability exists only in snapshot facts. Finding severity uses its own enum | BE-DATA-06 |
-| INV-09 | A pinned script version was `PUBLISHED` and effective at `session.started_at` | BE-DATA-04 |
+| INV-09 | A pinned script version was published and effective at `session.started_at`, judged against its history (D-32): `published_at ≤ started_at`, `effective_from ≤ started_at < coalesce(effective_to, ∞)`, and status ∈ {`PUBLISHED`, `SUPERSEDED`, `WITHDRAWN`}. A later `SUPERSEDED` or `WITHDRAWN` status never invalidates a historically valid session; `DRAFT` and never-published versions are always rejected | BE-DATA-04 |
 | INV-10 | Under `SYNTHETIC_ONLY`, no business row has `is_synthetic = false` (readiness check) | BE-DATA-10 |
 | INV-11 | The factor values stored on an assessment reproduce `input_snapshot_sha256` | BE-DATA-11 |
+| INV-12 | Every governed decision code resolves to a value in the pinned version of the expected list; wrong-list, unknown-code and non-`ACTIVE`-at-insert references are rejected; market codes exist in the `market` set (§2.1) | BE-DATA-13 |
+| INV-13 | Risk assessments change only through the D-31 transitions, each linked to a successor; superseded assessments remain readable and unchanged | BE-DATA-04 |
+| INV-14 | A contact selection is eligible only under the D-36 conditions; an `AUTHORIZED_CONTACT` without valid authorisation evidence is ineligible (`AUTHORIZATION_NOT_EVIDENCED`) | BE-DATA-03 |
 
 ## 6. Deterministic synthetic seed specification (implemented in CP0.2)
+
+All seeded content is a **development fixture**. It is not an AIA-approved business rule, threshold, script or regulatory interpretation.
 
 - **Determinism:**
   - generator RNG seed `360`;
   - anchor date `2026-11-15` (Asia/Singapore), overridable by `SEED_ANCHOR`;
-  - seed version `S0-SEED-1`, recorded in a `seed_manifest` audit event.
+  - seed version `S0-SEED-1`, recorded in a `seed_manifest` audit event;
+  - identifiers are deterministic (UUIDv5 over stable natural keys, as in CP0.1B-1); business timestamps are derived from the anchor.
 
   Two runs on a freshly reset schema in `Call360_db` produce identical content digests (BE-DATA-02).
-- **Minimum volumes:**
-  - 250 callback cases, 400 contact attempts, 80 conversation sessions with survey runs;
-  - 4 or more script versions, covering `PUBLISHED`, `SUPERSEDED`, `DRAFT` and `WITHDRAWN`;
-  - 20 or more findings across all severities;
-  - 2 synthetic markets, `SG` and `MY`;
-  - 3 or more product families, including ILP and protection.
+- **Content digest (D-33):** SHA-256 over canonical JSON (sorted keys, UTF-8, one line per row, rows ordered by `id`, tables in migration order) of every CP0.2 business table and the governed code-list values. It **includes** all canonical business fields and the stable comparison values (`value_hmac`, masked values, content hashes such as `sha256`, `manifest_sha256` and `input_snapshot_sha256`). It **excludes** randomised ciphertext (`*_ciphertext`, whose AES-GCM nonces are random) and the operational metadata columns of §2 (`created_at`, `updated_at`, `row_version`, `correlation_id`). Because `value_hmac` is keyed, the digest is reproducible only with the same HMAC key. A different key gives a different digest, which is expected and not a seed defect; the evidence records a key fingerprint, never the key.
+
+### 6.1 Governed code lists, version 1 (D-36, D-37)
+
+Seeded by migration `0007_governed_values` as `ACTIVE` version 1, read-only in S0 (S0_IDENTITY_ACCESS_DESIGN §8). Every value carries `{"synthetic": true}`. No numeric risk threshold and no regulatory interpretation is defined.
+
+| List | Values (attributes) |
+|---|---|
+| `sbq_risk_band` | `LOW`, `MEDIUM`, `HIGH`, `UNKNOWN`. Labels and sort order only; no score boundaries |
+| `risk_factor` | `SELLING_CHANNEL` (`value_type: ENUM`), `SELLING_LOCATION` (`ENUM`), `PREMIUM_AMOUNT_BAND` (`ENUM`; band labels supplied by the source, no numeric threshold), `PRODUCT_CLASS` (`ENUM`), `ILP_INDICATOR` (`BOOLEAN`) |
+| `case_hold_reason` | `AWAITING_SCRIPT_ASSIGNMENT`, `AWAITING_SCRIPT_REVIEW`, `RISK_TRIAGE`, `NO_ELIGIBLE_CONTACT`, `DATA_CONFLICT` (`blocking: true`); `OPERATOR_HOLD` (`blocking: false`) |
+| `case_closure_reason` | `ATTEMPTS_EXHAUSTED`, `CUSTOMER_REFUSED`, `INELIGIBLE`, `UNABLE_TO_VERIFY`, `UNRESOLVED_MATERIAL_EXCEPTION`, `POLICY_CANCELLED`, `DUPLICATE_OBLIGATION` (values pending DEC-008) |
+| `case_cancellation_reason` | `POLICY_NOT_TAKEN_UP`, `POLICY_FREE_LOOK_CANCELLED`, `DUPLICATE_OBLIGATION` (`sla_exempt_eligible: true`); `SOURCE_WITHDRAWN`, `OTHER` (`sla_exempt_eligible: false`) |
+| `finding_materiality_policy` | `HIGH`, `CRITICAL` (`material: true`); no exceptions (K-2, provisional) |
+| `kpi_sla_exemption_rule` | `SLA-EX-001` (`predicate_ref`: S0_KPI_DEFINITIONS `SLA-EX-001`; `approval_ref`: owner decision D-18, local development; `effective_from`: anchor − 365 days) |
+| `callable_party_roles` | `OWNER` (`callable: true`, `requires_authorization_evidence: false`); `AUTHORIZED_CONTACT` (`callable: true`, `requires_authorization_evidence: true`); `INSURED`, `PAYER`, `PROPOSER`, `BENEFICIARY` (`callable: false`). `callable: true` only makes a role a candidate. It never establishes verified authority or consent: suppression, consent and, where required, recorded authorisation evidence are still checked (D-36, INV-14), and authority and identity verification at call time is S1 (PARTY-006) |
+| `synthetic_contact_ranges` | `PHONE_SYNTHETIC_ID` (`pattern: ^SYN-TEL-(SG\|MY)-[0-9]{6}$`, `dialable: false`); `EMAIL_EXAMPLE_INVALID` (`pattern: ^[a-z0-9.]+@example\.invalid$`). Phone values are deliberately **not** E.164 and cannot reach a telecommunications destination (D-37). If a later stage needs E.164-shaped numbers, it must use verified reserved test ranges or an approved test-only mechanism with outbound calling disabled, through a new list version and a specs change |
+
+### 6.2 Volumes (exact targets, D-38)
+
+| Entity | Count | Composition |
+|---|---|---|
+| `policy` | 230 | SG 175, MY 55; families protection, ILP and endowment |
+| `sale_event` / `callback_case` | 250 / 250 | 230 new-business sales plus 20 top-up or replacement sales on 20 of those policies (T-31); one case per sale |
+| `party` | 320 | Includes 25 joint-owner policies (T-32) and 20 authorised contacts, some without authorisation evidence |
+| `fsc_representative` | 24 | Synthetic names |
+| `contact_attempt` | 400 | 10 cases × 0 + 135 × 1 + 60 × 2 + 35 × 3 + 10 × 4 = 0 + 135 + 120 + 105 + 40 = **400** across 10 + 135 + 60 + 35 + 10 = **250** cases |
+| `conversation_session` / `survey_run` | 80 / 80 | One per connected attempt. Sessions `COMPLETED` 62, `INTERRUPTED` 10, `ABORTED` 8; runs `COMPLETED` 62, `INCOMPLETE` 10, `ABORTED` 8 |
+| `finding` | 24 | `LOW` 6, `MEDIUM` 8, `HIGH` 7, `CRITICAL` 3 |
+| `risk_assessment` | 290 | 248 effective `FINAL` + 25 counterparts in `SOURCE_ASSIGNED`/`RULE_ASSESSED` pairs (≥ 1 conflicting, T-34) + 17 `SUPERSEDED` predecessors; the sale events of `CB-2026-10492` and `CB-2026-10498` have none (missing ILP risk) |
+| `script_version` | 5 | SG family: 0.9 `WITHDRAWN`, 1.0 `SUPERSEDED` (still pinned by older sessions, T-15), 1.1 `PUBLISHED`, 1.2 `DRAFT`; MY family: 1.0 `PUBLISHED` |
+
+- **Scripts:** one family per market (`SALES_VERIFICATION_SG`, `SALES_VERIFICATION_MY`); modules `COMMON_SALES_CONDUCT`, `PROTECTION`, `ILP`, `ELEVATED_RISK`; sections carry `inclusion_condition` (for example `is_ilp`, `band = HIGH`), and each `script_assignment` records the resolved sections in `rule_trace` and its input snapshot. About 12 question bank items cover all five `expected_answer_policy` values and all five `answer_type` values; `PREMIUM_TERM_YEARS` is `NUMERIC_MATCH_POLICY_FACT` against `premium_term_years`. Mandatory `NARRATIVE_REVIEW` questions occur only in the `ILP` and `ELEVATED_RISK` modules.
 - **Coverage:**
   - every `case_state` and every hold reason;
-  - joint policies with multiple eligible contacts (T-32);
+  - joint policies with multiple eligible contacts (T-32), and an `AUTHORIZED_CONTACT` without authorisation evidence that is ineligible (INV-14);
   - multi-sale policies: new business plus a top-up (T-31);
-  - contact-method changes after an attempt (T-38);
+  - contact-method changes after an attempt (T-38), with the attempt snapshot unchanged;
+  - a policy with a later fact snapshot while an earlier session still pins the original (CASE-002, data level);
   - source-assigned and rule-assessed risk pairs, including at least one conflicting pair (T-34);
   - an ILP sale with missing risk on a `RISK_TRIAGE` hold (T-35);
-  - cases with 1, 2 and 3 or more attempts;
+  - cases with 0, 1, 2, 3 and 4 attempts;
   - sessions in `COMPLETED`, `INTERRUPTED` and `ABORTED`;
-  - every outcome category (S0_KPI_DEFINITIONS §1), including `VERIFIED_COMPLIANT` cases whose mandatory controls are all satisfied, and no `VERIFIED_COMPLIANT` case with an applicable mandatory `NARRATIVE_REVIEW` question;
+  - every outcome category (S0_KPI_DEFINITIONS §1). A case is seeded `VERIFIED_COMPLIANT` **only** if every applicable mandatory control is satisfied by its persisted evidence under §1.1 of that document; no such case has an applicable mandatory `NARRATIVE_REVIEW` question, and the `VERIFIED_CONTROL_EVIDENCE_INCOMPLETE` count is 0;
   - a superseded script version still referenced by an old session (T-15).
 - **Golden fixtures (stable references used by tests):**
 
   | Reference | Content |
   |---|---|
-  | `CB-2026-10482` | SG, ILP, effective band HIGH (`RULE_ASSESSED`, synthetic rule set). Script `COMMON_SALES_CONDUCT + ILP + ELEVATED_RISK` (seeded assignment with trace). Attempts `NO_ANSWER → BUSY → CONNECTED`, with one session and a `COMPLETED` survey run. A premium-term answer of 5 against a snapshot value of 10 gives a `MISMATCH` rule evaluation and a HIGH finding |
+  | `CB-2026-10482` | SG, ILP, effective band HIGH (`RULE_ASSESSED`, synthetic rule set). State `AWAITING_REVIEW` (outcome category `OPEN`). Script `COMMON_SALES_CONDUCT + ILP + ELEVATED_RISK` (seeded assignment with trace). Attempts `NO_ANSWER → BUSY → CONNECTED`, with one session and a `COMPLETED` survey run. A premium-term answer of 5 against a snapshot value of 10 gives a `MISMATCH` rule evaluation and a HIGH finding |
   | `CB-2026-10483` | Two attempts, no session |
-  | `CB-2026-20001` | MY market; used for cross-market denial |
+  | `CB-2026-20001` | MY market; retained but never exposed (D-39, Singapore-only); used for out-of-scope denial (BE-SEC-02) |
   | `CB-2026-10490` | `AWAITING_SCRIPT_ASSIGNMENT` hold |
   | `CB-2026-10491` | `NO_ELIGIBLE_CONTACT` hold (the only contact is suppressed) |
   | `CB-2026-10492` | `RISK_TRIAGE` hold (ILP, missing risk) |
@@ -236,12 +315,13 @@ Effective risk: the most recent `FINAL` assessment for the sale event, unless th
   | `CB-2026-10494` | `CANCELLED` before `due_at` with an exempt-eligible reason and recorded authorisation (exempt under `SLA-EX-001`) |
   | `CB-2026-10495` | `CANCELLED` before `due_at` without recorded authorisation (not exempt) |
   | `CB-2026-10496` | `CANCELLED` with `cancelled_recorded_at` after `due_at` (retrospective; not exempt) |
-  | `CB-2026-10497` | `VERIFIED_COMPLIANT`: all mandatory controls satisfied, no findings |
+  | `CB-2026-10497` | `VERIFIED_COMPLIANT`: protection-only script (`COMMON_SALES_CONDUCT + PROTECTION`), all applicable mandatory controls satisfied, no findings |
   | `CB-2026-10498` | `RISK_TRIAGE` hold past `due_at` (the hold does not pause SLA; counted as breached) |
 
 - **Synthetic content:**
   - names follow the "Example Policyholder NNN" pattern;
-  - phone numbers come from the configured reserved synthetic range;
+  - contact values are non-dialable synthetic identifiers and `example.invalid` addresses (§6.1), with `source_type = SEED`, `is_synthetic = true` and seed provenance;
   - every script and question has `content_approval_status = SYNTHETIC_UNAPPROVED`, with wording that is clearly illustrative and not AIA or MAS language;
-  - every evidence row has `record_origin = SYNTHETIC_SEED`.
-- **No credentials:** the seed creates no principals and no credentials (C-6).
+  - every evidence row has `record_origin = SYNTHETIC_SEED`;
+  - no recordings, transcripts, human review decisions or real voice interactions (S1/S3).
+- **No credentials:** the seed creates no principals and no credentials (C-6). The contact encryption and HMAC keys are local secrets (S0_IDENTITY_ACCESS_DESIGN §10, D-34), never seeded, printed or committed.

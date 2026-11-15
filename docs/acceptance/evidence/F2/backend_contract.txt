@@ -1,0 +1,3 @@
+uv run python scripts/export_openapi.py --check
+OpenAPI matches (1cc23a1b422be5748d74d2dd775e4403868f50c587ce0713bc3f192b834e9dd0)
+0008_market_scope (head)

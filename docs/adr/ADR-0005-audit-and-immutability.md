@@ -51,11 +51,11 @@ Enforcement uses database triggers plus the absence of any update API. A correct
 
 | Record | Becomes immutable when |
 |---|---|
-| `script_version` content (manifest, sections, checksum) | Status leaves DRAFT (SUBMITTED_FOR_REVIEW or later). Only lifecycle status and effective dates may change, and only through governed transitions |
-| `question_revision` | On insert, once it is referenced by any non-draft script version |
+| `script_version` content (manifest, sections, checksum) | Status leaves DRAFT (SUBMITTED_FOR_REVIEW or later). Only lifecycle status and effective dates may change, and only through governed transitions; `effective_to` may be set once and never changed (D-32, CP0.2 alignment) |
+| `question_revision` | On insert. A correction or edit always inserts a new revision (D-35, CP0.2 alignment; this replaces the earlier wording "once it is referenced by any non-draft script version") |
 | `script_section` | When its script version leaves DRAFT |
 | `policy_fact_snapshot` | On insert |
-| `risk_assessment` and `risk_factor_result` | When `status = FINAL`; a superseding assessment uses `supersedes_id` |
+| `risk_assessment` and `risk_factor_result` | When `status = FINAL`. The only later change is `FINAL → SUPERSEDED`, made in the transaction that inserts a successor whose `supersedes_id` references it; `SUPERSEDED` is terminal and the historical assessment stays unchanged (D-31) |
 | `script_assignment` | On insert; reassignment inserts a new row with `supersedes_id` |
 | `contact_attempt` contact snapshot fields | On insert |
 | `conversation_session` pin columns (below) | On insert |
@@ -70,7 +70,7 @@ Each `conversation_session` stores, at creation and immutably:
 - `contact_method_snapshot` (masked value, method ID, version) + `contacted_party_id`.
 
 Constraints:
-- A database check requires that the pinned script version was `PUBLISHED` and effective at `session.started_at`.
+- A database check requires that the pinned script version was published and effective at `session.started_at`, judged against its historical publication and effective interval (`published_at ≤ started_at`, `effective_from ≤ started_at < coalesce(effective_to, ∞)`). A version that is now `SUPERSEDED` or `WITHDRAWN` does not invalidate a session that was valid when it started (D-32, S0_DATA_MODEL INV-09).
 - `survey_run` carries the same script pin. The session pin is what the conversation was bound to; the run pin is what executed. In S1 and later they must match unless an approved resume rule says otherwise.
 
 Seeded S0 sessions satisfy the same constraints. They are labelled `SYNTHETIC_SEED` (ADR-0008).

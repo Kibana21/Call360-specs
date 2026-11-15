@@ -101,7 +101,7 @@ Disabled items are visible, keyboard-focusable, `aria-disabled`, and carry a sta
 - **`DATA_POLICY=SYNTHETIC_ONLY`** is mandatory when `APP_ENV ∈ {local, test}`. Under it:
   1. Intake accepts only `source_type ∈ {SEED, MOCK_API, MANUAL}`. `BULK` and `INTERNAL_API` connectors are not registered.
   2. Every intake payload must declare `is_synthetic = true`. Otherwise it is rejected (`INGEST_NON_SYNTHETIC_REJECTED`) and audited.
-  3. Contact values must fall in configured reserved synthetic ranges, for example a non-routable test number prefix. Otherwise they are rejected (`INGEST_CONTACT_NOT_SYNTHETIC`).
+  3. Contact values must match the configured synthetic patterns (governed list `synthetic_contact_ranges`). In S0 these are non-dialable synthetic identifiers and `example.invalid` addresses, never E.164 telephone numbers (S0_DATA_MODEL §6.1, D-37). Otherwise they are rejected (`INGEST_CONTACT_NOT_SYNTHETIC`).
   4. The readiness check fails, and the API refuses to serve, if any business row has `is_synthetic = false`.
   5. The UI shows a persistent "Synthetic data — local demo" banner, and login shows "Local demo identity — not SSO".
   6. The mock upstream app is mounted and reachable only in `local`/`test` and requires a service token.

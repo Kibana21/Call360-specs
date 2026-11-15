@@ -1,0 +1,5 @@
+# command: uv run call360 --env-file .env.test audit-verify
+# cwd: Call360-backend
+# date: 2026-11-15T08:35:55Z
+Audit chain OK: 15 events; head f48d5009d158dad46579e41805cfe07e66e5d0dc4828972a0d3f2601eaf17810
+# exit_code 0

@@ -1,0 +1,50 @@
+HEAD 08c139e (uncommitted work below)
+ M .env.example
+ M .env.test.example
+ M .gitleaks.toml
+ M Makefile
+ M app/api/auth.py
+ M app/api/health.py
+ M app/api/schemas.py
+ M app/cli.py
+ M app/core/middleware.py
+ M app/core/settings.py
+ M app/main.py
+ M app/security/authz.py
+ M app/security/models.py
+ M contracts/generated/openapi.json
+ M contracts/generated/openapi.sha256
+ M pyproject.toml
+ M scripts/db_setup.py
+ M scripts/e2e_setup.py
+ M scripts/secret_scan_selftest.py
+ M tests/conftest.py
+ M tests/test_authz_admin.py
+ M tests/test_config.py
+ M tests/test_db_isolation.py
+?? app/api/case_detail.py
+?? app/api/cases.py
+?? app/api/dashboard.py
+?? app/api/search.py
+?? app/db/ddl.py
+?? app/domain/
+?? app/security/scope.py
+?? migrations/versions/0003_party_policy_sale.py
+?? migrations/versions/0004_sbq_risk.py
+?? migrations/versions/0005_scripts_regulatory.py
+?? migrations/versions/0006_case_evidence.py
+?? migrations/versions/0007_governed_values.py
+?? migrations/versions/0008_market_scope.py
+?? scripts/make_data_keys.py
+?? tests/domain_support.py
+?? tests/test_case_detail.py
+?? tests/test_dashboard.py
+?? tests/test_domain_cases.py
+?? tests/test_domain_controls.py
+?? tests/test_domain_party.py
+?? tests/test_domain_risk.py
+?? tests/test_domain_schema.py
+?? tests/test_domain_scripts.py
+?? tests/test_domain_seed.py
+?? tests/test_register.py
+?? tests/test_scope.py

@@ -1,0 +1,73 @@
+# command: unset CALL360_ENV_FILE; uv run python -W ignore /private/tmp/claude-501/-Users-kartik-Documents-Work-Projects-Call360-Call360/319f0d6f-0c72-42d2-9955-89029e1195f7/scratchpad/dev_validate.py && uv run call360 audit-verify && uv run call360 seed-digest --allow-development
+# cwd: Call360-backend
+# date: 2026-11-15T09:44:03Z
+PASS  application tables = 54: 54
+PASS  head = 0007_governed_values
+PASS  policy = 230: 230
+PASS  sale_event = 250: 250
+PASS  callback_case = 250: 250
+PASS  party = 320: 320
+PASS  fsc_representative = 24: 24
+PASS  contact_attempt = 400: 400
+PASS  conversation_session = 80: 80
+PASS  survey_run = 80: 80
+PASS  finding = 24: 24
+PASS  risk_assessment = 290: 290
+PASS  script_version = 5: 5
+PASS  attempt distribution 0x10,1x135,2x60,3x35,4x10: {3: 35, 2: 60, 1: 135, 4: 10, 0: 10}
+PASS  12 golden fixtures present: 12
+PASS  CB-2026-10482 AWAITING_REVIEW, NO_ANSWER→BUSY→CONNECTED: ('AWAITING_REVIEW', ['NO_ANSWER', 'BUSY', 'CONNECTED'])
+PASS  CB-2026-10482 premium term 10 vs 5 MISMATCH, HIGH finding: ('10', '5', 'MISMATCH', 'HIGH')
+PASS  outcome categories (guard = 0): {'OPEN': 169, 'VERIFIED_COMPLIANT': 30, 'NOT_VERIFIED': 37, 'CANCELLED': 6, 'VERIFIED_WITH_FINDINGS': 8}
+PASS  CB-2026-10497 VERIFIED_COMPLIANT
+PASS  golden holds 10490/10491/10492/10498: {'CB-2026-10490': ['AWAITING_SCRIPT_ASSIGNMENT'], 'CB-2026-10491': ['NO_ELIGIBLE_CONTACT'], 'CB-2026-10492': ['RISK_TRIAGE'], 'CB-2026-10498': ['RISK_TRIAGE']}
+PASS  CB-2026-20001 is MY
+PASS  cancellation fixtures 10494/10495/10496: {'CB-2026-10494': (True, True), 'CB-2026-10495': (True, False), 'CB-2026-10496': (False, True)}
+PASS  all business rows synthetic
+PASS  key ids match seed manifest: {'hmac': '1ed3fddc7711', 'encryption': 'c37d3b1fd02c'}
+PASS  content digest matches seed manifest: 2ead19f36e09
+PASS  principals preserved = 2
+PASS  market version 1 preserved (SG, MY)
+PASS  4 feature flags, all disabled
+PASS  9 governed lists ACTIVE v1
+PASS  pre-deployment audit head preserved (5th event): 289d40295f09
+PASS  new audit events = 9 activations + 12 holds + 2 releases + 1 manifest: {'CASE.HOLD_RELEASED': 2, 'CASE.HOLD_PLACED': 12, 'SEED.MANIFEST': 1, 'CONFIG.CODE_LIST_VERSION_ACTIVATED': 9}
+PASS  audit chain verifies: 29 events; head 8353c3ecac8c
+RESULT: ALL PASS
+Audit chain OK: 29 events; head 8353c3ecac8c5e095b93e2ca66a3cf2c755b2d7b6bfb7e4f79b4d3bba29cd669
+call360: digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de
+  party                            320
+  contact_method                   589
+  policy                           230
+  policy_party_role                1028
+  fsc_representative               24
+  sale_event                       250
+  policy_fact_snapshot             250
+  external_reference               824
+  risk_rule_set_version            2
+  risk_assessment                  290
+  risk_factor_result               490
+  script_family                    2
+  script_module                    5
+  script_version                   5
+  script_section                   20
+  question_bank_item               13
+  question_revision                13
+  module_question                  17
+  script_assignment_rule_version   4
+  script_assignment                245
+  regulatory_reference             2
+  control                          5
+  control_mapping                  11
+  callback_case                    250
+  case_hold                        12
+  case_contact_selection           364
+  contact_attempt                  400
+  conversation_session             80
+  survey_run                       80
+  question_execution               533
+  answer_observation               533
+  rule_evaluation                  417
+  finding                          24
+  case_event                       1607
+# exit_code 0

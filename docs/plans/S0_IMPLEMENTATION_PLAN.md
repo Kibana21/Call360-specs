@@ -56,7 +56,7 @@ CP0.1B builds the 6 tables with Build = CP0.1B (packages B-1 and B-2). It is **n
 | Package | Content | Must be accepted before |
 |---|---|---|
 | CP0.1B-1 Configuration foundation | Tables `code_list`, `code_list_version`, `code_value`, `feature_flag`, `feature_flag_change`; API-022…025; route `/admin/config`. Requirements ADMIN-004, RISK-006 (mechanism). Tests BE-CFG-01, FE-01 (config) | CP0.2, whose seed uses the governed code lists |
-| CP0.1B-2 Market scope | Table `group_scope_mapping`; scope resolution in `AccessContext`; SQL scope predicates; 404-plus-audit on out-of-scope objects. Requirements IAM-004 (scope half), SEARCH-006 (mechanism). Tests BE-IAM-02 (scope half), BE-SEC-02 (mechanism, against test fixtures). **Market-scoped authorization must be implemented and tested before any market-scoped business record is exposed through an API** | CP0.3 |
+| CP0.1B-2 Market scope (Singapore-only, D-39) | Table `group_scope_mapping` seeded `LOCAL_ADMIN`→SG, `LOCAL_USER_SG`→SG (no MY mapping); enabled-markets setting `{SG}`; scope resolution in `AccessContext` (mapped ∩ enabled); SQL scope predicates; 404-plus-audit on out-of-scope objects, including `MY` IDs for ADMIN. No scope-administration UI or API (deferred). Requirements IAM-004 (scope half), SEARCH-006 (mechanism). Tests BE-IAM-02 (scope half), BE-SEC-02 (mechanism, against `CB-2026-20001` and other MY fixtures). **Market-scoped authorization must be implemented and tested before any market-scoped business record is exposed through an API** | CP0.3 |
 | CP0.1B-3 Administration completion | API-007, 009, 011, 013, 014…020, 026; routes `/admin/groups`, `/admin/sessions`, `/admin/system`. Requirements IAM-010 (groups and membership UI), ADMIN-001 (complete), ADMIN-002 (group and mapping history). Tests BE-AUD-04 (groups and mappings), BE-AUTH-06 (admin session revoke), E2E-13 (complete), FE-01 (admin screens) | CP0.6 |
 
 Until CP0.1B-2 is accepted, a principal has no market scope, so any scoped query fails closed. No business data exists before CP0.2 anyway.
@@ -69,7 +69,31 @@ Until CP0.1B-2 is accepted, a principal has no market scope, so any scoped query
 | Depends on | CP0.1A accepted; CP0.1B-1 accepted; "IMPLEMENT CP0.2" |
 | Requirements | CASE-001, CASE-002, SUR-001, PARTY-001…004 (data), POL-001…003, POL-005, POL-006, RISK-001…004, RISK-006, SCR-001, SCR-002, SCR-005, ING-003, REG-001, REG-002, GOV-001 (data), APP-003 (data) |
 | Deliverables | Migrations for the 34 tables with Build = CP0.2 (S0_DATA_MODEL §4.6; `transcript_segment`, `media_asset`, `risk_override` and `review_decision` are **not** created), with enums, constraints, immutability triggers, session pins and the hold check; governed code lists seeded; synthetic script families, modules, questions and assignment rules; synthetic risk rule set; seed generator per §6 (`make seed`, deterministic) |
-| Acceptance tests | BE-DATA-01…12, BE-API-02 (model level), SCAN-01 |
+| Migrations (D-29) | `0003_party_policy_sale` (8 tables), `0004_sbq_risk` (3), `0005_scripts_regulatory` (12), `0006_case_evidence` (11), `0007_governed_values` (reference data only); assignment in S0_DATA_MODEL §4.6 |
+| Specification basis | Aligned 2026-11-15 (D-29…D-38): code-list references (S0_DATA_MODEL §2.1), transitions and historical pin validity (ADR-0005 §3–4), governed version-1 values and synthetic contact identifiers (S0_DATA_MODEL §6.1), exact seed volumes (§6.2), data-protection keys (S0_IDENTITY_ACCESS_DESIGN §10) |
+| Separate approvals inside `IMPLEMENT CP0.2` | (1) Generating and installing the two local data-protection keys (D-34), never printed or committed. (2) Migrating and seeding the development schema `call360`; until then only `call360_test` is migrated and seeded, by the guarded harness |
+| Not in CP0.2 | Any API, UI or OpenAPI change; scope resolution (CP0.1B-2); intake (CP0.4); recordings, transcripts, review decisions and voice |
+| Acceptance tests | BE-DATA-01…13, BE-API-02 (model level), SCAN-01, plus regression of all CP0.1A and CP0.1B-1 tests |
+| Acceptance record | `docs/acceptance/CP0.2.md` (AC-0.2-01…11) |
+
+### Vertical-slice delivery of CP0.3 and CP0.5 (D-40, owner-approved 2026-11-15)
+
+CP0.3 (read APIs) and CP0.5 (screens) are delivered together as vertical slices. Each slice includes:
+- the backend APIs, with scope, permissions and tests;
+- the regenerated OpenAPI and typed client;
+- the screen, following the mockup, with all five states;
+- a Playwright run against the real stack.
+
+Each slice needs its own `IMPLEMENT` and its own acceptance. **CP0.4 (intake) follows the slices**, so the earlier "CP0.5 depends on CP0.4" ordering no longer applies. Requirements, data model, API catalogue rows (API-0xx IDs and permissions) and routes are unchanged.
+
+| Slice | Content (catalogue IDs, routes) | Status |
+|---|---|---|
+| F0 | CP0.1B-2 reduced by D-39: `group_scope_mapping` (migration `0008_market_scope`) seeded with SG only; enabled markets `{SG}`; scope resolution; uniform audited 404 | **Accepted** 2026-11-15 |
+| F1 | Overview: API-030…034; route `/` | **Accepted** 2026-11-15 |
+| F2 | Work Queues and search: API-076, 035/036, 070/071; `/queues`, `/calls`; Dashboard click-through. **Saved views (API-072…075, `saved_view`) deferred by owner** | **Accepted** 2026-11-15 |
+| F3 | Call Detail: API-037…047, 063; `/cases/:caseId` | **Accepted** 2026-11-15 (presentation refinements delivered with F4) |
+| F4 | Policy Explorer and Detail: API-050…055; `/policies`, `/policies/:id` | Implemented and verified 2026-11-15; awaiting owner acceptance |
+| F5 | SBQ Risk Workbench: API-056…058; `/risk-assessments` | Not started |
 
 ### CP0.3 — Read APIs, KPIs, search, saved views, queues
 

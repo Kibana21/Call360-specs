@@ -1,0 +1,25 @@
+== npm run lint
+> call360-frontend@0.1.0 lint
+> eslint .
+== npm run typecheck
+> call360-frontend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+== npm run test
+ Test Files  8 passed (8)
+      Tests  55 passed (55)
+   Start at  23:38:02
+   Duration  1.34s (transform 990ms, setup 457ms, import 1.81s, tests 2.38s, environment 2.61s)
+== npm run api:check
+> call360-frontend@0.1.0 api:check
+> node scripts/api-generate.mjs --check
+api:check OK (openapi d8d118b32bed0a5ee7d70a238cbc9984d34b992104435a2bd26f23fedfd750bc)
+== npm run build
+dist/index.html                   0.64 kB │ gzip:   0.38 kB
+dist/assets/index-BN6uxMeF.css   30.67 kB │ gzip:   7.91 kB
+dist/assets/index-pbyHjp4L.js   374.72 kB │ gzip: 111.02 kB
+✓ built in 77ms
+== npm run secret-scan
+Scanning built bundle dist/
+[90m11:38PM[0m [32mINF[0m [1mscanned ~406045 bytes (406.05 KB) in 225ms[0m
+[90m11:38PM[0m [32mINF[0m [1mno leaks found[0m
+Secret scan clean

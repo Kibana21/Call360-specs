@@ -30,7 +30,7 @@ The security doc prefers a server-managed BFF/session-cookie pattern. Okta and M
 
 3. **CSRF:** a session-bound double-submit token (`X-CSRF-Token` header) plus an `Origin` allowlist on every unsafe method, including login. SameSite is defence in depth, not the control.
 
-4. **Authorization:** group → role (base `ADMIN`, `USER`) → fine-grained dotted permissions. Group → market-scope mappings provide object scope (`SG`, `MY` synthetic markets). Every route declares a permission (or appears in an explicit public allowlist). Every repository query applies scope predicates **before** results, counts, facets or suggestions.
+4. **Authorization:** group → role (base `ADMIN`, `USER`) → fine-grained dotted permissions. Group → market-scope mappings provide object scope (`SG`, `MY` synthetic markets), intersected with the enabled markets: **`{SG}` only in Stage 0 (D-39, 2026-11-15)**. Every route declares a permission (or appears in an explicit public allowlist). Every repository query applies scope predicates **before** results, counts, facets or suggestions.
 
 5. **Response semantics:**
    - A missing function permission returns **403**.

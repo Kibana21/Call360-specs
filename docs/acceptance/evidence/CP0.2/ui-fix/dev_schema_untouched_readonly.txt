@@ -1,0 +1,11 @@
+# command: uv run python -W ignore /private/tmp/claude-501/-Users-kartik-Documents-Work-Projects-Call360-Call360/319f0d6f-0c72-42d2-9955-89029e1195f7/scratchpad/dev_readonly.py && uv run call360 audit-verify
+# cwd: Call360-backend
+# date: 2026-11-15T09:25:40Z
+schema: call360
+alembic head: 0002_config_foundation
+tables: 21
+cp0.2 tables present: 0
+governed list versions: 0
+principals: 2
+Audit chain OK: 5 events; head 289d40295f090e986e148ec78a2f218c4177e6a5be5232b3f114093bf10edc72
+# exit_code 0

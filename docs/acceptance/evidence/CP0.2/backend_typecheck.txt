@@ -1,0 +1,5 @@
+# command: uv run mypy app
+# cwd: Call360-backend
+# date: 2026-11-15T08:35:52Z
+Success: no issues found in 40 source files
+# exit_code 0

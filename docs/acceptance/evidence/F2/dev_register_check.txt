@@ -1,0 +1,72 @@
+[ADMIN] register total=195 paged=195 unique=195 MY rows=0
+   drill KPI-01  numerator   card=70 register=70 OK
+   drill KPI-01  denominator card=71 register=71 OK
+   drill KPI-04  numerator   card=2 register=2 OK
+   drill KPI-04  denominator card=71 register=71 OK
+   drill KPI-05  numerator   card=3 register=3 OK
+   drill KPI-05  denominator card=71 register=71 OK
+   drill KPI-10  numerator   card=70 register=70 OK
+   drill KPI-10  denominator card=72 register=72 OK
+   drill KPI-12  numerator   card=9 register=9 OK
+   drill KPI-12  denominator card=33 register=33 OK
+   drill KPI-15  numerator   card=73 register=73 OK
+   drill KPI-15  denominator card=73 register=73 OK
+   drill KPI-16  numerator   card=0 register=0 OK
+   drill KPI-16  denominator card=2 register=2 OK
+   drill KPI-17  numerator   card=5 register=5 OK
+   drill KPI-17  denominator card=7 register=7 OK
+   drill KPI-18  numerator   card=2 register=2 OK
+   drill KPI-18  denominator card=73 register=73 OK
+   drill OPS-01  numerator   card=132 register=132 OK
+   drill OPS-02  numerator   card=3 register=3 OK
+   drill OPS-03  numerator   card=9 register=9 OK
+   drill OPS-04  numerator   card=16 register=16 OK
+   drill OPS-05  numerator   card=2 register=2 OK
+   drill OPS-05  denominator card=71 register=71 OK
+   drill OPS-07  numerator   card=2 register=2 OK
+   queue DUE_TODAY         count=3 register=3 OK
+   queue OVERDUE           count=68 register=68 OK
+   queue AWAITING_CALLBACK count=88 register=88 OK
+   queue ON_HOLD           count=9 register=9 OK
+   OPS-02=3 DUE_TODAY=3; OPS-03=9 ON_HOLD=9; OPS-01 overdue=68 OVERDUE=68
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   mismatches=0
+[USER] register total=195 paged=195 unique=195 MY rows=0
+   drill KPI-01  numerator   card=70 register=70 OK
+   drill KPI-01  denominator card=71 register=71 OK
+   drill KPI-04  numerator   card=2 register=2 OK
+   drill KPI-04  denominator card=71 register=71 OK
+   drill KPI-05  numerator   card=3 register=3 OK
+   drill KPI-05  denominator card=71 register=71 OK
+   drill KPI-10  numerator   card=70 register=70 OK
+   drill KPI-10  denominator card=72 register=72 OK
+   drill KPI-12  numerator   card=9 register=9 OK
+   drill KPI-12  denominator card=33 register=33 OK
+   drill KPI-15  numerator   card=73 register=73 OK
+   drill KPI-15  denominator card=73 register=73 OK
+   drill KPI-16  numerator   card=0 register=0 OK
+   drill KPI-16  denominator card=2 register=2 OK
+   drill KPI-17  numerator   card=5 register=5 OK
+   drill KPI-17  denominator card=7 register=7 OK
+   drill KPI-18  numerator   card=2 register=2 OK
+   drill KPI-18  denominator card=73 register=73 OK
+   drill OPS-01  numerator   card=132 register=132 OK
+   drill OPS-02  numerator   card=3 register=3 OK
+   drill OPS-03  numerator   card=9 register=9 OK
+   drill OPS-04  numerator   card=16 register=16 OK
+   drill OPS-05  numerator   card=2 register=2 OK
+   drill OPS-05  denominator card=71 register=71 OK
+   drill OPS-07  numerator   card=2 register=2 OK
+   queue DUE_TODAY         count=3 register=3 OK
+   queue OVERDUE           count=68 register=68 OK
+   queue AWAITING_CALLBACK count=88 register=88 OK
+   queue ON_HOLD           count=9 register=9 OK
+   OPS-02=3 DUE_TODAY=3; OPS-03=9 ON_HOLD=9; OPS-01 overdue=68 OVERDUE=68
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   MY probe (term hashed in logs) search=0 suggest=0 facets=0
+   mismatches=0
