@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.3.0",
+  "is_synthetic": true,
+  "source_system": "MOCK_POLICY_SOURCE",
+  "source_event_id": "MOCK-SALE-1001",
+  "source_observed_at": "2026-11-15T02:00:00Z",
+  "sale": {
+    "external_sale_id": "SALE-1001",
+    "event_type": "NEW_BUSINESS",
+    "sold_at": "2026-11-10T05:00:00Z",
+    "market": "SG",
+    "selling_channel": "FACE_TO_FACE",
+    "selling_location": "BRANCH",
+    "fsc_external_ref": "SYNTH-FSC-42"
+  },
+  "policy": {
+    "external_policy_id": "SYNTH-POL-1001",
+    "product_family": "INVESTMENT_LINKED",
+    "product_subtype": "ILP",
+    "premium_amount": "1250.00",
+    "premium_currency": "SGD",
+    "premium_frequency": "MONTHLY",
+    "premium_term_years": 10,
+    "status": "IN_FORCE"
+  },
+  "parties": [
+    {
+      "external_party_id": "SYNTH-PARTY-001",
+      "display_name": "Example Policyholder A",
+      "roles": ["POLICY_OWNER", "INSURED", "AUTHORIZED_RESPONDENT"],
+      "contact_methods": [
+        {
+          "external_contact_id": "SYNTH-CONTACT-1001",
+          "type": "PHONE",
+          "value": "+6500001001",
+          "call_eligible": true,
+          "verified_source": "MOCK_POLICY_SOURCE"
+        }
+      ]
+    }
+  ],
+  "callback_selection_risk": {
+    "source_type": "SOURCE_ASSESSED",
+    "external_assessment_id": "SYNTH-RISK-001",
+    "band": "ELEVATED",
+    "assessment_rule_version": "SYNTH-RULE-2026-01",
+    "factors": [
+      {"code": "ILP_PRODUCT", "value": true},
+      {"code": "PREMIUM_BAND", "value": "EXAMPLE_HIGH"},
+      {"code": "SALE_CHANNEL", "value": "FACE_TO_FACE"}
+    ],
+    "rationale": "Synthetic demonstration only; no AIA-approved threshold implied"
+  }
+}

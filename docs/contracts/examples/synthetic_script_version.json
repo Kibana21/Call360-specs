@@ -1,0 +1,48 @@
+{
+  "schema_version": "0.3.0",
+  "is_synthetic": true,
+  "script_family_code": "POST_SALE_VERIFICATION",
+  "version": "0.3.1-synthetic",
+  "status": "DRAFT",
+  "market": "SG",
+  "language": "en-SG",
+  "applicability": {
+    "product_subtypes": ["ILP"],
+    "risk_bands": ["STANDARD", "ELEVATED"],
+    "sale_channels": ["FACE_TO_FACE"]
+  },
+  "module_order": ["COMMON_SALES_CONDUCT", "ILP_FINANCIAL_REVIEW"],
+  "questions": [
+    {
+      "question_code": "FSC_REPRESENTATION",
+      "revision": 1,
+      "module": "COMMON_SALES_CONDUCT",
+      "purpose": "Confirm whether representative disclosed company relationship",
+      "spoken_text": "Did the financial services consultant explain which company they represented?",
+      "answer_schema": {"type": "YES_NO_WITH_NARRATIVE"},
+      "expected_answer_policy": {"type": "EXACT_BOOLEAN", "expected": "YES"},
+      "mandatory": true,
+      "speech_mode": "CONVERSATIONAL",
+      "on_contradiction": "HUMAN_REVIEW",
+      "source_status": "SYNTHETIC_UNAPPROVED"
+    },
+    {
+      "question_code": "FINANCIAL_REVIEW",
+      "revision": 1,
+      "module": "ILP_FINANCIAL_REVIEW",
+      "purpose": "Collect customer recollection of discussion of financial circumstances",
+      "spoken_text": "Did the consultant ask about your financial circumstances and what you could afford?",
+      "answer_schema": {"type": "YES_NO_WITH_NARRATIVE"},
+      "expected_answer_policy": {"type": "COLLECT_ONLY"},
+      "mandatory": true,
+      "speech_mode": "CONVERSATIONAL",
+      "on_unclear": "APPROVED_CLARIFICATION_OR_REVIEW",
+      "source_status": "SYNTHETIC_UNAPPROVED"
+    }
+  ],
+  "publish_requirements": {
+    "independent_checker": true,
+    "effective_date_review": true,
+    "regulated_source_review": true
+  }
+}

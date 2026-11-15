@@ -1,0 +1,44 @@
+{
+  "schema_version": "0.3.0",
+  "is_synthetic": true,
+  "callback_case_id": "SYNTH-CB-042",
+  "contact_attempt_id": "SYNTH-ATT-088",
+  "conversation_session_id": "SYNTH-SESSION-088",
+  "survey_run_id": "SYNTH-RUN-088",
+  "script_version_id": "SYNTH-SCRIPT-0.3.1",
+  "script_manifest_checksum": "SHA256_FILLED_BY_PUBLISH_STEP",
+  "question_execution_id": "SYNTH-QEXEC-203",
+  "question_code": "PREMIUM_TERM",
+  "question_revision": 2,
+  "delivery": {
+    "state": "DELIVERED",
+    "delivery_mode": "CONTROLLED_TTS",
+    "event_ids": ["SYNTH-EV-1000"],
+    "completed_at": "2026-11-15T03:04:10Z"
+  },
+  "observation": {
+    "raw_customer_utterance": "I thought five years",
+    "normalized_value": 5,
+    "unit": "YEARS",
+    "answer_state": "ANSWERED",
+    "transcript_segment_ids": ["SYNTH-TX-32"],
+    "audio_time_start_ms": 94000,
+    "audio_time_end_ms": 97800,
+    "timestamp_precision": "ESTIMATED",
+    "model_extraction": {
+      "model_id": "SYNTH-MODEL",
+      "model_version": "TEST-ONLY",
+      "extraction_status": "VALIDATED_SCHEMA",
+      "confidence_qualifier": "NOT_CALIBRATED"
+    }
+  },
+  "policy_fact_snapshot": {"premium_term_years": 10, "source": "SYNTH-POL-1001"},
+  "rule_evaluation": {
+    "rule_id": "SYNTH-RULE-PREMIUM-TERM",
+    "rule_version": "1",
+    "outcome": "DISCREPANCY",
+    "reason_code": "CUSTOMER_TERM_DIFFERS_FROM_POLICY_FACT"
+  },
+  "human_review": {"status": "REQUIRED", "decision": null},
+  "audit_actor_id": "SYNTH-SYSTEM-EXTRACTOR"
+}

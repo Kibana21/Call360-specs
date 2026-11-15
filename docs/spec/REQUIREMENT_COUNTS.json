@@ -1,0 +1,18 @@
+{
+  "version": "0.3",
+  "baseline_count": 99,
+  "new_count": 138,
+  "total_count": 237,
+  "categories": {
+    "PARTY": 10,
+    "POL": 12,
+    "RISK": 14,
+    "SCR": 22,
+    "ING": 11,
+    "SEARCH": 14,
+    "IAM": 18,
+    "SEC": 17,
+    "REG": 10,
+    "ADMIN": 10
+  }
+}
