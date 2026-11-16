@@ -1,0 +1,7 @@
+### Gate run 1 (2026-11-16T16:40:16Z) — call360_test reset and reseeded by make test-seed and by the Playwright global setup; call360 never reset
+$ make test-seed
+3 passed, 23 deselected, 1 warning in 9.62s
+$ CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -q
+313 passed, 1 warning in 127.44s (0:02:07)
+$ npx playwright test
+  16 passed (1.3m)

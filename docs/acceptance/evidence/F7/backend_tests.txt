@@ -1,0 +1,4 @@
+$ CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -q   (2026-11-16T15:48:17Z)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+299 passed, 1 warning in 113.86s (0:01:53)

@@ -1,0 +1,9 @@
+# Development API server log (514 lines) scanned for secret material (counts only; nothing printed)
+$argon2: 0
+password_hash: 0
+refresh_token=: 0
+c360_rt: 0
+BEGIN .*PRIVATE KEY: 0
+SYN-TEL-SG-[0-9]{6}: 0
+@example\.invalid: 0
+Authorization:: 0

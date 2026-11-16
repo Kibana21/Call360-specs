@@ -1,0 +1,5 @@
+# development schema, read-only checks
+Development schema call360 at 0010_password_change_required
+digest 2ead19f36e09bdf3 manifest 2ead19f36e09bdf3 MATCH
+$ make audit-verify
+Audit chain OK: 2604 events; head 2182b58d04a04716500427d16899887b755044b5705f4d62894256cbef412a30

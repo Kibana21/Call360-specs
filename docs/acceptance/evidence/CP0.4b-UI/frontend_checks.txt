@@ -1,0 +1,26 @@
+
+> call360-frontend@0.1.0 lint
+> eslint .
+
+
+> call360-frontend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+ Test Files  11 passed (11)
+      Tests  70 passed (70)
+   Start at  23:13:08
+   Duration  1.56s (transform 1.67s, setup 880ms, import 2.96s, tests 3.42s, environment 4.84s)
+
+
+> call360-frontend@0.1.0 api:check
+> node scripts/api-generate.mjs --check
+
+api:check OK (openapi 9574dbb18d4bbae5a1bc1ed699420ede6c4734c430592770ab52c69606e53b5b)
+dist/assets/index-D3OaSev-.css   32.42 kB │ gzip:   8.27 kB
+dist/assets/index-CimnyMST.js   437.85 kB │ gzip: 125.56 kB
+
+✓ built in 65ms
+[90m11:13PM[0m [32mINF[0m [1mscanned ~470924 bytes (470.92 KB) in 245ms[0m
+[90m11:13PM[0m [32mINF[0m [1mno leaks found[0m
+Secret scan clean

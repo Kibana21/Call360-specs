@@ -1,0 +1,16 @@
+$ CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -q   (2026-11-16T18:01:27Z)
+325 passed, 1 warning in 135.03s (0:02:15)
+$ voice tests (-v)
+tests/test_voice.py::test_vad_and_levels PASSED                          [  8%]
+tests/test_voice.py::test_mock_barge_in_clears_playback_and_responds_again PASSED [ 16%]
+tests/test_voice.py::test_mock_speaks_only_the_fixed_message PASSED      [ 25%]
+tests/test_voice.py::test_session_creation_rules PASSED                  [ 33%]
+tests/test_voice.py::test_websocket_full_duplex_barge_in_and_safe_stop PASSED [ 41%]
+tests/test_voice.py::test_websocket_guards PASSED                        [ 50%]
+tests/test_voice_sessions.py::test_start_stop_is_persisted_with_pins_ordered_events_and_case_timeline PASSED [ 58%]
+tests/test_voice_sessions.py::test_network_loss_resume_then_abandonment PASSED [ 66%]
+tests/test_voice_sessions.py::test_never_connected_and_backend_restart_are_finalised PASSED [ 75%]
+tests/test_voice_sessions.py::test_duplicate_and_out_of_order_client_events PASSED [ 83%]
+tests/test_voice_sessions.py::test_idle_timeout_and_live_rest_stop PASSED [ 91%]
+tests/test_voice_sessions.py::test_ownership_scope_and_permissions PASSED [100%]
+======================== 12 passed, 1 warning in 9.80s =========================

@@ -1,0 +1,5 @@
+$ CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -q   (2026-11-16T15:11:13Z)
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+286 passed, 1 warning in 110.27s (0:01:50)

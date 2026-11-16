@@ -1,0 +1,14 @@
+# S1-B demonstration in the owner's Chrome (development stack, 2026-11-17, Demo Administrator session)
+Case CB-2026-10048 → Voice Studio. Microphone: the disclosed DEMO-ONLY synthetic microphone (tone bursts at 3.5–4.7 s
+and 9.0–10.2 s) injected into the page; same capture, WebSocket, provider and playback path as a real microphone.
+
+Start → live session persisted as AT-2026-10048-3 / SS-2026-10048-3 (record shown "Live" while running)
+Two interruptions, three mock responses → Stop → "Session ended (completed) … saved with its event timeline"
+Backend restart: the development API process was stopped (TaskStop) and started again (`make dev`); readiness OK.
+Browser refresh → Voice Studio history: AT-2026-10048-3 · Completed · Stopped by the user · 2 interruptions · 11 events.
+Call Detail → contact history "Attempt 3 · Ended · Browser voice test" → "Browser voice session · AT-2026-10048-3":
+  #1 Session requested · #2 Connected · session pins fixed · #3 Mock voice started speaking (response 1)
+  #4 Interrupted by the caller — playback cleared (response 1) · #5 Caller finished speaking
+  #6 Mock voice started speaking (response 2) · #7 Interrupted — playback cleared (response 2) · #8 Caller finished speaking
+  #9 Mock voice started speaking (response 3) · #10 Stop requested (client) · #11 Session ended · Stopped by the user
+Case afterwards: unchanged, not verified. Development seed digest still matches; audit chain verified (2616 events).

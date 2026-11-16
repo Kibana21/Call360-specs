@@ -219,6 +219,7 @@
   6. commit with reason and source reference (API-085), which navigates to Policy Detail and the new case's Call Detail.
 - **Run history:** list of runs with per-item detail.
 - **Deviation:** the mockup's "Simulate API sync" becomes a real mock sync.
+- **CP0.4b portal (D-42):** the Manual Intake form (selects from API-087), preview, submit and run history are built first, on one page with a sticky preview/submit panel instead of a step-by-step wizard; mock sync, corrections and saved drafts are deferred. Existing-policy top-ups open from Policy Detail ("Add a sale") prefilled from the stored policy.
 
 ### Administration (ADMIN): IAM-010, ADMIN-001…004
 

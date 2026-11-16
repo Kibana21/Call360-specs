@@ -1,8 +1,8 @@
 # Call360 — Session handoff
 
 **Written:** 2026-11-15, at the end of a Claude Code session.
-**Updated:** 2026-11-16, after CP0.4a implementation (awaiting owner acceptance).
-**Authorization:** F0–F5 **ACCEPTED**. CP0.4a (`IMPLEMENT CP0.4a`, split approved as D-41) **implemented and verified 2026-11-16, awaiting owner acceptance**. Not authorised: CP0.4b, saved views, B-3, commits, pushes. No real customer data.
+**Updated:** 2026-11-17, after S1-B implementation (awaiting owner acceptance); Stage 0 governance acceptance pending.
+**Authorization:** F0–F5 **ACCEPTED**. CP0.4a (`IMPLEMENT CP0.4a`, split approved as D-41) **ACCEPTED 2026-11-16** with its documented limitations. CP0.4b Manual Intake portal (D-42) **ACCEPTED 2026-11-16** (UI portion only; CP0.4b not complete); the rest of CP0.4b (mock upstream, scheduling, corrections, saved drafts, Admin Integrations) is deferred and not authorised. Not authorised: CP0.4b, saved views, B-3, commits, pushes. No real customer data.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Each checkpoint is implemented and accepted before the next one starts. Checkpoints never advance automatically.
 **Secrets:** this document contains none. Credentials live only in gitignored local files (§4).
 
@@ -21,8 +21,13 @@
 | **F4** Policy Explorer | **ACCEPTED** 2026-11-15 | §9 below, `evidence/F4/` |
 | **F5** SBQ Risk Workbench | **ACCEPTED** 2026-11-16 | §10 below, `evidence/F5/` |
 | **F2** Work Queues and search | **ACCEPTED** 2026-11-15 (AWAITING_CALLBACK queue definition approved; saved views, register grain modes, nonessential search filters deferred) | §7 below, `evidence/F2/` |
-| **CP0.4a** Insurance transaction intake | **IMPLEMENTED AND VERIFIED** 2026-11-16, awaiting owner acceptance | §11 below, `evidence/CP0.4a/` |
-| CP0.4b, CP0.1B-3, CP0.6 | NOT_STARTED | `docs/plans/S0_IMPLEMENTATION_PLAN.md` |
+| **CP0.4a** Insurance transaction intake | **ACCEPTED** 2026-11-16 (limitations accepted) | §11 below, `evidence/CP0.4a/` |
+| **CP0.4b-UI** Manual Intake portal | **ACCEPTED** 2026-11-16 (UI portion only; single-page form accepted) | §12 below, `evidence/CP0.4b-UI/` |
+| **F6** Script Studio and Assignment Rules (read-only) | **ACCEPTED** 2026-11-16 (limitations accepted) | §13 below, `evidence/F6/` |
+| **F7** Review Workbench and Voice Studio (read-only) | **ACCEPTED** 2026-11-16 (limitations accepted) | §14 below, `evidence/F7/` |
+| **CP0.1B-3** Administration completion | **ACCEPTED** 2026-11-17 (limitations accepted) | §15 below, `evidence/CP0.1B-3/` |
+| **CP0.6** Integrated Stage 0 verification | **ACCEPTED (technical)** 2026-11-17; Stage 0 governance acceptance PENDING (SEC-008, approvers) | `S0.md` "CP0.6 integrated verification", `evidence/CP0.6/` |
+| CP0.4b remainder | NOT_STARTED (deferred) | `docs/plans/S0_IMPLEMENTATION_PLAN.md` |
 
 Stage 0 overview: `docs/acceptance/S0.md`.
 
@@ -179,7 +184,7 @@ Dev servers may still be running from the review: stop them with `lsof -ti tcp:8
 - Frontend: `src/features/risk/RiskWorkbenchPage.tsx` (+ tests): separation explainer; sale-grain tiles (High/Medium/Low effective, Source ≠ rule) that filter the register; assessment-population bars; factor vocabulary; URL-held filters; drawer `?assessment=` (dialog, Escape/focus) with comparison, factor table, record, history and Policy/Call Detail links. Links in: nav, Overview risk card ("Assessments →", case grain stays on the Overview), Call Detail context risk card, Policy Detail risk tab. DV-18.
 - Seed facts: 229 SG assessments (74 rule-assessed, 155 source-assigned; 15 SUPERSEDED UNKNOWN), 195 SG sales (193 with a FINAL assessment, 2 unassessed), 3 conflicting sales (SALE-SG-000167 LOW→HIGH, -000168 and -000169 LOW→MEDIUM). No PROVISIONAL status, no stored score or weights, no MANUAL origin exist in the seed; the UI labels them if they appear.
 
-## 11. CP0.4a Insurance transaction intake — implemented and verified (awaiting acceptance)
+## 11. CP0.4a Insurance transaction intake — ACCEPTED 2026-11-16
 
 **As built (2026-11-16; evidence `docs/acceptance/evidence/CP0.4a/`; OpenAPI `d3aabc102cbe7a2730fbb166e0515d8284eb882e8e125b83fb9f57c39d49fcd9`; migration `0009_intake` on `call360_test` and `call360`):**
 - Backend: `migrations/versions/0009_intake.py` (insert-only `intake_run`, `intake_item`, `field_change`; FK from every provenance table's `intake_item_id`; downgrade refuses once runs exist); `app/domain/intake.py` (guards, validation, conflicts, party resolution, eligibility, holds, single-transaction commit, `describe` outcome); `app/api/intake.py`: API-080 `GET /intake/sources`, API-084 `POST /intake/manual/preview` (persists only an audit event), API-085 `POST /intake/manual` (`Idempotency-Key` required; replay → 200 `replayed`; key reuse → 409), API-082/083 runs. Errors: `INGEST_VALIDATION_FAILED` (field locations and codes, never values), `INGEST_NON_SYNTHETIC_REJECTED`, `INGEST_CONTACT_NOT_SYNTHETIC`, `INGEST_MARKET_NOT_IN_SCOPE`, `INGEST_DUPLICATE_SOURCE_EVENT`, `INGEST_SALE_REF_EXISTS`, `INGEST_POLICY_FIELDS_DIFFER`, `INGEST_DUPLICATE_NEW_BUSINESS`, `IDEMPOTENCY_KEY_REQUIRED`/`_REUSED`. Audit: `INTAKE.PREVIEWED`, `INTAKE.COMMITTED`, `INTAKE.REJECTED`, `INTAKE.REPLAYED`, `CASE.HOLD_PLACED` (payload digest, references and codes only).
@@ -216,3 +221,60 @@ Dev servers may still be running from the review: stop them with `lsof -ti tcp:8
 **No new migration is expected.** The `case.read`, `queue.read` and `search.use` permissions already exist for ADMIN and USER.
 
 Then: F3 Call Detail → F4 Policy Explorer → F5 SBQ Risk Workbench → CP0.4 intake → CP0.1B-3 → CP0.6.
+
+## 12. CP0.4b Manual Intake portal — ACCEPTED 2026-11-16 (UI portion only)
+
+**As built (2026-11-16; evidence `docs/acceptance/evidence/CP0.4b-UI/`; OpenAPI `9574dbb18d4bbae5a1bc1ed699420ede6c4734c430592770ab52c69606e53b5b`; no migration, head stays `0009_intake`):**
+
+- **Backend:** API-087 `GET /api/v1/intake/reference` (`intake.read`, caller's market) in `app/api/intake.py`, schemas `IntakeReference` and options in `app/api/schemas.py`. Values come from the validator's own sources (`SYNTHETIC_PRODUCTS`, active `fsc_representative`, governed `sbq_risk_band` and `synthetic_contact_ranges`, request-model `Literal`s and the priority bounds). Tests: `test_reference_data_lists_what_the_validator_accepts`, permission inventory (6 intake routes).
+- **Frontend:** `src/features/intake/` — `IntakePage` (sources, tabs), `ManualIntake` (form; preview; preview-gated submit with a kept `Idempotency-Key`), `Outcome` (server outcome and links), `IntakeHistory` (runs and run drawer), `model.ts` (payload shaping, SGT↔ISO, server `loc` → field mapping). Route `/intake` (`intake.read`); nav item enabled for ADMIN. Links: Overview "New callback case", Policy Explorer "Manual intake", Policy Detail "Add a sale" (`/intake?policy=…`).
+- **Tests:** unit `model.test.ts`, `IntakePage.test.tsx`; Playwright `e2e/cp04b-checks.ts` (called from `overview.spec.ts`; journey timeout 120 s).
+- **Deferred:** mock upstream and scheduling, corrections, saved drafts, Admin Integrations.
+
+## 13. F6 Script Studio and Assignment Rules (read-only) — ACCEPTED 2026-11-16
+
+**As built (2026-11-16; evidence `docs/acceptance/evidence/F6/`; OpenAPI `cf31afd86a5630e062cd67d9965b5d3fbf1b7e8af109b45c7ad3108018a31bb6`; no migration):**
+
+- **Backend:** `app/api/scripts.py` — API-060 `GET /scripts` (filters: status, language, effective date, product family, risk band, channel, text; facets; product/band/channel match module *content conditions*, no case is evaluated), API-061 family, API-062 versions, API-064 rule versions with target pin and assigned cases (count plus latest 10), API-065 regulatory references, API-066 controls with in-scope question links. All `script.read`, market-scoped (rules via the target family's market). Fixes in scope: API-063 returned 500 for a DRAFT version (manifest SHA is null until frozen) and now filters regulatory references by market; `ScriptPin` and `ScriptVersionDetail` gained `script_family_id` (additive) for deep links. Tests: `tests/test_scripts.py` (8), permission inventory.
+- **Frontend:** `src/features/scripts/` — `ScriptLibraryPage`, `ScriptFamilyPage` (version history, header with manifest, structure navigator, question details with expected-answer policy and controls; regulatory references visually separate), `AssignmentRulesPage` (rule registry with readable predicates, targets and case links; `?rule=` opens one), `shared.tsx`. Nav items enabled; Call Detail "Assigned script" and "Why this script" link to the version and rule. Stage S2 actions visible and disabled.
+- **Tests:** unit `ScriptPages.test.tsx`; Playwright `e2e/f6-checks.ts` (both roles; journey Script Library → version → rule → Call Detail → back to the pinned version; a superseded rule's case keeps its version).
+- **Not built (later stages):** editing, publishing, assignment evaluation, hold release, voice, LLM question generation, compliance decisions.
+
+## 14. F7 Review Workbench and Voice Studio (read-only) — ACCEPTED 2026-11-16
+
+**As built (2026-11-16; evidence `docs/acceptance/evidence/F7/`; OpenAPI `2b31989b101f4aeacdab396a742a44d3f6a20f8b3adea1a65815c2699d7f7303`; no migration):**
+
+- **Backend:** `app/api/reviews.py` — API-077 `GET /review-queue` (`queue.read`; `queue=AWAITING_REVIEW|ALL`, `q`, `severity`, `status`, `category`, `origin`, `material`, `sort`, `limit`/`offset`; facets; materiality from the governed `finding_materiality_policy`; case SBQ band from the same facts as the case register; evidence from `evidence_refs` → `answer_observation`, `rule_evaluation`, question revision and controls). API-078 `GET /voice/preflight` (`voice.preflight.read`) lists capabilities, all `NOT_AVAILABLE`. Tests: `tests/test_reviews.py` (5), permission inventory.
+- **Frontend:** `src/features/reviews/ReviewWorkbenchPage.tsx` (tiles from API counts, queue tabs, filters/sort/paging in the URL, selected-finding detail with Call Detail and Policy Detail links, S3 actions disabled), `src/features/voice/VoiceStudioPage.tsx` (status and capability table, S1 controls disabled, no media access). Nav: every Stage 0 screen now enabled. Tests: unit `ReviewWorkbench.test.tsx`; Playwright `e2e/f7-checks.ts` (both roles).
+- **Not built (later stages):** finding adjudication, review decisions and maker-checker, evidence bundles, playback, voice sessions.
+
+## 15. CP0.1B-3 Administration completion — ACCEPTED 2026-11-17
+
+**As built (2026-11-17; evidence `docs/acceptance/evidence/CP0.1B-3/`; OpenAPI `ba7e04f87770866b5d5c80957baddff18a798fdcfc4477785f0511918a137ddc`; migration `0010_password_change_required` on `call360_test` and `call360`; dev seed digest unchanged):**
+
+- **What was missing:** API-007, 009, 011, 013, 014…020, 026 and the Groups, Sessions and System screens (tabs were disabled "Later in Stage 0"); users could only be created by the operator CLI.
+- **Backend:** `app/api/admin_access.py` (all the above); `local_credential.must_change_password` + enforcement in `app/security/authz.py` (`require()` → `403 PASSWORD_CHANGE_REQUIRED`; `/me` reports it); `create_local_account` records the reason and the Idempotency-Key digest in `ADMIN.USER_CREATED`; `AUTHENTICATED_ROUTES` adds `/auth/session` and `/me/password`. Audit actions: `ADMIN.USER_CREATED`, `ADMIN.PASSWORD_RESET`, `AUTH.PASSWORD_CHANGED`, `AUTH.PASSWORD_CHANGE_FAILED`, `ADMIN.MEMBERSHIP_ADDED`, `ADMIN.MEMBERSHIP_ENDED`, `ADMIN.GROUP_MAPPINGS_REPLACED`, `ADMIN.SESSION_REVOKED` (passwords never recorded). Tests: `tests/test_admin_access.py` (7), permission inventory.
+- **Frontend:** Users (New user, Reset password, one-time password panel), `GroupsPage`, `SessionsPage`, `SystemPage`, `account/PasswordPage` (forced after a one-time password; also in the user menu), `AdminLayout` tabs. Tests: `AdminCompletion.test.tsx`; Playwright `e2e/cp01b3-checks.ts` (create → first sign-in → forced change → portal; groups; revoke; reset; system; USER denial).
+- **Deferred, not blocking:** Admin Integrations (API-027) with the CP0.4b remainder; scope administration beyond the enabled market set (multi-market is a later decision, D-39); enterprise SSO (S5).
+
+## 16. CP0.6 Integrated Stage 0 verification — technical verification ACCEPTED 2026-11-17 (governance pending)
+
+- **Added tests only (no business functionality):** `Call360-backend/tests/test_stage0_acceptance.py` (all-route Singapore sweep and identical audited 404s, constraint/reference integrity, immutability and manifest reproduction, audit chain and secret-free audit, BE-SEC-04 injection sweep, seeded-only Malaysian audit references); `Call360-frontend/e2e/cp06-checks.ts` (one transaction through every module; seeded script and finding traceability; E2E-14 controlled empty/error/partial states). Matrix IDs added to existing tests (BE-API-04/05, BE-AUTH-10, BE-KPI-05, BE-SRCH-01/02/06, E2E-07/09/11).
+- **Gate:** run twice on freshly reset `call360_test` (`evidence/CP0.6/gate_run_*.txt`); development database never reset (read-only digest and audit checks).
+- **CP0.6-F1 resolved 2026-11-17:** `app/audit/scope.py` scopes the operational audit view (API-021, Administration 24 h count) to the caller's markets; out-of-scope business events hidden, access-denied events on out-of-scope records listed with the ID withheld (`scope_redacted`), seed manifest without dataset totals; ledger untouched (evidence `evidence/CP0.6-F1/`).
+- **Open (governance):** SEC-008 security review (handoff `docs/security/SEC-008_REVIEW_HANDOFF.md`); approver names and signatures (C-20).
+
+## 17. S1-A full-duplex browser voice POC — ACCEPTED 2026-11-17
+
+Record: `docs/acceptance/S1.md` (D-44 boundaries), evidence `docs/acceptance/evidence/S1-A/`. Migration head
+`0011_voice_session_permission` (test and development). OpenAPI `e45244f699ad9da410c8579f1f2f2151b112b1062daecc97cb4a38ff8db77dcd`.
+Not started: S1-B…S1-E, S2, S3. Owner real-microphone check passed. Outstanding: Stage 0 governance (SEC-008, approvers).
+
+## 18. S1-B voice-session persistence — implemented and verified (awaiting acceptance)
+
+Record: `docs/acceptance/S1.md` ("S1-B as built"), evidence `docs/acceptance/evidence/S1-B/`. Migration head
+`0012_session_event` (test and development). OpenAPI `f057e6dbd6c985c87200569ef6ed081f74a1e3e982c36dc6d54f6e4c4e3e54b3`. Code: `app/voice/store.py`
+(lifecycle, ledger, sweep), `app/api/voice.py` (resume, stop, status, list, persisted stream), lifespan recovery and
+sweeper in `app/main.py`; frontend `useVoiceSession.ts`, `VoiceSessionTimeline.tsx`, Voice Studio history, Call Detail.
+Not started: S1-C, S1-D, S1-E, S2, S3.
+

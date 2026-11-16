@@ -1,0 +1,20 @@
+# S1-A demonstration in the owner's Chrome (development stack, 2026-11-17, Demo Administrator session)
+Case CB-2026-10048 (seeded, Singapore, AWAITING_CALLBACK, pre-check passed) → Call Detail "Start browser call" → Voice Studio.
+Microphone: a disclosed DEMO-ONLY synthetic microphone (tone bursts at 3.5–4.7 s, 9.0–10.2 s, 13.5–14.5 s) injected into
+the page so no human voice or Chrome permission prompt was needed; it feeds the same capture worklet, WebSocket, server
+mock provider and playback path as a real microphone. The mock voice was audible through the computer's speakers.
+
+01:22:05 Connected to the mock voice provider
+01:22:05 Mock voice speaking (response 1)
+01:22:08 You interrupted — mock speech stopped and queued audio cleared · Your speech detected
+01:22:10 Mock voice speaking (response 2)
+01:22:14 You interrupted — mock speech stopped and queued audio cleared · Your speech detected
+01:22:16 Mock voice speaking (response 3)
+01:22:18 You interrupted — mock speech stopped and queued audio cleared · Your speech detected
+01:22:20 Mock voice speaking (response 4)
+Stop → "Session ended. You stopped the session. Nothing was recorded and nothing was verified."
+Audit: VOICE.SESSION_CREATED → VOICE.SESSION_CONNECTED → VOICE.SESSION_ENDED (STOPPED_BY_USER, barge_ins 3,
+identity_verification NOT_PERFORMED). Case afterwards: AWAITING_CALLBACK, verified_at null.
+
+Real-microphone check outstanding: the owner to repeat Start → speak → interrupt → speak → Stop with their own
+microphone (Chrome will ask to allow the microphone for http://127.0.0.1:5173). Headphones recommended.

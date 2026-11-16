@@ -1,0 +1,5 @@
+# development schema, read-only
+0012_session_event (head)
+Development schema call360 at 0012_session_event
+digest 2ead19f36e09bdf3 manifest 2ead19f36e09bdf3 MATCH
+Audit chain OK: 2616 events; head dedc23e9aa7749da15c9d515b364a6ee896e7a0538df24db999d703ed3792f4b

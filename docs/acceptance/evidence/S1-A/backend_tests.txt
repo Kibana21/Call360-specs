@@ -1,0 +1,10 @@
+$ CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -q   (2026-11-16T17:22:47Z)
+319 passed, 1 warning in 130.82s (0:02:10)
+$ CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -v tests/test_voice.py
+tests/test_voice.py::test_vad_and_levels PASSED                          [ 16%]
+tests/test_voice.py::test_mock_barge_in_clears_playback_and_responds_again PASSED [ 33%]
+tests/test_voice.py::test_mock_speaks_only_the_fixed_message PASSED      [ 50%]
+tests/test_voice.py::test_session_creation_rules PASSED                  [ 66%]
+tests/test_voice.py::test_websocket_full_duplex_barge_in_and_safe_stop PASSED [ 83%]
+tests/test_voice.py::test_websocket_guards PASSED                        [100%]
+========================= 6 passed, 1 warning in 6.18s =========================

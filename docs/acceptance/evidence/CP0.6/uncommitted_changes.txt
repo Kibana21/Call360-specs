@@ -1,0 +1,74 @@
+== Call360-specs main 863b8d4
+ M docs/acceptance/S0.md
+ M docs/contracts/S0_API_CATALOGUE.md
+ M docs/data/S0_DATA_MODEL.md
+ M docs/plans/S0_IMPLEMENTATION_PLAN.md
+ M docs/plans/SESSION_HANDOFF.md
+ M docs/product/S0_SCREEN_SPEC.md
+?? docs/acceptance/evidence/CP0.1B-3/
+?? docs/acceptance/evidence/CP0.4b-UI/
+?? docs/acceptance/evidence/CP0.6/
+?? docs/acceptance/evidence/F6/
+?? docs/acceptance/evidence/F7/
+== Call360-backend main a69f53a
+ M app/api/case_detail.py
+ M app/api/deps.py
+ M app/api/intake.py
+ M app/api/me.py
+ M app/api/schemas.py
+ M app/main.py
+ M app/security/authz.py
+ M app/security/identity.py
+ M app/security/models.py
+ M contracts/generated/openapi.json
+ M contracts/generated/openapi.sha256
+ M tests/test_auth.py
+ M tests/test_authz_admin.py
+ M tests/test_domain_seed.py
+ M tests/test_intake.py
+ M tests/test_register.py
+?? app/api/admin_access.py
+?? app/api/reviews.py
+?? app/api/scripts.py
+?? migrations/versions/0010_password_change_required.py
+?? tests/test_admin_access.py
+?? tests/test_reviews.py
+?? tests/test_scripts.py
+?? tests/test_stage0_acceptance.py
+== Call360-frontend main 740bf1b
+ M docs/design/DEVIATIONS.md
+ M e2e/auth.spec.ts
+ M e2e/cp04a-checks.ts
+ M e2e/f2-checks.ts
+ M e2e/overview.spec.ts
+ M src/App.test.tsx
+ M src/App.tsx
+ M src/api/client.ts
+ M src/api/contract.lock.json
+ M src/api/generated/schema.d.ts
+ M src/api/openapi.pinned.json
+ M src/app/AppShell.tsx
+ M src/app/nav.ts
+ M src/auth/guards.tsx
+ M src/features/OverviewPage.tsx
+ M src/features/admin/AdminLayout.tsx
+ M src/features/admin/UsersPage.tsx
+ M src/features/case/CallDetailPage.tsx
+ M src/features/policies/PolicyDetailPage.tsx
+ M src/features/policies/PolicyExplorerPage.tsx
+ M src/styles/app.css
+?? e2e/cp01b3-checks.ts
+?? e2e/cp04b-checks.ts
+?? e2e/cp06-checks.ts
+?? e2e/f6-checks.ts
+?? e2e/f7-checks.ts
+?? src/features/account/
+?? src/features/admin/AdminCompletion.test.tsx
+?? src/features/admin/GroupsPage.tsx
+?? src/features/admin/SessionsPage.tsx
+?? src/features/admin/SystemPage.tsx
+?? src/features/admin/shared.tsx
+?? src/features/intake/
+?? src/features/reviews/
+?? src/features/scripts/
+?? src/features/voice/

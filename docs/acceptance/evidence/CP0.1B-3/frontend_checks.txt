@@ -1,0 +1,26 @@
+
+> call360-frontend@0.1.0 lint
+> eslint .
+
+
+> call360-frontend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+ Test Files  14 passed (14)
+      Tests  81 passed (81)
+   Start at  00:18:24
+   Duration  1.84s (transform 2.52s, setup 1.25s, import 4.78s, tests 5.11s, environment 7.65s)
+
+
+> call360-frontend@0.1.0 api:check
+> node scripts/api-generate.mjs --check
+
+api:check OK (openapi ba7e04f87770866b5d5c80957baddff18a798fdcfc4477785f0511918a137ddc)
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 71ms
+[90m12:18AM[0m [32mINF[0m [1mscanned ~539132 bytes (539.13 KB) in 262ms[0m
+[90m12:18AM[0m [32mINF[0m [1mno leaks found[0m
+Secret scan clean

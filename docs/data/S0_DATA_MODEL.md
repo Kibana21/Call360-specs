@@ -116,7 +116,7 @@ Column flags: **P** = provenance and `is_synthetic` common columns apply; **E** 
 | `identity_provider` | configured IdP | `identity_provider` | `kind`, `issuer` UNIQUE, `status`, metadata (no secrets) | — | CP0.1A |
 | `principal` | durable internal staff identity | `user_account` (renamed per security doc, C-5) | `display_name`, `status`, `disabled_at`, `disabled_by`; never recycled | — | CP0.1A |
 | `identity_binding` | provider identity linked to a principal | `user_account.provider_subject` (split out, C-5) | `principal_id`, `identity_provider_id`, `subject`; UNIQUE (`identity_provider_id`, `subject`); `username` (LOCAL only, unique case-insensitive) | — | CP0.1A |
-| `local_credential` | local password credential | NEW: security doc `local_credential` | `principal_id` UNIQUE, `password_hash` (Argon2id encoded), `hash_params`, `password_changed_at`, `failed_count`, `locked_until` | — | CP0.1A |
+| `local_credential` | local password credential | NEW: security doc `local_credential` | `principal_id` UNIQUE, `password_hash` (Argon2id encoded), `hash_params`, `password_changed_at`, `failed_count`, `locked_until`, `must_change_password` (CP0.1B-3, migration 0010; D-43) | — | CP0.1A |
 | `app_group` | group (local or external) | `group_mapping` source groups (security doc `group`) | `identity_provider_id`, `external_group_id` (nullable for LOCAL), `name`, `status` | — | CP0.1A |
 | `group_membership` | principal ∈ group over an interval | NEW: security doc `membership` | `principal_id`, `group_id`, `valid_from`, `valid_to`, `provenance`; history retained | — | CP0.1A |
 | `role` | canonical app role | `user_role_assignment.role` | `code` UNIQUE (`ADMIN`, `USER`; reserved `REVIEWER`, `SCRIPT_AUTHOR`, `APPROVER`, `AUDITOR`) | — | CP0.1A |

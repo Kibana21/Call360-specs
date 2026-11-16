@@ -1,0 +1,8 @@
+uv run ruff check .
+All checks passed!
+uv run ruff format --check .
+102 files already formatted
+uv run mypy app
+Success: no issues found in 55 source files
+uv run python scripts/export_openapi.py --check
+OpenAPI matches (2b31989b101f4aeacdab396a742a44d3f6a20f8b3adea1a65815c2699d7f7303)

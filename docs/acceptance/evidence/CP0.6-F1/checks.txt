@@ -1,0 +1,21 @@
+### CP0.6-F1 audit visibility correction — affected checks (2026-11-16T16:56:58Z)
+$ make test-seed
+3 passed, 23 deselected, 1 warning in 9.53s
+$ CALL360_ENV_FILE=.env.test uv run pytest -o addopts="" -q
+313 passed, 1 warning in 133.50s (0:02:13)
+$ make lint typecheck contract-check secret-scan
+All checks passed!
+Success: no issues found in 57 source files
+OpenAPI matches (290aad42c547014266d194e98bf568f9a549c8b94f644b3d1d239417f92342ca)
+Secret scan clean
+$ frontend lint, typecheck, vitest, api:check, build, secret-scan
+lint OK
+typecheck OK
+      Tests  82 passed (82)
+api:check OK (openapi 290aad42c547014266d194e98bf568f9a549c8b94f644b3d1d239417f92342ca)
+build OK
+Secret scan clean
+$ npx playwright test
+  16 passed (1.2m)
+$ specs validator
+PASS: 62 CP0.0 specification checks (S0 matrix 70 requirements, 101 tests; 81 endpoints; 63 tables; 29 routes; 33 contradictions; 8 ADRs)

@@ -28,6 +28,8 @@
 
 ## 2. Administration (API-010, 012, 021 in CP0.1A; API-022…025 in CP0.1B-1; others in CP0.1B-3)
 
+> **As built in CP0.1B-3 (2026-11-17):** API-011 requires `Idempotency-Key`; a replay with the same key and username returns the user with no password (`replayed: true`), a different username is `409 IDEMPOTENCY_KEY_REUSED`. API-011/013 responses carry the one-time password once with `Cache-Control: no-store`; it is never audited. API-009 errors: `422 CURRENT_PASSWORD_INVALID`, `422 PASSWORD_POLICY`. API-013 on one's own account is `409 OWN_ACCOUNT`; API-020 on one's own session is `409 OWN_SESSION`. API-018 `If-Match` is the group's `mappings_version` from API-014; it also returns `422 UNKNOWN_ROLE`, `422 MARKET_NOT_ENABLED`, `422 NO_CHANGE`, `409 LAST_ADMIN_GUARD`. API-016 takes the reason in the request body. While a one-time password is unchanged, permission-protected endpoints return `403 PASSWORD_CHANGE_REQUIRED` (D-43).
+
 | ID | Method | Path | Permission | Scope | Main response | Additional errors | CP |
 |---|---|---|---|---|---|---|---|
 | API-010 | GET | `/admin/users` | `admin.users.read` | — | Users with status, bindings, groups and last login | — | CP0.1A |
@@ -114,7 +116,7 @@
 
 ## 7. Intake (CP0.4)
 
-> **CP0.4 split (D-41, owner 2026-11-16):** API-080 and API-082…085 are built in CP0.4a; API-027, API-081, API-086 and API-090…092 follow in CP0.4b. The checkpoint column keeps the parent `CP0.4`.
+> **CP0.4 split (D-41, owner 2026-11-16):** API-080 and API-082…085 are built in CP0.4a; API-087 (reference data for the Manual Intake screen, D-42) is built with the CP0.4b portal; API-027, API-081, API-086 and API-090…092 remain deferred. The checkpoint column keeps the parent `CP0.4`.
 
 | ID | Method | Path | Permission | Scope | Main response | Additional errors | CP |
 |---|---|---|---|---|---|---|---|
@@ -125,6 +127,7 @@
 | API-084 | POST | `/intake/manual/preview` | `intake.manual.submit` | M (target market must be in scope) | Validation result, normalised preview, duplicate detection, contact eligibility, risk as supplied, `script_routing: NOT_EVALUATED_IN_S0`, holds that would apply. **Persists nothing except an audit event** | `422 INGEST_VALIDATION_FAILED` (field details) | CP0.4 |
 | API-085 | POST | `/intake/manual` | `intake.manual.submit` | M | Commits `source_type=MANUAL` with reason and source reference; creates policy, sale, parties and risk as supplied and a case with `AWAITING_SCRIPT_ASSIGNMENT` hold (and other applicable holds); returns typed routes (Idem) | `409 INGEST_DUPLICATE_SOURCE_EVENT`, `422 INGEST_NON_SYNTHETIC_REJECTED`, `422 INGEST_CONTACT_NOT_SYNTHETIC` | CP0.4 |
 | API-086 | POST | `/intake/corrections` | `intake.manual.submit` | M | POL-007 correction of a policy, sale or party field: `{entity_type, entity_id, row_version, changes, reason, source_reference}`. Writes `field_change` and audit. Never alters fact snapshots; open cases get an impact flag | `409 CONFLICT_ROW_VERSION`, `422 FIELD_NOT_CORRECTABLE` | CP0.4 |
+| API-087 | GET | `/intake/reference` | `intake.read` | M (caller's market; Stage 0 SG) | Values the manual-intake validator accepts, read from its own sources: synthetic product combinations, active FSCs with channel, active governed SBQ risk bands, synthetic contact formats with an example, request enums, priority bounds, currency and source-system prefix. Read-only; no new classification | `403 MARKET_NOT_IN_SCOPE`, `503 INGEST_REFERENCE_DATA_UNAVAILABLE` | CP0.4 |
 
 ## 8. Mock upstream application (separate ASGI app, port 8100; `APP_ENV ∈ {local, test}` only; service token)
 

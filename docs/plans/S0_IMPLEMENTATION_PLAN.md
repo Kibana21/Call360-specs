@@ -94,7 +94,12 @@ Each slice needs its own `IMPLEMENT` and its own acceptance. **CP0.4 (intake) fo
 | F3 | Call Detail: API-037…047, 063; `/cases/:caseId` | **Accepted** 2026-11-15 (presentation refinements delivered with F4) |
 | F4 | Policy Explorer and Detail: API-050…055; `/policies`, `/policies/:id` | **Accepted** 2026-11-15 |
 | F5 | SBQ Risk Workbench: API-056…058; `/risk-assessments` | **Accepted** 2026-11-16 (limitations accepted) |
-| CP0.4a | Manual transaction intake: API-080, API-082…085; migration `0009_intake` | Implemented and verified 2026-11-16; awaiting owner acceptance |
+| CP0.4a | Manual transaction intake: API-080, API-082…085; migration `0009_intake` | Accepted 2026-11-16 |
+| CP0.4b-UI | Manual Intake portal `/intake` and API-087 reference data (D-42) | Accepted 2026-11-16 (UI portion only) |
+| F6 | Script Studio and Assignment Rules, read-only (API-060…062, API-064…066) | Accepted 2026-11-16 |
+| F7 | Review Workbench and Voice Studio, read-only (API-077, API-078) | Accepted 2026-11-16 |
+| CP0.1B-3 | Administration completion (API-007, 009, 011, 013, 014…020, 026; migration 0010) | Accepted 2026-11-17 |
+| CP0.6 | Integrated Stage 0 verification (two gate runs, acceptance record) | Technical verification accepted 2026-11-17; governance acceptance pending |
 
 ### CP0.3 — Read APIs, KPIs, search, saved views, queues
 
