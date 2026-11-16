@@ -1,0 +1,9 @@
+> eslint .
+
+lint exit=0
+
+ Test Files  9 passed (9)
+      Tests  60 passed (60)
+api:check OK (openapi d3aabc102cbe7a2730fbb166e0515d8284eb882e8e125b83fb9f57c39d49fcd9)
+✓ built in 60ms
+Secret scan clean

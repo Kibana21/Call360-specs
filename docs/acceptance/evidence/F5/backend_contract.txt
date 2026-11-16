@@ -1,0 +1,2 @@
+OpenAPI matches (a4f49784316222b6c5fc43e47a9b71629e3067671cc5ba022c335c7ef77a9ec1)
+a4f49784316222b6c5fc43e47a9b71629e3067671cc5ba022c335c7ef77a9ec1  contracts/generated/openapi.json

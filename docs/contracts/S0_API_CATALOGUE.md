@@ -114,9 +114,11 @@
 
 ## 7. Intake (CP0.4)
 
+> **CP0.4 split (D-41, owner 2026-11-16):** API-080 and API-082…085 are built in CP0.4a; API-027, API-081, API-086 and API-090…092 follow in CP0.4b. The checkpoint column keeps the parent `CP0.4`.
+
 | ID | Method | Path | Permission | Scope | Main response | Additional errors | CP |
 |---|---|---|---|---|---|---|---|
-| API-080 | GET | `/intake/sources` | `intake.read` | — | Available sources in this environment (`MOCK_API`, `MANUAL`); `BULK` and `INTERNAL_API` shown as not available in S0 | — | CP0.4 |
+| API-080 | GET | `/intake/sources` | `intake.read` | — | Available sources in this environment (`MANUAL`; `MOCK_API` shown as not available until CP0.4b); `BULK` and `INTERNAL_API` shown as not available in S0 | — | CP0.4 |
 | API-081 | POST | `/intake/import-runs` | `intake.mock.sync` | — | Starts a `MOCK_API` import over HTTP from the mock upstream; returns the run with reconciliation counts (Idem) | `503 SOURCE_UNAVAILABLE`, `422 INGEST_*` | CP0.4 |
 | API-082 | GET | `/intake/import-runs` | `intake.read` | — | Runs (mock and manual) with status and counts | — | CP0.4 |
 | API-083 | GET | `/intake/import-runs/{run_id}` | `intake.read` | — | Run detail with per-item status and errors (no raw PII) | `404` | CP0.4 |

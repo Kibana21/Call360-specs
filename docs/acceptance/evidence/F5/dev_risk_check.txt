@@ -1,0 +1,23 @@
+[ADMIN]
+  register total=229 paged=229 unique=229 expected SG=229 markets=['SG']
+  summary: {"assessments": {"total": 229, "by_origin": {"RULE_ASSESSED": 74, "SOURCE_ASSIGNED": 155}, "by_status": {"FINAL": 214, "SUPERSEDED": 15}, "by_band": {"HIGH": 77, "LOW": 75, "MEDIUM": 62, "UNKNOWN": 15}, "superseded": 15}, "sales": {"total": 195, "by_effective_band": {"HIGH": 69, "LOW": 66, "MEDIUM": 58}, "without_assessment": 2, "without_final_assessment": 0, "source_rule_discrepancies": 3}}
+  facets origin/status/band/factor: {"origin": {"RULE_ASSESSED": 74, "SOURCE_ASSIGNED": 155}, "status": {"FINAL": 214, "SUPERSEDED": 15}, "band": {"HIGH": 77, "LOW": 75, "MEDIUM": 62, "UNKNOWN": 15}, "factor": {"ILP_INDICATOR": 24, "PREMIUM_AMOUNT_BAND": 25, "SELLING_CHANNEL": 12}, "rule_set": {"NONE": 155, "SYN-SBQ-RULES v1": 9, "SYN-SBQ-RULES v2": 65}}
+  effective=193 (= sales with a FINAL assessment) superseded=15
+  discrepancy rows: [('SALE-SG-000168', 'RULE_ASSESSED', 'MEDIUM', True), ('SALE-SG-000168', 'SOURCE_ASSIGNED', 'LOW', False), ('SALE-SG-000167', 'RULE_ASSESSED', 'HIGH', True), ('SALE-SG-000167', 'SOURCE_ASSIGNED', 'LOW', False), ('SALE-SG-000169', 'RULE_ASSESSED', 'MEDIUM', True), ('SALE-SG-000169', 'SOURCE_ASSIGNED', 'LOW', False)]
+  detail: SALE-SG-000168 {'source_band': 'LOW', 'rule_band': 'MEDIUM', 'effective_band': 'MEDIUM', 'effective_id': '1c2c2e60-b8a4-5225-bb5e-574518b77fc9', 'discrepancy': True} [('SOURCE_ASSIGNED', 'FINAL', 'LOW'), ('RULE_ASSESSED', 'FINAL', 'MEDIUM')] [('ILP_INDICATOR', 'NOT_MATCHED'), ('PREMIUM_AMOUNT_BAND', 'MATCHED'), ('PRODUCT_CLASS', 'NOT_EVALUATED'), ('SELLING_CHANNEL', 'NOT_MATCHED'), ('SELLING_LOCATION', 'NOT_EVALUATED')] SYN-SBQ-RULES
+  10482 rule: HIGH True ['ILP_INDICATOR'] ['CB-2026-10482'] True
+  superseded: SALE-SG-000098 SUPERSEDED UNKNOWN superseded_by True [('SUPERSEDED', 'UNKNOWN', False), ('FINAL', 'HIGH', True)]
+  factors vocab: ['SELLING_CHANNEL', 'SELLING_LOCATION', 'PREMIUM_AMOUNT_BAND', 'PRODUCT_CLASS', 'ILP_INDICATOR']
+  61 MY assessments → [404]
+[USER]
+  register total=229 paged=229 unique=229 expected SG=229 markets=['SG']
+  summary: {"assessments": {"total": 229, "by_origin": {"RULE_ASSESSED": 74, "SOURCE_ASSIGNED": 155}, "by_status": {"FINAL": 214, "SUPERSEDED": 15}, "by_band": {"HIGH": 77, "LOW": 75, "MEDIUM": 62, "UNKNOWN": 15}, "superseded": 15}, "sales": {"total": 195, "by_effective_band": {"HIGH": 69, "LOW": 66, "MEDIUM": 58}, "without_assessment": 2, "without_final_assessment": 0, "source_rule_discrepancies": 3}}
+  facets origin/status/band/factor: {"origin": {"RULE_ASSESSED": 74, "SOURCE_ASSIGNED": 155}, "status": {"FINAL": 214, "SUPERSEDED": 15}, "band": {"HIGH": 77, "LOW": 75, "MEDIUM": 62, "UNKNOWN": 15}, "factor": {"ILP_INDICATOR": 24, "PREMIUM_AMOUNT_BAND": 25, "SELLING_CHANNEL": 12}, "rule_set": {"NONE": 155, "SYN-SBQ-RULES v1": 9, "SYN-SBQ-RULES v2": 65}}
+  effective=193 (= sales with a FINAL assessment) superseded=15
+  discrepancy rows: [('SALE-SG-000168', 'RULE_ASSESSED', 'MEDIUM', True), ('SALE-SG-000168', 'SOURCE_ASSIGNED', 'LOW', False), ('SALE-SG-000167', 'RULE_ASSESSED', 'HIGH', True), ('SALE-SG-000167', 'SOURCE_ASSIGNED', 'LOW', False), ('SALE-SG-000169', 'RULE_ASSESSED', 'MEDIUM', True), ('SALE-SG-000169', 'SOURCE_ASSIGNED', 'LOW', False)]
+  detail: SALE-SG-000168 {'source_band': 'LOW', 'rule_band': 'MEDIUM', 'effective_band': 'MEDIUM', 'effective_id': '1c2c2e60-b8a4-5225-bb5e-574518b77fc9', 'discrepancy': True} [('SOURCE_ASSIGNED', 'FINAL', 'LOW'), ('RULE_ASSESSED', 'FINAL', 'MEDIUM')] [('ILP_INDICATOR', 'NOT_MATCHED'), ('PREMIUM_AMOUNT_BAND', 'MATCHED'), ('PRODUCT_CLASS', 'NOT_EVALUATED'), ('SELLING_CHANNEL', 'NOT_MATCHED'), ('SELLING_LOCATION', 'NOT_EVALUATED')] SYN-SBQ-RULES
+  10482 rule: HIGH True ['ILP_INDICATOR'] ['CB-2026-10482'] True
+  superseded: SALE-SG-000098 SUPERSEDED UNKNOWN superseded_by True [('SUPERSEDED', 'UNKNOWN', False), ('FINAL', 'HIGH', True)]
+  factors vocab: ['SELLING_CHANNEL', 'SELLING_LOCATION', 'PREMIUM_AMOUNT_BAND', 'PRODUCT_CLASS', 'ILP_INDICATOR']
+  61 MY assessments → [404]
+problems: 0

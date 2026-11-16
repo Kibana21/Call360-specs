@@ -1,0 +1,4 @@
+uv run python scripts/export_openapi.py --check
+OpenAPI matches (d3aabc102cbe7a2730fbb166e0515d8284eb882e8e125b83fb9f57c39d49fcd9)
+exit=0
+d3aabc102cbe7a2730fbb166e0515d8284eb882e8e125b83fb9f57c39d49fcd9  contracts/generated/openapi.json

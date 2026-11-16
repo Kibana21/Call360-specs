@@ -1,8 +1,8 @@
 # Call360 — Session handoff
 
 **Written:** 2026-11-15, at the end of a Claude Code session.
-**Updated:** 2026-11-15, after owner acceptance of CP0.1B-1.
-**Authorization:** F0 + F1 ACCEPTED. F2 **ACCEPTED** 2026-11-15. F3 Call Detail (`IMPLEMENT F3`) **implemented and verified 2026-11-15, awaiting owner acceptance**. Vertical slices approved (D-40). Not authorised: F2–F5, saved views, intake, B-3, commits, pushes. No real customer data.
+**Updated:** 2026-11-16, after CP0.4a implementation (awaiting owner acceptance).
+**Authorization:** F0–F5 **ACCEPTED**. CP0.4a (`IMPLEMENT CP0.4a`, split approved as D-41) **implemented and verified 2026-11-16, awaiting owner acceptance**. Not authorised: CP0.4b, saved views, B-3, commits, pushes. No real customer data.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Each checkpoint is implemented and accepted before the next one starts. Checkpoints never advance automatically.
 **Secrets:** this document contains none. Credentials live only in gitignored local files (§4).
 
@@ -17,9 +17,12 @@
 | **F1** Overview (API-030…034, `/`) | **ACCEPTED** 2026-11-15 (limitations accepted: OPS-06 N/A, KPI-11 N/A, click-throughs in F2/F3, 7-day activity may be empty) | `evidence/F0-F1/` |
 | CP0.1B-3 Administration completion | NOT_STARTED | — |
 | CP0.2 Domain schema and seed | **ACCEPTED** 2026-11-15 (local synthetic-data development; deployed to `call360` at `0007`); password rotation deferred (RR-12); Singapore-only scope decision D-39 recorded | `docs/acceptance/CP0.2.md` |
-| **F3** Call Detail | **IMPLEMENTED AND VERIFIED** 2026-11-15, awaiting owner acceptance | §8 below, `evidence/F3/` |
+| **F3** Call Detail | **ACCEPTED** 2026-11-15 | §8 below, `evidence/F3/` |
+| **F4** Policy Explorer | **ACCEPTED** 2026-11-15 | §9 below, `evidence/F4/` |
+| **F5** SBQ Risk Workbench | **ACCEPTED** 2026-11-16 | §10 below, `evidence/F5/` |
 | **F2** Work Queues and search | **ACCEPTED** 2026-11-15 (AWAITING_CALLBACK queue definition approved; saved views, register grain modes, nonessential search filters deferred) | §7 below, `evidence/F2/` |
-| F3–F5, CP0.4, CP0.1B-3, CP0.6 | NOT_STARTED (vertical slices, D-40) | `docs/plans/S0_IMPLEMENTATION_PLAN.md` |
+| **CP0.4a** Insurance transaction intake | **IMPLEMENTED AND VERIFIED** 2026-11-16, awaiting owner acceptance | §11 below, `evidence/CP0.4a/` |
+| CP0.4b, CP0.1B-3, CP0.6 | NOT_STARTED | `docs/plans/S0_IMPLEMENTATION_PLAN.md` |
 
 Stage 0 overview: `docs/acceptance/S0.md`.
 
@@ -160,12 +163,31 @@ Dev servers may still be running from the review: stop them with `lsof -ti tcp:8
 - Known limits: owner shown as "Unassigned" (no seeded owners; never fabricated); recordings/transcripts NOT_AVAILABLE (S1); review actions S3.
 - Owner refinements (delivered with F4): the header shows "Contact pre-check (stored data only)": "Pre-check passed" or "Blocked" with one reason per cause and its evidence ("not an authorisation to call"); `precheckReasons()` merges `HOLD:<X>` and `<X>` blockers. API shape unchanged.
 
-## 9. F4 Policy Explorer and Policy Detail — implemented and verified (awaiting acceptance)
+## 9. F4 Policy Explorer and Policy Detail — ACCEPTED 2026-11-15
 
 **As built (2026-11-15; evidence `docs/acceptance/evidence/F4/`; OpenAPI `d8d118b32bed0a5ee7d70a238cbc9984d34b992104435a2bd26f23fedfd750bc`; no migration):**
 - Backend: `app/domain/policy_register.py` (policy rows, filters, disjunctive facets, keyset paging; reuses F2 ref matching, HMAC contact search and cursors; case outcome from `load_facts`, effective band = latest FINAL assessment of the latest sale) and `app/api/policies.py`: API-050 `GET /policies`, API-051 `GET /policies/{id}` (header, record provenance and source/as-of per material field, external refs, related cases with outcome and pinned script), API-052 `/parties` (`party.read`; one card per party with role edges incl. ended, masked contact methods incl. ended/suppressed, per-case eligibility evidence incl. superseded), API-053 `/sales`, API-054 `GET /sales/{id}` (sale context, fact snapshots, risk history with `supersedes_id`, cases), API-055 `/history` (record lineage over policy, sales, role edges, snapshots, risk assessments; `field_changes` = NOT_AVAILABLE / `LEDGER_ARRIVES_CP0_4`). Every query filters `market_code = ANY(:markets)`; MY/missing → identical audited 404. `tests/test_policies.py`.
 - Frontend: `src/features/policies/PolicyExplorerPage.tsx` (URL filters, facets, KPI tiles from facets, intake buttons disabled CP0.4) and `PolicyDetailPage.tsx` (tabs `sale`, `parties`, `risk`, `script`, `cases`, `source` in `?tab=`; `?sale=` must belong to the policy); `src/features/case/evidence.tsx` shared with Call Detail; links Policy → Call Detail, Call Detail → Policy (`?sale=`), register policy refs → Policy Detail, search policy hits → Policy Detail (`hitTarget` = `route`). DV-17.
 - Known limits: no historical role edges exist in the seed (UI supports them); per-field change history waits for CP0.4; FSC display names are synthetic; "Correct field" (ADMIN, CP0.4) and "Request risk override" (S2) disabled.
+
+## 10. F5 SBQ Risk Workbench — ACCEPTED 2026-11-16
+
+**Owner acceptance (2026-11-16):** accepted for local synthetic-data development. Accepted limitations: no risk calculation or override engine; source-vs-rule conflicts are stored-assessment comparisons, not approved resolution decisions; no invented scores, thresholds or values; two SG sales remain unassessed. Next: CP0.4 intake proposal (not authorised).
+
+**As built (2026-11-15; evidence `docs/acceptance/evidence/F5/`; OpenAPI `a4f49784316222b6c5fc43e47a9b71629e3067671cc5ba022c335c7ef77a9ec1`; no migration):**
+- Backend: `app/domain/risk_register.py` (stored assessments only; `effective` = latest FINAL of the sale, as `load_facts`; `discrepancy` = the sale's latest FINAL SOURCE_ASSIGNED band ≠ latest FINAL RULE_ASSESSED band; disjunctive facets band/factor/origin/status/rule set/product/channel/FSC/effective/discrepancy; keyset paging; `summary` over the whole SG population with two separate grains: assessments, and sale events by effective band incl. unassessed sales) and `app/api/risk.py`: API-056 `GET /risk-assessments`, API-057 `GET /risk-assessments/{id}` (factors with vocabulary labels, rule-set version incl. checksum and approval status, input hash, provenance, full sale history with supersedes/superseded_by, source-vs-rule comparison, policy/sale/case links), API-058 `GET /risk-factors` (active `risk_factor` and `sbq_risk_band` code lists). Scope through sale → policy `market_code`; MY/missing → identical audited 404. `tests/test_risk.py`. `RiskAssessmentOut.supersedes_id` (added in F4) unchanged.
+- Frontend: `src/features/risk/RiskWorkbenchPage.tsx` (+ tests): separation explainer; sale-grain tiles (High/Medium/Low effective, Source ≠ rule) that filter the register; assessment-population bars; factor vocabulary; URL-held filters; drawer `?assessment=` (dialog, Escape/focus) with comparison, factor table, record, history and Policy/Call Detail links. Links in: nav, Overview risk card ("Assessments →", case grain stays on the Overview), Call Detail context risk card, Policy Detail risk tab. DV-18.
+- Seed facts: 229 SG assessments (74 rule-assessed, 155 source-assigned; 15 SUPERSEDED UNKNOWN), 195 SG sales (193 with a FINAL assessment, 2 unassessed), 3 conflicting sales (SALE-SG-000167 LOW→HIGH, -000168 and -000169 LOW→MEDIUM). No PROVISIONAL status, no stored score or weights, no MANUAL origin exist in the seed; the UI labels them if they appear.
+
+## 11. CP0.4a Insurance transaction intake — implemented and verified (awaiting acceptance)
+
+**As built (2026-11-16; evidence `docs/acceptance/evidence/CP0.4a/`; OpenAPI `d3aabc102cbe7a2730fbb166e0515d8284eb882e8e125b83fb9f57c39d49fcd9`; migration `0009_intake` on `call360_test` and `call360`):**
+- Backend: `migrations/versions/0009_intake.py` (insert-only `intake_run`, `intake_item`, `field_change`; FK from every provenance table's `intake_item_id`; downgrade refuses once runs exist); `app/domain/intake.py` (guards, validation, conflicts, party resolution, eligibility, holds, single-transaction commit, `describe` outcome); `app/api/intake.py`: API-080 `GET /intake/sources`, API-084 `POST /intake/manual/preview` (persists only an audit event), API-085 `POST /intake/manual` (`Idempotency-Key` required; replay → 200 `replayed`; key reuse → 409), API-082/083 runs. Errors: `INGEST_VALIDATION_FAILED` (field locations and codes, never values), `INGEST_NON_SYNTHETIC_REJECTED`, `INGEST_CONTACT_NOT_SYNTHETIC`, `INGEST_MARKET_NOT_IN_SCOPE`, `INGEST_DUPLICATE_SOURCE_EVENT`, `INGEST_SALE_REF_EXISTS`, `INGEST_POLICY_FIELDS_DIFFER`, `INGEST_DUPLICATE_NEW_BUSINESS`, `IDEMPOTENCY_KEY_REQUIRED`/`_REUSED`. Audit: `INTAKE.PREVIEWED`, `INTAKE.COMMITTED`, `INTAKE.REJECTED`, `INTAKE.REPLAYED`, `CASE.HOLD_PLACED` (payload digest, references and codes only).
+- Rules applied (existing only): source-assigned risk stored as supplied (no band/score calculated); every case held `AWAITING_SCRIPT_ASSIGNMENT` (no resolver); eligibility from governed `callable_party_roles` + DB check → `NO_ELIGIBLE_CONTACT` when none; ILP without risk → `RISK_TRIAGE`; `DATA_CONFLICT` not applicable to a new sale; state `VALIDATED`; owner unassigned; due date/priority source-provided (D-41). Existing-policy reuse requires all material fields to match; role changes on an existing policy are corrections (CP0.4b). Product set = the S0-SEED-1 synthetic products; SG currency SGD.
+- Seed integrity: the seed content digest now covers seed-authored rows (`created_by = SYSTEM:seed`), so intake rows do not change it and any change to a seeded row still does; development digest `2ead19f3…` still matches its manifest after the demo.
+- KPI-14 "Intake runs" is now measured from `intake_run` (ADMIN only); KPI-13 shows `MANUAL` by source type.
+- Frontend: no intake screen (CP0.4b). Labels follow the record's source (Overview banner, Policy Detail banner, Call Detail "Synthetic intake case" banner); CP0.4 stage chips now say CP0.4b. `e2e/cp04a-checks.ts`. DV-19.
+- Demo: `Call360-backend/scripts/intake_demo.py` (fresh synthetic SG references each run; preview → commit → replay; credentials from env or prompt, never printed). Development records created in the owner demo: `POL-SG-937467` with `SALE-SG-937467` → `CB-2026-10499` and top-up `SALE-SG-937468` → `CB-2026-10500` (runs IR-2026-000001/2).
 
 ### Original F2 scope (as authorised)
 

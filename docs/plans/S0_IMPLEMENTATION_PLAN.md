@@ -92,8 +92,9 @@ Each slice needs its own `IMPLEMENT` and its own acceptance. **CP0.4 (intake) fo
 | F1 | Overview: API-030…034; route `/` | **Accepted** 2026-11-15 |
 | F2 | Work Queues and search: API-076, 035/036, 070/071; `/queues`, `/calls`; Dashboard click-through. **Saved views (API-072…075, `saved_view`) deferred by owner** | **Accepted** 2026-11-15 |
 | F3 | Call Detail: API-037…047, 063; `/cases/:caseId` | **Accepted** 2026-11-15 (presentation refinements delivered with F4) |
-| F4 | Policy Explorer and Detail: API-050…055; `/policies`, `/policies/:id` | Implemented and verified 2026-11-15; awaiting owner acceptance |
-| F5 | SBQ Risk Workbench: API-056…058; `/risk-assessments` | Not started |
+| F4 | Policy Explorer and Detail: API-050…055; `/policies`, `/policies/:id` | **Accepted** 2026-11-15 |
+| F5 | SBQ Risk Workbench: API-056…058; `/risk-assessments` | **Accepted** 2026-11-16 (limitations accepted) |
+| CP0.4a | Manual transaction intake: API-080, API-082…085; migration `0009_intake` | Implemented and verified 2026-11-16; awaiting owner acceptance |
 
 ### CP0.3 — Read APIs, KPIs, search, saved views, queues
 
@@ -106,6 +107,8 @@ Each slice needs its own `IMPLEMENT` and its own acceptance. **CP0.4 (intake) fo
 | Acceptance tests | BE-API-01…07, BE-KPI-01…04, BE-SRCH-01…08, BE-SEC-02, BE-SEC-04, BE-SEC-06, BE-CT-01, SCAN-01 |
 
 ### CP0.4 — Intake: mock API and manual, plus corrections
+
+**Split by the owner on 2026-11-16 (D-41).** **CP0.4a** (implemented 2026-11-16, awaiting acceptance): API-080, API-082…085, migration `0009_intake` (`intake_run`, `intake_item`, `field_change` + `intake_item_id` foreign keys), manual API intake with preview, validation, idempotency, holds and portal integration; tests BE-ING-02, -03, -04, -06, -08, -09 (ILP without risk; a source-vs-existing mismatch cannot occur for a new sale), -10, BE-SEC-02 (intake). **CP0.4b** (not started): mock upstream ASGI app and import runs (API-081, API-090…092), corrections (API-086, writes `field_change`), frontend Data Intake screen and Admin Integrations, import scheduling; tests BE-ING-01, -05, -07, FE-01 (Data Intake), E2E-11, E2E-12, E2E-19. The original table below is the combined scope.
 
 | Item | Content |
 |---|---|

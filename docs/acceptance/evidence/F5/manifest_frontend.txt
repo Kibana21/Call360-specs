@@ -1,0 +1,18 @@
+branch main HEAD 31f7091 (uncommitted)
+ M e2e/auth.spec.ts
+ M e2e/overview.spec.ts
+ M src/App.test.tsx
+ M src/App.tsx
+ M src/api/client.ts
+ M src/api/contract.lock.json
+ M src/api/generated/schema.d.ts
+ M src/api/openapi.pinned.json
+ M src/app/AppShell.tsx
+ M src/app/nav.ts
+ M src/features/OverviewPage.tsx
+ M src/features/case/CallDetailPage.tsx
+ M src/features/cases/useCasePages.ts
+ M src/features/policies/PolicyDetailPage.tsx
+ M src/styles/app.css
+?? e2e/f5-checks.ts
+?? src/features/risk/
