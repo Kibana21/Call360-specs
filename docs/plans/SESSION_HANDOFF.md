@@ -1,42 +1,265 @@
 # Call360 — Session handoff
 
-**Written:** 2026-11-15, at the end of a Claude Code session.
-**Updated:** 2026-11-17: S1-A, S1-B and S1-C ACCEPTED (D-45…D-48 decided; D-48 KPI correction implemented); S1-D IMPLEMENTED AND VERIFIED (`IMPLEMENT S1-D`, D-49…D-53), awaiting owner acceptance; Stage 0 governance acceptance and SEC-008 PENDING. Current state: §22.
-**Authorization:** F0–F5 **ACCEPTED**. CP0.4a (`IMPLEMENT CP0.4a`, split approved as D-41) **ACCEPTED 2026-11-16** with its documented limitations. CP0.4b Manual Intake portal (D-42) **ACCEPTED 2026-11-16** (UI portion only; CP0.4b not complete); the rest of CP0.4b (mock upstream, scheduling, corrections, saved drafts, Admin Integrations) is deferred and not authorised. Not authorised: CP0.4b, saved views, B-3, commits, pushes. No real customer data. **Stage 0:** CP0.1B-3 ACCEPTED; CP0.6 technical verification ACCEPTED; Stage 0 governance acceptance PENDING (SEC-008 security review, named approvers). **Stage 1:** S1-A and S1-B ACCEPTED 2026-11-17; S1-C ACCEPTED 2026-11-17 (D-48 correction implemented with the acceptance). S1-D implemented and verified 2026-11-17 (`IMPLEMENT S1-D`), awaiting owner acceptance. Not authorised:, S1-E, S2, S3, CP0.4b remainder.
-**Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Each checkpoint is implemented and accepted before the next one starts. Checkpoints never advance automatically.
-**Secrets:** this document contains none. Credentials live only in gitignored local files (§4).
+**Last updated:** 2026-11-17 (late), end of the S2-C session (Claude Code). **Read §0 first; it is
+the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
+for traceability.
+**Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
+explicit authorisation of the named checkpoint; never advance automatically; never commit, push or merge without
+authorisation; never mark anything accepted without the owner's explicit words.
+**Secrets:** this document contains no passwords, API keys or encryption keys. They live only in gitignored local files
+(§4).
+
+## 0. Current state — read this first (2026-11-17, late evening)
+
+**Project.** Call360 is a proposed AIA Standards & Compliance platform for policy-sale verification and auditable
+callback operations. Three independent Git repositories under `call360/`: `Call360-specs` (requirements, ADRs,
+acceptance), `Call360-backend` (FastAPI, PostgreSQL), `Call360-frontend` (React/TypeScript). All data is synthetic and
+Singapore-only (D-39). The investigation screen is **Call Detail**; the script editor is **Script Studio** (ADR-0007).
+
+**Where we are**
+- **Stage 0:** every checkpoint ACCEPTED; CP0.6 technical verification ACCEPTED. **Stage 0 governance acceptance is
+  PENDING** (SEC-008 security review not performed — reviewer not named; three named approvers not assigned, C-20).
+  Never self-certify SEC-008 or invent signatures.
+- **Stage 1 (browser voice, mock provider):** S1-A, S1-B, S1-C **ACCEPTED**. **S1-D (transcript and playback)
+  IMPLEMENTED AND VERIFIED, awaiting the owner's separate acceptance.** **S1-E (GPT-Live) PAUSED.**
+- **Stage 2:** **S2-A, S2-A.1 and S2-B ACCEPTED** 2026-11-17 (D-54…D-66 approved; D-62 clarified for assignment).
+  **S2-C Deterministic Script Assignment IMPLEMENTED AND VERIFIED, awaiting owner acceptance** (uncommitted). S2-D
+  onwards not authorised.
+
+**Development priorities (owner's sequence)** — each step needs its own explicit authorisation:
+1. S2-C acceptance (and any refinements).
+2. S2-D Deterministic Question Controller (SUR-008/VOICE-011 — scope to be proposed).
+3. S2-E Text-based callback simulator (scope to be proposed: script selection, conditional questions, mandatory
+   statements, responses and branching without a voice model).
+4. Resume GPT-Live integration (S1-E) last.
+
+**S2-C (implemented and verified, awaiting acceptance).** Deterministic assignment reusing the S2-B pure matcher with
+selected-contact evaluation (D-62 clarified): Call Detail "Script assignment" card (read-only preview → confirm →
+apply; pinned script, rule, explanation, failure reasons, holds, attempt history), batch "Assign scripts to unassigned
+cases" on Assignment Rules. Apply pins an immutable ENGINE `script_assignment`, releases `AWAITING_SCRIPT_ASSIGNMENT`
+(and an engine-placed `AWAITING_SCRIPT_REVIEW`), keeps all other holds, never changes the case state, never reassigns,
+idempotent by key; ambiguity places `AWAITING_SCRIPT_REVIEW`. Permission `script.assign` (USER). Migration
+`0018_script_assignment_engine` (`script_assignment_attempt` ledger). Code `app/domain/script_assignment.py`,
+`app/api/script_assignments.py`, `src/features/case/ScriptAssignmentPanel.tsx`, `src/features/rules/AssignmentBatch.tsx`;
+tests `tests/test_script_assignment.py`, `e2e/script-assignment.spec.ts`. Verification: backend **381**, unit **101**,
+Playwright **26**; OpenAPI `283300f0fa1f7c1158953f10db2efda07ca8fdd2048d767e97219f6139727470`. Record `S2.md` "S2-C as
+built"; evidence `evidence/S2-C/`.
+
+**S2-A.1 (ACCEPTED 2026-11-17).** Draft-scoped control links (`script_version_control_link`),
+per-revision intent/category (`question_revision_detail`), question-bank reuse = latest published revision only,
+audited Abandon Draft (DRAFT → ABANDONED, makers only, nothing deleted), checker must acknowledge each mandatory
+question without a mapped control, "Synthetic · not production-approved" labelling. Migration
+`0016_script_draft_isolation`. Record `S2.md` "S2-A.1 as built".
+
+**S2-B (ACCEPTED 2026-11-17).** Visual rule builder (approved fields and governed values only;
+calculated specificity; published targets; effective dates; explicit fallback), server explanations and validation,
+conflict analysis, side-effect-free simulation (READ ONLY transaction) with per-case traces, maker-checker lifecycle
+with explicit supersede, immutable published rule versions, version comparison, change history, abandon, copy.
+Owner-approved precedence D-58…D-60 recorded in `docs/product/SCRIPT_GOVERNANCE_AND_ASSIGNMENT.md`; D-61…D-65
+proposed. Pure engine `app/domain/rule_engine.py`; loaders `rule_inputs.py`; lifecycle `rule_authoring.py`; API
+`app/api/assignment_rules.py`; migration `0017_assignment_rule_authoring`; frontend `src/features/rules/` and
+`src/features/scripts/AssignmentRulesPage.tsx`; E2E `e2e/assignment-rules.spec.ts`. Verification: backend **377**,
+frontend unit **99**, Playwright **25** passed; OpenAPI `d50a5a43dbcda109f34cfaf6fa3f07c048de1ca04aecaa11e377845ab9ef82cb`.
+Chrome demo recorded in `evidence/S2-B/chrome_demo.txt`. Record `S2.md`; evidence `evidence/S2-B/`.
+
+**S1-D — Transcript and playback (awaiting acceptance).** Local faster-whisper 1.2.1 small.en transcription; see
+`S1.md` and `evidence/S1-D/`. Outstanding: the owner's real-microphone transcript check and acceptance.
+
+**Databases (local PostgreSQL 15, database `Call360_db`).** Both schemas at Alembic head
+**`0018_script_assignment_engine`**: `call360` (development, never reset; backed up before 0016/0017 to
+`~/call360-backups/pre_s2b_20261117_141600/` and before 0018 to `~/call360-backups/pre_s2c_20261117_150940/`; seed digest
+`2ead19f36e09bdf3…` MATCH and audit chain OK after the S2-C demo, 2731 events; the 245 historical assignments unchanged
+plus 1 engine assignment) and `call360_test` (reset by the test harness and E2E
+setup only). Development content beyond the seed: 12 runtime browser test sessions on CB-2026-10048; script families
+`SALES_VERIFICATION_SG_PROTECT` v1.0 (PUBLISHED) and `SALES_VERIFICATION_SG_PROTECT1` v1.0 (empty DRAFT); rules
+`SG-ILP-HIGH-RISK` v1 (SUPERSEDED) and v2 (PUBLISHED, priority 4, ILP + High/Medium → SALES_VERIFICATION_SG v1.1) and
+draft `SG-ILP-PROTECT-CONFLICT` v1 (ABANDONED, conflict demo); S2-C demo cases CB-2026-10501 (assigned
+SALES_VERIFICATION_SG v1.1 by SG-SALES-VERIFY v2, hold released) and CB-2026-10502 (ILP High; ambiguous attempt recorded,
+`AWAITING_SCRIPT_ASSIGNMENT` + `AWAITING_SCRIPT_REVIEW` active, deliberately left unassigned); labelled demo rule
+`S2C-DEMO-LEGACY-CONFLICT` v1 (directly inserted, now WITHDRAWN). No historical case was reassigned.
+
+**Git (all three on `main`, in sync with `origin/main` at the owner's last commits; remote `github.com/Kibana21/…`).**
+
+| Repo | HEAD | Uncommitted (S2-A + S2-A.1 + S2-B + S2-C; commits need owner authorisation) |
+|---|---|---|
+| Call360-specs | `bd0b348` | `docs/acceptance/S2.md`, `evidence/S2-A/`, `evidence/S2-B/`, `evidence/S2-C/` (new); `S1.md`, this handoff, `docs/product/SCRIPT_GOVERNANCE_AND_ASSIGNMENT.md` |
+| Call360-backend | `92ba5ee` | new migrations 0015–0018, `app/api/{script_authoring,assignment_rules,script_assignments}.py`, `app/domain/{script_authoring,rule_engine,rule_inputs,rule_authoring,script_assignment}.py`, tests `test_{script_authoring,script_draft_isolation,rule_engine,assignment_rules,script_assignment}.py`; modified `app/domain/intake.py`, `tests/test_intake.py`; modified `app/api/{case_detail,schemas,scripts}.py`, `app/audit/scope.py`, `app/cli.py`, `app/core/settings.py`, `app/domain/{catalog,seed}.py`, `app/main.py`, `app/security/scope.py`, OpenAPI artifacts, `scripts/e2e_setup.py`, 7 test files |
+| Call360-frontend | `417daac` | new `src/features/rules/`, `src/features/scripts/ScriptEditor.tsx`, `src/features/case/ScriptAssignmentPanel.tsx`, `e2e/{script-studio,assignment-rules,script-assignment}.spec.ts`; modified Call Detail and its tests, intake outcome, `e2e/cp04a-checks.ts`; modified Script Studio and Assignment Rules pages, `App.tsx`, `AppShell.tsx`, tests, `e2e/{f6-checks,cp06-checks,helpers}.ts`, pinned OpenAPI, contract lock, generated schema, `docs/design/DEVIATIONS.md` (DV-24) |
+
+**Running services at handover** (may stop when this Claude Code session ends — restart with §4 commands): backend
+development server on 127.0.0.1:8000, frontend Vite server on 127.0.0.1:5173, PostgreSQL on 5432. Playwright starts its
+own servers on 8001/5174.
+
+**Outstanding owner decisions and approvals (none of these is approved):**
+1. Accept S2-C (or request refinements). Decide what to do with CB-2026-10502 (blocked demo case; applying now would pin
+   SALES_VERIFICATION_SG v1.1 by SG-ILP-HIGH-RISK v2 and release both script holds).
+2. Accept S1-D (after the real-microphone transcript check).
+3. Authorise commits (separate per repository) for S2-A, S2-A.1, S2-B and S2-C.
+4. Authorise S2-D; later S2-E; then S1-E.
+5. Before S1-E: approval to use GPT-Live, API-key handling and data-handling terms.
+6. Stage 0 governance: name the SEC-008 security reviewer and complete the review; name the three Stage 0 approvers
+   (C-20). Stage 0 stays NOT_ACCEPTED until both.
+7. Production policies still open: approved consent wording (DEC-004), recording/transcript retention (DEC-015).
+8. Security debts: rotate the development database password (RR-12) and use a non-superuser application role
+   (RR-11) before any non-synthetic data.
+9. Deferred, not authorised: CP0.4b remainder (mock upstream, scheduling, corrections, saved drafts, Admin
+   Integrations), saved views.
+
+**How to resume:** read this §0, then `docs/acceptance/S2.md` and `S1.md`; check `git status` in all three repos;
+run the verification commands in §4 (backend tests and Playwright **never at the same time** — both use
+`call360_test`); wait for the owner's next explicit instruction.
 
 ## 1. Checkpoint status
 
 | Checkpoint | Status | Record |
 |---|---|---|
 | CP0.0 Specification foundation | **ACCEPTED** 2026-11-15 | `docs/acceptance/CP0.0.md` |
-| CP0.1A Core authentication and application shell | **ACCEPTED** 2026-11-15 (after UI-1…4 and scanner corrections) | `docs/acceptance/CP0.1A.md` |
-| CP0.1B-1 Configuration foundation | **ACCEPTED** 2026-11-15 (local development; uncommitted) | `docs/acceptance/CP0.1B-1.md` |
+| CP0.1A Core authentication and application shell | **ACCEPTED** 2026-11-15 | `docs/acceptance/CP0.1A.md` |
+| CP0.1B-1 Configuration foundation | **ACCEPTED** 2026-11-15 | `docs/acceptance/CP0.1B-1.md` |
 | CP0.1B-2 Market scope → **F0** (Singapore-only, D-39) | **ACCEPTED** 2026-11-15 | `docs/acceptance/S0.md`, `evidence/F0-F1/` |
-| **F1** Overview (API-030…034, `/`) | **ACCEPTED** 2026-11-15 (limitations accepted: OPS-06 N/A, KPI-11 N/A, click-throughs in F2/F3, 7-day activity may be empty) | `evidence/F0-F1/` |
-| CP0.1B-3 Administration completion | superseded by the CP0.1B-3 row below (ACCEPTED 2026-11-17) | — |
-| CP0.2 Domain schema and seed | **ACCEPTED** 2026-11-15 (local synthetic-data development; deployed to `call360` at `0007`); password rotation deferred (RR-12); Singapore-only scope decision D-39 recorded | `docs/acceptance/CP0.2.md` |
-| **F3** Call Detail | **ACCEPTED** 2026-11-15 | §8 below, `evidence/F3/` |
-| **F4** Policy Explorer | **ACCEPTED** 2026-11-15 | §9 below, `evidence/F4/` |
-| **F5** SBQ Risk Workbench | **ACCEPTED** 2026-11-16 | §10 below, `evidence/F5/` |
-| **F2** Work Queues and search | **ACCEPTED** 2026-11-15 (AWAITING_CALLBACK queue definition approved; saved views, register grain modes, nonessential search filters deferred) | §7 below, `evidence/F2/` |
-| **CP0.4a** Insurance transaction intake | **ACCEPTED** 2026-11-16 (limitations accepted) | §11 below, `evidence/CP0.4a/` |
-| **CP0.4b-UI** Manual Intake portal | **ACCEPTED** 2026-11-16 (UI portion only; single-page form accepted) | §12 below, `evidence/CP0.4b-UI/` |
-| **F6** Script Studio and Assignment Rules (read-only) | **ACCEPTED** 2026-11-16 (limitations accepted) | §13 below, `evidence/F6/` |
-| **F7** Review Workbench and Voice Studio (read-only) | **ACCEPTED** 2026-11-16 (limitations accepted) | §14 below, `evidence/F7/` |
-| **CP0.1B-3** Administration completion | **ACCEPTED** 2026-11-17 (limitations accepted) | §15 below, `evidence/CP0.1B-3/` |
-| **CP0.6** Integrated Stage 0 verification | **ACCEPTED (technical)** 2026-11-17; Stage 0 governance acceptance PENDING (SEC-008, approvers) | `S0.md` "CP0.6 integrated verification", `evidence/CP0.6/` |
+| **F1** Overview | **ACCEPTED** 2026-11-15 (limitations accepted) | `evidence/F0-F1/` |
+| CP0.2 Domain schema and seed | **ACCEPTED** 2026-11-15 (RR-12 deferred; D-39) | `docs/acceptance/CP0.2.md` |
+| **F2** Work Queues and search | **ACCEPTED** 2026-11-15 | §9, `evidence/F2/` |
+| **F3** Call Detail | **ACCEPTED** 2026-11-15 | §10, `evidence/F3/` |
+| **F4** Policy Explorer | **ACCEPTED** 2026-11-15 | §11, `evidence/F4/` |
+| **F5** SBQ Risk Workbench | **ACCEPTED** 2026-11-16 | §12, `evidence/F5/` |
+| **CP0.4a** Insurance transaction intake | **ACCEPTED** 2026-11-16 | §13, `evidence/CP0.4a/` |
+| **CP0.4b-UI** Manual Intake portal | **ACCEPTED** 2026-11-16 (UI portion only) | §14, `evidence/CP0.4b-UI/` |
+| **F6** Script Studio and Assignment Rules (read-only) | **ACCEPTED** 2026-11-16 | §15, `evidence/F6/` |
+| **F7** Review Workbench and Voice Studio (read-only) | **ACCEPTED** 2026-11-16 | §16, `evidence/F7/` |
+| **CP0.1B-3** Administration completion | **ACCEPTED** 2026-11-17 | §17, `evidence/CP0.1B-3/` |
+| **CP0.6** Integrated Stage 0 verification | **ACCEPTED (technical)** 2026-11-17; Stage 0 governance PENDING | §18, `S0.md`, `evidence/CP0.6/`, `evidence/CP0.6-F1/` |
 | CP0.4b remainder | NOT_STARTED (deferred) | `docs/plans/S0_IMPLEMENTATION_PLAN.md` |
-| **S1-A** Full-duplex browser voice POC (mock provider) | **ACCEPTED** 2026-11-17 (owner real-microphone test) | §17 below, `docs/acceptance/S1.md`, `evidence/S1-A/` |
-| **S1-B** Voice-session lifecycle and event persistence | **ACCEPTED** 2026-11-17 (limitations accepted) | §18 below, `docs/acceptance/S1.md`, `evidence/S1-B/` |
-| **S1-C** Consent-gated recording | **ACCEPTED** 2026-11-17 (owner real-microphone test; D-45…D-48 decided; D-48 KPI correction implemented) | §20–§21 below, `docs/acceptance/S1.md`, `evidence/S1-C/` |
-| S1-D Transcript and playback | **IMPLEMENTED AND VERIFIED** 2026-11-17, awaiting owner acceptance (D-49…D-53 approved) | §22 below, `docs/acceptance/S1.md` "S1-D as built", `evidence/S1-D/` |
-| S1-E Real provider (GPT-Live) | NOT_STARTED, deferred by the owner | `docs/acceptance/S1.md` |
+| **S1-A** Full-duplex browser voice POC (mock provider) | **ACCEPTED** 2026-11-17 | §19, `S1.md`, `evidence/S1-A/` |
+| **S1-B** Session lifecycle and event persistence | **ACCEPTED** 2026-11-17 (limitations accepted) | §19, `S1.md`, `evidence/S1-B/` |
+| **S1-C** Consent-gated recording | **ACCEPTED** 2026-11-17 (D-45…D-48 decided; D-48 KPI correction implemented) | §19, `S1.md`, `evidence/S1-C/` |
+| S1-D Transcript and playback | **IMPLEMENTED AND VERIFIED**, awaiting owner acceptance (D-49…D-53 approved) | §0, §19, `S1.md`, `evidence/S1-D/` |
+| S1-E Real provider (GPT-Live) | **PAUSED** by the owner 2026-11-17 | `S1.md` |
+| S2-A Editable Script Studio | **ACCEPTED** 2026-11-17 (D-54…D-57 approved subject to S2-A.1) | `S2.md`, `evidence/S2-A/` |
+| S2-A.1 Owner refinements | **ACCEPTED** 2026-11-17 | `S2.md`, `evidence/S2-B/` |
+| S2-B Editable Assignment Rules | **ACCEPTED** 2026-11-17 (D-58…D-66 approved; D-62 clarified) | `S2.md`, `evidence/S2-B/` |
+| S2-C Deterministic Script Assignment | **IMPLEMENTED AND VERIFIED**, awaiting owner acceptance | §0, `S2.md`, `evidence/S2-C/` |
+| S2-D Deterministic Question Controller · S2-E Text-based callback simulation | NOT_STARTED, not authorised (owner's planned sequence) | `S2.md` |
+| Stage 0 governance acceptance | **PENDING** (SEC-008 review, named approvers C-20) | `S0.md`, `docs/security/SEC-008_REVIEW_HANDOFF.md` |
 
-Stage 0 overview: `docs/acceptance/S0.md`.
+## 2. Verification history (latest first)
 
-## 2. What is built
+| Checkpoint | Backend | Frontend unit | Playwright | OpenAPI SHA-256 | Migration head | Evidence |
+|---|---|---|---|---|---|---|
+| S2-C | 381 | 101 | 26 | `283300f0fa1f7c1158953f10db2efda07ca8fdd2048d767e97219f6139727470` | `0018_script_assignment_engine` | `evidence/S2-C/` |
+| S2-A.1 + S2-B | 377 | 99 | 25 | `d50a5a43dbcda109f34cfaf6fa3f07c048de1ca04aecaa11e377845ab9ef82cb` | `0017_assignment_rule_authoring` | `evidence/S2-B/` |
+| S2-A | 363 | 96 | 24 | `d35e791e04be538bd6d0d99e224133319d3f45e038035e7fcaa172eef8bf0ea8` | `0015_script_authoring` | `evidence/S2-A/` |
+| S1-D | 357 | 94 | 23 | `e0a02959438fccd6750f89836c749ffa202b338d24580efa9a831b121d52ecea` | `0014_transcript` | `evidence/S1-D/` |
+| D-48 correction | 338 | 89 | — | `cc52479f…` (unchanged) | `0013_recording` | `evidence/S1-C/d48_kpi_correction.txt` |
+| S1-C | 334 | 89 | 22 | `cc52479f8d01be081c600ab9c39bc678ce384d53fc7a429fa123ca3acb5ac0fd` | `0013_recording` | `evidence/S1-C/` |
+| S1-B | 325 | 86 | 20 | `f057e6dbd6c985c87200569ef6ed081f74a1e3e982c36dc6d54f6e4c4e3e54b3` | `0012_session_event` | `evidence/S1-B/` |
+| S1-A | — | — | — | `e45244f699ad9da410c8579f1f2f2151b112b1062daecc97cb4a38ff8db77dcd` | `0011_voice_session_permission` | `evidence/S1-A/` |
+| F0/F1 (S0) | 193 | 35 | 16 | `5da1f16d98b2adc2dbbbb1e78fe15566f8a0fd1f933cef9d445413976c205724` | `0008_market_scope` | `evidence/F0-F1/` |
+
+Later S0 checkpoints (F2…CP0.6) record their numbers in their sections below and in `S0.md`.
+
+## 3. Development environment
+
+- **Backend:** Python 3.12, FastAPI, SQLAlchemy 2, Alembic, `uv` (`.venv` in `Call360-backend`). Dependencies include
+  `faster-whisper==1.2.1` (S1-D; pulls `huggingface-hub`, which also installs `httpx2` — Starlette's TestClient now
+  uses it, test-only effect).
+- **Frontend:** React/TypeScript, Vite, TanStack Query, `openapi-fetch` with types generated from the backend OpenAPI
+  (`npm run api:generate` / `api:check`), Vitest, Playwright (Chromium; `voice` project uses a fake microphone file).
+- **Voice:** mock provider only (keyless, fixed synthetic message); WebSocket audio transport; consent-gated
+  encrypted recording; local offline transcription. No GPT-Live, no Genesys, no real customers.
+
+## 4. Repositories, databases, local files and commands
+
+**Database:** local PostgreSQL 15, database `Call360_db`.
+
+| Schema | Login role | Head | Notes |
+|---|---|---|---|
+| `call360` (development) | `Call360_db_user` (superuser, RR-11) | `0018_script_assignment_engine` | S0-SEED-1 (195 SG cases visible, 55 MY hidden); never reset; seed digest `2ead19f3…` MATCH; runtime test sessions and demo scripts listed in §0 |
+| `call360_test` | `call360_test_user` (no superuser, no access to `call360`) | `0018_script_assignment_engine` | reset and seeded by pytest and `scripts/e2e_setup.py` only |
+
+**Development accounts** (passwords only in `Call360-backend/.env.local`): `dev.admin` (Demo Administrator,
+LOCAL_ADMIN), `dev.user` (Demo Operations User, LOCAL_USER_SG — script author), `dev.checker` (Dev S&C Checker,
+LOCAL_SC_CHECKER_SG — script approver/publisher, created 2026-11-17 with `call360 create-local-user`). E2E accounts
+(random passwords, `Call360-frontend/e2e/.auth/accounts.json`): `e2e.admin`, `e2e.user`, `e2e.victim`, `e2e.tabs`,
+`e2e.checker`.
+
+**Local files (gitignored or outside the repositories; never commit, never print secret values):**
+
+| Path | Holds |
+|---|---|
+| `Call360-backend/.env` | development DB URL and secrets; PII keys; `RECORDING_ENCRYPTION_KEY`; `TRANSCRIPTION_MODEL_DIR` |
+| `Call360-backend/.env.test` | test role credentials and keys; `TRANSCRIPTION_MODEL_DIR` |
+| `Call360-backend/.env.local` | development account passwords (`DEV_ADMIN_*`, `DEV_USER_*`, `DEV_CHECKER_*`) |
+| `Call360-backend/.secrets/` | Ed25519 signing keys |
+| `Call360-frontend/e2e/.auth/` | E2E accounts |
+| `~/.call360/recordings/<schema>/` | encrypted recordings and transcript text objects (168 h local retention) |
+| `~/.call360/models/faster-whisper-small.en/` | transcription model files (≈464 MB, SHA-256 pinned in `app/voice/transcript.py`) |
+| `~/call360-backups/` | `pre_cp02_20261115_173043/` (includes `env.post_keys`, the only other copy of the development data-protection keys), `pre_f0_20261115_181045/`, `pre_s1c_20261117_025210/`, `pre_s2b_20261117_141600/` (pg_dump of schema `call360` before 0016/0017), `pre_s2c_20261117_150940/` (before 0018) |
+
+**Commands**
+- Backend dev: `cd Call360-backend && make dev` → http://127.0.0.1:8000 (applies nothing; migrate with `make migrate`).
+- Frontend dev: `cd Call360-frontend && npm run dev` → http://127.0.0.1:5173 (Vite proxies `/api`, incl. WebSocket).
+- Backend checks: `make lint typecheck test contract-check secret-scan` (tests use `.env.test`).
+- Frontend checks: `npm run typecheck && npm run lint && npm test && npm run api:check && npm run build && npm run secret-scan`; E2E `npx playwright test` (servers on 8001/5174 against `call360_test`).
+- Specs: `python3 Call360-specs/scripts/validate_specs.py` (freezes BRD and register by SHA-256).
+- Development integrity checks: `.venv/bin/call360 audit-verify`; seed digest via `app.domain.digest.content_digest`
+  compared with the latest `SEED.MANIFEST` audit event (see `evidence/S2-A/dev_migration.txt`).
+- Stop dev servers: `lsof -ti tcp:8000,5173 | xargs kill`.
+
+## 5. Security and governance status, known risks
+
+| Item | Status / risk | Action |
+|---|---|---|
+| Stage 0 governance | SEC-008 review not done; approvers not named (C-20) | Owner to name reviewer and approvers; never self-certify |
+| RR-12 | Weak development DB password (exposed in an earlier session; never in Git) | Rotation deferred by the owner; follow `CP0.2_DEV_DEPLOYMENT.md` step 4 and 4b (restore data-protection keys from the backup) |
+| RR-11 | Development app connects as a superuser | Non-superuser application role before any non-synthetic data |
+| RR-01 | Audit integrity relies on the database only | External anchoring decision S5 |
+| RR-04 / RR-05 / RR-09 / RR-10 | Local HTTP cookies without `Secure`; in-process rate limiter; chapter-level ASVS matrix; provisional parameters | Security owner review |
+| Recording / transcript keys | Local keys, no rotation; data on the developer machine; transcript text shares the recording key | Production key management with S5 |
+| Consent and retention | Test-only consent notice `S1C-TEST-1` (D-45); 168 h local retention (D-47) | Production wording DEC-004 and retention DEC-015 pending |
+| Transcription accuracy | Best-effort; confident misrecognitions occur unmarked; accuracy measured only on 12 synthetic clips | S3 review controls; owner real-microphone check |
+| Script governance (S2-A) | `SC_CHECKER` is a synthetic local role; ADMIN can manage group memberships | Enterprise SSO roles (S5); D-54 confirmation |
+| Tooling | Chromium-only E2E; gitleaks generic rule gaps (Call360 formats covered; public model checksums allowed inline) | Track |
+
+## 6. Key references
+
+- **Specs:** `docs/spec/01_MASTER_BRD.md`, `02_CLAUDE_CODE_EXECUTION_PLAN.md`, `03_REQUIREMENTS_REGISTER.csv`;
+  `docs/product/SCRIPT_GOVERNANCE_AND_ASSIGNMENT.md`, `S0_KPI_DEFINITIONS.md` (§3.1 D-48), `S0_SCREEN_SPEC.md`;
+  `docs/data/CANONICAL_GRAIN_AND_RELATIONSHIPS.md`, `S0_DATA_MODEL.md`;
+  `docs/security/IDENTITY_AUTHORIZATION_AND_AUDIT.md`, `S0_IDENTITY_ACCESS_DESIGN.md`, `THREAT_MODEL_S0.md`,
+  `ASVS_S0_CONTROL_MATRIX.md`, `SEC-008_REVIEW_HANDOFF.md`; ADRs `docs/adr/ADR-0001…0008` (ADR-0007 Script Studio
+  lifecycle); `docs/spec/APPROVED_EXCEPTIONS.md`.
+- **Acceptance records:** `docs/acceptance/S0.md` (Stage 0, CP0.6), `CP0.0.md`, `CP0.1A.md`, `CP0.1B-1.md`,
+  `CP0.2.md`, `S1.md` (S1-A…S1-D, decisions D-44…D-53), `S2.md` (S2-A, D-54…D-57, planned sequence),
+  `S0_TEST_MATRIX.md`.
+- **Evidence:** `docs/acceptance/evidence/<checkpoint>/` (F0-F1, F2…F7, CP0.4a, CP0.4b-UI, CP0.1B-3, CP0.6, CP0.6-F1,
+  S1-A, S1-B, S1-C, S1-D, S2-A).
+- **UI reference:** `Call360-frontend/docs/design/reference/Call360_Portal_Mockup.html`; deviations
+  `Call360-frontend/docs/design/DEVIATIONS.md`.
+
+## 7. Working notes for the next session
+
+- S2-B tests and E2E commit rules into `call360_test`; tests that depend on precedence must use priorities that win over
+  rules published by earlier tests (the schema is not reset between tests), and E2E checks must not assume "the first
+  published rule" has assigned cases.
+- The rule engine (`app/domain/rule_engine.py`) is pure; S2-C uses it via `app/domain/script_assignment.py`.
+- `tests/test_script_assignment.py` resets and reseeds `call360_test` before and after itself (it withdraws the seeded
+  catch-all rule and inserts legacy conflict rows). An existing API-039 owns `GET /cases/{id}/script-assignment`; the
+  S2-C endpoints are `…/script-assignment/preview` and `…/script-assignment/apply`.
+- Chrome demos: a short-lived helper on 127.0.0.1:5199 can hand gitignored dev credentials to the login form (see
+  `evidence/S2-B/chrome_demo.txt`); stop it afterwards.
+
+- Never run backend pytest and Playwright concurrently: both use `call360_test` and pytest resets it.
+- S2-A tests add authored script families to the test schema; the S0 script tests address the seeded family by code.
+- Seed digest covers seeded (`SYSTEM:seed`) business rows only; authored and runtime rows do not change it, but
+  altering seeded rows (e.g. superseding seeded `SALES_VERIFICATION_SG` v1.1) would.
+- New groups must also be added to the `create-local-user` CLI choices (`app/cli.py`).
+- The E2E suite is near the 20 logins/min IP limit; reuse sign-ins.
+- Use bash (not zsh) for evidence scripts with word splitting; gitleaks flags 64-hex constants (mark public checksums
+  with `# gitleaks:allow`).
+- Chrome demonstrations sign in with the gitignored local credentials; never repeat them in chat or documents.
+
+## 8. Stage 0 foundations as built (historical, CP0.1A and CP0.1B-1)
 
 **CP0.1A (accepted)**
 - **Backend:**
@@ -77,85 +300,7 @@ Stage 0 overview: `docs/acceptance/S0.md`.
   - a market label "New version" form;
   - flags with disabled, explained toggles for locked stages.
 
-## 3. Latest verification (2026-11-15; `docs/acceptance/evidence/F0-F1/`)
-
-| Check | Result |
-|---|---|
-| Backend tests | **193 passed** |
-| Frontend unit and component tests | **35 passed** |
-| **Playwright** against the real stack | **16 passed**; axe zero serious/critical and no overflow at 1280 and 1440 px |
-| ruff, mypy `--strict`, ESLint, tsc, build | Clean |
-| Secret scans | Self-test 13 formats × 50; repos and bundle clean |
-| Development database (`call360`) | Both dev accounts log in; 195 SG cases visible, 0 MY leaked; readiness OK; audit chain verified |
-| Specs validator | PASS |
-
-OpenAPI SHA-256: `5da1f16d98b2adc2dbbbb1e78fe15566f8a0fd1f933cef9d445413976c205724`.
-
-## 4. Repositories and environment
-
-| Repo | HEAD (owner commit) | Uncommitted work (none committed since; committing needs owner authorisation) |
-|---|---|---|
-| Call360-specs | `de5926b` | CP0.2 specs, acceptance and evidence; D-39 (Singapore-only); D-40 (vertical slices); F0/F1 records and evidence; deployment runbook; this handoff |
-| Call360-backend | `08c139e` | CP0.2 (migrations 0003–0007, `app/domain/`, seed, tests), corrections, F0 (migration 0008, `app/security/scope.py`), F1 (`app/api/dashboard.py`, `app/domain/kpis.py`), tests, OpenAPI. Manifest `evidence/F0-F1/manifest_backend.txt` (52 files) |
-| Call360-frontend | `9f86ce0` | Audit-table fix, F1 Overview (`OverviewPage.tsx` and tests, `e2e/overview.spec.ts`), regenerated client, scanner fixes, DV-13. Manifest `evidence/F0-F1/manifest_frontend.txt` (18 files) |
-
-**Database:** local PostgreSQL 15, database `Call360_db`.
-
-| Schema | Owner / login role | Migration head | Notes |
-|---|---|---|---|
-| `call360` (development) | `Call360_db_user` (**superuser**, RR-11) | `0008_market_scope` | 55 tables + `alembic_version`; S0-SEED-1 (195 SG cases visible, 55 MY retained and hidden). Accounts: `dev.admin` (ADMIN), `dev.user` (USER). Backups: `~/call360-backups/pre_cp02_20261115_173043/` (includes `env.post_keys`, the only copy of the dev data-protection keys besides `.env`), `~/call360-backups/pre_f0_*` |
-| `call360_test` (automated tests) | `call360_test_user` (no superuser; no access to `call360`) | `0008_market_scope` | Reset and seeded only by the guarded test harness and E2E setup |
-
-**Local configuration (all gitignored; never commit):**
-
-| Path | Holds |
-|---|---|
-| `Call360-backend/.env` | Development database URL and secrets |
-| `Call360-backend/.env.test` | Test role credentials (generated, never displayed) |
-| `Call360-backend/.env.local` | Dev account passwords |
-| `Call360-backend/.secrets/` | Ed25519 signing keys |
-| `Call360-frontend/e2e/.auth/` | E2E accounts |
-
-**Run commands:**
-- `cd Call360-backend && make dev` → http://127.0.0.1:8000
-- `cd Call360-frontend && npm run dev` → http://127.0.0.1:5173
-- Tests:
-  - `make test lint typecheck contract-check secret-scan`
-  - `npm run lint typecheck test api:check build secret-scan e2e`
-- E2E servers run on ports 8001 and 5174 against `call360_test`.
-
-Dev servers may still be running from the review: stop them with `lsof -ti tcp:8000,5173 | xargs kill`.
-
-## 5. Known limitations and security risks
-
-| Item | Risk | Action |
-|---|---|---|
-| **Development database password rotation (deferred by owner, RR-12)** | The `Call360_db_user` password is weak and was exposed in this session's conversation, command lines and, briefly, a local file. It never reached Git; history was scanned | Deferred at the CP0.2 deployment. When rotating, follow `CP0.2_DEV_DEPLOYMENT.md` step 4 **and step 4b**: `make_env.py --force` deletes the data-protection keys, which must be restored from `~/call360-backups/pre_cp02_20261115_173043/env.post_keys` |
-| RR-11 | Development app connects as a superuser | Use a non-superuser app role before any non-synthetic data |
-| RR-01 | Audit integrity relies on the database only | External anchoring decision deferred to S5 |
-| RR-04 | Cookies on local HTTP lack `Secure`; HTTPS mode untested | Test in the CP0.6 gate |
-| RR-05 | In-process rate limiter | Shared store in S5 |
-| RR-09 / RR-10 | ASVS matrix is chapter-level; security parameters are provisional | Security owner review |
-| Other | Small offline password blocklist; Chromium-only E2E; no Python dependency audit tool; the gitleaks generic rule misses ~3% of unknown key formats (Call360 formats are covered deterministically); 2 known default-rule false positives in BRD and register prose if the specs repo is ever scanned | Track |
-| B-1 notes | API-023 handles a replay with 409, not a stored idempotency key; the stage-lock CHECK (`<= 'S0'`) must move in each later stage's migration; seed descriptions mention checkpoint names | Accepted design notes |
-
-## 6. Key references
-- **Plan:** `docs/plans/S0_IMPLEMENTATION_PLAN.md`
-- **Decisions:** `docs/adr/` (ADR-0003…0008), `docs/spec/APPROVED_EXCEPTIONS.md`
-- **Design:**
-  - `docs/data/S0_DATA_MODEL.md` (Build column)
-  - `docs/security/S0_IDENTITY_ACCESS_DESIGN.md` (§4 tokens, §8 governed lists, §10 schemas and roles)
-  - `docs/contracts/S0_API_CATALOGUE.md`
-  - `docs/product/S0_SCREEN_SPEC.md`, `docs/product/S0_KPI_DEFINITIONS.md`
-- **Security:** `docs/security/THREAT_MODEL_S0.md`, `ASVS_S0_CONTROL_MATRIX.md`
-- **Traceability:** `docs/acceptance/S0_TEST_MATRIX.md`
-- **Acceptance and evidence:**
-  - `docs/acceptance/CP0.0.md`, `CP0.1A.md`, `CP0.1B-1.md`
-  - `evidence/CP0.0/`, `evidence/CP0.1A/` (including `defect-corrections/`), `evidence/CP0.1B-1/`
-- **UI reference:** `Call360-frontend/docs/design/reference/Call360_Portal_Mockup.html`; deviations in `Call360-frontend/docs/design/DEVIATIONS.md`
-- **Validator:** `python3 Call360-specs/scripts/validate_specs.py`. It freezes the BRD and register by SHA-256; never edit those files without an approved requirement change.
-
-## 7. F2 Work Queues and search — ACCEPTED 2026-11-15
+## 9. F2 Work Queues and search — ACCEPTED 2026-11-15
 
 **As built (2026-11-15; evidence `docs/acceptance/evidence/F2/`; OpenAPI `1cc23a1b422be5748d74d2dd775e4403868f50c587ce0713bc3f192b834e9dd0`; no migration, head `0008_market_scope`):**
 - Backend: `app/domain/register.py` (rows over the F1 `Facts`, so drilldowns reuse the KPI predicates), `app/api/cases.py` (API-035/036/076), `app/api/search.py` (API-070/071), `tests/test_register.py` (22 tests). Overview OPS-01…04/07 now carry typed register drilldowns (OPS-07 numerator only).
@@ -164,7 +309,7 @@ Dev servers may still be running from the review: stop them with `lsof -ti tcp:8
 - Frontend: `/calls`, `/queues`, `/search`, top-bar combobox, Overview drilldown links; DV-12 lifted, DV-14/15 recorded.
 - Not in F2 (raise if needed): register grain switch (`attempt`/`session`), facets for channel / FSC / owner / script version, customer-alias and FSC search; Call Detail (F3) and Policy Detail (F4) rows show an explicit F3/F4 state.
 
-## 8. F3 Call Detail — ACCEPTED 2026-11-15
+## 10. F3 Call Detail — ACCEPTED 2026-11-15
 
 **As built (2026-11-15; evidence `docs/acceptance/evidence/F3/`; OpenAPI `f0f047162ec4e36c60e5815f58fcbff231ab04c561e4e696a2864282585b3739`; no migration):**
 - Backend: `app/api/case_detail.py` (API-037…047 under `case.read`, API-063 under `script.read`; every lookup joins the case or script family with the caller's markets; missing/out-of-scope → identical audited 404), schemas in `app/api/schemas.py`, `tests/test_case_detail.py` (16 tests: all 12 golden fixtures, BOLA matrix over 12 routes, T-15 pin, masking, permissions). `app/domain/outcomes.py` gained `applicable_mandatory()` / `question_satisfied()` (refactor of the existing §1.1 logic, no rule change).
@@ -173,14 +318,14 @@ Dev servers may still be running from the review: stop them with `lsof -ti tcp:8
 - Known limits: owner shown as "Unassigned" (no seeded owners; never fabricated); recordings/transcripts NOT_AVAILABLE (S1); review actions S3.
 - Owner refinements (delivered with F4): the header shows "Contact pre-check (stored data only)": "Pre-check passed" or "Blocked" with one reason per cause and its evidence ("not an authorisation to call"); `precheckReasons()` merges `HOLD:<X>` and `<X>` blockers. API shape unchanged.
 
-## 9. F4 Policy Explorer and Policy Detail — ACCEPTED 2026-11-15
+## 11. F4 Policy Explorer and Policy Detail — ACCEPTED 2026-11-15
 
 **As built (2026-11-15; evidence `docs/acceptance/evidence/F4/`; OpenAPI `d8d118b32bed0a5ee7d70a238cbc9984d34b992104435a2bd26f23fedfd750bc`; no migration):**
 - Backend: `app/domain/policy_register.py` (policy rows, filters, disjunctive facets, keyset paging; reuses F2 ref matching, HMAC contact search and cursors; case outcome from `load_facts`, effective band = latest FINAL assessment of the latest sale) and `app/api/policies.py`: API-050 `GET /policies`, API-051 `GET /policies/{id}` (header, record provenance and source/as-of per material field, external refs, related cases with outcome and pinned script), API-052 `/parties` (`party.read`; one card per party with role edges incl. ended, masked contact methods incl. ended/suppressed, per-case eligibility evidence incl. superseded), API-053 `/sales`, API-054 `GET /sales/{id}` (sale context, fact snapshots, risk history with `supersedes_id`, cases), API-055 `/history` (record lineage over policy, sales, role edges, snapshots, risk assessments; `field_changes` = NOT_AVAILABLE / `LEDGER_ARRIVES_CP0_4`). Every query filters `market_code = ANY(:markets)`; MY/missing → identical audited 404. `tests/test_policies.py`.
 - Frontend: `src/features/policies/PolicyExplorerPage.tsx` (URL filters, facets, KPI tiles from facets, intake buttons disabled CP0.4) and `PolicyDetailPage.tsx` (tabs `sale`, `parties`, `risk`, `script`, `cases`, `source` in `?tab=`; `?sale=` must belong to the policy); `src/features/case/evidence.tsx` shared with Call Detail; links Policy → Call Detail, Call Detail → Policy (`?sale=`), register policy refs → Policy Detail, search policy hits → Policy Detail (`hitTarget` = `route`). DV-17.
 - Known limits: no historical role edges exist in the seed (UI supports them); per-field change history waits for CP0.4; FSC display names are synthetic; "Correct field" (ADMIN, CP0.4) and "Request risk override" (S2) disabled.
 
-## 10. F5 SBQ Risk Workbench — ACCEPTED 2026-11-16
+## 12. F5 SBQ Risk Workbench — ACCEPTED 2026-11-16
 
 **Owner acceptance (2026-11-16):** accepted for local synthetic-data development. Accepted limitations: no risk calculation or override engine; source-vs-rule conflicts are stored-assessment comparisons, not approved resolution decisions; no invented scores, thresholds or values; two SG sales remain unassessed. Next: CP0.4 intake proposal (not authorised).
 
@@ -189,7 +334,7 @@ Dev servers may still be running from the review: stop them with `lsof -ti tcp:8
 - Frontend: `src/features/risk/RiskWorkbenchPage.tsx` (+ tests): separation explainer; sale-grain tiles (High/Medium/Low effective, Source ≠ rule) that filter the register; assessment-population bars; factor vocabulary; URL-held filters; drawer `?assessment=` (dialog, Escape/focus) with comparison, factor table, record, history and Policy/Call Detail links. Links in: nav, Overview risk card ("Assessments →", case grain stays on the Overview), Call Detail context risk card, Policy Detail risk tab. DV-18.
 - Seed facts: 229 SG assessments (74 rule-assessed, 155 source-assigned; 15 SUPERSEDED UNKNOWN), 195 SG sales (193 with a FINAL assessment, 2 unassessed), 3 conflicting sales (SALE-SG-000167 LOW→HIGH, -000168 and -000169 LOW→MEDIUM). No PROVISIONAL status, no stored score or weights, no MANUAL origin exist in the seed; the UI labels them if they appear.
 
-## 11. CP0.4a Insurance transaction intake — ACCEPTED 2026-11-16
+## 13. CP0.4a Insurance transaction intake — ACCEPTED 2026-11-16
 
 **As built (2026-11-16; evidence `docs/acceptance/evidence/CP0.4a/`; OpenAPI `d3aabc102cbe7a2730fbb166e0515d8284eb882e8e125b83fb9f57c39d49fcd9`; migration `0009_intake` on `call360_test` and `call360`):**
 - Backend: `migrations/versions/0009_intake.py` (insert-only `intake_run`, `intake_item`, `field_change`; FK from every provenance table's `intake_item_id`; downgrade refuses once runs exist); `app/domain/intake.py` (guards, validation, conflicts, party resolution, eligibility, holds, single-transaction commit, `describe` outcome); `app/api/intake.py`: API-080 `GET /intake/sources`, API-084 `POST /intake/manual/preview` (persists only an audit event), API-085 `POST /intake/manual` (`Idempotency-Key` required; replay → 200 `replayed`; key reuse → 409), API-082/083 runs. Errors: `INGEST_VALIDATION_FAILED` (field locations and codes, never values), `INGEST_NON_SYNTHETIC_REJECTED`, `INGEST_CONTACT_NOT_SYNTHETIC`, `INGEST_MARKET_NOT_IN_SCOPE`, `INGEST_DUPLICATE_SOURCE_EVENT`, `INGEST_SALE_REF_EXISTS`, `INGEST_POLICY_FIELDS_DIFFER`, `INGEST_DUPLICATE_NEW_BUSINESS`, `IDEMPOTENCY_KEY_REQUIRED`/`_REUSED`. Audit: `INTAKE.PREVIEWED`, `INTAKE.COMMITTED`, `INTAKE.REJECTED`, `INTAKE.REPLAYED`, `CASE.HOLD_PLACED` (payload digest, references and codes only).
@@ -227,7 +372,7 @@ Dev servers may still be running from the review: stop them with `lsof -ti tcp:8
 
 Then: F3 Call Detail → F4 Policy Explorer → F5 SBQ Risk Workbench → CP0.4 intake → CP0.1B-3 → CP0.6.
 
-## 12. CP0.4b Manual Intake portal — ACCEPTED 2026-11-16 (UI portion only)
+## 14. CP0.4b Manual Intake portal — ACCEPTED 2026-11-16 (UI portion only)
 
 **As built (2026-11-16; evidence `docs/acceptance/evidence/CP0.4b-UI/`; OpenAPI `9574dbb18d4bbae5a1bc1ed699420ede6c4734c430592770ab52c69606e53b5b`; no migration, head stays `0009_intake`):**
 
@@ -236,7 +381,7 @@ Then: F3 Call Detail → F4 Policy Explorer → F5 SBQ Risk Workbench → CP0.4 
 - **Tests:** unit `model.test.ts`, `IntakePage.test.tsx`; Playwright `e2e/cp04b-checks.ts` (called from `overview.spec.ts`; journey timeout 120 s).
 - **Deferred:** mock upstream and scheduling, corrections, saved drafts, Admin Integrations.
 
-## 13. F6 Script Studio and Assignment Rules (read-only) — ACCEPTED 2026-11-16
+## 15. F6 Script Studio and Assignment Rules (read-only) — ACCEPTED 2026-11-16
 
 **As built (2026-11-16; evidence `docs/acceptance/evidence/F6/`; OpenAPI `cf31afd86a5630e062cd67d9965b5d3fbf1b7e8af109b45c7ad3108018a31bb6`; no migration):**
 
@@ -245,7 +390,7 @@ Then: F3 Call Detail → F4 Policy Explorer → F5 SBQ Risk Workbench → CP0.4 
 - **Tests:** unit `ScriptPages.test.tsx`; Playwright `e2e/f6-checks.ts` (both roles; journey Script Library → version → rule → Call Detail → back to the pinned version; a superseded rule's case keeps its version).
 - **Not built (later stages):** editing, publishing, assignment evaluation, hold release, voice, LLM question generation, compliance decisions.
 
-## 14. F7 Review Workbench and Voice Studio (read-only) — ACCEPTED 2026-11-16
+## 16. F7 Review Workbench and Voice Studio (read-only) — ACCEPTED 2026-11-16
 
 **As built (2026-11-16; evidence `docs/acceptance/evidence/F7/`; OpenAPI `2b31989b101f4aeacdab396a742a44d3f6a20f8b3adea1a65815c2699d7f7303`; no migration):**
 
@@ -253,7 +398,7 @@ Then: F3 Call Detail → F4 Policy Explorer → F5 SBQ Risk Workbench → CP0.4 
 - **Frontend:** `src/features/reviews/ReviewWorkbenchPage.tsx` (tiles from API counts, queue tabs, filters/sort/paging in the URL, selected-finding detail with Call Detail and Policy Detail links, S3 actions disabled), `src/features/voice/VoiceStudioPage.tsx` (status and capability table, S1 controls disabled, no media access). Nav: every Stage 0 screen now enabled. Tests: unit `ReviewWorkbench.test.tsx`; Playwright `e2e/f7-checks.ts` (both roles).
 - **Not built (later stages):** finding adjudication, review decisions and maker-checker, evidence bundles, playback, voice sessions.
 
-## 15. CP0.1B-3 Administration completion — ACCEPTED 2026-11-17
+## 17. CP0.1B-3 Administration completion — ACCEPTED 2026-11-17
 
 **As built (2026-11-17; evidence `docs/acceptance/evidence/CP0.1B-3/`; OpenAPI `ba7e04f87770866b5d5c80957baddff18a798fdcfc4477785f0511918a137ddc`; migration `0010_password_change_required` on `call360_test` and `call360`; dev seed digest unchanged):**
 
@@ -262,218 +407,27 @@ Then: F3 Call Detail → F4 Policy Explorer → F5 SBQ Risk Workbench → CP0.4 
 - **Frontend:** Users (New user, Reset password, one-time password panel), `GroupsPage`, `SessionsPage`, `SystemPage`, `account/PasswordPage` (forced after a one-time password; also in the user menu), `AdminLayout` tabs. Tests: `AdminCompletion.test.tsx`; Playwright `e2e/cp01b3-checks.ts` (create → first sign-in → forced change → portal; groups; revoke; reset; system; USER denial).
 - **Deferred, not blocking:** Admin Integrations (API-027) with the CP0.4b remainder; scope administration beyond the enabled market set (multi-market is a later decision, D-39); enterprise SSO (S5).
 
-## 16. CP0.6 Integrated Stage 0 verification — technical verification ACCEPTED 2026-11-17 (governance pending)
+## 18. CP0.6 Integrated Stage 0 verification — technical verification ACCEPTED 2026-11-17 (governance pending)
 
 - **Added tests only (no business functionality):** `Call360-backend/tests/test_stage0_acceptance.py` (all-route Singapore sweep and identical audited 404s, constraint/reference integrity, immutability and manifest reproduction, audit chain and secret-free audit, BE-SEC-04 injection sweep, seeded-only Malaysian audit references); `Call360-frontend/e2e/cp06-checks.ts` (one transaction through every module; seeded script and finding traceability; E2E-14 controlled empty/error/partial states). Matrix IDs added to existing tests (BE-API-04/05, BE-AUTH-10, BE-KPI-05, BE-SRCH-01/02/06, E2E-07/09/11).
 - **Gate:** run twice on freshly reset `call360_test` (`evidence/CP0.6/gate_run_*.txt`); development database never reset (read-only digest and audit checks).
 - **CP0.6-F1 resolved 2026-11-17:** `app/audit/scope.py` scopes the operational audit view (API-021, Administration 24 h count) to the caller's markets; out-of-scope business events hidden, access-denied events on out-of-scope records listed with the ID withheld (`scope_redacted`), seed manifest without dataset totals; ledger untouched (evidence `evidence/CP0.6-F1/`).
 - **Open (governance):** SEC-008 security review (handoff `docs/security/SEC-008_REVIEW_HANDOFF.md`); approver names and signatures (C-20).
 
-## 17. S1-A full-duplex browser voice POC — ACCEPTED 2026-11-17
+## 19. Stage 1 and S2-A slice log (historical summaries; current state is §0)
 
-Record: `docs/acceptance/S1.md` (D-44 boundaries), evidence `docs/acceptance/evidence/S1-A/`. Migration head
-`0011_voice_session_permission` (test and development). OpenAPI `e45244f699ad9da410c8579f1f2f2151b112b1062daecc97cb4a38ff8db77dcd`.
-Not started: S1-B…S1-E, S2, S3. Owner real-microphone check passed. Outstanding: Stage 0 governance (SEC-008, approvers).
+| Slice | Outcome | Migration | Record |
+|---|---|---|---|
+| S1-A Full-duplex browser voice POC (mock provider, WebSocket, barge-in; D-44 boundaries) | ACCEPTED 2026-11-17 after the owner's real-microphone test | `0011_voice_session_permission` | `S1.md` "S1-A", `evidence/S1-A/` |
+| S1-B Session lifecycle and insert-only event ledger (resume within 30 s, sweeper, startup recovery) | ACCEPTED 2026-11-17; limitations accepted (no connection survives a restart; resume within 30 s; no audio/transcript content; synthetic-microphone demos are not real-microphone acceptance) | `0012_session_event` | `S1.md` "S1-B as built / owner acceptance", `evidence/S1-B/` |
+| S1-C Consent-gated encrypted recording (two tracks, chunk manifests, coverage, `recording.read` USER only) | ACCEPTED 2026-11-17 after the owner's real-microphone test; D-45 test-only consent wording, D-46 `recording.read` USER not ADMIN, D-47 168 h local retention (development only), D-48 test sessions excluded from operational KPIs (implemented, `S0-KPI-3`) | `0013_recording` | `S1.md` "S1-C …", `evidence/S1-C/` |
+| S1-D Local transcription and synchronised playback (D-49…D-53 approved with `IMPLEMENT S1-D`) | IMPLEMENTED AND VERIFIED; awaiting owner acceptance | `0014_transcript` | `S1.md` "S1-D …", `evidence/S1-D/` |
+| S1-E GPT-Live | PAUSED by the owner (resume last) | — | `S1.md` |
+| S2-A Editable Script Studio (D-54…D-57) | ACCEPTED 2026-11-17 (subject to S2-A.1); uncommitted | `0015_script_authoring` | `S2.md`, `evidence/S2-A/` |
+| S2-A.1 Owner refinements (draft isolation, Abandon Draft, acknowledgement, labelling) | ACCEPTED 2026-11-17; uncommitted | `0016_script_draft_isolation` | `S2.md`, `evidence/S2-B/` |
+| S2-B Editable Assignment Rules (D-58…D-66 approved) | ACCEPTED 2026-11-17; uncommitted | `0017_assignment_rule_authoring` | `S2.md`, `evidence/S2-B/` |
+| S2-C Deterministic Script Assignment | IMPLEMENTED AND VERIFIED; awaiting owner acceptance; uncommitted | `0018_script_assignment_engine` | `S2.md`, `evidence/S2-C/` |
 
-## 18. S1-B voice-session persistence — IMPLEMENTED AND VERIFIED 2026-11-17 (awaiting owner acceptance)
-
-Record: `docs/acceptance/S1.md` ("S1-B as built"), evidence `docs/acceptance/evidence/S1-B/`. Migration head
-`0012_session_event` (test and development). OpenAPI `f057e6dbd6c985c87200569ef6ed081f74a1e3e982c36dc6d54f6e4c4e3e54b3`. Code: `app/voice/store.py`
-(lifecycle, ledger, sweep), `app/api/voice.py` (resume, stop, status, list, persisted stream), lifespan recovery and
-sweeper in `app/main.py`; frontend `useVoiceSession.ts`, `VoiceSessionTimeline.tsx`, Voice Studio history, Call Detail.
-Not started: S1-C, S1-D, S1-E, S2, S3.
-
-## 19. State at the end of the S1-B session (2026-11-17) — superseded by §20
-
-**Status**
-- **Stage 0:** every checkpoint and slice accepted; CP0.6 technical verification ACCEPTED. **Governance acceptance
-  PENDING:** SEC-008 security review (handoff `docs/security/SEC-008_REVIEW_HANDOFF.md`, reviewer not named, not
-  self-certified) and the three named approvers' signatures (`S0.md` → Approvals; names not assigned, C-20). Stage 0
-  stays NOT_ACCEPTED until both are complete.
-- **S1-A** (full-duplex browser voice, mock provider): **ACCEPTED** 2026-11-17 after the owner's real-microphone test.
-  Accepted limitations: mock provider only; WebSocket audio transport (WebRTC planned for S1-E); no recording or
-  transcript; no identity verification or compliance evaluation; no real customer calling.
-- **S1-B** (session lifecycle and event persistence): **IMPLEMENTED AND VERIFIED** 2026-11-17, awaiting owner acceptance.
-- **Next proposed:** S1-C consent-gated recording — **not implemented and not authorised**. Then S1-D (transcript),
-  S1-E (GPT-Live behind the provider protocol, WebRTC).
-
-**S1-B in brief** (details in §18 and `docs/acceptance/S1.md` "S1-B as built")
-- One browser test session = one `contact_attempt` (BROWSER, CALL360_RUNTIME) plus, on connection, one
-  `conversation_session` with guarded pins (published script + manifest, FINAL risk assessment + hash, latest fact
-  snapshot + hash, contacted party, masked contact). States: CREATED (live), INTERRUPTED (resumable 30 s), FINALIZED,
-  ABORTED; attempt FAILED if never connected. `case_event` gets VOICE_SESSION_STARTED / VOICE_SESSION_ENDED.
-- **Migration `0012_session_event`:** insert-only, ordered event log per session (server `seq`; source
-  SERVER/CLIENT/SYSTEM; client event ID unique per session so retries are stored and acted on once; client sequence
-  and time with `out_of_order`; metadata-only `details` — never audio, transcript or microphone content).
-- APIs: `POST /api/v1/voice/sessions`, `POST …/{id}/resume`, `POST …/{id}/stop` (idempotent), `GET …/{id}`,
-  `GET /api/v1/voice/sessions?case_id=`; WebSocket `…/{id}/stream`. Startup recovery finalises open sessions
-  (BACKEND_RESTART); a 15 s sweeper finalises never-connected (90 s), abandoned (interrupted > 30 s) and orphaned ones.
-- Frontend: Voice Studio persisted record and timeline, resume offer after refresh, automatic resume after a network
-  drop, case session history; Call Detail shows browser attempts with their timeline.
-
-**Verification (S1-B)**
-- Backend **325 passed**; frontend **86 unit passed**; Playwright **20 passed** (incl. 4 real-browser voice tests).
-  Lint, types, OpenAPI contract and client drift, build and secret scans clean. Specs validator PASS.
-- OpenAPI SHA-256 `f057e6dbd6c985c87200569ef6ed081f74a1e3e982c36dc6d54f6e4c4e3e54b3`.
-- Chrome demonstration with a real backend restart: `evidence/S1-B/chrome_demo.txt` (disclosed synthetic microphone).
-
-**Databases**
-- `call360` (development) and `call360_test` at Alembic head **`0012_session_event`** (0010 one-time-password flag,
-  0011 `voice.session.start` permission, 0012 session event log). Development seed digest `2ead19f36e09bdf3…` still
-  matches its manifest; development audit chain verified (2616 events at the last check). The development database was
-  never reset; runtime voice sessions on it are synthetic test sessions (e.g. `AT-2026-10048-3`).
-
-**Repositories** (all on `main`, clean and in sync with `origin/main` at the end of this session; commits and pushes
-were made by the owner, not by Claude Code)
-- `Call360-specs` `e40c3ccc026fe578e4a0628906ff9f14da83faff`
-- `Call360-backend` `d98e08ba8f2e0e6a4f71090e7848fa846485e92b`
-- `Call360-frontend` `6fd7f5aa76e943ead6de8c33c0a414e0fb2b0b79`
-
-**Local runtime**
-- Backend dev server: `cd Call360-backend && make dev` (127.0.0.1:8000; was running as a Claude Code background task
-  and stops with the session). Frontend: `cd Call360-frontend && npm run dev` (127.0.0.1:5173). Vite proxies `/api`
-  including the voice WebSocket. Playwright runs its own servers on 8001/5174 against `call360_test`
-  (`voice` project uses Chromium's fake microphone with `e2e/fixtures/fake-mic-hello.wav`).
-
-**Important limitations (S1-B, awaiting acceptance)**
-- Live connections and pending credentials are per process: after a restart, open sessions are finalised, not resumed.
-- Resume needs the same signed-in user within 30 s; a refresh asks for microphone permission again.
-- Browser timestamps are stored as reported; the server sequence is authoritative.
-- Runtime test sessions count as contact attempts in operational metrics.
-- Energy-based speech detection relies on browser echo cancellation; headphones give the cleanest interruption test.
-- Carried forward: no recording (S1-C), transcript (S1-D) or real provider (S1-E); identity NOT_PERFORMED and
-  compliance NOT_EVALUATED for every session; RR-11 (development DB role is a superuser) and RR-12 (weak development
-  DB password, rotation deferred).
-
-**Outstanding owner decisions**
-1. Accept S1-B (or request changes).
-2. Authorise S1-C and decide its consent and test-recording policy, including retention of local recordings.
-3. Name the SEC-008 security reviewer and the three Stage 0 approvers (C-20).
-4. Before S1-E: approval to use GPT-Live, its API key handling and data handling.
-5. Still deferred: CP0.4b remainder (mock upstream, corrections, saved drafts, Admin Integrations), saved views.
-
-
-## 20. State at the end of the S1-C implementation (2026-11-17) — superseded by §21
-
-**Status**
-- **Stage 0:** unchanged — technical verification ACCEPTED; governance acceptance PENDING (SEC-008 reviewer, three
-  named approvers, C-20). Never self-certify SEC-008 or invent signatures.
-- **S1-A, S1-B:** ACCEPTED 2026-11-17 (S1-B limitations accepted: no connection survives a restart; resume only within
-  30 s; no audio or transcript content in S1-B; synthetic-microphone demos are not real-microphone acceptance).
-- **S1-C consent-gated recording:** IMPLEMENTED AND VERIFIED 2026-11-17, **awaiting owner acceptance**. Record:
-  `docs/acceptance/S1.md` ("S1-C design", "S1-C as built", "S1-C known limitations"); evidence `evidence/S1-C/`.
-- **Next proposed:** S1-D transcript and playback — not authorised.
-
-**S1-C in brief**
-- Consent per session before Start, default "Do not record", test-only notice `S1C-TEST-1`; stored in the
-  insert-only session ledger. Microphone permission is never consent; nothing before the server's `session.ready`
-  confirmation can enter a recording.
-- Browser records MIC and PROVIDER_PLAYBACK (rendered audio) in 2 s PCM16 chunks with SHA-256; server stores them
-  encrypted (AES-256-GCM, separate key) outside the database and repositories with server-generated keys; per
-  connection segment manifests; coverage computed (MISSING, UPLOAD_FAILED, DISCONTINUITY, SESSION_INTERRUPTED,
-  END_NOT_CONFIRMED, CAPTURE_INTERRUPTED); never backfilled.
-- API recording status: NOT_RECORDED / RECORDING / COMPLETE / PARTIAL / FAILED / PURGED, derived from the approved
-  `media_status` vocabulary plus coverage. Audio retrieval needs `recording.read` (USER only), audited.
-- Browser sessions are labelled TEST_SESSION everywhere; KPI-01/02 disclose them (`test_sessions_in_numerator/
-  denominator`); KPI definitions unchanged.
-
-**Verification:** backend 334 passed; frontend 89 unit passed; Playwright 22 passed (6 voice incl. 2 S1-C); lint,
-types, OpenAPI contract and client drift, build, secret scans clean; specs validator PASS. OpenAPI SHA-256
-`cc52479f8d01be081c600ab9c39bc678ce384d53fc7a429fa123ca3acb5ac0fd`. Chrome demo: `evidence/S1-C/chrome_demo.txt`.
-
-**Databases:** `call360_test` and `call360` (development) at **`0013_recording`**. Development seed digest
-`2ead19f3…` MATCH; audit chain verified before the demo (2616 events). Development `.env` gained
-`RECORDING_ENCRYPTION_KEY` (backup of the previous file: `~/call360-backups/pre_s1c_20261117_025210/`);
-`.env.test` gained its own key. Development demo recordings (synthetic tones) are in `~/.call360/recordings/call360`.
-
-**Repositories:** all three on `main` at the S1-B owner commits (specs `e40c3cc`, backend `d98e08b`, frontend
-`6fd7f5a`) with S1-C changes **uncommitted** (commits need owner authorisation).
-
-**Outstanding owner decisions**
-1. Accept S1-C (or request changes), including D-45 (test notice and consent model), D-46 (`recording.read` for USER
-   only), D-47 (local storage, 168 h local retention), D-48 (test-session label and KPI disclosure).
-2. K-5: should test sessions be excluded from attempt KPIs? (business decision; not implemented).
-3. Real-microphone check of recording (as done for S1-A).
-4. SEC-008 reviewer and Stage 0 approvers (C-20).
-5. Before S1-E: GPT-Live approval, API-key and data handling. Still deferred: CP0.4b remainder, saved views.
-
-## 21. State after the S1-C acceptance and S1-D proposal (2026-11-17) — superseded by §22
-
-**Status**
-- **Stage 0:** technical verification ACCEPTED; governance acceptance PENDING (SEC-008 reviewer, named approvers,
-  C-20). Never self-certify SEC-008 or invent signatures.
-- **S1-A, S1-B, S1-C:** ACCEPTED 2026-11-17. S1-C was accepted after the owner's real-microphone recording test.
-  Evidence in `evidence/S1-C/` preserved unchanged.
-- **Owner decisions:** D-45 test-only consent wording approved (production wording pending, DEC-004); D-46
-  `recording.read` for USER, not ADMIN; D-47 encrypted local storage, 168 h retention, development only (DEC-015
-  pending); D-48 marked test sessions **excluded** from operational callback KPIs (numerators and denominators),
-  still visible in test activity, case history and audit; seeded historical attempts never excluded for being
-  synthetic. K-5 is resolved for test sessions by D-48.
-- **D-48 correction (implemented, authorised with the acceptance):** `kpis.is_test_attempt` marker (BROWSER +
-  CALL360_RUNTIME); KPI-01, KPI-02 (+ trend) and KPI-12 use operational attempts only (KPI-12 ordinals too);
-  `exclusions.test_sessions_excluded`, KPI-02 `test_sessions_excluded_count`; `reporting_version` `S0-KPI-3`;
-  `docs/product/S0_KPI_DEFINITIONS.md` §3.1. OpenAPI unchanged (`cc52479f…`); no migration. Backend **338 passed**
-  (new `tests/test_kpi_test_sessions.py`, updated `test_recording.py` and the BE-KPI-01 SQL oracle); ruff, mypy,
-  contract, secret scan clean; frontend 89 unit passed. Evidence `evidence/S1-C/d48_kpi_correction.txt`.
-- **S1-D transcript and playback:** PROPOSED, **not authorised**. Scope, data model (`0014_transcript`), APIs, UI,
-  tests and decisions D-49…D-53 in `docs/acceptance/S1.md` "S1-D proposal". Key recommendation: a local offline STT
-  engine (`faster-whisper`, `small.en`, pinned) behind a `TranscriptionEngine` interface, post-session batch over
-  the stored recording; the mock's fixed message is reference text only, never a transcript. Installing the package
-  and downloading the model (~480 MB) need owner permission.
-
-**Databases:** `call360_test` and `call360` at `0013_recording` (no change in this session). Development backend
-(`make dev`, 127.0.0.1:8000) and frontend (127.0.0.1:5173) were left running.
-
-**Repositories:** all three on `main` at the S1-B owner commits (specs `e40c3cc`, backend `d98e08b`, frontend
-`6fd7f5a`); S1-C and the D-48 correction are **uncommitted** (commits need owner authorisation).
-
-**Outstanding owner decisions**
-1. Authorise S1-D (`IMPLEMENT S1-D`) and decide D-49 (engine and model, plus download permission), D-50
-   (`transcript.sensitive.read` for USER only), D-51 (English only), D-52 (development confidence thresholds),
-   D-53 (synchronised two-track player).
-2. Commit authorisation for S1-C and the D-48 correction (separate branches per repository).
-3. SEC-008 reviewer and Stage 0 approvers (C-20).
-4. Before S1-E: GPT-Live approval, API key and data handling. Still deferred: CP0.4b remainder, saved views.
-
-## 22. Current state (2026-11-17, S1-D session) — read this first
-
-**Status**
-- Stage 0: technical verification ACCEPTED; governance acceptance PENDING (SEC-008 reviewer, approvers, C-20).
-  Never self-certify SEC-008 or invent signatures.
-- S1-A, S1-B, S1-C ACCEPTED. **S1-D transcript and playback: IMPLEMENTED AND VERIFIED 2026-11-17, awaiting owner
-  acceptance.** Record: `docs/acceptance/S1.md` ("S1-D owner authorisation", "S1-D as built", "S1-D known
-  limitations"); evidence `docs/acceptance/evidence/S1-D/`.
-- Next: S1-E (GPT-Live) remains deferred and not authorised; S2/S3 not authorised.
-
-**S1-D in brief**
-- Local offline faster-whisper 1.2.1 + `Systran/faster-whisper-small.en` @ `d1d751a5…`, model files in
-  `~/.call360/models/faster-whisper-small.en` (outside Git; SHA-256 pinned and verified on load). Configured by
-  `TRANSCRIPTION_MODEL_DIR` in the gitignored `.env` (development) and `.env.test` — both were given this line.
-- Background worker transcribes each finalised consented track separately (speaker from the track), span by span
-  (never across gaps); runs are immutable revisions with full provenance; text is AES-GCM encrypted in the recording
-  store, never in the database, and purged with the audio. Statuses map to the approved transcript vocabulary;
-  never certified (`NOT_REVIEWED`).
-- Call Detail: synchronised two-track player (Web Audio, one clock, mute per track, hatched gaps, audited PLAYBACK
-  retrieval on demand) and speaker-grouped transcript with uncertainty markers, gap markers and segment-click seek.
-- `transcript.sensitive.read` for USER only (D-50); ADMIN sees status and provenance only.
-
-**Verification:** backend 357 passed (incl. 19 transcript/golden); frontend 94 unit; Playwright 23; lint, types,
-contract (`e0a02959438fccd6750f89836c749ffa202b338d24580efa9a831b121d52ecea`), secret scans, build clean; specs
-validator PASS. Golden dataset: clean-speech WER 3.2 %, timing ≤ 0.52 s, no text from silence/tone/noise. Chrome
-demo `evidence/S1-D/chrome_demo.txt`, including one **confident misrecognition with no marker** (AT-2026-10048-11).
-
-**Databases:** `call360_test` and `call360` at **`0014_transcript`**; development seed digest MATCH, audit chain OK
-(2634 events before the demo). Demo sessions AT-2026-10048-7…12 exist on CB-2026-10048 (synthetic).
-
-**Repositories:** all three on `main` at the S1-B owner commits (specs `e40c3cc`, backend `d98e08b`, frontend
-`6fd7f5a`); S1-C, the D-48 correction and S1-D are **uncommitted**. Backend `pyproject.toml`/`uv.lock` gained
-`faster-whisper==1.2.1` (pre-change copies were kept only in a session scratchpad).
-
-**Process note:** never run backend pytest and the Playwright suite at the same time — both use `call360_test` and
-pytest resets it (this caused spurious failures once in this session).
-
-**Outstanding owner decisions**
-1. Accept S1-D (or request changes); real-microphone transcript check (speak known phrases, compare by ear and eye).
-2. Commit authorisation for S1-C, D-48 and S1-D (separate branches per repository).
-3. SEC-008 reviewer and Stage 0 approvers (C-20).
-4. Before S1-E: GPT-Live approval, API key and data handling. Still deferred: CP0.4b remainder, saved views.
+Earlier per-session snapshots (previously §19–§23) were removed from this handoff because their status lines and
+"outstanding decisions" lists are superseded; their content is preserved in `S1.md`, `S2.md`, the evidence folders and
+Git history (`git log -p docs/plans/SESSION_HANDOFF.md`).

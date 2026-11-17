@@ -1,0 +1,38 @@
+# S2-A demonstration in the owner's Chrome (development stack, 2026-11-17 20:52–21:00 SGT)
+
+Stack: development backend 127.0.0.1:8000 (schema call360 at 0015_script_authoring) and frontend 127.0.0.1:5173.
+Accounts: dev.user (USER: script.edit) as maker; dev.checker (new, LOCAL_SC_CHECKER_SG → role SC_CHECKER:
+script.approve, script.publish; created with `call360 create-local-user`, password only in the gitignored
+Call360-backend/.env.local) as checker. Form fields were filled through small in-page helpers that set the real
+inputs and click the real buttons (every request goes through the UI's API client).
+
+1. Create Script (dev.user): Script Studio → New script → SALES_VERIFICATION_SG_PROTECT "Protection sales verification
+   (SG, synthetic S2-A demo)" → draft v1.0 opens in the editor ("You are editing draft v1.0").
+2. Add Sections and Questions:
+   - Section 1: new COMMON module PROTECT_COMMON "Common sales conduct — protection (demo)", always included, with
+     Q-PROT-REP-ROLE (yes/no, exact boolean, expected yes, category Disclosure), Q-PROT-TERM (numeric, matched to policy
+     fact premium_term_years), Q-PROT-EXCLUSIONS (acknowledgement, controlled TTS) and Q-ANY-CONCERNS reused from the
+     question bank (r1, optional, collect only).
+   - Section 2: the published ELEVATED_RISK r1 module reused with the inclusion condition "SBQ risk band is High".
+   - Q-PROT-REP-ROLE linked to SYN-CTRL-01 and the Singapore placeholder regulatory reference with a rationale.
+   - Q-PROT-EXCLUSIONS moved up one place.
+3. Save Draft / validate: every change saved immediately as a recorded change (row-version token). Validation: Valid,
+   with 2 warnings (Q-PROT-EXCLUSIONS and Q-PROT-TERM are mandatory but linked to no control).
+4. Submit: change summary entered → "Locked for review"; manifest SHA-256
+   baf21e2d34ed6fd67858b9b3832e74a6e6f6a3166c53a5770dbc6e05f8d0c0dd. The maker's Review tab shows "Awaiting an S&C
+   checker. Your role cannot approve script versions" (no Approve button); a direct POST …/review by the maker returns
+   403 FORBIDDEN.
+5. Approve as a different authorised user (dev.checker, signed in after the maker signed out): Version diff "6 added"
+   (4 new or reused common questions + 2 elevated-risk questions), wording shown per question; reason entered →
+   Approve → Approved (reviewer "Dev S&C Checker").
+6. Publish (dev.checker): publication note entered → Publish v1.0 → "Published 17 Nov 2026 … immutable". Change history
+   (insert-only, newest first): Published · Approved · Submitted for review · Validated · Content changed ×10 · Draft
+   created, each with actor and reason; "Modules published: PROTECT_COMMON r1".
+7. View Immutable Version: status Published, "Immutable version: content and manifest checksum never change. Changes
+   need a new draft version", manifest SHA-256 unchanged (baf21e2d…), Author / reviewer "Demo Operations User / Dev S&C
+   Checker", no editor. The Script library lists SALES_VERIFICATION_SG_PROTECT v1.0 (Published, 6 questions, 5
+   mandatory) beside the historical seeded versions SALES_VERIFICATION_SG v0.9 (Withdrawn), v1.0 (Superseded), v1.1
+   (Published, 166 cases) and v1.2 (Draft) — all unchanged. The checker (no script.edit) sees no "New script" action.
+
+Afterwards: audit chain OK (2685 events); development seed digest MATCH (2ead19f3…) — authoring changed no seeded row.
+Small fix found during the demo: the header labelled the checker "Operations user"; it now shows "S&C script checker".

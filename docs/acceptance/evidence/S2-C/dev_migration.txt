@@ -1,0 +1,32 @@
+# S2-C development deployment 2026-11-17T15:09:40Z
+## backup: ~/call360-backups/pre_s2c_20261117_150940/call360_schema.dump (pg_dump custom format, schema call360; local only)
+## before
+head 0017_assignment_rule_authoring
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 245
+rule versions ['MY-SALES-VERIFY v1 PUBLISHED', 'SG-ILP-HIGH-RISK v1 SUPERSEDED', 'SG-ILP-HIGH-RISK v2 PUBLISHED', 'SG-PILOT v1 WITHDRAWN', 'SG-SALES-VERIFY v1 SUPERSEDED', 'SG-SALES-VERIFY v2 PUBLISHED']
+assignment_rule_draft 3
+script_version_control_link 11
+question_revision_detail 0
+Audit chain OK: 2714 events; head 4850e290eeb1e51a4a0666d53baf2aaf2067e260944b74fd63fe088c7f9f43f3
+## migrate
+alembic upgrade head: 0017_assignment_rule_authoring → 0018_script_assignment_engine (no errors)
+## after
+head 0018_script_assignment_engine
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 245
+rule versions ['MY-SALES-VERIFY v1 PUBLISHED', 'SG-ILP-HIGH-RISK v1 SUPERSEDED', 'SG-ILP-HIGH-RISK v2 PUBLISHED', 'SG-PILOT v1 WITHDRAWN', 'SG-SALES-VERIFY v1 SUPERSEDED', 'SG-SALES-VERIFY v2 PUBLISHED']
+assignment_rule_draft 3
+script_version_control_link 11
+question_revision_detail 0
+Audit chain OK: 2714 events; head 4850e290eeb1e51a4a0666d53baf2aaf2067e260944b74fd63fe088c7f9f43f3
+## after the Chrome demonstration (read-only)
+head 0018_script_assignment_engine
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 246
+rule versions ['MY-SALES-VERIFY v1 PUBLISHED', 'S2C-DEMO-LEGACY-CONFLICT v1 WITHDRAWN', 'SG-ILP-HIGH-RISK v1 SUPERSEDED', 'SG-ILP-HIGH-RISK v2 PUBLISHED', 'SG-PILOT v1 WITHDRAWN', 'SG-SALES-VERIFY v1 SUPERSEDED', 'SG-SALES-VERIFY v2 PUBLISHED']
+assignment_rule_draft 3
+script_version_control_link 11
+question_revision_detail 0
+Audit chain OK: 2731 events; head c8e848e9e158f3c1a91230901dd73c56ae8357aac064789b2cb8982a183ea3db
+historical (SEED) assignments:    (245,)

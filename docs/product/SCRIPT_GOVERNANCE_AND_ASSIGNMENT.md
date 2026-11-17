@@ -48,6 +48,44 @@ These are **topics** for requirements modelling; wording is deliberately not rep
 6. Show the assigned script preview in Policy Detail and Call Detail, including 'why this script'. An operator cannot silently bypass, swap or add questions.
 7. On policy/risk updates or regulatory release, run explicit impact analysis. Open cases are flagged for assignment review; prior call sessions keep their frozen script/evidence.
 
+## Assignment rule precedence and specificity (owner decisions 2026-11-17, S2-B)
+
+Recorded on the owner's instruction with the S2-B authorisation. Decisions D-58…D-60 were approved with S2-B; D-61…D-65
+(and D-66, S2-A.1) were **approved** on accepting S2-B (2026-11-17), with the D-62 clarification below.
+
+- **D-58 Precedence (approved).** Only published rule versions effective at the evaluation time are considered.
+  Priority first: a *lower* number wins (1 is highest). On equal priority the rule with the higher specificity wins.
+  Equal priority and specificity with different target script versions → `AMBIGUOUS` (no selection; held for
+  authorised review). Equal priority and specificity with the *same* target → all tied rules are kept in the trace and
+  the decision fails closed (`AMBIGUOUS_SAME_TARGET`, flagged for review), consistent with T-40.
+- **D-59 Specificity (approved).** Calculated automatically, never entered or overridden: the number of distinct
+  explicitly constrained predicate fields. Unrestricted ("any") fields do not count; several values within one field
+  count once; explicitly matching the unassessed SBQ status (`UNASSESSED`) counts as a constraint. An unassessed case
+  matches a rule that does not constrain the band, and matches a band condition only when `UNASSESSED` is listed.
+- **D-60 Default fallback (approved).** A fallback must be explicitly configured on the rule and approved like any
+  rule. It is considered only when no other rule matches and is never used to resolve ambiguity.
+- **D-61 Fail closed (approved).** An eligible rule that cannot be evaluated because a case input is missing gives
+  `INPUT_MISSING`; a winning rule whose target script version is not published and effective gives
+  `TARGET_NOT_EFFECTIVE`. Neither falls through to a lower-precedence rule.
+- **D-62 Contact role (approved, clarified).** In *simulation* "Eligible contact role is X or Y" holds when any current
+  eligible contact selection of the case has one of the roles (governed list `callable_party_roles`), and the matched
+  roles are displayed; two role conditions never make rules disjoint for conflict analysis. In *actual assignment*
+  (S2-C) the selected callback contact's role is used; when contact selection is unresolved and affects the script
+  choice, assignment fails closed (`CONTACT_UNRESOLVED`) instead of guessing.
+- **D-63 Language (approved).** Not offered as a condition: no governed language fact exists on cases, parties or
+  contacts and every script version is English. It needs a governed field before it can be a rule condition.
+- **D-64 Rule governance roles (approved).** Rules reuse the S2-A script permissions (D-54): `script.edit` (USER)
+  authors, `script.approve`/`script.publish` (SC_CHECKER) review and publish, no maker may approve or publish, ADMIN
+  holds none.
+- **D-65 One live version per rule (approved).** Publishing a new version of a rule requires the checker to confirm
+  that it supersedes the live version; a future-dated version keeps the live one effective until it starts.
+
+Condition fields offered (existing governed sources only): market (required, the rule's market), callback purpose,
+product family, product, ILP indicator, SBQ sale-selection risk band (incl. `UNASSESSED`), sales channel, premium
+frequency and eligible contact role. Rules are stored in the S0 predicate language extended with `in`
+(`{"fact": f, "in": [...]}`); no free text, code or expressions are accepted. Simulation evaluates the same pure logic
+in a read-only transaction; publishing a rule never reassigns a case (automatic assignment is S2-C).
+
 ## Governance state machine
 
 `DRAFT → SUBMITTED_FOR_REVIEW → APPROVED → SCHEDULED → PUBLISHED → SUPERSEDED | WITHDRAWN`

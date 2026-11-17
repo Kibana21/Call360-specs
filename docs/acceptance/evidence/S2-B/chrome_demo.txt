@@ -1,0 +1,55 @@
+# S2-B demonstration in the owner's Chrome (development stack, 2026-11-17 22:31–22:40 SGT)
+
+Stack: development backend 127.0.0.1:8000 (schema call360 migrated 0015 → 0017_assignment_rule_authoring, see
+dev_migration.txt) and frontend 127.0.0.1:5173. Accounts: dev.user (USER, script.edit) as maker; dev.checker
+(SC_CHECKER, script.approve/script.publish) as checker. Sign-in used the real login form; the passwords were supplied
+to the page by a short-lived helper on 127.0.0.1 that read the gitignored Call360-backend/.env.local (so they never
+appeared in the operator's tool inputs or in any document) and was stopped after the demo. Form fields were filled
+through small in-page helpers that set the real inputs and click the real buttons (every request goes through the
+UI's API client).
+
+1. Create Rule (dev.user): Assignment Rules → "New mapping rule" → SG-ILP-HIGH-RISK "ILP sales with high SBQ risk
+   (synthetic demo)" → Rule Detail opens on draft v1, market condition pre-set and locked ("Required — your market").
+2. Configure Conditions: "Add a condition" → ILP indicator = ILP; SBQ sale-selection risk band = High (value chips from
+   the governed lists; no expression field). Priority 5. Specificity shown as 3 (calculated, read-only). Explanation
+   (server): "Assign SALES_VERIFICATION_SG v1.1 when the market is Singapore (synthetic) and the product is an ILP and
+   the SBQ sale-selection risk band is High (synthetic). Priority 5 (1 is highest), specificity 3. Any callback
+   purpose, product family, product, sales channel, premium frequency, eligible contact role."
+3. Select Published Script: target list offered SALES_VERIFICATION_SG v1.1 and SALES_VERIFICATION_SG_PROTECT v1.0;
+   v0.9 (withdrawn) and v1.0 (superseded) listed but disabled. Saved (row version 2). Validation: valid, one warning
+   (target is synthetic, not production-approved wording). Conflicts: "Overlap … SG-ILP-HIGH-RISK v1 (proposed) wins
+   (priority 5, specificity 3)" against the seeded SG-SALES-VERIFY v2.
+4. Simulate Against Cases (as of now, all Singapore cases): "No side effects … evaluated in a read-only transaction";
+   197 cases, 197 script selected, 0 no match, 0 ambiguous, 0 fail closed, 46 changed vs live rules (the ILP + High
+   cases now won by the proposed rule), 31 differ from the pinned script ("Existing assignments are not changed").
+   Rules table: proposed rule 46 cases, SG-SALES-VERIFY v2 151, SG-PILOT v1 withdrawn and SG-SALES-VERIFY v1 superseded
+   (0). Case CB-2026-10001 "Why?": the proposed rule Selected, three conditions passed; SG-PILOT v1 excluded (withdrawn);
+   SG-SALES-VERIFY v2 Match but lower precedence.
+   No-match scenario: as of 2025-01-01 09:00 SGT → 197 no match ("No published, effective rule matches this case").
+5. Submit: change summary → "Submitted for review … Locked for review"; manifest SHA-256
+   c072cf6ec3e7ee3ca8fc920340df8df888ac552370e788cb985eace2c9d38950. The maker's Review tab: "Awaiting an S&C checker"
+   (no Approve button).
+6. Checker Approval (dev.checker after the maker signed out): reason entered → Approved (reviewer Dev S&C Checker).
+7. Publish: "Publish v1" (no live version to supersede) → Published, immutable; "Cases assigned 0" (publishing never
+   reassigns a case).
+8. Conflicting rule (dev.user): SG-ILP-PROTECT-CONFLICT, ILP = ILP and channel Agency or Broker, priority 5
+   (specificity 3), target SALES_VERIFICATION_SG_PROTECT v1.0 → error "SG-ILP-HIGH-RISK v1 and SG-ILP-PROTECT-CONFLICT
+   v1 (proposed) can match the same case with equal priority 5 and specificity 3 but select different scripts …
+   ambiguous"; Submit disabled. Its simulation: 23 ambiguous cases (held, no script selected), reason "2 rules match
+   with equal priority 5 and specificity 3 but select different script versions; held for authorised review, never
+   chosen arbitrarily". The draft was then abandoned with a reason (status ABANDONED, nothing deleted).
+9. Rule version history: dev.user "New version" → v2 draft based on v1; band High + Medium, priority 4; Compare
+   versions: "More permissive SBQ sale-selection risk band: High → High, Medium · Priority 5 → 4"; submitted.
+   dev.checker approved; "Publish v2" stayed disabled until "Supersede SG-ILP-HIGH-RISK v1 (required: a rule has one
+   live version)" was ticked; published. Versions: v1 Superseded (from–to 17 Nov 2026), v2 Published (priority 4).
+   Change history lists Draft created, Changed (fields), Submitted (summary), Approved (reason), Published (note),
+   Superseded previous version — each with actor and time.
+
+Polish found during the demo and fixed before the final test runs (re-checked in Chrome): Rule Detail breadcrumb/tab
+title read "Call360" (now "Rule Detail"); author/checker shown as principal ids (now display names); comparison showed
+raw codes/timestamps (now governed labels and SGT dates); "Cases won" counted tied rules (now only cases where a script
+is selected).
+
+After the demo (read-only checks, dev_migration.txt): head 0017_assignment_rule_authoring; seed digest
+2ead19f36e09bdf3… MATCH; script_assignment rows 245 (unchanged); audit chain OK (2714 events). Development records
+created: rules SG-ILP-HIGH-RISK v1 (SUPERSEDED) and v2 (PUBLISHED), draft SG-ILP-PROTECT-CONFLICT v1 (ABANDONED).

@@ -1,0 +1,31 @@
+# S2-A.1 + S2-B development deployment 2026-11-17T14:16:00Z
+## backup: ~/call360-backups/pre_s2b_20261117_141600/call360_schema.dump (pg_dump custom format, schema call360; local only)
+## before
+Audit chain OK: 2691 events; head 31494c4102b6fe21b981b29c58ed79ef5ee80cfa22c9d195373381316ef36d31
+head 0015_script_authoring
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 245
+rule versions ['MY-SALES-VERIFY v1 PUBLISHED', 'SG-PILOT v1 WITHDRAWN', 'SG-SALES-VERIFY v1 SUPERSEDED', 'SG-SALES-VERIFY v2 PUBLISHED']
+assignment_rule_draft absent
+script_version_control_link absent
+question_revision_detail absent
+## migrate
+alembic upgrade head: 0015_script_authoring → 0016_script_draft_isolation → 0017_assignment_rule_authoring (no errors; 0016 copied 11 concept-level control links into the 2 existing drafts' own rows)
+## after
+head 0017_assignment_rule_authoring
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 245
+rule versions ['MY-SALES-VERIFY v1 PUBLISHED', 'SG-PILOT v1 WITHDRAWN', 'SG-SALES-VERIFY v1 SUPERSEDED', 'SG-SALES-VERIFY v2 PUBLISHED']
+assignment_rule_draft 0
+script_version_control_link 11
+question_revision_detail 0
+Audit chain OK: 2691 events; head 31494c4102b6fe21b981b29c58ed79ef5ee80cfa22c9d195373381316ef36d31
+## after the Chrome demo (read-only)
+head 0017_assignment_rule_authoring
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 245
+rule versions ['MY-SALES-VERIFY v1 PUBLISHED', 'SG-ILP-HIGH-RISK v1 SUPERSEDED', 'SG-ILP-HIGH-RISK v2 PUBLISHED', 'SG-PILOT v1 WITHDRAWN', 'SG-SALES-VERIFY v1 SUPERSEDED', 'SG-SALES-VERIFY v2 PUBLISHED']
+assignment_rule_draft 3
+script_version_control_link 11
+question_revision_detail 0
+Audit chain OK: 2714 events; head 4850e290eeb1e51a4a0666d53baf2aaf2067e260944b74fd63fe088c7f9f43f3

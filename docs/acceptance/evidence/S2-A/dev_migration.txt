@@ -1,0 +1,13 @@
+# S2-A development deployment 2026-11-17T12:56:54Z
+## before
+0014_transcript
+Audit chain OK: 2666 events; head 9aab5adf1b0c27f0413dc2729f7c8b9031522e4c3be6f4740afa809f7118442a
+## migrate
+## after
+0015_script_authoring (head)
+Audit chain OK: 2667 events; head f3e8bc8f180413886b47768c7180a0e71211b52fb651cd5cd7ed2554461fedaa
+## seed digest (read-only) 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+## script.edit held by ['USER']
+## script.approve held by ['SC_CHECKER']
+## script.publish held by ['SC_CHECKER']
+## after the Chrome demo: seed digest 2ead19f36e09bdf3 MATCH

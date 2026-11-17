@@ -1,0 +1,42 @@
+# S2-C demonstration in the owner's Chrome (development stack, 2026-11-17 23:09–23:14 SGT)
+
+Stack: development backend 127.0.0.1:8000 (schema call360 migrated 0017 → 0018_script_assignment_engine after a
+pg_dump backup, see dev_migration.txt) and frontend 127.0.0.1:5173. Accounts: dev.admin (manual intake), dev.user
+(USER: preview + apply, holds script.assign). Sign-in used the real login form; passwords were handed to the page by a
+short-lived local helper on 127.0.0.1 reading the gitignored .env.local (never in tool inputs or documents) and stopped
+afterwards. Forms were filled by in-page helpers that set the real inputs and click the real buttons.
+
+1. New synthetic insurance sale (dev.admin, Data Intake → Manual Intake form): POL-SG-861900 / SALE-SG-861900,
+   SYN-PROT-TERM protection, Agency (FSC-0001), source-assigned SBQ Medium, one owner contact → Preview → Submit.
+2. Callback case: CB-2026-10501 · Validated, held "Awaiting script assignment" (blocking). Pre-check Blocked.
+3. Preview assignment (dev.user, Call Detail → Script assignment): "Ready to assign · Script selected"; "Would pin
+   SALES_VERIFICATION_SG v1.1 by SG-SALES-VERIFY v2"; explanation "Assign SALES_VERIFICATION_SG v1.1 when the market is
+   Singapore (synthetic) and the callback purpose is Sale verification. Priority 10 …"; callback contact Owner
+   (single selected contact); would release "Awaiting script assignment"; blocking holds remaining: None; rule trace
+   (5 rules); decision checksum shown.
+4. Apply assignment: confirmation "Pin SALES_VERIFICATION_SG v1.1 to CB-2026-10501 and release Awaiting script
+   assignment. The pin is immutable; the case state does not change." → Apply.
+5. Pinned script: "Script pinned … by SG-SALES-VERIFY v2 · Engine · Demo Operations User"; header tile "Assigned script
+   SALES_VERIFICATION_SG v1.1"; recorded trace (matched rule, precedence, inputs incl. contact role OWNER, rules not
+   applied with reasons).
+6. Assignment hold released: no active holds; Contact pre-check "Pre-check passed"; case state still Validated (no
+   verification, no compliance outcome).
+7. Ambiguous case that remains blocked: Rule Studio refuses equal-rank conflicts at publication, so for the demo one
+   clearly labelled synthetic rule version (S2C-DEMO-LEGACY-CONFLICT v1, priority 4, specificity 3, source
+   S2C-DEMO-DIRECT-INSERT) was inserted directly in the development database, tying with SG-ILP-HIGH-RISK v2 for ILP
+   cases. dev.admin entered a second sale (POL-SG-862326, SYN-ILP-GROWTH ILP, Agency, SBQ High) → CB-2026-10502 held
+   "Awaiting script assignment". dev.user's preview: "Assignment blocked · Ambiguous: 2 rules match with equal priority 4
+   and specificity 3 but select different script versions; held for authorised review, never chosen arbitrarily"; tied
+   rules listed; would place "Awaiting script review"; Apply offered only as "Record blocked decision". Recorded: no
+   script pinned, "Awaiting script review" placed (source SYSTEM), "Awaiting script assignment" kept.
+   The demo rule was then withdrawn (WITHDRAWN, effective_to set — the only change the rule guard permits). The case
+   remains unassigned and blocked (both holds) for the owner; its preview now shows it would resolve to
+   SG-ILP-HIGH-RISK v2 and release both script holds if applied.
+
+Fixed after the demo and re-checked: for a tie the preview showed the first tied rule's "Assign …" explanation (now no
+explanation unless a script is selected); the intake outcome still said "Script routing: Not evaluated in Stage 0"
+(now "Awaiting deterministic assignment — preview and apply it in Call Detail", value AWAITING_DETERMINISTIC_ASSIGNMENT).
+
+After the demo (read-only, dev_migration.txt): head 0018; seed digest 2ead19f36e09bdf3… MATCH; 246 script assignments
+(245 historical SEED rows unchanged + 1 ENGINE); audit chain OK (2731 events). Attempt ledger: CB-2026-10501 SELECTED
+(applied, released AWAITING_SCRIPT_ASSIGNMENT); CB-2026-10502 AMBIGUOUS (not applied, placed AWAITING_SCRIPT_REVIEW).

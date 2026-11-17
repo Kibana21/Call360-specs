@@ -1,0 +1,13 @@
+# Frontend checks 2026-11-17T15:17:10Z (S2-C)
+## typecheck
+TS errors: 0
+## lint (eslint .: no output = clean)
+## unit
+ Test Files  18 passed (18)
+      Tests  101 passed (101)
+## api:check
+api:check OK (openapi 283300f0fa1f7c1158953f10db2efda07ca8fdd2048d767e97219f6139727470)
+## build
+✓ built in 77ms
+## secret scan
+Secret scan clean

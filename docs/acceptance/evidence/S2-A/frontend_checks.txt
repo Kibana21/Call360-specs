@@ -1,0 +1,12 @@
+# S2-A frontend verification 2026-11-17T13:03:46Z (Call360-frontend main @ 417daac + uncommitted S2-A changes)
+$ npm run typecheck && npm run lint
+OK
+$ npm test
+ Test Files  17 passed (17)
+      Tests  96 passed (96)
+$ npm run api:check
+api:check OK (openapi d35e791e04be538bd6d0d99e224133319d3f45e038035e7fcaa172eef8bf0ea8)
+$ npm run secret-scan
+Secret scan clean
+$ npm run build
+✓ built in 73ms
