@@ -1,0 +1,23 @@
+[1/22] [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1280px
+[2/22] [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1440px
+[3/22] [chromium] › e2e/a11y.spec.ts:37:1 › FE-04 unauthorized and session-expired screens are accessible
+[4/22] [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1280px
+[5/22] [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1440px
+[6/22] [chromium] › e2e/auth.spec.ts:4:1 › E2E-01 unauthenticated redirect, login, landing with real session data, logout
+[7/22] [chromium] › e2e/auth.spec.ts:29:1 › E2E-15 tokens only in HttpOnly cookies; no storage or URL tokens; CSRF and origin enforced
+[8/22] [chromium] › e2e/auth.spec.ts:53:1 › D-23 two tabs refreshing an expired access token concurrently keep the session
+[9/22] [chromium] › e2e/auth.spec.ts:72:1 › E2E-18 (partial) branding and terminology
+[10/22] [chromium] › e2e/config.spec.ts:5:1 › E2E-20 Configuration: market label version (non-governed), governed denial, stage-locked flags, USER denied
+[11/22] [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1280px
+[12/22] [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1440px
+[13/22] [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout
+[14/22] [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data
+[15/22] [chromium] › e2e/permissions.spec.ts:4:1 › E2E-10 (partial) USER is denied Administration in the UI and by the API
+[16/22] [chromium] › e2e/permissions.spec.ts:14:1 › E2E-13 (partial) ADMIN disables a user: that user is signed out on the next request; audit shows before/after
+[17/22] [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER)
+[18/22] [voice] › e2e/voice.spec.ts:76:1 › S1-A browser voice: a denied microphone never creates a session
+[19/22] [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history
+[20/22] [voice] › e2e/voice.spec.ts:146:1 › S1-B tab closure: the session is interrupted, then finalised as abandoned
+[21/22] [voice] › e2e/voice.spec.ts:171:1 › S1-C recording: consent → record → interruption → stop → complete evidence; refusal records nothing
+[22/22] [voice] › e2e/voice.spec.ts:229:1 › S1-C recording: upload failure and a mid-session refresh are reported as partial, never filled in
+  22 passed (3.3m)

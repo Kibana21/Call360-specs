@@ -1,0 +1,50 @@
+# S1-C demonstration in the owner's Chrome (development stack, 2026-11-17 02:53–03:00 SGT)
+
+Stack: development backend 127.0.0.1:8000 (schema call360 at 0013_recording; worker reloaded after
+RECORDING_ENCRYPTION_KEY was added) and frontend 127.0.0.1:5173. Signed in as dev.user (USER: voice.session.start,
+recording.read). Case CB-2026-10048 (callable, Singapore, synthetic).
+
+Microphone: a DEMO-ONLY synthetic microphone was injected into the page (getUserMedia replaced by a 220 Hz tone
+gated into 1.2 s bursts every 6 s). It follows the same capture worklet → WebSocket → mock provider path and the same
+recorder path as a real microphone. This is NOT equivalent to the owner's real-microphone acceptance test.
+
+1. Consent → recording → interruption → stop → evidence (AT-2026-10048-4 / SS-2026-10048-4)
+   - Voice Studio shows the test-only notice S1C-TEST-1; "Do not record (default)" preselected; Start button reads
+     "Start without recording". Selected "I agree to record this test session" → "Start and record".
+   - Live: red "● Recording" indicator; "Recording: on (segment 1) · 10 chunks uploaded"; mock spoke, 3 barge-ins,
+     4 responses; consent radios disabled during the session.
+   - Stop → "Recording evidence is shown in the persisted session." Persisted record: Recording complete,
+     consent Granted 17/11/2026 2:53:42 am, notice S1C-TEST-1 (test only).
+     MIC AVAILABLE/COMPLETE 9 chunks 17.9 s, no gaps, sha cb4dd42c930b…
+     PROVIDER_PLAYBACK AVAILABLE/COMPLETE 9 chunks 17.9 s, no gaps, sha e2b723eb70d9…
+   - Ledger: #1 Session requested · #2 Recording consent granted (test notice) · #3 Connected · session pins fixed ·
+     #4 Recording segment started · … · Browser closed a recorded track ×2 · Session ended · Recording track
+     finalised ×2 (20 events).
+   - Call Detail → Contact history "Attempt 4 · Ended · Browser voice test" with "Test session — not a customer
+     contact"; Recording card "Recording stored", evidence available, media status Available, no player (S1-D),
+     "Download WAV" per track.
+   - Download in the browser: GET /api/v1/sessions/<session>/media/MIC/audio → 200 audio/wav, 574 124 bytes,
+     SHA-256 of the PCM payload computed in the browser = X-Call360-Content-SHA256 = stored content_sha256
+     (cb4dd42c930baaf782dce166e432483104c5165ec34391edf8b0b81143443e4e), coverage COMPLETE. Access audited
+     (RECORDING.ACCESSED).
+
+2. Refusal (AT-2026-10048-5): "Do not record" → "Start without recording" → live, no recording indicator,
+   "Recording: off — you chose not to record. No audio is stored." → Stop → "Nothing was recorded. Nothing was
+   verified." Stored: recording NOT_RECORDED, consent DECLINED, no tracks; ledger RECORDING_CONSENT_DECLINED >
+   CONNECTED > … > ENDED; session media_status NOT_REQUIRED.
+
+3. Partial capture (AT-2026-10048-6): consent granted → after ~6 s a DEMO-ONLY network fault was injected in the page
+   (window.fetch rejects /recording/chunks for 7 s, then recovers). The browser retried, then reported
+   "4 chunks could not be uploaded — the recording will be marked partial". Stop → Recording partial:
+     MIC AVAILABLE/PARTIAL 9 chunks 16.2 s, gaps UPLOAD_FAILED #4, #5, CAPTURE_INTERRUPTED
+     PROVIDER_PLAYBACK AVAILABLE/PARTIAL 9 chunks 16.2 s, gaps UPLOAD_FAILED #4, #5, CAPTURE_INTERRUPTED
+   Missing chunks are listed, never filled; the content checksums cover exactly the stored chunks.
+   Note: the CAPTURE_INTERRUPTED gap here came from the browser labelling its close manifest UPLOAD_FAILED. That was
+   misleading (capture itself did not end early) and was corrected in the client after this demo (the manifest now
+   lists failed chunks and keeps the real close reason). The stored evidence of AT-2026-10048-6 was not rewritten.
+
+Fixes made after the demo (re-verified by unit and Playwright tests): consent choice resets to "Do not record" after
+each session; per-track evidence blocks instead of a cramped table; test-session badge wraps in narrow contact
+history; the persisted record keeps refreshing until a recording is finalised.
+
+Case afterwards: state unchanged, not verified. Development seed digest MATCH (dev_migration.txt).

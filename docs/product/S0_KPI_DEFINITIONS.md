@@ -69,15 +69,15 @@ Rules for the evaluation:
 - `cohort_basis`, `range{from,to}`, `time_zone`, `filter_scope{markets,…}`;
 - `dedup_rule`, `eligibility_rule`, `exclusions{excluded_cancelled, held_in_denominator, …}`, `exemptions_applied[]`;
 - `materiality_policy_version` (where relevant), `reopen_handling`;
-- `data_as_of`, `reporting_version: "S0-KPI-2"`, `synthetic_badge`;
+- `data_as_of`, `reporting_version: "S0-KPI-3"` (S0-KPI-3 adds the D-48 test-session exclusion, §3.1), `synthetic_badge`;
 - `drilldown{numerator, denominator}`.
 
 ## 3. KPI catalogue
 
 | ID | KPI | Grain | Cohort | Denominator (eligibility) | Numerator | Notes |
 |---|---|---|---|---|---|---|
-| KPI-01 | Callback coverage | case | `due_at` ∈ range | Cases due in range, **excluding CANCELLED**; held included | Denominator cases with ≥1 contact attempt whose status ≠ `SCHEDULED` | Not the same as connection rate |
-| KPI-02 | Connection rate | attempt | attempt `started_at` ∈ range | Attempts in a terminal outcome: `NO_ANSWER`, `BUSY`, `WRONG_PARTY`, `FAILED`, `CONNECTED`, `IN_SESSION`, `ENDED` (in-flight excluded) | Attempts `CONNECTED`, `IN_SESSION` or `ENDED` | Attempts of held or cancelled cases included (they happened) |
+| KPI-01 | Callback coverage | case | `due_at` ∈ range | Cases due in range, **excluding CANCELLED**; held included | Denominator cases with ≥1 operational contact attempt (§3.1) whose status ≠ `SCHEDULED` | Not the same as connection rate |
+| KPI-02 | Connection rate | attempt | attempt `started_at` ∈ range | Operational attempts (§3.1) in a terminal outcome: `NO_ANSWER`, `BUSY`, `WRONG_PARTY`, `FAILED`, `CONNECTED`, `IN_SESSION`, `ENDED` (in-flight excluded) | Attempts `CONNECTED`, `IN_SESSION` or `ENDED` | Attempts of held or cancelled cases included (they happened) |
 | KPI-03 | Survey completion | survey run | run `started_at` ∈ range | Runs with status ≠ `NOT_STARTED` | Runs `COMPLETED` | BRD definition (completed / started), not the mockup's completed / connected. Synthetic badge |
 | KPI-04 | Verification rate | case | `due_at` ∈ range | Cases due in range, **excluding CANCELLED** (shown separately); held included | Cases `VERIFIED_COMPLIANT` + `VERIFIED_WITH_FINDINGS` | Also returns the two parts separately. Synthetic badge |
 | KPI-05 | Contact exhaustion | case | `due_at` ∈ range | Cases due in range, **excluding CANCELLED** | `NOT_VERIFIED` with closure reason `ATTEMPTS_EXHAUSTED` | Not the same as customer refusal |
@@ -87,13 +87,25 @@ Rules for the evaluation:
 | KPI-09 | Transcript integrity | session | — | — | — | `NOT_MEASURED`: "Transcripts are captured from Stage S1" |
 | KPI-10 | SLA breach rate | case | `due_at` ∈ range **and** `due_at` < `data_as_of` (matured only) | All matured cases due in range, **including held**, **including CANCELLED unless exempt under `SLA-EX-001`** | Denominator cases without `verified_at` ≤ `due_at` | Timeliness indicator, **not a compliance outcome**. Holds do not pause the clock. Returns breach counts per outcome category |
 | KPI-11 | Review turnaround | finding review | `review_closed_at` ∈ range | Findings with both `review_assigned_at` and `review_closed_at` | Median and P90 of `review_closed_at − review_assigned_at` (hours) | Uses timestamps on `finding` (S0 seed). Synthetic badge |
-| KPI-12 | Retry conversion | case | `due_at` ∈ range | Cases with ≥2 attempts whose status ≠ `SCHEDULED` | Denominator cases whose first `CONNECTED` attempt has `sequence` ≥ 2 | Counts the case once |
+| KPI-12 | Retry conversion | case | `due_at` ∈ range | Cases with ≥2 operational attempts (§3.1) whose status ≠ `SCHEDULED` | Denominator cases whose first `CONNECTED` operational attempt is the 2nd or later operational attempt | Counts the case once |
 | KPI-13 | New cases (intake cohort) | case | `created_at` ∈ range | — (count) | Cases created in range, by `source_type` | K-4 intake cohort |
 | KPI-14 | Intake runs | intake run | `started_at` ∈ range | — (count) | Runs by status, with received, new, updated and rejected totals | ADMIN only (`intake.read`) |
 | KPI-15 | Outcome distribution | case | `due_at` ∈ range | All cases due in range (including CANCELLED, OPEN and held) | Count and share per outcome category: `VERIFIED_COMPLIANT`, `VERIFIED_WITH_FINDINGS`, `NOT_VERIFIED`, `CANCELLED`, `OPEN` | Also returns the `VERIFIED_CONTROL_EVIDENCE_INCOMPLETE` guard count and an SLA-breached count per category. Synthetic badge |
 | KPI-16 | Findings rate among verified | case | `due_at` ∈ range | Cases `VERIFIED_COMPLIANT` + `VERIFIED_WITH_FINDINGS` | Cases `VERIFIED_WITH_FINDINGS` | Synthetic badge |
 | KPI-17 | Not-verified rate | case | `due_at` ∈ range | Terminal cases due in range, **excluding CANCELLED** and excluding OPEN | Cases `NOT_VERIFIED`, by closure reason | Verification outcome, not a sale-compliance judgement |
 | KPI-18 | Cancellation rate | case | `due_at` ∈ range | All cases due in range | Cases `CANCELLED`, by cancellation reason and by exemption eligibility under `SLA-EX-001` | Keeps cancellations visible |
+
+### 3.1 Test sessions are not operational attempts (D-48, owner decision 2026-11-17)
+
+A contact attempt with `transport = BROWSER` and `record_origin = CALL360_RUNTIME` is a Call360 browser voice test
+session (API `attempt_kind = TEST_SESSION`, mock provider, not a customer contact). Such attempts are excluded from the
+numerators **and** denominators of every attempt-based operational callback KPI: KPI-01 (a case covered only by a test
+session is not covered; the case itself stays in the denominator because it is due), KPI-02 and its trend, and KPI-12
+(ordinals are counted among operational attempts). The KPI payload states `exclusions.test_sessions_excluded = true`
+and KPI-02 also returns `test_sessions_excluded_count`. Test sessions stay visible in test activity (Voice Studio),
+case history (Call Detail contact history, attempt counts) and audit records. Ordinary seeded historical attempts are
+**never** excluded merely because the development database is synthetic. Case-grain KPIs that do not count attempts
+(KPI-04/05/10/15–18) are unaffected: a test session cannot change a case outcome.
 
 ## 4. Operational counts (Overview cards; not rates)
 

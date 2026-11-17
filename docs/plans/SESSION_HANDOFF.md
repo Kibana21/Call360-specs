@@ -1,8 +1,8 @@
 # Call360 — Session handoff
 
 **Written:** 2026-11-15, at the end of a Claude Code session.
-**Updated:** 2026-11-17, after S1-B implementation (awaiting owner acceptance); Stage 0 governance acceptance pending.
-**Authorization:** F0–F5 **ACCEPTED**. CP0.4a (`IMPLEMENT CP0.4a`, split approved as D-41) **ACCEPTED 2026-11-16** with its documented limitations. CP0.4b Manual Intake portal (D-42) **ACCEPTED 2026-11-16** (UI portion only; CP0.4b not complete); the rest of CP0.4b (mock upstream, scheduling, corrections, saved drafts, Admin Integrations) is deferred and not authorised. Not authorised: CP0.4b, saved views, B-3, commits, pushes. No real customer data.
+**Updated:** 2026-11-17: S1-A, S1-B and S1-C ACCEPTED (D-45…D-48 decided; D-48 KPI correction implemented); S1-D IMPLEMENTED AND VERIFIED (`IMPLEMENT S1-D`, D-49…D-53), awaiting owner acceptance; Stage 0 governance acceptance and SEC-008 PENDING. Current state: §22.
+**Authorization:** F0–F5 **ACCEPTED**. CP0.4a (`IMPLEMENT CP0.4a`, split approved as D-41) **ACCEPTED 2026-11-16** with its documented limitations. CP0.4b Manual Intake portal (D-42) **ACCEPTED 2026-11-16** (UI portion only; CP0.4b not complete); the rest of CP0.4b (mock upstream, scheduling, corrections, saved drafts, Admin Integrations) is deferred and not authorised. Not authorised: CP0.4b, saved views, B-3, commits, pushes. No real customer data. **Stage 0:** CP0.1B-3 ACCEPTED; CP0.6 technical verification ACCEPTED; Stage 0 governance acceptance PENDING (SEC-008 security review, named approvers). **Stage 1:** S1-A and S1-B ACCEPTED 2026-11-17; S1-C ACCEPTED 2026-11-17 (D-48 correction implemented with the acceptance). S1-D implemented and verified 2026-11-17 (`IMPLEMENT S1-D`), awaiting owner acceptance. Not authorised:, S1-E, S2, S3, CP0.4b remainder.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Each checkpoint is implemented and accepted before the next one starts. Checkpoints never advance automatically.
 **Secrets:** this document contains none. Credentials live only in gitignored local files (§4).
 
@@ -15,7 +15,7 @@
 | CP0.1B-1 Configuration foundation | **ACCEPTED** 2026-11-15 (local development; uncommitted) | `docs/acceptance/CP0.1B-1.md` |
 | CP0.1B-2 Market scope → **F0** (Singapore-only, D-39) | **ACCEPTED** 2026-11-15 | `docs/acceptance/S0.md`, `evidence/F0-F1/` |
 | **F1** Overview (API-030…034, `/`) | **ACCEPTED** 2026-11-15 (limitations accepted: OPS-06 N/A, KPI-11 N/A, click-throughs in F2/F3, 7-day activity may be empty) | `evidence/F0-F1/` |
-| CP0.1B-3 Administration completion | NOT_STARTED | — |
+| CP0.1B-3 Administration completion | superseded by the CP0.1B-3 row below (ACCEPTED 2026-11-17) | — |
 | CP0.2 Domain schema and seed | **ACCEPTED** 2026-11-15 (local synthetic-data development; deployed to `call360` at `0007`); password rotation deferred (RR-12); Singapore-only scope decision D-39 recorded | `docs/acceptance/CP0.2.md` |
 | **F3** Call Detail | **ACCEPTED** 2026-11-15 | §8 below, `evidence/F3/` |
 | **F4** Policy Explorer | **ACCEPTED** 2026-11-15 | §9 below, `evidence/F4/` |
@@ -28,6 +28,11 @@
 | **CP0.1B-3** Administration completion | **ACCEPTED** 2026-11-17 (limitations accepted) | §15 below, `evidence/CP0.1B-3/` |
 | **CP0.6** Integrated Stage 0 verification | **ACCEPTED (technical)** 2026-11-17; Stage 0 governance acceptance PENDING (SEC-008, approvers) | `S0.md` "CP0.6 integrated verification", `evidence/CP0.6/` |
 | CP0.4b remainder | NOT_STARTED (deferred) | `docs/plans/S0_IMPLEMENTATION_PLAN.md` |
+| **S1-A** Full-duplex browser voice POC (mock provider) | **ACCEPTED** 2026-11-17 (owner real-microphone test) | §17 below, `docs/acceptance/S1.md`, `evidence/S1-A/` |
+| **S1-B** Voice-session lifecycle and event persistence | **ACCEPTED** 2026-11-17 (limitations accepted) | §18 below, `docs/acceptance/S1.md`, `evidence/S1-B/` |
+| **S1-C** Consent-gated recording | **ACCEPTED** 2026-11-17 (owner real-microphone test; D-45…D-48 decided; D-48 KPI correction implemented) | §20–§21 below, `docs/acceptance/S1.md`, `evidence/S1-C/` |
+| S1-D Transcript and playback | **IMPLEMENTED AND VERIFIED** 2026-11-17, awaiting owner acceptance (D-49…D-53 approved) | §22 below, `docs/acceptance/S1.md` "S1-D as built", `evidence/S1-D/` |
+| S1-E Real provider (GPT-Live) | NOT_STARTED, deferred by the owner | `docs/acceptance/S1.md` |
 
 Stage 0 overview: `docs/acceptance/S0.md`.
 
@@ -270,7 +275,7 @@ Record: `docs/acceptance/S1.md` (D-44 boundaries), evidence `docs/acceptance/evi
 `0011_voice_session_permission` (test and development). OpenAPI `e45244f699ad9da410c8579f1f2f2151b112b1062daecc97cb4a38ff8db77dcd`.
 Not started: S1-B…S1-E, S2, S3. Owner real-microphone check passed. Outstanding: Stage 0 governance (SEC-008, approvers).
 
-## 18. S1-B voice-session persistence — implemented and verified (awaiting acceptance)
+## 18. S1-B voice-session persistence — IMPLEMENTED AND VERIFIED 2026-11-17 (awaiting owner acceptance)
 
 Record: `docs/acceptance/S1.md` ("S1-B as built"), evidence `docs/acceptance/evidence/S1-B/`. Migration head
 `0012_session_event` (test and development). OpenAPI `f057e6dbd6c985c87200569ef6ed081f74a1e3e982c36dc6d54f6e4c4e3e54b3`. Code: `app/voice/store.py`
@@ -278,3 +283,197 @@ Record: `docs/acceptance/S1.md` ("S1-B as built"), evidence `docs/acceptance/evi
 sweeper in `app/main.py`; frontend `useVoiceSession.ts`, `VoiceSessionTimeline.tsx`, Voice Studio history, Call Detail.
 Not started: S1-C, S1-D, S1-E, S2, S3.
 
+## 19. State at the end of the S1-B session (2026-11-17) — superseded by §20
+
+**Status**
+- **Stage 0:** every checkpoint and slice accepted; CP0.6 technical verification ACCEPTED. **Governance acceptance
+  PENDING:** SEC-008 security review (handoff `docs/security/SEC-008_REVIEW_HANDOFF.md`, reviewer not named, not
+  self-certified) and the three named approvers' signatures (`S0.md` → Approvals; names not assigned, C-20). Stage 0
+  stays NOT_ACCEPTED until both are complete.
+- **S1-A** (full-duplex browser voice, mock provider): **ACCEPTED** 2026-11-17 after the owner's real-microphone test.
+  Accepted limitations: mock provider only; WebSocket audio transport (WebRTC planned for S1-E); no recording or
+  transcript; no identity verification or compliance evaluation; no real customer calling.
+- **S1-B** (session lifecycle and event persistence): **IMPLEMENTED AND VERIFIED** 2026-11-17, awaiting owner acceptance.
+- **Next proposed:** S1-C consent-gated recording — **not implemented and not authorised**. Then S1-D (transcript),
+  S1-E (GPT-Live behind the provider protocol, WebRTC).
+
+**S1-B in brief** (details in §18 and `docs/acceptance/S1.md` "S1-B as built")
+- One browser test session = one `contact_attempt` (BROWSER, CALL360_RUNTIME) plus, on connection, one
+  `conversation_session` with guarded pins (published script + manifest, FINAL risk assessment + hash, latest fact
+  snapshot + hash, contacted party, masked contact). States: CREATED (live), INTERRUPTED (resumable 30 s), FINALIZED,
+  ABORTED; attempt FAILED if never connected. `case_event` gets VOICE_SESSION_STARTED / VOICE_SESSION_ENDED.
+- **Migration `0012_session_event`:** insert-only, ordered event log per session (server `seq`; source
+  SERVER/CLIENT/SYSTEM; client event ID unique per session so retries are stored and acted on once; client sequence
+  and time with `out_of_order`; metadata-only `details` — never audio, transcript or microphone content).
+- APIs: `POST /api/v1/voice/sessions`, `POST …/{id}/resume`, `POST …/{id}/stop` (idempotent), `GET …/{id}`,
+  `GET /api/v1/voice/sessions?case_id=`; WebSocket `…/{id}/stream`. Startup recovery finalises open sessions
+  (BACKEND_RESTART); a 15 s sweeper finalises never-connected (90 s), abandoned (interrupted > 30 s) and orphaned ones.
+- Frontend: Voice Studio persisted record and timeline, resume offer after refresh, automatic resume after a network
+  drop, case session history; Call Detail shows browser attempts with their timeline.
+
+**Verification (S1-B)**
+- Backend **325 passed**; frontend **86 unit passed**; Playwright **20 passed** (incl. 4 real-browser voice tests).
+  Lint, types, OpenAPI contract and client drift, build and secret scans clean. Specs validator PASS.
+- OpenAPI SHA-256 `f057e6dbd6c985c87200569ef6ed081f74a1e3e982c36dc6d54f6e4c4e3e54b3`.
+- Chrome demonstration with a real backend restart: `evidence/S1-B/chrome_demo.txt` (disclosed synthetic microphone).
+
+**Databases**
+- `call360` (development) and `call360_test` at Alembic head **`0012_session_event`** (0010 one-time-password flag,
+  0011 `voice.session.start` permission, 0012 session event log). Development seed digest `2ead19f36e09bdf3…` still
+  matches its manifest; development audit chain verified (2616 events at the last check). The development database was
+  never reset; runtime voice sessions on it are synthetic test sessions (e.g. `AT-2026-10048-3`).
+
+**Repositories** (all on `main`, clean and in sync with `origin/main` at the end of this session; commits and pushes
+were made by the owner, not by Claude Code)
+- `Call360-specs` `e40c3ccc026fe578e4a0628906ff9f14da83faff`
+- `Call360-backend` `d98e08ba8f2e0e6a4f71090e7848fa846485e92b`
+- `Call360-frontend` `6fd7f5aa76e943ead6de8c33c0a414e0fb2b0b79`
+
+**Local runtime**
+- Backend dev server: `cd Call360-backend && make dev` (127.0.0.1:8000; was running as a Claude Code background task
+  and stops with the session). Frontend: `cd Call360-frontend && npm run dev` (127.0.0.1:5173). Vite proxies `/api`
+  including the voice WebSocket. Playwright runs its own servers on 8001/5174 against `call360_test`
+  (`voice` project uses Chromium's fake microphone with `e2e/fixtures/fake-mic-hello.wav`).
+
+**Important limitations (S1-B, awaiting acceptance)**
+- Live connections and pending credentials are per process: after a restart, open sessions are finalised, not resumed.
+- Resume needs the same signed-in user within 30 s; a refresh asks for microphone permission again.
+- Browser timestamps are stored as reported; the server sequence is authoritative.
+- Runtime test sessions count as contact attempts in operational metrics.
+- Energy-based speech detection relies on browser echo cancellation; headphones give the cleanest interruption test.
+- Carried forward: no recording (S1-C), transcript (S1-D) or real provider (S1-E); identity NOT_PERFORMED and
+  compliance NOT_EVALUATED for every session; RR-11 (development DB role is a superuser) and RR-12 (weak development
+  DB password, rotation deferred).
+
+**Outstanding owner decisions**
+1. Accept S1-B (or request changes).
+2. Authorise S1-C and decide its consent and test-recording policy, including retention of local recordings.
+3. Name the SEC-008 security reviewer and the three Stage 0 approvers (C-20).
+4. Before S1-E: approval to use GPT-Live, its API key handling and data handling.
+5. Still deferred: CP0.4b remainder (mock upstream, corrections, saved drafts, Admin Integrations), saved views.
+
+
+## 20. State at the end of the S1-C implementation (2026-11-17) — superseded by §21
+
+**Status**
+- **Stage 0:** unchanged — technical verification ACCEPTED; governance acceptance PENDING (SEC-008 reviewer, three
+  named approvers, C-20). Never self-certify SEC-008 or invent signatures.
+- **S1-A, S1-B:** ACCEPTED 2026-11-17 (S1-B limitations accepted: no connection survives a restart; resume only within
+  30 s; no audio or transcript content in S1-B; synthetic-microphone demos are not real-microphone acceptance).
+- **S1-C consent-gated recording:** IMPLEMENTED AND VERIFIED 2026-11-17, **awaiting owner acceptance**. Record:
+  `docs/acceptance/S1.md` ("S1-C design", "S1-C as built", "S1-C known limitations"); evidence `evidence/S1-C/`.
+- **Next proposed:** S1-D transcript and playback — not authorised.
+
+**S1-C in brief**
+- Consent per session before Start, default "Do not record", test-only notice `S1C-TEST-1`; stored in the
+  insert-only session ledger. Microphone permission is never consent; nothing before the server's `session.ready`
+  confirmation can enter a recording.
+- Browser records MIC and PROVIDER_PLAYBACK (rendered audio) in 2 s PCM16 chunks with SHA-256; server stores them
+  encrypted (AES-256-GCM, separate key) outside the database and repositories with server-generated keys; per
+  connection segment manifests; coverage computed (MISSING, UPLOAD_FAILED, DISCONTINUITY, SESSION_INTERRUPTED,
+  END_NOT_CONFIRMED, CAPTURE_INTERRUPTED); never backfilled.
+- API recording status: NOT_RECORDED / RECORDING / COMPLETE / PARTIAL / FAILED / PURGED, derived from the approved
+  `media_status` vocabulary plus coverage. Audio retrieval needs `recording.read` (USER only), audited.
+- Browser sessions are labelled TEST_SESSION everywhere; KPI-01/02 disclose them (`test_sessions_in_numerator/
+  denominator`); KPI definitions unchanged.
+
+**Verification:** backend 334 passed; frontend 89 unit passed; Playwright 22 passed (6 voice incl. 2 S1-C); lint,
+types, OpenAPI contract and client drift, build, secret scans clean; specs validator PASS. OpenAPI SHA-256
+`cc52479f8d01be081c600ab9c39bc678ce384d53fc7a429fa123ca3acb5ac0fd`. Chrome demo: `evidence/S1-C/chrome_demo.txt`.
+
+**Databases:** `call360_test` and `call360` (development) at **`0013_recording`**. Development seed digest
+`2ead19f3…` MATCH; audit chain verified before the demo (2616 events). Development `.env` gained
+`RECORDING_ENCRYPTION_KEY` (backup of the previous file: `~/call360-backups/pre_s1c_20261117_025210/`);
+`.env.test` gained its own key. Development demo recordings (synthetic tones) are in `~/.call360/recordings/call360`.
+
+**Repositories:** all three on `main` at the S1-B owner commits (specs `e40c3cc`, backend `d98e08b`, frontend
+`6fd7f5a`) with S1-C changes **uncommitted** (commits need owner authorisation).
+
+**Outstanding owner decisions**
+1. Accept S1-C (or request changes), including D-45 (test notice and consent model), D-46 (`recording.read` for USER
+   only), D-47 (local storage, 168 h local retention), D-48 (test-session label and KPI disclosure).
+2. K-5: should test sessions be excluded from attempt KPIs? (business decision; not implemented).
+3. Real-microphone check of recording (as done for S1-A).
+4. SEC-008 reviewer and Stage 0 approvers (C-20).
+5. Before S1-E: GPT-Live approval, API-key and data handling. Still deferred: CP0.4b remainder, saved views.
+
+## 21. State after the S1-C acceptance and S1-D proposal (2026-11-17) — superseded by §22
+
+**Status**
+- **Stage 0:** technical verification ACCEPTED; governance acceptance PENDING (SEC-008 reviewer, named approvers,
+  C-20). Never self-certify SEC-008 or invent signatures.
+- **S1-A, S1-B, S1-C:** ACCEPTED 2026-11-17. S1-C was accepted after the owner's real-microphone recording test.
+  Evidence in `evidence/S1-C/` preserved unchanged.
+- **Owner decisions:** D-45 test-only consent wording approved (production wording pending, DEC-004); D-46
+  `recording.read` for USER, not ADMIN; D-47 encrypted local storage, 168 h retention, development only (DEC-015
+  pending); D-48 marked test sessions **excluded** from operational callback KPIs (numerators and denominators),
+  still visible in test activity, case history and audit; seeded historical attempts never excluded for being
+  synthetic. K-5 is resolved for test sessions by D-48.
+- **D-48 correction (implemented, authorised with the acceptance):** `kpis.is_test_attempt` marker (BROWSER +
+  CALL360_RUNTIME); KPI-01, KPI-02 (+ trend) and KPI-12 use operational attempts only (KPI-12 ordinals too);
+  `exclusions.test_sessions_excluded`, KPI-02 `test_sessions_excluded_count`; `reporting_version` `S0-KPI-3`;
+  `docs/product/S0_KPI_DEFINITIONS.md` §3.1. OpenAPI unchanged (`cc52479f…`); no migration. Backend **338 passed**
+  (new `tests/test_kpi_test_sessions.py`, updated `test_recording.py` and the BE-KPI-01 SQL oracle); ruff, mypy,
+  contract, secret scan clean; frontend 89 unit passed. Evidence `evidence/S1-C/d48_kpi_correction.txt`.
+- **S1-D transcript and playback:** PROPOSED, **not authorised**. Scope, data model (`0014_transcript`), APIs, UI,
+  tests and decisions D-49…D-53 in `docs/acceptance/S1.md` "S1-D proposal". Key recommendation: a local offline STT
+  engine (`faster-whisper`, `small.en`, pinned) behind a `TranscriptionEngine` interface, post-session batch over
+  the stored recording; the mock's fixed message is reference text only, never a transcript. Installing the package
+  and downloading the model (~480 MB) need owner permission.
+
+**Databases:** `call360_test` and `call360` at `0013_recording` (no change in this session). Development backend
+(`make dev`, 127.0.0.1:8000) and frontend (127.0.0.1:5173) were left running.
+
+**Repositories:** all three on `main` at the S1-B owner commits (specs `e40c3cc`, backend `d98e08b`, frontend
+`6fd7f5a`); S1-C and the D-48 correction are **uncommitted** (commits need owner authorisation).
+
+**Outstanding owner decisions**
+1. Authorise S1-D (`IMPLEMENT S1-D`) and decide D-49 (engine and model, plus download permission), D-50
+   (`transcript.sensitive.read` for USER only), D-51 (English only), D-52 (development confidence thresholds),
+   D-53 (synchronised two-track player).
+2. Commit authorisation for S1-C and the D-48 correction (separate branches per repository).
+3. SEC-008 reviewer and Stage 0 approvers (C-20).
+4. Before S1-E: GPT-Live approval, API key and data handling. Still deferred: CP0.4b remainder, saved views.
+
+## 22. Current state (2026-11-17, S1-D session) — read this first
+
+**Status**
+- Stage 0: technical verification ACCEPTED; governance acceptance PENDING (SEC-008 reviewer, approvers, C-20).
+  Never self-certify SEC-008 or invent signatures.
+- S1-A, S1-B, S1-C ACCEPTED. **S1-D transcript and playback: IMPLEMENTED AND VERIFIED 2026-11-17, awaiting owner
+  acceptance.** Record: `docs/acceptance/S1.md` ("S1-D owner authorisation", "S1-D as built", "S1-D known
+  limitations"); evidence `docs/acceptance/evidence/S1-D/`.
+- Next: S1-E (GPT-Live) remains deferred and not authorised; S2/S3 not authorised.
+
+**S1-D in brief**
+- Local offline faster-whisper 1.2.1 + `Systran/faster-whisper-small.en` @ `d1d751a5…`, model files in
+  `~/.call360/models/faster-whisper-small.en` (outside Git; SHA-256 pinned and verified on load). Configured by
+  `TRANSCRIPTION_MODEL_DIR` in the gitignored `.env` (development) and `.env.test` — both were given this line.
+- Background worker transcribes each finalised consented track separately (speaker from the track), span by span
+  (never across gaps); runs are immutable revisions with full provenance; text is AES-GCM encrypted in the recording
+  store, never in the database, and purged with the audio. Statuses map to the approved transcript vocabulary;
+  never certified (`NOT_REVIEWED`).
+- Call Detail: synchronised two-track player (Web Audio, one clock, mute per track, hatched gaps, audited PLAYBACK
+  retrieval on demand) and speaker-grouped transcript with uncertainty markers, gap markers and segment-click seek.
+- `transcript.sensitive.read` for USER only (D-50); ADMIN sees status and provenance only.
+
+**Verification:** backend 357 passed (incl. 19 transcript/golden); frontend 94 unit; Playwright 23; lint, types,
+contract (`e0a02959438fccd6750f89836c749ffa202b338d24580efa9a831b121d52ecea`), secret scans, build clean; specs
+validator PASS. Golden dataset: clean-speech WER 3.2 %, timing ≤ 0.52 s, no text from silence/tone/noise. Chrome
+demo `evidence/S1-D/chrome_demo.txt`, including one **confident misrecognition with no marker** (AT-2026-10048-11).
+
+**Databases:** `call360_test` and `call360` at **`0014_transcript`**; development seed digest MATCH, audit chain OK
+(2634 events before the demo). Demo sessions AT-2026-10048-7…12 exist on CB-2026-10048 (synthetic).
+
+**Repositories:** all three on `main` at the S1-B owner commits (specs `e40c3cc`, backend `d98e08b`, frontend
+`6fd7f5a`); S1-C, the D-48 correction and S1-D are **uncommitted**. Backend `pyproject.toml`/`uv.lock` gained
+`faster-whisper==1.2.1` (pre-change copies were kept only in a session scratchpad).
+
+**Process note:** never run backend pytest and the Playwright suite at the same time — both use `call360_test` and
+pytest resets it (this caused spurious failures once in this session).
+
+**Outstanding owner decisions**
+1. Accept S1-D (or request changes); real-microphone transcript check (speak known phrases, compare by ear and eye).
+2. Commit authorisation for S1-C, D-48 and S1-D (separate branches per repository).
+3. SEC-008 reviewer and Stage 0 approvers (C-20).
+4. Before S1-E: GPT-Live approval, API key and data handling. Still deferred: CP0.4b remainder, saved views.

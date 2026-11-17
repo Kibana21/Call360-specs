@@ -1,0 +1,9 @@
+# S1-D development deployment 2026-11-17T00:26:08Z
+## before
+0013_recording
+## migrate
+## after
+0014_transcript (head)
+Audit chain OK: 2634 events; head a8466535c6490b3f96e8bde448dd5274a79e6482290fbade551435a2c39749ac
+## seed digest (read-only) 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+## transcript.sensitive.read holders ['USER']

@@ -1,0 +1,648 @@
+{
+  "thresholds": {
+    "low_logprob": -0.45,
+    "word_prob": 0.7,
+    "no_speech_prob": 0.6,
+    "max_compression": 2.4,
+    "reject_logprob": -0.8,
+    "split_pause_s": 1.0
+  },
+  "clips": [
+    {
+      "id": "g01_us_greeting",
+      "expect": "SPEECH",
+      "voice": "Samantha",
+      "segments": [
+        {
+          "start_s": 0.31,
+          "end_s": 3.33,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 0,
+          "avg_logprob": -0.328,
+          "no_speech_prob": 0.005,
+          "compression_ratio": 0.89,
+          "text": "Good morning. I am calling about my policy renewal.",
+          "words": [
+            [
+              "Good",
+              0.8
+            ],
+            [
+              "morning.",
+              0.86
+            ],
+            [
+              "I",
+              0.99
+            ],
+            [
+              "am",
+              0.96
+            ],
+            [
+              "calling",
+              1.0
+            ],
+            [
+              "about",
+              0.99
+            ],
+            [
+              "my",
+              1.0
+            ],
+            [
+              "policy",
+              0.98
+            ],
+            [
+              "renewal.",
+              1.0
+            ]
+          ]
+        }
+      ],
+      "recognised": "Good morning. I am calling about my policy renewal.",
+      "reference": "Good morning. I am calling about my policy renewal.",
+      "wer_spoken_form": 0.0,
+      "wer": 0.0,
+      "timing_error_s": [
+        {
+          "start": -0.19,
+          "end": -0.2
+        }
+      ]
+    },
+    {
+      "id": "g02_gb_two_turns",
+      "expect": "SPEECH",
+      "voice": "Daniel",
+      "segments": [
+        {
+          "start_s": 0.22,
+          "end_s": 2.54,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 0,
+          "avg_logprob": -0.234,
+          "no_speech_prob": 0.003,
+          "compression_ratio": 0.96,
+          "text": "Yes, I understand the policy.",
+          "words": [
+            [
+              "Yes,",
+              0.89
+            ],
+            [
+              "I",
+              0.98
+            ],
+            [
+              "understand",
+              1.0
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "policy.",
+              0.99
+            ]
+          ]
+        },
+        {
+          "start_s": 4.66,
+          "end_s": 6.54,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 0,
+          "avg_logprob": -0.234,
+          "no_speech_prob": 0.003,
+          "compression_ratio": 0.96,
+          "text": "Please call me back tomorrow afternoon.",
+          "words": [
+            [
+              "Please",
+              0.99
+            ],
+            [
+              "call",
+              0.99
+            ],
+            [
+              "me",
+              1.0
+            ],
+            [
+              "back",
+              1.0
+            ],
+            [
+              "tomorrow",
+              1.0
+            ],
+            [
+              "afternoon.",
+              1.0
+            ]
+          ]
+        }
+      ],
+      "recognised": "Yes, I understand the policy. Please call me back tomorrow afternoon.",
+      "reference": "Yes, I understand the policy. Please call me back tomorrow afternoon.",
+      "wer_spoken_form": 0.0,
+      "wer": 0.0,
+      "timing_error_s": [
+        {
+          "start": -0.18,
+          "end": -0.11
+        },
+        {
+          "start": 0.01,
+          "end": -0.31
+        }
+      ]
+    },
+    {
+      "id": "g03_au_question",
+      "expect": "SPEECH",
+      "voice": "Karen",
+      "segments": [
+        {
+          "start_s": 0.44,
+          "end_s": 2.86,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 0,
+          "avg_logprob": -0.23,
+          "no_speech_prob": 0.002,
+          "compression_ratio": 0.85,
+          "text": "Can you tell me when my next payment is due?",
+          "words": [
+            [
+              "Can",
+              0.77
+            ],
+            [
+              "you",
+              0.99
+            ],
+            [
+              "tell",
+              1.0
+            ],
+            [
+              "me",
+              1.0
+            ],
+            [
+              "when",
+              0.99
+            ],
+            [
+              "my",
+              1.0
+            ],
+            [
+              "next",
+              1.0
+            ],
+            [
+              "payment",
+              1.0
+            ],
+            [
+              "is",
+              1.0
+            ],
+            [
+              "due?",
+              1.0
+            ]
+          ]
+        }
+      ],
+      "recognised": "Can you tell me when my next payment is due?",
+      "reference": "Can you tell me when my next payment is due?",
+      "wer_spoken_form": 0.0,
+      "wer": 0.0,
+      "timing_error_s": [
+        {
+          "start": -0.16,
+          "end": -0.15
+        }
+      ]
+    },
+    {
+      "id": "g04_ie_statement",
+      "expect": "SPEECH",
+      "voice": "Moira",
+      "segments": [
+        {
+          "start_s": 0.44,
+          "end_s": 4.68,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 0,
+          "avg_logprob": -0.154,
+          "no_speech_prob": 0.003,
+          "compression_ratio": 1.0,
+          "text": "I did not receive the product summary, and I would like it sent by email.",
+          "words": [
+            [
+              "I",
+              0.96
+            ],
+            [
+              "did",
+              0.99
+            ],
+            [
+              "not",
+              0.99
+            ],
+            [
+              "receive",
+              0.99
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "product",
+              0.93
+            ],
+            [
+              "summary,",
+              1.0
+            ],
+            [
+              "and",
+              0.99
+            ],
+            [
+              "I",
+              0.97
+            ],
+            [
+              "would",
+              1.0
+            ],
+            [
+              "like",
+              1.0
+            ],
+            [
+              "it",
+              1.0
+            ],
+            [
+              "sent",
+              1.0
+            ],
+            [
+              "by",
+              1.0
+            ],
+            [
+              "email.",
+              0.78
+            ]
+          ]
+        }
+      ],
+      "recognised": "I did not receive the product summary, and I would like it sent by email.",
+      "reference": "I did not receive the product summary, and I would like it sent by email.",
+      "wer_spoken_form": 0.0,
+      "wer": 0.0,
+      "timing_error_s": [
+        {
+          "start": -0.06,
+          "end": -0.21
+        }
+      ]
+    },
+    {
+      "id": "g05_in_statement",
+      "expect": "SPEECH",
+      "voice": "Rishi",
+      "segments": [
+        {
+          "start_s": 0.31,
+          "end_s": 4.17,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 0,
+          "avg_logprob": -0.25,
+          "no_speech_prob": 0.002,
+          "compression_ratio": 0.97,
+          "text": "I bought the savings plan last month through my financial advisor.",
+          "words": [
+            [
+              "I",
+              0.93
+            ],
+            [
+              "bought",
+              0.98
+            ],
+            [
+              "the",
+              0.99
+            ],
+            [
+              "savings",
+              0.97
+            ],
+            [
+              "plan",
+              0.97
+            ],
+            [
+              "last",
+              0.99
+            ],
+            [
+              "month",
+              1.0
+            ],
+            [
+              "through",
+              0.98
+            ],
+            [
+              "my",
+              0.95
+            ],
+            [
+              "financial",
+              0.97
+            ],
+            [
+              "advisor.",
+              0.87
+            ]
+          ]
+        }
+      ],
+      "recognised": "I bought the savings plan last month through my financial advisor.",
+      "reference": "I bought the savings plan last month through my financial adviser.",
+      "wer_spoken_form": 0.091,
+      "wer": 0.091,
+      "timing_error_s": [
+        {
+          "start": -0.19,
+          "end": -0.22
+        }
+      ]
+    },
+    {
+      "id": "g06_za_numbers",
+      "expect": "SPEECH",
+      "voice": "Tessa",
+      "segments": [
+        {
+          "start_s": 0.31,
+          "end_s": 5.17,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 0,
+          "avg_logprob": -0.209,
+          "no_speech_prob": 0.002,
+          "compression_ratio": 0.87,
+          "text": "My policy number ends in 4729 and the premium is $300.",
+          "words": [
+            [
+              "My",
+              0.89
+            ],
+            [
+              "policy",
+              0.99
+            ],
+            [
+              "number",
+              0.99
+            ],
+            [
+              "ends",
+              0.99
+            ],
+            [
+              "in",
+              1.0
+            ],
+            [
+              "4729",
+              0.89
+            ],
+            [
+              "and",
+              0.96
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "premium",
+              0.92
+            ],
+            [
+              "is",
+              1.0
+            ],
+            [
+              "$300.",
+              0.88
+            ]
+          ]
+        }
+      ],
+      "recognised": "My policy number ends in 4729 and the premium is $300.",
+      "reference": "My policy number ends in four seven two nine and the premium is three hundred dollars.",
+      "wer_spoken_form": 0.438,
+      "wer": 0.083,
+      "timing_error_s": [
+        {
+          "start": -0.19,
+          "end": -0.52
+        }
+      ]
+    },
+    {
+      "id": "g07_us_noisy",
+      "expect": "DEGRADED",
+      "voice": "Samantha",
+      "segments": [
+        {
+          "start_s": 0.41,
+          "end_s": 2.27,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 3,
+          "avg_logprob": -0.434,
+          "no_speech_prob": 0.092,
+          "compression_ratio": 0.84,
+          "text": "I am not sure this plan is off.",
+          "words": [
+            [
+              "I",
+              0.84
+            ],
+            [
+              "am",
+              0.83
+            ],
+            [
+              "not",
+              0.95
+            ],
+            [
+              "sure",
+              0.81
+            ],
+            [
+              "this",
+              0.53
+            ],
+            [
+              "plan",
+              0.6
+            ],
+            [
+              "is",
+              0.41
+            ],
+            [
+              "off.",
+              0.91
+            ]
+          ]
+        }
+      ],
+      "recognised": "I am not sure this plan is off.",
+      "reference": "I am not sure which plan I bought.",
+      "wer_spoken_form": 0.375,
+      "wer": 0.375,
+      "timing_error_s": [
+        {
+          "start": -0.09,
+          "end": -0.01
+        }
+      ]
+    },
+    {
+      "id": "g08_gb_very_low",
+      "expect": "DEGRADED",
+      "voice": "Daniel",
+      "segments": [
+        {
+          "start_s": 0.38,
+          "end_s": 2.58,
+          "kind": "SPEECH",
+          "confidence": "NORMAL",
+          "uncertain_words": 1,
+          "avg_logprob": -0.375,
+          "no_speech_prob": 0.224,
+          "compression_ratio": 0.85,
+          "text": "Please send the documents to my home address.",
+          "words": [
+            [
+              "Please",
+              0.82
+            ],
+            [
+              "send",
+              0.97
+            ],
+            [
+              "the",
+              0.95
+            ],
+            [
+              "documents",
+              0.82
+            ],
+            [
+              "to",
+              0.76
+            ],
+            [
+              "my",
+              0.99
+            ],
+            [
+              "home",
+              0.54
+            ],
+            [
+              "address.",
+              1.0
+            ]
+          ]
+        }
+      ],
+      "recognised": "Please send the documents to my home address.",
+      "reference": "Please send the documents to my home address.",
+      "wer_spoken_form": 0.0,
+      "wer": 0.0,
+      "timing_error_s": [
+        {
+          "start": -0.12,
+          "end": -0.33
+        }
+      ]
+    },
+    {
+      "id": "g09_silence",
+      "expect": "NO_SPEECH",
+      "voice": null,
+      "segments": [],
+      "recognised": "",
+      "reference": ""
+    },
+    {
+      "id": "g12_us_buried",
+      "expect": "DEGRADED",
+      "voice": "Samantha",
+      "segments": [],
+      "recognised": "",
+      "reference": "Good morning. I am calling about my policy renewal.",
+      "wer_spoken_form": 1.0,
+      "wer": 1.0,
+      "timing_error_s": null
+    },
+    {
+      "id": "g10_tone_bursts",
+      "expect": "NO_SPEECH",
+      "voice": null,
+      "segments": [],
+      "recognised": "",
+      "reference": ""
+    },
+    {
+      "id": "g11_noise",
+      "expect": "NO_SPEECH",
+      "voice": null,
+      "segments": [],
+      "recognised": "",
+      "reference": ""
+    }
+  ],
+  "summary": {
+    "clean_speech_wer": 0.032,
+    "all_speech_wer": 0.148,
+    "no_speech_clips_with_text": [],
+    "max_abs_timing_error_s": 0.52
+  },
+  "engine": {
+    "version": "faster-whisper 1.2.1; ctranslate2 4.9.0",
+    "model_id": "Systran/faster-whisper-small.en",
+    "model_revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+    "model_sha256": "62b2a45b05ee59acb4a5341b33ee35e041395d378d418a18acfe4c9e768ee37a"
+  }
+}

@@ -1,0 +1,23 @@
+# D-48 KPI correction — test sessions excluded from operational callback KPIs (2026-11-17)
+
+Owner decision (with the S1-C acceptance): exclude explicitly marked mock voice test attempts from operational
+callback KPI numerators and denominators; keep them visible in test activity, case history and audit; never exclude
+ordinary seeded historical attempts because the database is synthetic.
+
+Marker: contact_attempt.transport = 'BROWSER' AND record_origin = 'CALL360_RUNTIME' (attempt_kind TEST_SESSION).
+Changed: Call360-backend app/domain/kpis.py (is_test_attempt, Case.ops_attempts, Facts.ops_attempts(); KPI-01,
+KPI-02 + trend, KPI-12; reporting_version S0-KPI-3), app/api/case_detail.py (attempt_kind uses the same helper),
+tests/test_kpi_test_sessions.py (new, 4 tests), tests/test_recording.py (integrated before/after test),
+tests/test_dashboard.py (BE-KPI-01 SQL oracle applies the exclusion; reporting version; activity timestamps compared
+as instants), Call360-frontend src/features/OverviewPage.test.tsx (fixture version string),
+Call360-specs docs/product/S0_KPI_DEFINITIONS.md §3.1.
+
+Commands and results (Call360-backend):
+  ruff format + ruff check .        All checks passed!
+  mypy app                          Success: no issues found in 62 source files
+  pytest                            338 passed in 141.61s
+  make contract-check               OpenAPI matches (cc52479f8d01be081c600ab9c39bc678ce384d53fc7a429fa123ca3acb5ac0fd)
+  make secret-scan                  no leaks found
+Call360-frontend:
+  npx vitest run                    16 files, 89 passed
+No migration; OpenAPI unchanged (exclusions is an open object).

@@ -1,0 +1,10 @@
+# S1-C development deployment 2026-11-16T18:52:20Z
+## before
+Refusing: seeding the development schema needs --allow-development (owner approval).
+0012_session_event
+## migrate
+## after
+0013_recording (head)
+Refusing: seeding the development schema needs --allow-development (owner approval).
+Audit chain OK: 2616 events; head dedc23e9aa7749da15c9d515b364a6ee896e7a0538df24db999d703ed3792f4b
+## seed digest (read-only) 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH

@@ -1,0 +1,13 @@
+# S1-D backend verification 2026-11-17T00:55:44Z (Call360-backend main @ d98e08b + uncommitted S1-C/D changes)
+$ ruff format --check . && ruff check . && mypy app
+125 files already formatted
+All checks passed!
+Success: no issues found in 63 source files
+$ make contract-check
+OpenAPI matches (e0a02959438fccd6750f89836c749ffa202b338d24580efa9a831b121d52ecea)
+$ make secret-scan
+Secret scan clean
+$ CALL360_ENV_FILE=.env.test pytest
+357 passed in 178.82s (0:02:58)
+$ pytest tests/test_transcript.py tests/test_transcript_golden.py -v
+============================= 19 passed in 30.26s ==============================

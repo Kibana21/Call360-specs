@@ -1,0 +1,19 @@
+--- npm run lint
+--- npm run typecheck
+--- npm run test
+ Test Files  16 passed (16)
+      Tests  89 passed (89)
+   Start at  03:03:54
+   Duration  4.24s (transform 3.18s, setup 1.63s, import 6.13s, tests 8.15s, environment 9.04s)
+--- npm run api:check
+api:check OK (openapi cc52479f8d01be081c600ab9c39bc678ce384d53fc7a429fa123ca3acb5ac0fd)
+--- npm run build
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 68ms
+--- npm run secret-scan
+Scanning built bundle dist/
+[90m3:04AM[0m [32mINF[0m [1mscanned ~576421 bytes (576.42 KB) in 279ms[0m
+[90m3:04AM[0m [32mINF[0m [1mno leaks found[0m
+Secret scan clean

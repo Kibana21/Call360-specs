@@ -1,0 +1,21 @@
+# S1-D transcription engine and model provenance (D-49), recorded 2026-11-17
+
+Dependency (backend pyproject.toml / uv.lock, installed with `uv add "faster-whisper==1.2.1"`):
+  faster-whisper 1.2.1 (MIT), PyPI wheel faster_whisper-1.2.1-py3-none-any.whl, uploaded 2025-10-31T11:35:47Z,
+  wheel SHA-256 79a66ad50688c0b794dd501dc340a736992a6342f7f95e5811be60b5224a26a7
+  resolved with it: ctranslate2 4.9.0, onnxruntime 1.32.0 (Silero VAD), tokenizers 0.23.3, huggingface-hub 2.4.0, av,
+  numpy 2.5.5 (full list in uv.lock). huggingface-hub also brings httpx2; Starlette's TestClient now uses it.
+
+Model: Systran/faster-whisper-small.en (MIT), Hugging Face revision d1d751a5f8271d482d14ca55d9e2deeebbae577f
+  (lastModified 2023-11-23). Downloaded with huggingface_hub.snapshot_download(revision=<pinned>) into
+  ~/.call360/models/faster-whisper-small.en (outside every Git repository; not committed). Files and SHA-256:
+    config.json     666a9605530ac1f61fa8177f3702b4dacec9966749e42610839fcc32661d5fae  (git blob ced3fd5b… matches)
+    model.bin       62b2a45b05ee59acb4a5341b33ee35e041395d378d418a18acfe4c9e768ee37a  (= Hugging Face LFS oid)
+    tokenizer.json  929c5252409436dce1b38a75d1abbcb5e132d170d8e324e4e04ed915fa2d22df  (git blob 15d7bdf9… matches)
+    vocabulary.txt  ff77588746d3a2595d32ab5b69ffd7b95ce2441ac57533cb66fc3eb575a115cf  (git blob ee695b8d… matches)
+  These values are pinned in app/voice/transcript.py (MODEL_FILES) and verified on every engine load; a mismatch or a
+  missing file refuses the engine (MODEL_CHECKSUM_MISMATCH / MODEL_NOT_FOUND). Every transcript run stores engine and
+  library versions, model id, revision, model.bin SHA-256, configuration and its SHA-256.
+
+Runtime: CPU, int8, 4 threads, English only (D-51), offline (local_files_only=True). No cloud transcription.
+Configured by TRANSCRIPTION_MODEL_DIR in the gitignored .env (development) and .env.test (tests).

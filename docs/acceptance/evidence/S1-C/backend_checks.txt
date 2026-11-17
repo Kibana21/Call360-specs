@@ -1,0 +1,15 @@
+PASS  postgres_url_in_python         50/50
+PASS  postgres_url_in_typescript     50/50
+PASS  refresh_token_pepper           50/50
+PASS  csrf_secret                    50/50
+PASS  pii_encryption_key             50/50
+PASS  pii_hmac_key                   50/50
+PASS  dev_account_password           50/50
+PASS  cli_password_env               50/50
+PASS  password_constant              50/50
+PASS  jwt_signing_key_pem            50/50
+PASS  placeholders/ordinary code          0 false positives []
+Scanning 135 committable files
+[90m3:03AM[0m [32mINF[0m [1mscanned ~2242265 bytes (2.24 MB) in 183ms[0m
+[90m3:03AM[0m [32mINF[0m [1mno leaks found[0m
+Secret scan clean
