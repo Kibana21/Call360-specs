@@ -86,6 +86,107 @@ frequency and eligible contact role. Rules are stored in the S0 predicate langua
 (`{"fact": f, "in": [...]}`); no free text, code or expressions are accepted. Simulation evaluates the same pure logic
 in a read-only transaction; publishing a rule never reassigns a case (automatic assignment is S2-C).
 
+## Conversation lifecycle (S2-D.1) — synthetic development assumptions, pending business confirmation
+
+Implements SUR-009 for local synthetic development. **None of this is approved AIA/MAS policy or wording**; each rule is
+a documented development assumption (also returned by `GET /script-authoring/options` → `lifecycle.assumptions`) to be
+confirmed or replaced by the business before production.
+
+- **Stages** (system-enforced order, independent of section position): Opening → Identity → Disclosure → Consent →
+  Verification → Closing. A section's module kind sets its stage (OPENING, IDENTITY, DISCLOSURE, CONSENT, CLOSING;
+  COMMON / PRODUCT / RISK / LANGUAGE = Verification).
+- **Item roles** configurable in Script Studio: opening statement, identity check, disclosure, consent to proceed,
+  recording consent, cloud-processing authorisation, verification question, closing statement. Statements complete
+  when delivered (acknowledgement items); identity and consent items are yes/no gates. Exact-wording requirements use
+  the existing delivery mode (CONTROLLED_TTS / EXACT_AUDIO); a conversational disclosure is warned.
+- **Gates** (enforced by the controller; configuration cannot relax them):
+  - Identity is confirmed only when every identity check is answered yes. No, wrong person, refusal or an unresolved
+    answer terminates. Identity is **simulated** in S2-D.1.
+  - Policy information (items the author flags as disclosing it) is never presented before identity is confirmed. A
+    script containing such items must include an identity gate.
+  - Declining to proceed, a callback request or declining to continue terminates.
+  - Willingness to proceed, recording consent and future cloud-processing authorisation are **three separate gates**.
+    Declining recording or cloud processing continues without it, unless the item is configured to terminate.
+  - A mandatory disclosure that cannot be delivered after the approved re-attempts terminates. A non-mandatory one may
+    be configured to continue with a flag.
+  - A refused or unresolved verification question is recorded and the conversation continues, unless the item is
+    configured to terminate. The conversation is then incomplete.
+- **Termination**: only closing statements marked "deliver on termination" are offered afterwards, and none after an
+  interruption. The run outcome is TERMINATED with the reason and stage.
+- **Separation**: mandatory completion, identity status, consent gates and compliance (always "not evaluated" here) are
+  reported separately. Completing every mandatory item is not identity verification or compliance approval.
+- **Governance**: lifecycle fields are part of a question revision (insert-only) and are frozen in the published
+  manifest. Changing them needs a new draft version and maker-checker approval. Published versions are never modified.
+
+### Owner conditions on accepting S2-D.1 (2026-11-18)
+
+- **D-67 Live eligibility.** A script lacking any of the mandatory lifecycle gates — a mandatory identity check, a
+  mandatory consent to proceed and a mandatory recording consent — is never eligible for a future live customer
+  conversation. Checked structurally (`live_eligibility`) and shown in the simulator and workbench; eligibility for
+  live use additionally needs approved (non-synthetic) content and the later stages' approvals.
+- **D-68 Cloud processing.** Cloud-processing consent must be obtained (gate GRANTED) before any audio is transmitted
+  to a cloud provider. A precondition for S1-E (GPT-Live) and any later cloud adapter; nothing transmits audio in S2.
+- Identity outcomes remain simulated and are never represented as actual identity verification; refusal of a
+  mandatory verification question may continue but the conversation remains incomplete; recording consent,
+  willingness to proceed and cloud-processing consent remain separate gates.
+- **D-69 Demo rule.** `S2D1-LIFECYCLE-DEMO` v1 stays published temporarily for synthetic end-to-end testing. Matching
+  scope: market SG · product family PROTECTION · sales channel BANCASSURANCE · premium frequency ANNUAL; priority 3;
+  target `SG_LIFECYCLE_DEMO` v1.0. Withdraw it through Rule Studio when no longer needed.
+
+## Callback simulation workbench (S2-E)
+
+Scenario testing reuses the one deterministic controller (no second engine, no LLM judge):
+
+- A **scenario** is structured data: synthetic applicability facts and SBQ band (entered or copied from a synthetic
+  case snapshot), the script version, ordered steps (answer / unclear / refused / doesn't know / clarification / not
+  delivered / delivered / conversation event, each targeting a question), a default response (AFFIRMATIVE or STRICT)
+  and optional expectations (outcome, termination reason, gates, mandatory completion, applicable set, sequence,
+  per-question states). Every edit is a new insert-only revision.
+- **Results** are PASSED, FAILED (each difference explained), ERROR (the controller refused a step) or INVALID (the
+  scenario cannot run against that version); a *stale* flag marks content changed since the scenario was saved or a
+  superseded version. Each result keeps the scenario revision and the exact content snapshot it used.
+- **Coverage** is structural (questions, conditional modules and configured lifecycle paths exercised; unresolved
+  mandatory items). It is not a measure of compliance quality, wording approval or production readiness.
+- **Comparison** runs the same scenarios against two versions of one script and reports applicability, order, item
+  and controller-outcome differences.
+- Drafts are tested from an isolated content snapshot; no script assignment, case state, hold, contact attempt,
+  finding or KPI input is ever written.
+
+### S2-E owner acceptance (2026-11-18)
+
+Accepted for local synthetic development with two conditions: `SG_LIFECYCLE_DEMO` v1.1 stays an unpublished
+regression-testing draft; expectations generated from observed behaviour ("Use actual behaviour as expectations",
+"Save as scenario") are recorded with basis `GENERATED_BASELINE` and labelled "Generated baseline · not independently
+validated". Independently specified expectations use basis `INDEPENDENT`.
+
+## Deterministic answer evaluation (S3-A) — proposed decisions D-70…D-75, pending owner confirmation
+
+The question revision's `expected_answer_policy` is its **evaluation method**; the structured rule is part of the
+revision (maker-checker, immutable once published, new revision on change). Record: `acceptance/S3.md`.
+
+| Method | Answer type | Rule |
+|---|---|---|
+| `EXACT_BOOLEAN` | YES_NO | expected yes or no |
+| `ACKNOWLEDGEMENT` | ACKNOWLEDGEMENT | acknowledged |
+| `NUMERIC_COMPARE` (S3-A) | NUMERIC | operator EQ / GTE / LTE / GT / LT, approved value, unit, optional approved tolerance |
+| `NUMERIC_MATCH_POLICY_FACT` | NUMERIC | mapped numeric fact, operator, unit (exact YEARS → MONTHS conversion only), optional approved tolerance |
+| `ENUM_MATCH` (S3-A) | ENUM | accepted options (a proper subset of the question's options) |
+| `ENUM_MATCH_POLICY_FACT` (S3-A) | ENUM | mapped enumerated fact; options must be approved values of that fact |
+| `COLLECT_ONLY` | any | captured, not evaluated |
+| `NARRATIVE_REVIEW` | FREE_TEXT | human assessment required |
+
+- **Fact mappings** (immutable policy fact snapshot only): `premium_term_years`, `premium_amount` (SGD) and, proposed,
+  `premium_frequency`.
+- **Tolerance**: none assumed; exact by default; only with `EQ` and the reference of its business approval; inclusive.
+- **Results**: MATCH, MISMATCH, UNRESOLVED, NOT_ASKED, MISSING_EXPECTED_FACT, NOT_APPLICABLE, NOT_EVALUATED,
+  HUMAN_ASSESSMENT_REQUIRED. Missing information, unclear answers and refusals are never MATCH. **A MATCH is not a
+  compliance PASS; a MISMATCH is a discrepancy for review, not a finding, breach, severity or case decision.**
+- **Evidence**: script version and content checksum, question revision, rule, original and normalised answer, expected
+  value and source, fact snapshot id + checksum, result, explanation, engine version, input digest; insert-only; the
+  same inputs give the same result (replayed on read).
+- **Scope in S3-A**: simulation only (interactive runs and scenarios). Operational evaluation of real sessions,
+  findings and decisions are S3-B / S3-C.
+
 ## Governance state machine
 
 `DRAFT → SUBMITTED_FOR_REVIEW → APPROVED → SCHEDULED → PUBLISHED → SUPERSEDED | WITHDRAWN`

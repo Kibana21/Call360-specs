@@ -1,0 +1,12 @@
+preview: READY_TO_ASSIGN SELECTED SALES_VERIFICATION_SG v1.1 ['SG-ILP-HIGH-RISK v2'] release: ['AWAITING_SCRIPT_ASSIGNMENT', 'AWAITING_SCRIPT_REVIEW'] remaining blocking: []
+prior attempts: [('AMBIGUOUS', False, ['AWAITING_SCRIPT_REVIEW'])]
+apply: 200
+{"status": "ASSIGNED", "outcome": "SELECTED", "released": ["AWAITING_SCRIPT_ASSIGNMENT", "AWAITING_SCRIPT_REVIEW"], "pinned": "SALES_VERIFICATION_SG v1.1", "rule": "SG-ILP-HIGH-RISK v2"}
+after: ASSIGNED holds: [] attempts: [('SELECTED', True, [], ['AWAITING_SCRIPT_ASSIGNMENT', 'AWAITING_SCRIPT_REVIEW']), ('AMBIGUOUS', False, ['AWAITING_SCRIPT_REVIEW'], [])]
+>> select action, outcome, occurred_at from audit_event where entity_id='CB-2026-10
+   ('CASE.HOLD_PLACED', 'SUCCEEDED', datetime.datetime(2026, 11, 17, 23, 12, 13, 817861, tzinfo=zoneinfo.ZoneInfo(key='Asia/Singapore')))
+   ('CASE.SCRIPT_ASSIGNMENT_BLOCKED', 'SUCCEEDED', datetime.datetime(2026, 11, 17, 23, 12, 34, 87114, tzinfo=zoneinfo.ZoneInfo(key='Asia/Singapore')))
+   ('CASE.HOLD_PLACED', 'SUCCEEDED', datetime.datetime(2026, 11, 17, 23, 12, 34, 88646, tzinfo=zoneinfo.ZoneInfo(key='Asia/Singapore')))
+   ('CASE.SCRIPT_ASSIGNED', 'SUCCEEDED', datetime.datetime(2026, 11, 17, 23, 26, 40, 690075, tzinfo=zoneinfo.ZoneInfo(key='Asia/Singapore')))
+   ('CASE.HOLD_RELEASED', 'SUCCEEDED', datetime.datetime(2026, 11, 17, 23, 26, 40, 690840, tzinfo=zoneinfo.ZoneInfo(key='Asia/Singapore')))
+   ('CASE.HOLD_RELEASED', 'SUCCEEDED', datetime.datetime(2026, 11, 17, 23, 26, 40, 691469, tzinfo=zoneinfo.ZoneInfo(key='Asia/Singapore')))

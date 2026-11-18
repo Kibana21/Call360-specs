@@ -1,0 +1,7 @@
+>> select c.case_ref, c.state, c.has_blocking_hold, (select count(*) from contact_a
+   ('CB-2026-10504', 'VALIDATED', False, 0, 3, 'COMPLETED/COMPLETED, TERMINATED/TERMINATED, TERMINATED/TERMINATED')
+uv run call360 audit-verify
+Audit chain OK: 2789 events; head 5ae31cc38fe57a3a3e7aa5235b18d3d512e64ab61181674c321d265a5cbf8dfa
+head 0020_conversation_lifecycle
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 249

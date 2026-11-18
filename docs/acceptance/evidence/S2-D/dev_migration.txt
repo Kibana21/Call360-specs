@@ -1,0 +1,23 @@
+# S2-D development deployment 2026-11-17T15:37:06Z
+## backup: ~/call360-backups/pre_s2d_20261117_153706/call360_schema.dump (pg_dump custom format, schema call360; local only)
+## before
+head 0018_script_assignment_engine
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 247
+Audit chain OK: 2737 events; head fe6e6c774d76f1744fc99209f8e1c2dfdad7d751c500098f48370666d505723e
+## migrate
+alembic upgrade head: 0018_script_assignment_engine → 0019_script_simulation (no errors)
+## after
+head 0019_script_simulation
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 247
+Audit chain OK: 2737 events; head fe6e6c774d76f1744fc99209f8e1c2dfdad7d751c500098f48370666d505723e
+## after the Chrome demonstration (read-only)
+head 0019_script_simulation
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
+script_assignment rows 248
+Audit chain OK: 2749 events; head 64bcfc693e63c9cb0a8bd327e695a8085950a240170e5a267619ed11a5b480e6
+>> select r.sim_ref, c.case_ref, r.status, r.outcome, r.contact_role, (select count
+   ('SIM-2026-10503-0001', 'CB-2026-10503', 'COMPLETED', 'COMPLETED', 'OWNER', 53)
+>> select c.case_ref, c.state, c.has_blocking_hold, (select count(*) from contact_a
+   ('CB-2026-10503', 'VALIDATED', False, 0, 0)

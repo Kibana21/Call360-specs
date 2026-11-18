@@ -1,0 +1,35 @@
+# S2-D demonstration in the owner's Chrome (development stack, 2026-11-17 23:37–23:39 SGT)
+
+Stack: development backend 127.0.0.1:8000 (schema call360 migrated 0018 → 0019_script_simulation after a pg_dump backup,
+dev_migration.txt) and frontend 127.0.0.1:5173. Accounts: dev.admin (manual intake), dev.user (assignment and text
+simulation). Passwords were handed to the real login form by a short-lived local helper (gitignored .env.local; never in
+tool inputs or documents), stopped afterwards. Forms and buttons were driven by in-page helpers that set the real inputs
+and click the real buttons.
+
+1. New policy sale (dev.admin, Manual Intake form): POL-SG-863575 / SALE-SG-863575, SYN-ILP-GROWTH (ILP regular),
+   Agency, source-assigned SBQ High, one owner contact. The outcome now reads "Script routing: Awaiting deterministic
+   assignment — preview and apply it in Call Detail".
+2. Case: CB-2026-10503 · Validated, held "Awaiting script assignment".
+3. Script assignment (dev.user, Call Detail): preview "Would pin SALES_VERIFICATION_SG v1.1 by SG-ILP-HIGH-RISK v2" →
+   Apply → "Script pinned … Engine"; hold released.
+4. Start text simulation: Call Detail "Start text simulation" → Text Simulator plan: modules COMMON_SALES_CONDUCT,
+   ILP, ELEVATED_RISK included; PROTECTION not included ("when product family is PROTECTION"); 11 of 13 questions
+   applicable, 10 mandatory; Q-COVERAGE-SCOPE and Q-PREMIUM-FREQUENCY "Skipped by approved condition: Section PROTECTION
+   not included …"; callback contact Owner (the assignment's selected contact). "Start simulation" →
+   SIM-2026-10503-0001, In progress, Mandatory completed 0 / 10.
+5. Answer questions: the first action Q-REP-DISCLOSED#1 showed the synthetic wording with "Mark as presented
+   (simulated)" and no answer buttons ("Requested is not delivered"). Each question was presented, then answered by its
+   type (yes/no, acknowledgement, numeric 12, free text). Q-NEEDS-DISCUSSED was first answered "Unclear" → clarification
+   required → re-prompt Q-NEEDS-DISCUSSED#2 (1 of 1 allowed) → presented → Yes → completed.
+6. Complete question sequence: "Question sequence finished" → End execution → Completed; "Every applicable mandatory
+   question was completed. This is a simulation result, not a customer verification." Progress 10 / 10 mandatory, 0
+   unresolved, 0 open, 2 skipped by condition.
+7. Inspect execution trace: 53 events — Started; 2 × Question skipped (with reasons); per question Question requested →
+   Delivery recorded (DELIVERED) → Answer received (kind/state/value) → Question completed; for Q-NEEDS-DISCUSSED the
+   Answer received UNCLEAR → Clarification required (UNCLEAR_ANSWER) → Question requested (attempt 2) sequence; Sequence
+   finished; Ended (COMPLETED).
+
+After the demo (read-only, dev_migration.txt): head 0019; seed digest 2ead19f36e09bdf3… MATCH; audit chain OK (2749
+events); CB-2026-10503 state VALIDATED, 0 contact attempts, no active holds (released by the assignment, not by the
+simulation); the simulation exists only as script_simulation_run SIM-2026-10503-0001 (COMPLETED, contact OWNER) with 53
+script_simulation_event rows.

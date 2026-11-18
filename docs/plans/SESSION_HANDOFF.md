@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-17 (late), end of the S2-C session (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-18, end of the S2-E session (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -9,7 +9,7 @@ authorisation; never mark anything accepted without the owner's explicit words.
 **Secrets:** this document contains no passwords, API keys or encryption keys. They live only in gitignored local files
 (§4).
 
-## 0. Current state — read this first (2026-11-17, late evening)
+## 0. Current state — read this first (2026-11-18)
 
 **Project.** Call360 is a proposed AIA Standards & Compliance platform for policy-sale verification and auditable
 callback operations. Three independent Git repositories under `call360/`: `Call360-specs` (requirements, ADRs,
@@ -22,18 +22,103 @@ Singapore-only (D-39). The investigation screen is **Call Detail**; the script e
   Never self-certify SEC-008 or invent signatures.
 - **Stage 1 (browser voice, mock provider):** S1-A, S1-B, S1-C **ACCEPTED**. **S1-D (transcript and playback)
   IMPLEMENTED AND VERIFIED, awaiting the owner's separate acceptance.** **S1-E (GPT-Live) PAUSED.**
-- **Stage 2:** **S2-A, S2-A.1 and S2-B ACCEPTED** 2026-11-17 (D-54…D-66 approved; D-62 clarified for assignment).
-  **S2-C Deterministic Script Assignment IMPLEMENTED AND VERIFIED, awaiting owner acceptance** (uncommitted). S2-D
-  onwards not authorised.
+- **Stage 2:** **S2-A, S2-A.1, S2-B, S2-C and S2-D ACCEPTED** 2026-11-17 (D-54…D-66 approved; D-62 clarified).
+  **S2-D.1 ACCEPTED 2026-11-18** (synthetic lifecycle assumptions approved with conditions D-67…D-69).
+  **S2-E Callback Simulation Workbench ACCEPTED 2026-11-18** (conditions: SG_LIFECYCLE_DEMO v1.1 stays an unpublished
+  regression draft; generated expectations labelled as generated baselines).
+- **Stage 3:** **S3-A Deterministic Answer Evaluation Engine IMPLEMENTED AND VERIFIED 2026-11-18, awaiting owner
+  acceptance** (record `S3.md`). S3-B / S3-C not authorised — do not start them.
 
 **Development priorities (owner's sequence)** — each step needs its own explicit authorisation:
-1. S2-C acceptance (and any refinements).
-2. S2-D Deterministic Question Controller (SUR-008/VOICE-011 — scope to be proposed).
-3. S2-E Text-based callback simulator (scope to be proposed: script selection, conditional questions, mandatory
-   statements, responses and branching without a voice model).
-4. Resume GPT-Live integration (S1-E) last.
+1. S3-A acceptance (and any refinements); confirm proposed decisions D-70…D-75 (`S3.md`).
+2. Next as the owner directs (S3-B / S3-C not authorised).
+3. Resume GPT-Live integration (S1-E) last — as a conversational interface to the S2-D controller, which keeps control.
 
-**S2-C (implemented and verified, awaiting acceptance).** Deterministic assignment reusing the S2-B pure matcher with
+**S3-A (implemented and verified, awaiting acceptance).**
+- **Engine** `app/domain/answer_evaluation.py` (pure; `call360.answer-evaluation/1`): methods = expected-answer
+  policies plus `NUMERIC_COMPARE`, `ENUM_MATCH`, `ENUM_MATCH_POLICY_FACT`; results MATCH / MISMATCH / UNRESOLVED /
+  NOT_ASKED / MISSING_EXPECTED_FACT / NOT_APPLICABLE / NOT_EVALUATED / HUMAN_ASSESSMENT_REQUIRED. MATCH is not a
+  compliance pass; MISMATCH is not a finding.
+- **Rules** live in `question_revision.expected_value` JSON + `policy_fact_key` (no new columns on seeded tables);
+  validated by `answer_evaluation.configure` from `script_authoring.normalise_question`. Script Studio "Evaluation
+  method" + "Evaluation rule" fieldset.
+- **Evidence**: interactive runs → insert-only `simulation_answer_evaluation` (`app/domain/simulation_evaluation.py`,
+  `POST/GET /script-simulations/{id}/evaluations`, replay on read); scenarios → `simulation_result.actual.evaluations`.
+  Scenario expectations gain `evaluations` and `basis` (INDEPENDENT / GENERATED_BASELINE). Operational
+  `rule_evaluation` is never written in S3-A.
+- **Migration** `0022_answer_evaluation` (CHECK constraints widened on `question_revision`; new table).
+- **Verification**: backend **455**, unit **108**, Playwright **30**; OpenAPI
+  `18c0b42394b866670de48f9dc4d531aaf06ba621b3810e20b48907564d259580`; evidence `evidence/S3-A/`.
+- **Dev demo state**: draft family **SG_EVALUATION_DEMO v1.0** (unpublished; keep or abandon); runs
+  SIM-2026-10504-0006 (completed, EVL-0001: 2 mismatches) and -0007 (incomplete, EVL-0002: 2 unresolved); SCN-0004
+  (generated baseline) and BAT-0003 (passed). CB-2026-10504 unchanged; SG_LIFECYCLE_DEMO v1.1 untouched.
+- **Gotcha**: the Playwright suite runs close to the local login limit (20 / IP / minute); keep login-heavy new specs
+  late in alphabetical order (`simulation-evaluation.spec.ts`).
+
+**S2-E (ACCEPTED 2026-11-18).**
+- **Workbench** `/simulator` (nav "Simulation Workbench"; DV-27) has three tabs:
+  - Interactive simulator: pinned script or any draft / published version on any synthetic case (VERSION_TEST mode,
+    isolated content snapshot, no assignment), plus "Save as scenario".
+  - Scenario library: structured steps and expectations, dry run, "use actual as expectations", insert-only revisions,
+    copy / archive, batch run.
+  - Test runs and coverage: explained pass / fail / execution error / invalid, a stale flag, structural coverage, and a
+    two-version comparison.
+- **One engine**: `app/domain/scenario_runner.py` drives the existing controller. The service is
+  `app/domain/simulation_workbench.py`; the API is `app/api/simulation_workbench.py`.
+- **Migration** `0021_simulation_workbench`: scenario, insert-only revision / snapshot / batch / result tables, and the
+  run mode VERSION_TEST.
+- **Verification**: backend **416**, unit **106**, Playwright **29**; OpenAPI
+  `df53e258606a81030b711815b9b62992f2dac4c7319e95c0e10ec763060e2121`. Record in `S2.md` "S2-E as built"; evidence in
+  `evidence/S2-E/`.
+- **Dev demo state**:
+  - draft **SG_LIFECYCLE_DEMO v1.1** is open (recording refusal terminates; keep, submit or abandon);
+  - scenarios SCN-0001…0003 (on v1.0);
+  - BAT-0001 (3 passed) and BAT-0002 (v1.0 vs v1.1: the recording scenario fails on B, explained);
+  - CB-2026-10504 has a VERSION_TEST run (terminated); its case, assignment, holds and attempts are unchanged.
+
+**S2-D.1 (ACCEPTED 2026-11-18; conditions D-67 live eligibility, D-68 cloud consent before any cloud audio, D-69 demo
+rule kept).**
+- **Lifecycle model**: `app/domain/lifecycle.py` defines stages in a fixed system order (opening → identity →
+  disclosure → consent → verification → closing), item roles, and the permitted on-failure behaviours. The
+  system-enforced minimums cannot be relaxed. Every rule is a synthetic assumption, recorded in
+  `SCRIPT_GOVERNANCE_AND_ASSIGNMENT.md` "Conversation lifecycle (S2-D.1)".
+- **Script Studio** configures lifecycle sections and items: role, on-failure behaviour, the policy-disclosure flag and
+  deliver-on-termination. It reuses versioning and maker-checker, and validation checks lifecycle rules. Published
+  versions are unchanged.
+- **Controller** (`question_controller.py`, engine `/2`) enforces:
+  - an identity gate, with policy-disclosing items withheld until identity is confirmed;
+  - willingness to proceed, recording consent and cloud processing as separate gates;
+  - mandatory disclosure delivery;
+  - the conversation events wrong person, callback requested, declined to continue and interrupted;
+  - termination, with only termination-closing statements afterwards.
+- **Reporting**: mandatory completion is reported separately from the gates. Identity and consent outcomes are labelled
+  simulated, and compliance is not evaluated.
+- **API and UI**: `POST /script-simulations/{id}/event`, plus a Text Simulator lifecycle panel and controls (DV-26).
+- **Migration** `0020_conversation_lifecycle` (side-table columns; the seed digest is unchanged).
+- **Verification**: backend **399**, unit **104**, Playwright **28**; OpenAPI
+  `c0bbbbd7d5a8de20aa12b77671ffb9679bcde1a9bc8dbfab62c522fa712d2bfe`. Record in `S2.md` "S2-D.1 as built"; evidence in
+  `evidence/S2-D.1/`.
+- **Dev demo** (governed APIs):
+  - new family `SG_LIFECYCLE_DEMO` v1.0 (PUBLISHED; authored by dev.user, approved and published by dev.checker);
+  - rule `S2D1-LIFECYCLE-DEMO` v1 (PUBLISHED, priority 3: SG · protection · bancassurance · annual — withdraw via Rule
+    Studio if not wanted);
+  - case CB-2026-10504 (intake, engine-assigned) with SIM runs COMPLETED, TERMINATED (identity failed) and TERMINATED
+    (declined to proceed); no attempts, state VALIDATED.
+
+**S2-D (ACCEPTED 2026-11-17).** Pure, event-sourced, provider-independent question
+controller `app/domain/question_controller.py` (plan from the pinned script + fact snapshot + SBQ band; approved
+conditions only; fixed order; states requested → presented → answered → completed / clarification → re-prompt
+(approved `max_reprompts`) → unresolved / skipped-by-condition; typed answers; duplicate / stale-action / bypass
+refusal; COMPLETED only when every applicable mandatory question is completed). Text Simulator `/simulator` (Governance
+nav; Call Detail "Start text simulation"). Simulation records only (`script_simulation_run`, insert-only
+`script_simulation_event`); no operational evidence, holds, states or KPIs. Permission `script.simulate` (USER,
+SC_CHECKER). Migration `0019_script_simulation`. Code `app/domain/{question_controller,script_simulation}.py`,
+`app/api/script_simulations.py`, `src/features/simulator/`; tests `tests/test_{question_controller,script_simulation}.py`,
+`e2e/text-simulator.spec.ts`. Verification: backend **389**, unit **102**, Playwright **27**; OpenAPI
+`447a41b22c44a6e369609ac8a78d07bbe57f2d8e07a6c3cb330d0d0b7fdc4f7e`. Record `S2.md` "S2-D as built"; evidence
+`evidence/S2-D/`.
+
+**S2-C (ACCEPTED 2026-11-17).** Deterministic assignment reusing the S2-B pure matcher with
 selected-contact evaluation (D-62 clarified): Call Detail "Script assignment" card (read-only preview → confirm →
 apply; pinned script, rule, explanation, failure reasons, holds, attempt history), batch "Assign scripts to unassigned
 cases" on Assignment Rules. Apply pins an immutable ENGINE `script_assignment`, releases `AWAITING_SCRIPT_ASSIGNMENT`
@@ -66,36 +151,55 @@ Chrome demo recorded in `evidence/S2-B/chrome_demo.txt`. Record `S2.md`; evidenc
 `S1.md` and `evidence/S1-D/`. Outstanding: the owner's real-microphone transcript check and acceptance.
 
 **Databases (local PostgreSQL 15, database `Call360_db`).** Both schemas at Alembic head
-**`0018_script_assignment_engine`**: `call360` (development, never reset; backed up before 0016/0017 to
-`~/call360-backups/pre_s2b_20261117_141600/` and before 0018 to `~/call360-backups/pre_s2c_20261117_150940/`; seed digest
-`2ead19f36e09bdf3…` MATCH and audit chain OK after the S2-C demo, 2731 events; the 245 historical assignments unchanged
-plus 1 engine assignment) and `call360_test` (reset by the test harness and E2E
+**`0022_answer_evaluation`**: `call360` (development, never reset; backup before 0022
+`~/call360-backups/pre_s3a_20261118_081100/` — seed digest MATCH and audit chain OK after the S3-A demo, 2830 events,
+249 assignments; backup before 0021
+`~/call360-backups/pre_s2e_20261117_172518/` — seed digest MATCH and audit chain OK after the S2-E demo, 2800 events;
+backup before 0020
+`~/call360-backups/pre_s2d1_20261117_163141/` — seed digest MATCH and audit chain OK after the S2-D.1 demo, 2789 events,
+249 assignments; backups before 0016/0017
+`~/call360-backups/pre_s2b_20261117_141600/`, before 0018 `pre_s2c_20261117_150940/`, before 0019
+`pre_s2d_20261117_153706/`; seed digest `2ead19f36e09bdf3…` MATCH and audit chain OK after the S2-D demo, 2749 events;
+the 245 historical assignments unchanged plus 3 engine assignments) and `call360_test` (reset by the test harness and E2E
 setup only). Development content beyond the seed: 12 runtime browser test sessions on CB-2026-10048; script families
 `SALES_VERIFICATION_SG_PROTECT` v1.0 (PUBLISHED) and `SALES_VERIFICATION_SG_PROTECT1` v1.0 (empty DRAFT); rules
 `SG-ILP-HIGH-RISK` v1 (SUPERSEDED) and v2 (PUBLISHED, priority 4, ILP + High/Medium → SALES_VERIFICATION_SG v1.1) and
 draft `SG-ILP-PROTECT-CONFLICT` v1 (ABANDONED, conflict demo); S2-C demo cases CB-2026-10501 (assigned
-SALES_VERIFICATION_SG v1.1 by SG-SALES-VERIFY v2, hold released) and CB-2026-10502 (ILP High; ambiguous attempt recorded,
-`AWAITING_SCRIPT_ASSIGNMENT` + `AWAITING_SCRIPT_REVIEW` active, deliberately left unassigned); labelled demo rule
-`S2C-DEMO-LEGACY-CONFLICT` v1 (directly inserted, now WITHDRAWN). No historical case was reassigned.
+SALES_VERIFICATION_SG v1.1 by SG-SALES-VERIFY v2) and CB-2026-10502 (ambiguous attempt recorded, then — on the owner's
+instruction after the conflict was resolved — assigned v1.1 by SG-ILP-HIGH-RISK v2 via the API, both script holds
+released, ambiguous attempt and audit preserved); labelled demo rule `S2C-DEMO-LEGACY-CONFLICT` v1 (directly inserted,
+WITHDRAWN); S2-D demo case CB-2026-10503 (ILP High, assigned v1.1) with simulation SIM-2026-10503-0001 (COMPLETED, 53
+events; no attempts, state VALIDATED); S2-D.1 demo content as listed above (CB-2026-10504). No historical case was
+reassigned.
 
 **Git (all three on `main`, in sync with `origin/main` at the owner's last commits; remote `github.com/Kibana21/…`).**
+The owner's commits `fd075f9` / `84ffb2b` / `044235d` include work through S2-C. **Uncommitted: S2-D and S2-D.1** (as of
+2026-11-18):
 
-| Repo | HEAD | Uncommitted (S2-A + S2-A.1 + S2-B + S2-C; commits need owner authorisation) |
+| Repo | HEAD | Uncommitted (S2-D + S2-D.1 + S2-E; commits need owner authorisation; S2-E adds the files listed in `S2.md` "S2-E as built") |
 |---|---|---|
-| Call360-specs | `bd0b348` | `docs/acceptance/S2.md`, `evidence/S2-A/`, `evidence/S2-B/`, `evidence/S2-C/` (new); `S1.md`, this handoff, `docs/product/SCRIPT_GOVERNANCE_AND_ASSIGNMENT.md` |
-| Call360-backend | `92ba5ee` | new migrations 0015–0018, `app/api/{script_authoring,assignment_rules,script_assignments}.py`, `app/domain/{script_authoring,rule_engine,rule_inputs,rule_authoring,script_assignment}.py`, tests `test_{script_authoring,script_draft_isolation,rule_engine,assignment_rules,script_assignment}.py`; modified `app/domain/intake.py`, `tests/test_intake.py`; modified `app/api/{case_detail,schemas,scripts}.py`, `app/audit/scope.py`, `app/cli.py`, `app/core/settings.py`, `app/domain/{catalog,seed}.py`, `app/main.py`, `app/security/scope.py`, OpenAPI artifacts, `scripts/e2e_setup.py`, 7 test files |
-| Call360-frontend | `417daac` | new `src/features/rules/`, `src/features/scripts/ScriptEditor.tsx`, `src/features/case/ScriptAssignmentPanel.tsx`, `e2e/{script-studio,assignment-rules,script-assignment}.spec.ts`; modified Call Detail and its tests, intake outcome, `e2e/cp04a-checks.ts`; modified Script Studio and Assignment Rules pages, `App.tsx`, `AppShell.tsx`, tests, `e2e/{f6-checks,cp06-checks,helpers}.ts`, pinned OpenAPI, contract lock, generated schema, `docs/design/DEVIATIONS.md` (DV-24) |
+| Call360-specs | `fd075f9` | `docs/acceptance/S2.md`, this handoff, `docs/product/SCRIPT_GOVERNANCE_AND_ASSIGNMENT.md`; new `evidence/S2-D/`, `evidence/S2-D.1/`, `evidence/S2-C/cb_2026_10502_resolution.txt` |
+| Call360-backend | `84ffb2b` | new migrations 0019–0020, `app/api/script_simulations.py`, `app/domain/{lifecycle,question_controller,script_simulation}.py`, tests `test_{question_controller,script_simulation,conversation_lifecycle,lifecycle_authoring}.py`; modified `app/api/{case_detail,schemas,script_authoring}.py`, `app/domain/{catalog,script_authoring}.py`, `app/main.py`, OpenAPI artifacts, `tests/test_{admin_access,authz_admin,stage0_acceptance}.py` |
+| Call360-frontend | `044235d` | new `src/features/simulator/`, `e2e/{text-simulator,conversation-lifecycle}.spec.ts`; modified `src/App.tsx`, `src/app/nav.ts`, `ScriptAssignmentPanel.tsx`, `ScriptEditor.tsx`, `ScriptFamilyPage.tsx`, `ScriptPages.test.tsx`, pinned OpenAPI, contract lock, generated schema, `docs/design/DEVIATIONS.md` (DV-25, DV-26) |
+
+Superseded table (state at the S2-D session, before the owner's commits):
+
+| Repo | HEAD | Uncommitted then |
+|---|---|---|
+| Call360-specs | `bd0b348` | `docs/acceptance/S2.md`, `evidence/S2-A/`, `evidence/S2-B/`, `evidence/S2-C/`, `evidence/S2-D/` (new); `S1.md`, this handoff, `docs/product/SCRIPT_GOVERNANCE_AND_ASSIGNMENT.md` |
+| Call360-backend | `92ba5ee` | new migrations 0015–0019, `app/api/{script_authoring,assignment_rules,script_assignments,script_simulations}.py`, `app/domain/{script_authoring,rule_engine,rule_inputs,rule_authoring,script_assignment,question_controller,script_simulation}.py`, tests `test_{script_authoring,script_draft_isolation,rule_engine,assignment_rules,script_assignment,question_controller,script_simulation}.py`; modified `tests/test_stage0_acceptance.py`; modified `app/domain/intake.py`, `tests/test_intake.py`; modified `app/api/{case_detail,schemas,scripts}.py`, `app/audit/scope.py`, `app/cli.py`, `app/core/settings.py`, `app/domain/{catalog,seed}.py`, `app/main.py`, `app/security/scope.py`, OpenAPI artifacts, `scripts/e2e_setup.py`, 7 test files |
+| Call360-frontend | `417daac` | new `src/features/rules/`, `src/features/scripts/ScriptEditor.tsx`, `src/features/case/ScriptAssignmentPanel.tsx`, `src/features/simulator/`, `e2e/{script-studio,assignment-rules,script-assignment,text-simulator}.spec.ts`; modified `src/app/nav.ts`; modified Call Detail and its tests, intake outcome, `e2e/cp04a-checks.ts`; modified Script Studio and Assignment Rules pages, `App.tsx`, `AppShell.tsx`, tests, `e2e/{f6-checks,cp06-checks,helpers}.ts`, pinned OpenAPI, contract lock, generated schema, `docs/design/DEVIATIONS.md` (DV-24) |
 
 **Running services at handover** (may stop when this Claude Code session ends — restart with §4 commands): backend
 development server on 127.0.0.1:8000, frontend Vite server on 127.0.0.1:5173, PostgreSQL on 5432. Playwright starts its
 own servers on 8001/5174.
 
 **Outstanding owner decisions and approvals (none of these is approved):**
-1. Accept S2-C (or request refinements). Decide what to do with CB-2026-10502 (blocked demo case; applying now would pin
-   SALES_VERIFICATION_SG v1.1 by SG-ILP-HIGH-RISK v2 and release both script holds).
+1. Accept S2-E (or request refinements). Decide the dev draft `SG_LIFECYCLE_DEMO` v1.1 (keep / submit / abandon) and,
+   later, withdrawal of `S2D1-LIFECYCLE-DEMO` (D-69).
 2. Accept S1-D (after the real-microphone transcript check).
-3. Authorise commits (separate per repository) for S2-A, S2-A.1, S2-B and S2-C.
-4. Authorise S2-D; later S2-E; then S1-E.
+3. Authorise commits (separate per repository) for S2-D, S2-D.1 and S2-E.
+4. Authorise S2-E; then S1-E.
 5. Before S1-E: approval to use GPT-Live, API-key handling and data-handling terms.
 6. Stage 0 governance: name the SEC-008 security reviewer and complete the review; name the three Stage 0 approvers
    (C-20). Stage 0 stays NOT_ACCEPTED until both.
@@ -138,14 +242,22 @@ run the verification commands in §4 (backend tests and Playwright **never at th
 | S2-A Editable Script Studio | **ACCEPTED** 2026-11-17 (D-54…D-57 approved subject to S2-A.1) | `S2.md`, `evidence/S2-A/` |
 | S2-A.1 Owner refinements | **ACCEPTED** 2026-11-17 | `S2.md`, `evidence/S2-B/` |
 | S2-B Editable Assignment Rules | **ACCEPTED** 2026-11-17 (D-58…D-66 approved; D-62 clarified) | `S2.md`, `evidence/S2-B/` |
-| S2-C Deterministic Script Assignment | **IMPLEMENTED AND VERIFIED**, awaiting owner acceptance | §0, `S2.md`, `evidence/S2-C/` |
-| S2-D Deterministic Question Controller · S2-E Text-based callback simulation | NOT_STARTED, not authorised (owner's planned sequence) | `S2.md` |
+| S2-C Deterministic Script Assignment | **ACCEPTED** 2026-11-17 | `S2.md`, `evidence/S2-C/` |
+| S2-D Deterministic Question Controller | **ACCEPTED** 2026-11-17 | `S2.md`, `evidence/S2-D/` |
+| S2-D.1 Conversation Lifecycle and Control Gates | **ACCEPTED** 2026-11-18 (conditions D-67…D-69) | `S2.md`, `evidence/S2-D.1/` |
+| S2-E Callback Simulation Workbench | **ACCEPTED** 2026-11-18 (generated-baseline and v1.1-draft conditions) | `S2.md`, `evidence/S2-E/` |
+| S3-A Deterministic Answer Evaluation Engine | **IMPLEMENTED AND VERIFIED** 2026-11-18, awaiting owner acceptance (D-70…D-75 proposed) | `S3.md`, `evidence/S3-A/` |
+| S2-E Text-based callback simulation | NOT_STARTED, not authorised (owner's planned sequence) | `S2.md` |
 | Stage 0 governance acceptance | **PENDING** (SEC-008 review, named approvers C-20) | `S0.md`, `docs/security/SEC-008_REVIEW_HANDOFF.md` |
 
 ## 2. Verification history (latest first)
 
 | Checkpoint | Backend | Frontend unit | Playwright | OpenAPI SHA-256 | Migration head | Evidence |
 |---|---|---|---|---|---|---|
+| S3-A | 455 | 108 | 30 | `18c0b42394b866670de48f9dc4d531aaf06ba621b3810e20b48907564d259580` | `0022_answer_evaluation` | `evidence/S3-A/` |
+| S2-E | 416 | 106 | 29 | `df53e258606a81030b711815b9b62992f2dac4c7319e95c0e10ec763060e2121` | `0021_simulation_workbench` | `evidence/S2-E/` |
+| S2-D.1 | 399 | 104 | 28 | `c0bbbbd7d5a8de20aa12b77671ffb9679bcde1a9bc8dbfab62c522fa712d2bfe` | `0020_conversation_lifecycle` | `evidence/S2-D.1/` |
+| S2-D | 389 | 102 | 27 | `447a41b22c44a6e369609ac8a78d07bbe57f2d8e07a6c3cb330d0d0b7fdc4f7e` | `0019_script_simulation` | `evidence/S2-D/` |
 | S2-C | 381 | 101 | 26 | `283300f0fa1f7c1158953f10db2efda07ca8fdd2048d767e97219f6139727470` | `0018_script_assignment_engine` | `evidence/S2-C/` |
 | S2-A.1 + S2-B | 377 | 99 | 25 | `d50a5a43dbcda109f34cfaf6fa3f07c048de1ca04aecaa11e377845ab9ef82cb` | `0017_assignment_rule_authoring` | `evidence/S2-B/` |
 | S2-A | 363 | 96 | 24 | `d35e791e04be538bd6d0d99e224133319d3f45e038035e7fcaa172eef8bf0ea8` | `0015_script_authoring` | `evidence/S2-A/` |
@@ -174,8 +286,8 @@ Later S0 checkpoints (F2…CP0.6) record their numbers in their sections below a
 
 | Schema | Login role | Head | Notes |
 |---|---|---|---|
-| `call360` (development) | `Call360_db_user` (superuser, RR-11) | `0018_script_assignment_engine` | S0-SEED-1 (195 SG cases visible, 55 MY hidden); never reset; seed digest `2ead19f3…` MATCH; runtime test sessions and demo scripts listed in §0 |
-| `call360_test` | `call360_test_user` (no superuser, no access to `call360`) | `0018_script_assignment_engine` | reset and seeded by pytest and `scripts/e2e_setup.py` only |
+| `call360` (development) | `Call360_db_user` (superuser, RR-11) | `0021_simulation_workbench` | S0-SEED-1 (195 SG cases visible, 55 MY hidden); never reset; seed digest `2ead19f3…` MATCH; runtime test sessions and demo scripts listed in §0 |
+| `call360_test` | `call360_test_user` (no superuser, no access to `call360`) | `0021_simulation_workbench` | reset and seeded by pytest and `scripts/e2e_setup.py` only |
 
 **Development accounts** (passwords only in `Call360-backend/.env.local`): `dev.admin` (Demo Administrator,
 LOCAL_ADMIN), `dev.user` (Demo Operations User, LOCAL_USER_SG — script author), `dev.checker` (Dev S&C Checker,
@@ -194,7 +306,7 @@ LOCAL_SC_CHECKER_SG — script approver/publisher, created 2026-11-17 with `call
 | `Call360-frontend/e2e/.auth/` | E2E accounts |
 | `~/.call360/recordings/<schema>/` | encrypted recordings and transcript text objects (168 h local retention) |
 | `~/.call360/models/faster-whisper-small.en/` | transcription model files (≈464 MB, SHA-256 pinned in `app/voice/transcript.py`) |
-| `~/call360-backups/` | `pre_cp02_20261115_173043/` (includes `env.post_keys`, the only other copy of the development data-protection keys), `pre_f0_20261115_181045/`, `pre_s1c_20261117_025210/`, `pre_s2b_20261117_141600/` (pg_dump of schema `call360` before 0016/0017), `pre_s2c_20261117_150940/` (before 0018) |
+| `~/call360-backups/` | `pre_cp02_20261115_173043/` (includes `env.post_keys`, the only other copy of the development data-protection keys), `pre_f0_20261115_181045/`, `pre_s1c_20261117_025210/`, `pre_s2b_20261117_141600/` (pg_dump of schema `call360` before 0016/0017), `pre_s2c_20261117_150940/` (before 0018), `pre_s2d_20261117_153706/` (before 0019), `pre_s2d1_20261117_163141/` (before 0020), `pre_s2e_20261117_172518/` (before 0021), `pre_s3a_20261118_081100/` (before 0022) |
 
 **Commands**
 - Backend dev: `cd Call360-backend && make dev` → http://127.0.0.1:8000 (applies nothing; migrate with `make migrate`).
@@ -246,6 +358,10 @@ LOCAL_SC_CHECKER_SG — script approver/publisher, created 2026-11-17 with `call
 - `tests/test_script_assignment.py` resets and reseeds `call360_test` before and after itself (it withdraws the seeded
   catch-all rule and inserts legacy conflict rows). An existing API-039 owns `GET /cases/{id}/script-assignment`; the
   S2-C endpoints are `…/script-assignment/preview` and `…/script-assignment/apply`.
+- The question controller (`app/domain/question_controller.py`) is pure and event-sourced: a voice provider (S1-E)
+  should only call `record_delivery` / `submit_answer` / `request_clarification` against the current `action_id`;
+  it never chooses questions. The Stage 0 all-route sweep needs a parameter entry for any new list route with a
+  required query parameter (`tests/test_stage0_acceptance.py`).
 - Chrome demos: a short-lived helper on 127.0.0.1:5199 can hand gitignored dev credentials to the login form (see
   `evidence/S2-B/chrome_demo.txt`); stop it afterwards.
 
@@ -426,7 +542,10 @@ Then: F3 Call Detail → F4 Policy Explorer → F5 SBQ Risk Workbench → CP0.4 
 | S2-A Editable Script Studio (D-54…D-57) | ACCEPTED 2026-11-17 (subject to S2-A.1); uncommitted | `0015_script_authoring` | `S2.md`, `evidence/S2-A/` |
 | S2-A.1 Owner refinements (draft isolation, Abandon Draft, acknowledgement, labelling) | ACCEPTED 2026-11-17; uncommitted | `0016_script_draft_isolation` | `S2.md`, `evidence/S2-B/` |
 | S2-B Editable Assignment Rules (D-58…D-66 approved) | ACCEPTED 2026-11-17; uncommitted | `0017_assignment_rule_authoring` | `S2.md`, `evidence/S2-B/` |
-| S2-C Deterministic Script Assignment | IMPLEMENTED AND VERIFIED; awaiting owner acceptance; uncommitted | `0018_script_assignment_engine` | `S2.md`, `evidence/S2-C/` |
+| S2-C Deterministic Script Assignment | ACCEPTED 2026-11-17; uncommitted | `0018_script_assignment_engine` | `S2.md`, `evidence/S2-C/` |
+| S2-D Deterministic Question Controller + Text Simulator | ACCEPTED 2026-11-17; uncommitted | `0019_script_simulation` | `S2.md`, `evidence/S2-D/` |
+| S2-D.1 Conversation Lifecycle and Control Gates | ACCEPTED 2026-11-18; uncommitted | `0020_conversation_lifecycle` | `S2.md`, `evidence/S2-D.1/` |
+| S2-E Callback Simulation Workbench | IMPLEMENTED AND VERIFIED 2026-11-18; awaiting owner acceptance; uncommitted | `0021_simulation_workbench` | `S2.md`, `evidence/S2-E/` |
 
 Earlier per-session snapshots (previously §19–§23) were removed from this handoff because their status lines and
 "outstanding decisions" lists are superseded; their content is preserved in `S1.md`, `S2.md`, the evidence folders and

@@ -1,0 +1,16 @@
+head 0022_answer_evaluation
+seed digest MATCH
+script_assignment 249
+contact_attempt 413
+conversation_session 93
+survey_run 80
+answer_observation 533
+rule_evaluation 417
+finding 24
+simulation_answer_evaluation 2
+simulation_scenario 4
+simulation_batch 3
+evaluations ['EVL-0001 COMPLETED {"MATCH": 5, "MISMATCH": 2, "NOT_ASKED": 0, "UNRESOLVED": 0, "NOT_EVALUATED": 3, "NOT_APPLICABLE": 0, "MISSING_EXPECTED_FACT": 0, "HUMAN_ASSESSMENT_REQUIRED": 1}', 'EVL-0002 INCOMPLETE {"MATCH": 4, "MISMATCH": 1, "NOT_ASKED": 0, "UNRESOLVED": 2, "NOT_EVALUATED": 3, "NOT_APPLICABLE": 0, "MISSING_EXPECTED_FACT": 0, "HUMAN_ASSESSMENT_REQUIRED": 1}']
+SG_LIFECYCLE_DEMO 1.0 PUBLISHED, 1.1 DRAFT
+SG_EVALUATION_DEMO 1.0 DRAFT
+CB-2026-10504 VALIDATED hold=false

@@ -1,0 +1,14 @@
+# Backend checks 2026-11-17T15:46:52Z (S2-D, final)
+## ruff
+All checks passed!
+148 files already formatted
+## mypy
+Success: no issues found in 74 source files
+## contract
+OpenAPI matches (447a41b22c44a6e369609ac8a78d07bbe57f2d8e07a6c3cb330d0d0b7fdc4f7e)
+## secret scan
+Secret scan clean
+## pytest (call360_test, full suite)
+389 passed in 198.46s (0:03:18)
+## S2-D tests
+test_question_controller.py: 5 passed; test_script_simulation.py: 3 passed (8 S2-D tests, included in the 389)

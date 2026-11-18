@@ -1,0 +1,7 @@
+>> select c.case_ref, c.state, c.has_blocking_hold, (select count(*) from contact_a
+   ('CB-2026-10504', 'VALIDATED', False, 0, 'SG_LIFECYCLE_DEMO v1.0', 'TEXT_SIMULATION:COMPLETED, TEXT_SIMULATION:TERMINATED, TEXT_SIMULATION:TERMINATED, VERSION_TEST:TERMINATED')
+>> select count(*) scenarios, (select count(*) from simulation_scenario_revision) r
+   (3, 4, 2, 9, 2, 249)
+Audit chain OK: 2800 events; head 6038f4d9e69a4a8d8eb68eb6b16e0a37526ee4e5ec6bed6748c08a1210e00c72
+head 0021_simulation_workbench
+seed digest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de manifest 2ead19f36e09bdf360f193d3d6140f7aa27b6520e599d800e01bd5edfbcfc3de MATCH
