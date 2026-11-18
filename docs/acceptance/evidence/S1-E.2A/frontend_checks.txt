@@ -1,0 +1,5 @@
+# S1-E.2A frontend checks
+eslint: clean
+tsc: clean
+api:check OK (openapi 550e742339df5297c946b7add019de5dd67ac028c9fc51609d9e7492b92c972d)
+      Tests  116 passed (116)

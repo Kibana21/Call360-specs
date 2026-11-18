@@ -1,0 +1,19 @@
+# S1-E.2A development state after the Chrome demo 2026-11-18T15:05:58Z (read-only)
+head 0026_gpt_live_provider
+seed digest MATCH
+callback_case 258
+contact_attempt 415
+conversation_session 95
+finding 26
+review_decision 5
+paid {'r': 0, 's': 0, 'e': 0}
+  "session": "LAB-S-00022",
+  "provider": "GPT_LIVE_MOCK",
+  "connection": "SUCCEEDED",
+  "termination": "CONFIRMED",
+  "provider_usage_seconds": "22.90",
+  "usage_source": "PROVIDER_SESSION_CLOSED",
+  "reconciled_usd": "0.0191",
+  "reservation": "RECONCILED",
+Audit chain OK: 2934 events; head 735bd6322f2dcf6be7f0b9974e0fad7aa96d59179c9473c78dce44b0b65d55ef
+Azure / OpenAI configuration variables present in .env, .env.test, .env.local: 0

@@ -1,0 +1,6 @@
+# S1-E.2A zero paid expenditure 2026-11-18T15:27:02Z
+No Azure OpenAI or OpenAI connection was made. Every GPT-Live connection in tests went to the loopback mocked server (APP_ENV=test refuses all non-loopback hosts, including *.openai.azure.com and api.openai.com); the Chrome demo used GPT_LIVE_MOCK (loopback, Azure profile).
+Azure / OpenAI credential and mode variables in .env, .env.test, .env.local: 0
+paid {'r': 0, 's': 0, 'e': 0}
+azure-identity installed: no (Entra mode fails closed)
+No Azure resource was created. Total paid API expenditure: USD 0.

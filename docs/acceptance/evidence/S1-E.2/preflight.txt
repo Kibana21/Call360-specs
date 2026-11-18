@@ -1,0 +1,22 @@
+# S1-E.2 live smoke-test preflight 2026-11-18 22:37 +08 — offline only (loopback mocked protocol server); no paid call
+## backend pytest (full suite)
+498 passed in 307.59s (0:05:07)
+rc=0
+## preflight tests (tests/test_gpt_live_preflight.py)
+def test_key_never_logged_and_nothing_connects_on_startup_or_page_load
+def test_startup_timeout_is_bounded_and_unconfirmed_blocks_further_sessions
+def test_no_stale_audio_after_interruption
+def test_automated_tests_can_only_reach_loopback
+## lint / types / contract
+All checks passed!
+175 files already formatted
+Success: no issues found in 94 source files
+OpenAPI matches (c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9)
+## frontend
+eslint: clean
+tsc: clean
+      Tests  116 passed (116)
+## Playwright (full)
+  33 passed (5.9m)
+## key / mode variables in .env, .env.test, .env.local: 0
+## Conclusion: all preflight items pass offline; paid API expenditure USD 0; live validation not performed.

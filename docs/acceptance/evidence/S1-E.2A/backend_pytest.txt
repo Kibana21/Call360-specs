@@ -1,0 +1,13 @@
+# S1-E.2A backend checks 2026-11-18 23:26 +08
+503 passed in 314.31s (0:05:14)
+rc=0
+## tests/test_azure_gpt_live.py
+def test_azure_session_end_to_end_on_the_mocked_protocol
+def test_azure_fails_closed_without_a_verified_price
+def test_azure_entra_id_bearer_token_and_fail_closed_without_library
+def test_azure_deployment_enforced_and_sideband_close
+def test_azure_url_configuration_and_resampling_guards
+All checks passed!
+177 files already formatted
+Success: no issues found in 95 source files
+OpenAPI matches (550e742339df5297c946b7add019de5dd67ac028c9fc51609d9e7492b92c972d)

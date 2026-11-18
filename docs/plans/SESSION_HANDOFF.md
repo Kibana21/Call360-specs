@@ -29,19 +29,51 @@ Singapore-only (D-39). The investigation screen is **Call Detail**; the script e
 - **Stage 3:** **S3-A, S3-B and S3-C ACCEPTED 2026-11-18** (S3-C: S3-B conflict resolution approved; reviewer-assigned
   severity allowed with justification and shown apart from rule-assigned severity; the four escalation reasons approved;
   D-81…D-86 presented for confirmation).
-- **Voice Lab:** **S1-E.1 ACCEPTED 2026-11-18** (D-81…D-86 approved with refinements; synthetic metering for testing
-  only; 168 h retention applies). **S1-E.2 GPT-Live provider adapter IMPLEMENTED AND OFFLINE-VERIFIED 2026-11-18,
-  awaiting live-provider validation and owner acceptance** (record `S1.md` S1-E.2; protocol notes
-  `docs/integrations/GPT_LIVE_PROTOCOL_NOTES.md`; D-95…D-102 proposed; paid expenditure USD 0). **No GPT-Live connection
-  has ever been made**; the first paid smoke test needs separate authorisation (runbook in `S1.md`).
+- **Voice Lab:** **S1-E.1 ACCEPTED 2026-11-18**. **S1-E.2 GPT-Live provider adapter ACCEPTED 2026-11-18 as
+  IMPLEMENTED AND OFFLINE-VERIFIED; live-provider validation PENDING.** D-81…D-94 approved (D-87…D-94 subject to the
+  superseding paid-access, termination and reconciliation requirements of D-98/D-99); D-95…D-102 presented for
+  confirmation. Retained: 168 h retention, separate spending-authorisation and execution roles, conservative
+  reservations for unconfirmed termination, paid batch experiments disabled. **Live smoke-test preflight complete
+  (2026-11-18, all pass offline)** — `S1.md` "S1-E.2 live smoke-test preflight". **No GPT-Live connection has ever been
+  made; paid expenditure USD 0.** The owner will personally run the first session ("S1-E.2 first live smoke test —
+  exact procedure" in `S1.md`); the assistant must not initiate any paid call or claim live validation before the owner
+  has run and reviewed it.
+- **Azure OpenAI (owner's provider, preferred):** **S1-E.2A IMPLEMENTED AND OFFLINE-VERIFIED 2026-11-18, awaiting
+  acceptance** (ADR-0009; D-103…D-108 proposed; `S1.md` S1-E.2A incl. the Azure configuration runbook). Providers:
+  `AZURE_OPENAI_GPT_LIVE` (preferred), `OPENAI_GPT_LIVE`, `GPT_LIVE_MOCK` (Azure profile default), mocks; `GPT_LIVE`
+  legacy alias. Azure price unknown → Azure fails closed until the owner configures a verified price.
 
 **Development priorities (owner's sequence)** — each step needs its own explicit authorisation:
-1. S1-E.2 acceptance (offline); confirm D-87…D-94 and D-95…D-102 (`S1.md`).
-2. Only with separate owner authorisation: the first live smoke test (dedicated OpenAI project, project hard limit,
-   backend-only key, one 120 s session ≤ USD 0.10) — runbook in `S1.md`.
+0. S1-E.2A acceptance; the first live test should use **Azure OpenAI** (configure resource, deployment, credential
+   and verified price per `S1.md` "Configuring an existing Azure OpenAI resource"), then the same smoke-test procedure.
+1. Owner runs the first live smoke test (procedure in `S1.md`: dedicated OpenAI project with a USD 1 project hard limit,
+   key only in the owner's shell environment, dev.admin authorises once, dev.user starts one ≤ 120 s session ≤
+   USD 0.10), then reviews `uv run call360 voicelab-report --session LAB-S-…` and the Voice Lab evidence.
+2. Confirm D-95…D-102. Outstanding acceptance: live-provider validation (after the test), S1-D, Stage 0 governance,
+   SEC-008. Do NOT start operational controller integration or expand Voice Lab.
+3. Git (2026-11-18 22:40 SGT): specs `main` at `99ad480` (S1-E.2 records committed by the owner) + this preflight's
+   documentation, uncommitted; backend `main` at `fd2cd5a` + preflight changes uncommitted (`app/api/voice_lab.py`,
+   `app/cli.py`, `app/core/settings.py`, `app/voice/gpt_live.py`, `app/voice/gpt_live_mock.py`, `app/voice/lab.py`,
+   new `tests/test_gpt_live_preflight.py`); frontend `main` at `8d256e9` + preflight changes uncommitted
+   (`src/features/voice/useVoiceSession.ts`, `src/features/voicelab/shared.tsx`, new
+   `src/features/voice/playable.test.ts`). No commit or push without authorisation.
 3. Resume GPT-Live integration (S1-E) last — as a conversational interface to the S2-D controller, which keeps control.
 
-**S1-E.2 GPT-Live adapter (implemented and offline-verified, awaiting live validation and acceptance).**
+**S1-E.2A Azure OpenAI support (2026-11-18, offline-verified).** `app/voice/live_providers.py` (endpoint, auth
+headers, wire rate, model per provider; Entra token provider; resampling); Azure settings `VOICE_LAB_AZURE_*` (all off
+by default); mock server serves `/openai/v1/live/sessions` (+ `/attach`) at 16/24 kHz; non-secret `PROVIDER_ENDPOINT`
+trace event. Backend **503**, unit **116**, Playwright **33**; OpenAPI `550e7423…`; no migration; evidence
+`evidence/S1-E.2A/`. Gotchas: `azure-identity` is not installed (Entra mode fails closed locally); `store` is not sent
+to Azure.
+
+**S1-E.2 live smoke-test preflight (2026-11-18).** Hardened: the provider transport logger is pinned to INFO with an
+authorisation-redaction filter (the `websockets` client logs request headers at DEBUG); in `APP_ENV=test` only
+loopback hosts are reachable (the official endpoint is refused); `VOICE_LAB_START_TIMEOUT_S` (10 s, 2–30) bounds
+connect + `session.started`; recordings label the provider track as audio *sent*, not played; browser `playable()`
+helper. New read-only `call360 voicelab-report --session LAB-S-…`; mock marker `[mock:nostart]`. Backend **498**, unit
+**116**, Playwright **33**; evidence `evidence/S1-E.2/preflight.txt`.
+
+**S1-E.2 GPT-Live adapter (ACCEPTED as offline-verified; live validation pending).**
 - **Backend** `app/voice/gpt_live.py` (adapter, URL guard, deterministic delegation, sideband close),
   `app/voice/gpt_live_mock.py` + CLI `call360 gpt-live-mock --port N` (loopback test double, fault markers
   `[mock:noclose|drop|error|expire=N|silent|delegate]` in the system prompt), paid gates and settlement in
@@ -328,7 +360,7 @@ run the verification commands in §4 (backend tests and Playwright **never at th
 | S3-B Deterministic Compliance Findings Engine | **ACCEPTED** 2026-11-18 (D-70…D-80 approved with conditions) | `S3.md`, `evidence/S3-B/` |
 | S3-C Human Review and Case Resolution | **ACCEPTED** 2026-11-18 (D-81…D-86 presented for confirmation) | `S3.md`, `evidence/S3-C/` |
 | S1-E.1 Voice Lab Foundation | **ACCEPTED** 2026-11-18 (D-87…D-94 presented for confirmation) | `S1.md`, `evidence/S1-E.1/` |
-| S1-E.2 GPT-Live provider adapter | **IMPLEMENTED AND OFFLINE-VERIFIED** 2026-11-18, awaiting live-provider validation and owner acceptance (D-95…D-102 proposed) | `S1.md`, `evidence/S1-E.2/` |
+| S1-E.2 GPT-Live provider adapter | **ACCEPTED** 2026-11-18 as offline-verified; live-provider validation **PENDING** (preflight complete; owner runs the smoke test) | `S1.md`, `evidence/S1-E.2/` |
 | S2-E Text-based callback simulation | NOT_STARTED, not authorised (owner's planned sequence) | `S2.md` |
 | Stage 0 governance acceptance | **PENDING** (SEC-008 review, named approvers C-20) | `S0.md`, `docs/security/SEC-008_REVIEW_HANDOFF.md` |
 
@@ -336,6 +368,8 @@ run the verification commands in §4 (backend tests and Playwright **never at th
 
 | Checkpoint | Backend | Frontend unit | Playwright | OpenAPI SHA-256 | Migration head | Evidence |
 |---|---|---|---|---|---|---|
+| S1-E.2A | 503 | 116 | 33 | `550e742339df5297c946b7add019de5dd67ac028c9fc51609d9e7492b92c972d` | `0026_gpt_live_provider` | `evidence/S1-E.2A/` |
+| S1-E.2 preflight | 498 | 116 | 33 | `c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9` | `0026_gpt_live_provider` | `evidence/S1-E.2/preflight.txt` |
 | S1-E.2 | 494 | 115 | 33 | `c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9` | `0026_gpt_live_provider` | `evidence/S1-E.2/` |
 | S1-E.1 | 486 | 115 | 33 | `3ac93e843d32fc447825ca54c47a2e55b91b01dfcb4616a54461ceb420d6ec7a` | `0025_voice_lab` | `evidence/S1-E.1/` |
 | S3-C | 476 | 113 | 32 | `75bc2f3206990337e5c1a31eff38096d676aa0b5f4f62c48cbc2bc0950166f2b` | `0024_review_resolution` | `evidence/S3-C/` |

@@ -71,3 +71,24 @@ slightly exceed the configured amount." Steps are quoted in `docs/acceptance/S1.
 | Delegation | `delegation: {type: "client"}`; reply with `session.commentary.append` | deterministic Python responder (no LLM, no tool, no backend model) |
 | Duration | none configurable | server timer; `session.close` on timeout, stop, emergency stop, browser disconnect or error |
 | Usage | `session.usage.updated`, `session.closed.usage.seconds` | reservation reconciled only from a confirmed `session.closed`; otherwise retained (uncertain) |
+
+## Azure OpenAI GPT-Live (S1-E.2A) — what the Microsoft documentation states
+
+Read 2026-11-18 (no API call): `learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-live`, `…/concepts/gpt-live`,
+`…/gpt-live-reference` (ms.date 2026-09-04), `…/how-to/gpt-live-delegation`, `…/quotas-limits`, the classic
+managed-identity page, and `azure.microsoft.com/en-us/pricing/details/azure-openai/`.
+
+| Item | Azure documentation | Call360 |
+|---|---|---|
+| Endpoint | `wss://<resource>.openai.azure.com/openai/v1/live/sessions`; no `api-version` stated | derived from `VOICE_LAB_AZURE_OPENAI_ENDPOINT`; host must be `*.openai.azure.com` |
+| Model / deployment | `model` in `session.start` (example `gpt-live-1`); prerequisite "a deployment of the gpt-live-1 model"; whether `model` takes the deployment or model name **not stated** | sends the configured deployment name; recommend naming the deployment `gpt-live-1` to remove the ambiguity |
+| Auth | sample `Authorization: Bearer <Entra token>`; "API key or Microsoft Entra ID"; API-key header **not stated** on the GPT-Live pages; managed-identity page: scope `https://ai.azure.com/.default`, roles Cognitive Services OpenAI User / Contributor, custom subdomain needed for Entra | `api-key` header (Azure OpenAI convention — to be confirmed live) or Entra bearer token (`azure-identity`) |
+| Audio | how-to and reference: raw mono PCM16 **24 kHz**, base64, even byte count; concepts page also mentions 16 kHz and G.711 | 24 kHz by default (`VOICE_LAB_AZURE_AUDIO_RATE`), resampled from/to the browser's 16 kHz |
+| Events | same names as OpenAI's GPT-Live: `session.start`/`started`, `session.update`/`updated`, `session.input_audio.append`/`mute`/`unmute`, `session.output_audio.delta` (with `start_ms`/`end_ms`), transcript deltas, `session.instructions/thinking/commentary.append` (+ `.appended`), `session.delegation.created`, `response.event`, `session.usage.updated` (cumulative, "approximately once per minute"), `session.closed` (reasons close_requested, expired, content, remote_hangup, connection_lost), `error`; strict session config rejects unknown fields; no output-audio-done or interruption event | the shared adapter, unchanged (the reference does not mention `store`; Call360 sends `store: false` — to be confirmed live, the strict config may reject it) |
+| Delegation | `{type: "client"}` or `{type: "responses"}`; client: reply with commentary/thinking append using `delegation.id` | client delegation, deterministic Python responder |
+| Sideband | `wss://<resource>.openai.azure.com/openai/v1/live/sessions/{session_id}/attach`; no `session.start` | used for a manager's close of an orphan |
+| Usage | cumulative seconds; final usage on `session.closed`; "a transport close without that event leaves final usage unconfirmed" | settle only on confirmed `session.closed` |
+| Regions | **not stated** on the pages read | owner records region and deployment type |
+| Quotas | concurrent sessions by tier (summary): default 10, tier 1 25, tier 2 50, tier 3 200, tier 4 300, tier 5 500 | Call360 allows one paid session |
+| Pricing | the pricing page lists "GPT-Live Global" and "GPT-Live Data Zone" at "$-/per 1 unit hour" — **no amount rendered**; WebRTC has a 15 s minimum that "doesn't apply to WebSocket sessions"; backend/tool usage billed separately | **unknown** → Azure fails closed until the owner configures a verified price |
+
