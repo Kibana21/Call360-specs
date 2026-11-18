@@ -187,6 +187,55 @@ revision (maker-checker, immutable once published, new revision on change). Reco
 - **Scope in S3-A**: simulation only (interactive runs and scenarios). Operational evaluation of real sessions,
   findings and decisions are S3-B / S3-C.
 
+### S3-A owner acceptance (2026-11-18)
+
+D-71 approved (payment frequency is a governed fact mapping); D-73 approved (numeric tolerance only when explicitly
+configured, versioned, with defined units and an approval reference). D-70, D-72, D-74 and D-75 await confirmation.
+
+## Compliance findings (S3-B) — proposed decisions D-76…D-80, pending owner confirmation
+
+Findings are generated deterministically from answer-evaluation outcomes by a governed **finding rule set** (versioned
+per market; authored with `script.edit`, approved and published by a different checker; immutable once published).
+Record: `acceptance/S3.md`.
+
+| Evaluation outcome | Finding class (fixed) | Allowed categories |
+|---|---|---|
+| MISMATCH | Customer discrepancy | FACT_MISMATCH, UNCLEAR_UNDERSTANDING, DISCLOSURE_CONCERN, CONTRADICTORY_ANSWER |
+| UNRESOLVED | Missing evidence | MISSING_MANDATORY_ANSWER, UNCLEAR_UNDERSTANDING |
+| NOT_ASKED | Missing evidence | MISSING_MANDATORY_ANSWER |
+| MISSING_EXPECTED_FACT | System-data issue | POLICY_DATA_ISSUE (new) |
+| HUMAN_ASSESSMENT_REQUIRED | Human assessment (review always required) | NARRATIVE_REVIEW (new), DISCLOSURE_CONCERN |
+
+- A rule targets a question, the questions linked to a compliance control, or any (mandatory) question, for one outcome;
+  the most specific level applies and every rule there produces a finding; uncovered outcomes are reported "not
+  converted" — not every discrepancy is a finding.
+- Severity comes only from the rule, with a stated justification; no default, no threshold is assumed. Severity is
+  compliance finding severity, never SBQ selection risk.
+- A finding is a flagged potential concern for human review — never a breach determination, verification outcome or
+  case decision. Each finding carries its rule and rule-set version, controls, evidence and engine versions; generation
+  is idempotent (deterministic finding keys).
+- S3-B generates findings in simulation only; the operational writer is verified on synthetic fixtures only.
+
+### S3-B owner acceptance (2026-11-18)
+
+D-70, D-72, D-74, D-75 (revised: evaluating real sessions requires separate authorisation) and D-76…D-80 approved with
+conditions (classes distinct; deterministic, documented precedence; severity from justified approved configuration;
+maker-checker preserved; simulation and operational records isolated). Operational findings use the published finding
+rule set only. Record: `acceptance/S3.md`.
+
+## Human review and case resolution (S3-C) — proposed decisions D-81…D-86, pending owner confirmation
+
+- Finding dispositions use the S0 statuses only (confirm, dismiss, request information, resolve; reason mandatory);
+  case actions use the BRD §3.1 states only (further callback, escalation with a REV-003 reason, return to review).
+- Final case decisions (VERIFIED, CLOSED_UNVERIFIED with a governed closure reason) and dispositions of material
+  findings are maker-checker: proposed with `review.decide`, approved by a different user with `review.approve`.
+- VERIFIED requires every readiness check (identity, consent and disclosure gates, completed conversation, mandatory
+  answers, evidence, discrepancies raised and dispositioned, narrative answers assessed, no outstanding findings, no
+  blocking hold, no pending approval) at proposal and approval. Completion, matching answers or the absence of findings
+  never verify a case on their own; missing evidence is never success.
+- Every review action is an insert-only `review_decision` (actor, permission, reason, previous and resulting state,
+  evidence snapshot); findings and evidence are never overwritten. Record: `acceptance/S3.md`.
+
 ## Governance state machine
 
 `DRAFT → SUBMITTED_FOR_REVIEW → APPROVED → SCHEDULED → PUBLISHED → SUPERSEDED | WITHDRAWN`

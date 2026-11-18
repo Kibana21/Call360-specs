@@ -26,15 +26,85 @@ Singapore-only (D-39). The investigation screen is **Call Detail**; the script e
   **S2-D.1 ACCEPTED 2026-11-18** (synthetic lifecycle assumptions approved with conditions D-67…D-69).
   **S2-E Callback Simulation Workbench ACCEPTED 2026-11-18** (conditions: SG_LIFECYCLE_DEMO v1.1 stays an unpublished
   regression draft; generated expectations labelled as generated baselines).
-- **Stage 3:** **S3-A Deterministic Answer Evaluation Engine IMPLEMENTED AND VERIFIED 2026-11-18, awaiting owner
-  acceptance** (record `S3.md`). S3-B / S3-C not authorised — do not start them.
+- **Stage 3:** **S3-A, S3-B and S3-C ACCEPTED 2026-11-18** (S3-C: S3-B conflict resolution approved; reviewer-assigned
+  severity allowed with justification and shown apart from rule-assigned severity; the four escalation reasons approved;
+  D-81…D-86 presented for confirmation).
+- **Voice Lab:** **S1-E.1 ACCEPTED 2026-11-18** (D-81…D-86 approved with refinements; synthetic metering for testing
+  only; 168 h retention applies). **S1-E.2 GPT-Live provider adapter IMPLEMENTED AND OFFLINE-VERIFIED 2026-11-18,
+  awaiting live-provider validation and owner acceptance** (record `S1.md` S1-E.2; protocol notes
+  `docs/integrations/GPT_LIVE_PROTOCOL_NOTES.md`; D-95…D-102 proposed; paid expenditure USD 0). **No GPT-Live connection
+  has ever been made**; the first paid smoke test needs separate authorisation (runbook in `S1.md`).
 
 **Development priorities (owner's sequence)** — each step needs its own explicit authorisation:
-1. S3-A acceptance (and any refinements); confirm proposed decisions D-70…D-75 (`S3.md`).
-2. Next as the owner directs (S3-B / S3-C not authorised).
+1. S1-E.2 acceptance (offline); confirm D-87…D-94 and D-95…D-102 (`S1.md`).
+2. Only with separate owner authorisation: the first live smoke test (dedicated OpenAI project, project hard limit,
+   backend-only key, one 120 s session ≤ USD 0.10) — runbook in `S1.md`.
 3. Resume GPT-Live integration (S1-E) last — as a conversational interface to the S2-D controller, which keeps control.
 
-**S3-A (implemented and verified, awaiting acceptance).**
+**S1-E.2 GPT-Live adapter (implemented and offline-verified, awaiting live validation and acceptance).**
+- **Backend** `app/voice/gpt_live.py` (adapter, URL guard, deterministic delegation, sideband close),
+  `app/voice/gpt_live_mock.py` + CLI `call360 gpt-live-mock --port N` (loopback test double, fault markers
+  `[mock:noclose|drop|error|expire=N|silent|delegate]` in the system prompt), paid gates and settlement in
+  `app/voice/lab.py`, endpoints `/voice-lab/paid-switch`, `/paid-authorisations[/{id}/revoke]`,
+  `/sessions/{id}/resolve-usage|provider-close`, `/trials/{id}/assessments`. Migration `0026_gpt_live_provider`.
+- **Config** (all default off): `VOICE_LAB_GPT_LIVE_MODE` (DISABLED|LIVE), `VOICE_LAB_OPENAI_API_KEY` (backend only),
+  `VOICE_LAB_GPT_LIVE_URL` (official host; loopback only in tests), `VOICE_LAB_GPT_LIVE_MOCK_URL` (loopback; enables
+  provider GPT_LIVE_MOCK), `VOICE_LAB_CLOSE_TIMEOUT_S`.
+- **Verification**: backend **494**, unit **115**, Playwright **33** (Playwright starts the mock on 8766); OpenAPI
+  `c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9`; evidence `evidence/S1-E.2/`.
+- **Dev state**: default configuration (mode DISABLED, no key, no mock URL); paid switch off; no authorisations;
+  LAB-S-00020 (confirmed) and LAB-S-00021 (resolved via sideband) are GPT_LIVE_MOCK sessions.
+- **Gotchas**: Starlette re-cancels every await in a cancelled WebSocket handler — settle in a detached task; GPT-Live
+  has no output-done/turn events (inferred client-side); trace detail keys must not be named `source`.
+
+**S1-E.1 Voice Lab (ACCEPTED 2026-11-18).**
+- **Backend** `app/voice/lab_cost.py` (providers MOCK / MOCK_METERED / GPT_LIVE-disabled, rate cards, limits,
+  reservations under a per-class advisory lock), `app/voice/lab_eval.py` (pure evaluation `call360.voicelab-eval/1`),
+  `app/voice/lab.py` (prompts, datasets, import, sessions, server recording, transcription, mock experiments, recovery),
+  `app/api/voice_lab.py` (`/api/v1/voice-lab/*`, WebSocket `/voice-lab/sessions/{id}/stream`). Migration
+  `0025_voice_lab` (15 `lab_*` tables; CHECKs forbid paid / retries / schedules / PAID rows; `voicelab.use` → USER +
+  SC_CHECKER, `voicelab.manage` → ADMIN).
+- **Frontend** `/voice-lab` (`src/features/voicelab/`), `useVoiceSession(adapter)` (DV-31).
+- **Verification**: backend **486**, unit **115**, Playwright **33**; OpenAPI
+  `3ac93e843d32fc447825ca54c47a2e55b91b01dfcb4616a54461ceb420d6ec7a`; evidence `evidence/S1-E.1/` (incl. `zero_spend.txt`).
+- **Dev demo state**: LAB-P-0001…0003, LAB-D-0001 (4 cases), LAB-E-0001…0003, LAB-S-00001 (recorded); one SIMULATED
+  reservation (USD 0.16 reserved, 0.018 reconciled); emergency stop released.
+- **Gotchas**: experiments run in a background thread (tests set `app.state.voicelab_inline`); the Voice Lab
+  Playwright spec runs in the `voice` project (fake microphone); lab budgets accumulate per Singapore day.
+
+**S3-C (ACCEPTED 2026-11-18).**
+- **Review service** `app/domain/review.py` (dispositions, case actions, readiness, maker-checker approvals, insert-only
+  `review_decision`, idempotency keys, row-version checks), dossier `review_dossier.py`, API `app/api/review_workbench.py`
+  (`/review/*`), fixtures `review_fixtures.py` + `call360 review-fixture --case … --answers '{…}' --confirm-synthetic`.
+- **Migration** `0024_review_resolution` (review_approval, review_decision; `review.decide` → USER + SC_CHECKER,
+  `review.approve` → SC_CHECKER). **UI**: Review Workbench tabs (Findings / Cases to review / Approvals) and
+  `/reviews/cases/:caseId` (DV-30).
+- **Verification**: backend **476**, unit **113**, Playwright **32**; OpenAPI
+  `75bc2f3206990337e5c1a31eff38096d676aa0b5f4f62c48cbc2bc0950166f2b`; evidence `evidence/S3-C/`.
+- **Dev demo state**: CB-2026-10505 VERIFIED (RVA-0001 maker dev.user → checker dev.checker); CB-2026-10506 ESCALATED
+  (FND-ENG-00001 confirmed, FND-RVW-00001 open). Both are intake-created (seed digest MATCH).
+- **Gotchas**: reviewing seeded cases changes the seed digest (use intake cases for demos); the Playwright suite is near
+  the 20 logins/IP/min limit — `workbench-review.spec.ts` waits 61 s at its end.
+
+**S3-B (ACCEPTED 2026-11-18).**
+- **Engine** `app/domain/finding_engine.py` (pure; `call360.finding-engine/1`): evaluation outcome → finding via
+  governed rules (scope question / control / any, trigger, category, severity + justification, review); fixed classes
+  (customer discrepancy, missing evidence, system-data issue, human assessment); uncovered outcomes "not converted";
+  deterministic `finding_key`.
+- **Configuration**: `finding_rules.py` + `app/api/finding_rules.py`, tables `finding_rule_set_version` / `_event`
+  (maker-checker with script.edit / script.approve / script.publish; immutable published). UI **Finding Rules**
+  `/finding-rules` (DV-29).
+- **Simulation**: `simulation_findings.py`; `POST/GET /script-simulations/{run}/evaluations/{eval}/findings`,
+  `GET …/finding-sets/{id}`; insert-only `simulation_finding_set` / `simulation_finding` (unique keys). Scenario
+  expectations gain `findings`; batch runs accept `finding_rule_set_version_id`. `persist_operational` (synthetic
+  fixtures only, no API).
+- **Migration** `0023_compliance_findings`. **Verification**: backend **474**, unit **111**, Playwright **31**; OpenAPI
+  `4c0e3c641d87fa08eb7100c792e1d1d78ac77c13b1e8b97069e72d949d18bc29`; evidence `evidence/S3-B/`.
+- **Dev demo state**: SG finding rules v1 PUBLISHED (6 synthetic rules); FGS-0001 (CB-2026-10066 discrepancy run, 1 HIGH
+  finding via SYN-CTRL-04), FGS-0002 (correct run, no findings), FGS-0003 (SG_EVALUATION_DEMO run, 3 findings). No
+  operational finding written. EVL-0003 (run SIM-2026-10504-0008, Demo Operations User, 08:31) predates this work.
+
+**S3-A (ACCEPTED 2026-11-18).**
 - **Engine** `app/domain/answer_evaluation.py` (pure; `call360.answer-evaluation/1`): methods = expected-answer
   policies plus `NUMERIC_COMPARE`, `ENUM_MATCH`, `ENUM_MATCH_POLICY_FACT`; results MATCH / MISMATCH / UNRESOLVED /
   NOT_ASKED / MISSING_EXPECTED_FACT / NOT_APPLICABLE / NOT_EVALUATED / HUMAN_ASSESSMENT_REQUIRED. MATCH is not a
@@ -151,7 +221,15 @@ Chrome demo recorded in `evidence/S2-B/chrome_demo.txt`. Record `S2.md`; evidenc
 `S1.md` and `evidence/S1-D/`. Outstanding: the owner's real-microphone transcript check and acceptance.
 
 **Databases (local PostgreSQL 15, database `Call360_db`).** Both schemas at Alembic head
-**`0022_answer_evaluation`**: `call360` (development, never reset; backup before 0022
+**`0026_gpt_live_provider`**: `call360` (development, never reset; backup before 0026
+`~/call360-backups/pre_s1e2_20261118_135642/` — seed digest MATCH and audit chain OK after the S1-E.2 demo, 2923 events;
+backup before 0025
+`~/call360-backups/pre_s1e1_20261118_123841/` — seed digest MATCH and audit chain OK after the S1-E.1 demo, 2909 events;
+backup before 0024
+`~/call360-backups/pre_s3c_20261118_094108/` — seed digest MATCH and audit chain OK after the S3-C demo, 2874 events;
+backup before 0023
+`~/call360-backups/pre_s3b_20261118_084828/` — seed digest MATCH and audit chain OK after the S3-B demo, 2855 events;
+backup before 0022
 `~/call360-backups/pre_s3a_20261118_081100/` — seed digest MATCH and audit chain OK after the S3-A demo, 2830 events,
 249 assignments; backup before 0021
 `~/call360-backups/pre_s2e_20261117_172518/` — seed digest MATCH and audit chain OK after the S2-E demo, 2800 events;
@@ -238,7 +316,7 @@ run the verification commands in §4 (backend tests and Playwright **never at th
 | **S1-B** Session lifecycle and event persistence | **ACCEPTED** 2026-11-17 (limitations accepted) | §19, `S1.md`, `evidence/S1-B/` |
 | **S1-C** Consent-gated recording | **ACCEPTED** 2026-11-17 (D-45…D-48 decided; D-48 KPI correction implemented) | §19, `S1.md`, `evidence/S1-C/` |
 | S1-D Transcript and playback | **IMPLEMENTED AND VERIFIED**, awaiting owner acceptance (D-49…D-53 approved) | §0, §19, `S1.md`, `evidence/S1-D/` |
-| S1-E Real provider (GPT-Live) | **PAUSED** by the owner 2026-11-17 | `S1.md` |
+| S1-E Real provider (GPT-Live) live validation | **NOT STARTED** — adapter offline-verified (S1-E.2); first paid smoke test needs separate authorisation | `S1.md` |
 | S2-A Editable Script Studio | **ACCEPTED** 2026-11-17 (D-54…D-57 approved subject to S2-A.1) | `S2.md`, `evidence/S2-A/` |
 | S2-A.1 Owner refinements | **ACCEPTED** 2026-11-17 | `S2.md`, `evidence/S2-B/` |
 | S2-B Editable Assignment Rules | **ACCEPTED** 2026-11-17 (D-58…D-66 approved; D-62 clarified) | `S2.md`, `evidence/S2-B/` |
@@ -246,7 +324,11 @@ run the verification commands in §4 (backend tests and Playwright **never at th
 | S2-D Deterministic Question Controller | **ACCEPTED** 2026-11-17 | `S2.md`, `evidence/S2-D/` |
 | S2-D.1 Conversation Lifecycle and Control Gates | **ACCEPTED** 2026-11-18 (conditions D-67…D-69) | `S2.md`, `evidence/S2-D.1/` |
 | S2-E Callback Simulation Workbench | **ACCEPTED** 2026-11-18 (generated-baseline and v1.1-draft conditions) | `S2.md`, `evidence/S2-E/` |
-| S3-A Deterministic Answer Evaluation Engine | **IMPLEMENTED AND VERIFIED** 2026-11-18, awaiting owner acceptance (D-70…D-75 proposed) | `S3.md`, `evidence/S3-A/` |
+| S3-A Deterministic Answer Evaluation Engine | **ACCEPTED** 2026-11-18 (D-70…D-75 approved) | `S3.md`, `evidence/S3-A/` |
+| S3-B Deterministic Compliance Findings Engine | **ACCEPTED** 2026-11-18 (D-70…D-80 approved with conditions) | `S3.md`, `evidence/S3-B/` |
+| S3-C Human Review and Case Resolution | **ACCEPTED** 2026-11-18 (D-81…D-86 presented for confirmation) | `S3.md`, `evidence/S3-C/` |
+| S1-E.1 Voice Lab Foundation | **ACCEPTED** 2026-11-18 (D-87…D-94 presented for confirmation) | `S1.md`, `evidence/S1-E.1/` |
+| S1-E.2 GPT-Live provider adapter | **IMPLEMENTED AND OFFLINE-VERIFIED** 2026-11-18, awaiting live-provider validation and owner acceptance (D-95…D-102 proposed) | `S1.md`, `evidence/S1-E.2/` |
 | S2-E Text-based callback simulation | NOT_STARTED, not authorised (owner's planned sequence) | `S2.md` |
 | Stage 0 governance acceptance | **PENDING** (SEC-008 review, named approvers C-20) | `S0.md`, `docs/security/SEC-008_REVIEW_HANDOFF.md` |
 
@@ -254,6 +336,10 @@ run the verification commands in §4 (backend tests and Playwright **never at th
 
 | Checkpoint | Backend | Frontend unit | Playwright | OpenAPI SHA-256 | Migration head | Evidence |
 |---|---|---|---|---|---|---|
+| S1-E.2 | 494 | 115 | 33 | `c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9` | `0026_gpt_live_provider` | `evidence/S1-E.2/` |
+| S1-E.1 | 486 | 115 | 33 | `3ac93e843d32fc447825ca54c47a2e55b91b01dfcb4616a54461ceb420d6ec7a` | `0025_voice_lab` | `evidence/S1-E.1/` |
+| S3-C | 476 | 113 | 32 | `75bc2f3206990337e5c1a31eff38096d676aa0b5f4f62c48cbc2bc0950166f2b` | `0024_review_resolution` | `evidence/S3-C/` |
+| S3-B | 474 | 111 | 31 | `4c0e3c641d87fa08eb7100c792e1d1d78ac77c13b1e8b97069e72d949d18bc29` | `0023_compliance_findings` | `evidence/S3-B/` |
 | S3-A | 455 | 108 | 30 | `18c0b42394b866670de48f9dc4d531aaf06ba621b3810e20b48907564d259580` | `0022_answer_evaluation` | `evidence/S3-A/` |
 | S2-E | 416 | 106 | 29 | `df53e258606a81030b711815b9b62992f2dac4c7319e95c0e10ec763060e2121` | `0021_simulation_workbench` | `evidence/S2-E/` |
 | S2-D.1 | 399 | 104 | 28 | `c0bbbbd7d5a8de20aa12b77671ffb9679bcde1a9bc8dbfab62c522fa712d2bfe` | `0020_conversation_lifecycle` | `evidence/S2-D.1/` |
@@ -306,7 +392,7 @@ LOCAL_SC_CHECKER_SG — script approver/publisher, created 2026-11-17 with `call
 | `Call360-frontend/e2e/.auth/` | E2E accounts |
 | `~/.call360/recordings/<schema>/` | encrypted recordings and transcript text objects (168 h local retention) |
 | `~/.call360/models/faster-whisper-small.en/` | transcription model files (≈464 MB, SHA-256 pinned in `app/voice/transcript.py`) |
-| `~/call360-backups/` | `pre_cp02_20261115_173043/` (includes `env.post_keys`, the only other copy of the development data-protection keys), `pre_f0_20261115_181045/`, `pre_s1c_20261117_025210/`, `pre_s2b_20261117_141600/` (pg_dump of schema `call360` before 0016/0017), `pre_s2c_20261117_150940/` (before 0018), `pre_s2d_20261117_153706/` (before 0019), `pre_s2d1_20261117_163141/` (before 0020), `pre_s2e_20261117_172518/` (before 0021), `pre_s3a_20261118_081100/` (before 0022) |
+| `~/call360-backups/` | `pre_cp02_20261115_173043/` (includes `env.post_keys`, the only other copy of the development data-protection keys), `pre_f0_20261115_181045/`, `pre_s1c_20261117_025210/`, `pre_s2b_20261117_141600/` (pg_dump of schema `call360` before 0016/0017), `pre_s2c_20261117_150940/` (before 0018), `pre_s2d_20261117_153706/` (before 0019), `pre_s2d1_20261117_163141/` (before 0020), `pre_s2e_20261117_172518/` (before 0021), `pre_s3a_20261118_081100/` (before 0022), `pre_s3b_20261118_084828/` (before 0023), `pre_s3c_20261118_094108/` (before 0024), `pre_s1e1_20261118_123841/` (before 0025), `pre_s1e2_20261118_135642/` (before 0026) |
 
 **Commands**
 - Backend dev: `cd Call360-backend && make dev` → http://127.0.0.1:8000 (applies nothing; migrate with `make migrate`).

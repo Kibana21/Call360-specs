@@ -1,0 +1,44 @@
+# S1-E.2 development deployment 2026-11-18T13:56:42Z
+## backup: ~/call360-backups/pre_s1e2_20261118_135642/call360_schema.dump (pg_dump custom format, schema call360; local only)
+## before
+head 0025_voice_lab
+seed digest MATCH
+callback_case 258
+contact_attempt 415
+conversation_session 95
+session_event 239
+media_asset 18
+finding 26
+review_decision 5
+survey_run 82
+lab_session 19
+lab_prompt_version 4
+lab_test_case_revision 5
+lab_experiment 3
+lab_trial 18
+lab_reservation 1
+paid {'r': 0, 's': 0, 'e': 0}
+reservations [{'spend_class': 'SIMULATED', 'status': 'RECONCILED', 'reserved_usd': Decimal('0.1600'), 'actual_usd': Decimal('0.0180')}]
+Audit chain OK: 2910 events; head 5613734c1c10030154f38db7255b0ead4277b19dd132bdc1ffe92229c064208d
+## migrate
+alembic upgrade head: 0025_voice_lab → 0026_gpt_live_provider (no errors)
+## after
+head 0026_gpt_live_provider
+seed digest MATCH
+callback_case 258
+contact_attempt 415
+conversation_session 95
+session_event 239
+media_asset 18
+finding 26
+review_decision 5
+survey_run 82
+lab_session 19
+lab_prompt_version 4
+lab_test_case_revision 5
+lab_experiment 3
+lab_trial 18
+lab_reservation 1
+paid {'r': 0, 's': 0, 'e': 0}
+reservations [{'spend_class': 'SIMULATED', 'status': 'RECONCILED', 'reserved_usd': Decimal('0.1600'), 'actual_usd': Decimal('0.0180')}]
+Audit chain OK: 2910 events; head 5613734c1c10030154f38db7255b0ead4277b19dd132bdc1ffe92229c064208d

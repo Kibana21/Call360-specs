@@ -1,0 +1,36 @@
+# S1-E.1 development deployment 2026-11-18T12:38:52Z
+## backup: ~/call360-backups/pre_s1e1_20261118_123841/call360_schema.dump (pg_dump custom format, schema call360; local only)
+## before
+head 0024_review_resolution
+seed digest MATCH
+callback_case 258
+contact_attempt 415
+conversation_session 95
+session_event 239
+media_asset 18
+finding 26
+review_decision 5
+survey_run 82
+Audit chain OK: 2874 events; head 0be23ed2b235500bf4d8b97e53558c9e1658f69099976d557929e208e13bb837
+## migrate
+alembic upgrade head: 0024_review_resolution → 0025_voice_lab (no errors)
+## after
+head 0025_voice_lab
+seed digest MATCH
+callback_case 258
+contact_attempt 415
+conversation_session 95
+session_event 239
+media_asset 18
+finding 26
+review_decision 5
+survey_run 82
+lab_session 0
+lab_prompt_version 0
+lab_test_case_revision 0
+lab_experiment 0
+lab_trial 0
+lab_reservation 0
+paid {'r': 0, 's': 0, 'e': 0}
+reservations []
+Audit chain OK: 2874 events; head 0be23ed2b235500bf4d8b97e53558c9e1658f69099976d557929e208e13bb837

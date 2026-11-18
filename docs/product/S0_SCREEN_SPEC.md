@@ -52,6 +52,7 @@
 | SBQ Risk Workbench | `/risk-assessments` | WORKSPACE | Live (read-only) | API-056…058 | Mockup "Risk Assessment" |
 | Work Queues | `/queues` | WORKSPACE | Live (read-only) | API-076 | Mockup "Callback Queue" |
 | Voice Studio | `/voice-studio` | WORKSPACE | Preflight (NOT_AVAILABLE) | API-078 | `Call360_Portal_Voice_Demo.png` (layout only) |
+| Voice Lab | `/voice-lab` | WORKSPACE | Added in S1-E.1 (experimental, mock providers only; not an S0 screen) | `/api/v1/voice-lab/*` (no API-0xx ID assigned) | — (DV-31) |
 | Live Monitor | `/monitor` | WORKSPACE | Disabled (S4) | — | Mockup "Live Monitor" (not built) |
 | Campaigns | `/campaigns` | WORKSPACE | Disabled (S4) | — | — |
 | Script Studio | `/scripts` | GOVERNANCE | Live (read-only) | API-060 | `Call360_Portal_Script_Studio.png` |

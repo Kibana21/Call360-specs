@@ -1,0 +1,20 @@
+# S1-E.1 backend checks 2026-11-18 21:15 +08
+## CALL360_ENV_FILE=.env.test pytest -p no:cacheprovider -p no:warnings
+486 passed in 263.74s (0:04:23)
+rc=0
+## tests/test_voice_lab.py (10 tests)
+def test_paid_access_is_disabled_and_fails_closed
+def test_prompt_versions_are_kept
+def test_mock_session_records_trace_barge_in_recording_and_transcript
+def test_metered_reservations_limits_and_parallel_requests
+def test_timeouts_end_sessions
+def test_kill_switch_stops_and_refuses
+def test_dataset_experiment_and_deterministic_evaluation
+def test_metered_experiment_needs_authorisation_by_another_user
+def test_operational_isolation_and_zero_paid_spend
+def test_evaluation_is_deterministic
+## ruff / format / mypy / contract
+All checks passed!
+170 files already formatted
+Success: no issues found in 92 source files
+OpenAPI matches (3ac93e843d32fc447825ca54c47a2e55b91b01dfcb4616a54461ceb420d6ec7a)

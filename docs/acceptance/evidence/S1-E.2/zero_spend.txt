@@ -1,0 +1,14 @@
+# S1-E.2 zero paid expenditure — application evidence 2026-11-18T14:13:15Z
+## 1. No GPT-Live connection is possible with the shipped configuration
+VOICE_LAB_GPT_LIVE_MODE default: DISABLED; VOICE_LAB_OPENAI_API_KEY default: unset (app/core/settings.py)
+Provider key / LIVE mode variables present in .env, .env.test, .env.local: 0
+## 2. The only code able to open a network connection to the provider: app/voice/gpt_live.py default_connect (websockets), reached only through app/api/voice_lab.py guarded_connect, which re-checks the URL (official host, or loopback in APP_ENV=test) and logs every attempt
+no other network client libraries imported
+## 3. Tests: the default connector is replaced by one that fails the test if called; every connection went to the loopback mocked server (asserted: connect log == {127.0.0.1}); no real key is used (a placeholder proves the key is sent only to the configured endpoint)
+## 4. Playwright: the backend under test points VOICE_LAB_GPT_LIVE_MOCK_URL at the loopback mocked server; GPT_LIVE (paid) is refused (PAID_DISABLED, SMOKE_TEST_NOT_AUTHORISED)
+## 5. Development schema after the demo (dev_demo_state.txt):
+paid {'r': 0, 's': 0, 'e': 0}
+paid authorisations 0
+paid switch False
+## 6. Chrome demo: GPT_LIVE_MOCK sessions only (SIMULATED class, synthetic metering at the verified rate, no money); the dev backend ran with only VOICE_LAB_GPT_LIVE_MOCK_URL=ws://127.0.0.1:8765 set and was restarted with the default configuration afterwards
+## Conclusion: total paid API expenditure during S1-E.2 = USD 0; no GPT-Live (OpenAI) connection was made; no API key exists on this machine's configuration.

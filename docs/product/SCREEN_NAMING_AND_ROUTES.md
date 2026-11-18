@@ -49,6 +49,7 @@ This table must list the same routes as `S0_SCREEN_SPEC.md` §2 (validator check
 | SBQ Risk Workbench | `/risk-assessments` | S0 read-only, S2 overrides | Assessment drawer via `?assessment=<id>` |
 | Work Queues | `/queues` | S0 read-only, S4 actions | — |
 | Voice Studio | `/voice-studio` | S0 preflight, S1 functional | Browser channel only |
+| Voice Lab | `/voice-lab` | S1-E.1 (experimental, mock providers only) | Isolated experiments; never operational |
 | Live Monitor | `/monitor` | S4 | Disabled in S0; no non-live preview is built |
 | Campaigns | `/campaigns` | S4 | No real dialing before S6 |
 | Script Studio | `/scripts` | S0 read-only, S2 editing | Legacy `/surveys` redirects here |

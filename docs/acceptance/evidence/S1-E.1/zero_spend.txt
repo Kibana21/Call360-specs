@@ -1,0 +1,13 @@
+# S1-E.1 zero paid expenditure — application evidence 2026-11-18T13:15:24Z
+## 1. No outbound provider client exists in the backend code (search of app/ for network clients and provider SDKs)
+no matches
+## 2. Installed voice provider implementations: MockVoiceProvider only (app/voice/mock.py); catalogue entries:
+MOCK NONE available rates 0 0
+MOCK_METERED SIMULATED available rates 0.04 0.12
+GPT_LIVE PAID NOT AVAILABLE rates None None
+## 3. Database guarantees (migration 0025): CHECK NOT paid_enabled / NOT retries_enabled / NOT scheduling_enabled on lab_control; CHECK spend_class <> 'PAID' on lab_session, lab_experiment and lab_reservation
+## 4. Development schema after the demo: paid reservations, sessions and experiments (see dev_demo_state.txt)
+paid {'r': 0, 's': 0, 'e': 0}
+## 5. Tests: test_paid_access_is_disabled_and_fails_closed and test_operational_isolation_and_zero_paid_spend passed; Playwright asserts the settings page shows 'Paid spend USD 0.0000'
+## Conclusion: total paid API expenditure during implementation and testing = USD 0 (no paid provider is installed or reachable; every paid row is refused by the database).
+## 6. Provider API keys configured in .env / .env.test / .env.local (variable names matching OPENAI|GPT|REALTIME|AZURE_OPENAI): 0

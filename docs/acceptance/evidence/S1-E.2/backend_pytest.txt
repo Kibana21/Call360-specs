@@ -1,0 +1,18 @@
+# S1-E.2 backend checks 2026-11-18 22:13 +08
+## CALL360_ENV_FILE=.env.test pytest -p no:cacheprovider -p no:warnings
+494 passed in 321.74s (0:05:21)
+rc=0
+## tests/test_gpt_live.py (8 tests, mocked GPT-Live protocol server on 127.0.0.1)
+def test_lifecycle_audio_delegation_instructions_and_barge_in
+def test_provider_errors_invalid_events_expiry_and_connect_failure
+def test_timeout_kill_switch_and_browser_disconnect_close_the_provider_session
+def test_unconfirmed_termination_retains_the_reservation_until_resolved
+def test_paid_gates_single_use_authorisation_and_crash_recovery
+def test_disabled_configuration_never_connects
+def test_retention_purges_lab_audio_and_session_transcripts
+def test_speech_results_and_human_assessment
+## ruff / format / mypy / contract
+All checks passed!
+174 files already formatted
+Success: no issues found in 94 source files
+OpenAPI matches (c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9)

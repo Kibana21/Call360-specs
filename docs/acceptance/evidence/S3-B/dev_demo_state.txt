@@ -1,0 +1,23 @@
+# S3-B development state after the Chrome demo (read-only query)
+head 0023_compliance_findings
+seed digest MATCH
+script_assignment 249
+contact_attempt 413
+conversation_session 93
+survey_run 80
+answer_observation 533
+rule_evaluation 417
+finding 24
+finding_rule_set_version 1
+simulation_finding_set 3
+simulation_finding 4
+engine findings in operational table 0
+rule sets v1 PUBLISHED rules=6
+finding set FGS-0001 EVL-0004 findings 1 {'CUSTOMER_DISCREPANCY': 1}
+finding set FGS-0002 EVL-0005 findings 0 {}
+finding set FGS-0003 EVL-0001 findings 3 {'HUMAN_ASSESSMENT': 1, 'CUSTOMER_DISCREPANCY': 2}
+CB-2026-10066 READY hold=false
+CB-2026-10504 VALIDATED hold=false
+SG_LIFECYCLE_DEMO 1.0 PUBLISHED, 1.1 DRAFT
+SG_EVALUATION_DEMO 1.0 DRAFT
+Audit chain OK: 2855 events; head d91edc68c91073a34a8a667b10e0f54b4f6ece02fd6871f04dfbef5ab383b3f1

@@ -1,0 +1,9 @@
+# S3-C backend checks 2026-11-18 09:54 +08
+## CALL360_ENV_FILE=.env.test pytest -p no:cacheprovider -p no:warnings
+476 passed in 228.54s (0:03:48)
+rc=0
+## ruff / format / mypy / contract
+All checks passed!
+164 files already formatted
+Success: no issues found in 88 source files
+OpenAPI matches (75bc2f3206990337e5c1a31eff38096d676aa0b5f4f62c48cbc2bc0950166f2b)
