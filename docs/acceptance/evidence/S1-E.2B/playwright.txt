@@ -1,0 +1,104 @@
+[WebServer] INFO:     Started server process [12386]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+
+Running 33 tests using 1 worker
+
+  ✓   1 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1280px (2.4s)
+  ✓   2 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1440px (2.4s)
+  ✓   3 [chromium] › e2e/a11y.spec.ts:37:1 › FE-04 unauthorized and session-expired screens are accessible (1.1s)
+  ✓   4 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1280px (849ms)
+  ✓   5 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1440px (838ms)
+  ✓   6 [chromium] › e2e/assignment-rules.spec.ts:10:1 › S2-B Assignment Rules: create, configure, simulate, submit, approve by a checker, publish (7.2s)
+  ✓   7 [chromium] › e2e/auth.spec.ts:4:1 › E2E-01 unauthenticated redirect, login, landing with real session data, logout (1.1s)
+  ✓   8 [chromium] › e2e/auth.spec.ts:29:1 › E2E-15 tokens only in HttpOnly cookies; no storage or URL tokens; CSRF and origin enforced (546ms)
+  ✓   9 [chromium] › e2e/auth.spec.ts:53:1 › D-23 two tabs refreshing an expired access token concurrently keep the session (1.0s)
+  ✓  10 [chromium] › e2e/auth.spec.ts:72:1 › E2E-18 (partial) branding and terminology (538ms)
+  ✓  11 [chromium] › e2e/config.spec.ts:5:1 › E2E-20 Configuration: market label version (non-governed), governed denial, stage-locked flags, USER denied (1.5s)
+  ✓  12 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1280px (1.4s)
+  ✓  13 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1440px (1.4s)
+  ✓  14 [chromium] › e2e/conversation-lifecycle.spec.ts:41:1 › S2-D.1: lifecycle script → assignment → normal closing, identity failure and declined to proceed (6.4s)
+  ✓  15 [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout (48.9s)
+  ✓  16 [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data (6.3s)
+  ✓  17 [chromium] › e2e/permissions.spec.ts:4:1 › E2E-10 (partial) USER is denied Administration in the UI and by the API (557ms)
+  ✓  18 [chromium] › e2e/permissions.spec.ts:14:1 › E2E-13 (partial) ADMIN disables a user: that user is signed out on the next request; audit shows before/after (1.5s)
+  ✓  19 [chromium] › e2e/script-assignment.spec.ts:11:1 › S2-C assignment: new sale → callback case → preview → apply → pinned script → hold released (2.4s)
+  ✓  20 [chromium] › e2e/script-studio.spec.ts:23:1 › S2-A Script Studio: create, edit, submit, approve by a different checker, publish, immutable (5.7s)
+  ✓  21 [chromium] › e2e/simulation-evaluation.spec.ts:34:1 › S3-A: rules in Script Studio → simulate → wrong answers → evaluate → evidence trace → baseline scenario → batch (7.0s)
+  ✓  22 [chromium] › e2e/simulation-findings.spec.ts:41:1 › S3-B: finding rules (maker-checker) → simulate → evaluate → findings with severity, controls and evidence (7.8s)
+  ✓  23 [chromium] › e2e/simulation-workbench.spec.ts:33:1 › S2-E: draft script → scenarios → batch run → coverage → version comparison → interactive version test (5.8s)
+  ✓  24 [chromium] › e2e/text-simulator.spec.ts:25:1 › S2-D: new sale → case → assignment → text simulation → complete sequence → trace (4.5s)
+  ✓  25 [chromium] › e2e/workbench-review.spec.ts:49:1 › S3-C: synthetic operational case → findings → review → disposition → blocked premature verification → escalation → maker-checker verification (1.1m)
+[WebServer] INFO:     127.0.0.1:59388 - "WebSocket /api/v1/voice/sessions/e469d26e-f50d-41d4-a726-a39ba182c272/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:59423 - "WebSocket /api/v1/voice/sessions/48e276b8-0feb-41d1-aafe-4979493cfe54/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  26 [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER) (12.5s)
+  ✓  27 [voice] › e2e/voice.spec.ts:76:1 › S1-A browser voice: a denied microphone never creates a session (872ms)
+[WebServer] INFO:     127.0.0.1:59500 - "WebSocket /api/v1/voice/sessions/4519f3a0-276d-41eb-9bcb-1d26c491aff2/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:59525 - "WebSocket /api/v1/voice/sessions/f535efb0-59ed-4371-b2c9-855e6bfa1e75/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:59540 - "WebSocket /api/v1/voice/sessions/f535efb0-59ed-4371-b2c9-855e6bfa1e75/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  28 [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history (7.0s)
+[WebServer] INFO:     127.0.0.1:59611 - "WebSocket /api/v1/voice/sessions/7fd667e3-6894-41be-8635-62269f52a2cd/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] 12:36:35 am [vite] ws proxy error:
+[WebServer] Error: read ECONNRESET
+[WebServer]     at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+[WebServer] 12:36:35 am [vite] ws proxy socket error:
+[WebServer] Error: read ECONNRESET
+[WebServer]     at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+  ✓  29 [voice] › e2e/voice.spec.ts:146:1 › S1-B tab closure: the session is interrupted, then finalised as abandoned (46.3s)
+[WebServer] INFO:     127.0.0.1:59689 - "WebSocket /api/v1/voice/sessions/3c28b514-adb5-4e6d-be51-734ec95e728f/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] [2026-11-19 00:37:26.517] [ctranslate2] [thread 8254829] [warning] Tip: experimental MPS backend is available and often 2x+ faster than CPU on Apple Silicon (varies by workload and hardware). Try device="mps".
+[WebServer] INFO:     127.0.0.1:59759 - "WebSocket /api/v1/voice/sessions/b22322bb-c402-4b9e-8d4d-2e9c32e6fe7d/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  30 [voice] › e2e/voice.spec.ts:171:1 › S1-C recording: consent → record → interruption → stop → complete evidence; refusal records nothing (11.1s)
+[WebServer] INFO:     127.0.0.1:59803 - "WebSocket /api/v1/voice/sessions/9d48c2e4-df9a-4fad-bb64-b6a0b3cfe2c6/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:59836 - "WebSocket /api/v1/voice/sessions/6b2e85e0-6190-4a10-a486-128ad32ee65d/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] 12:37:44 am [vite] ws proxy error:
+[WebServer] Error: write EPIPE
+[WebServer]     at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+[WebServer]     at writeGeneric (node:internal/stream_base_commons:150:3)
+[WebServer]     at Socket._writeGeneric (node:net:966:11)
+[WebServer]     at Socket._write (node:net:978:8)
+[WebServer]     at writeOrBuffer (node:internal/streams/writable:570:12)
+[WebServer]     at _write (node:internal/streams/writable:499:10)
+[WebServer]     at Writable.write (node:internal/streams/writable:508:10)
+[WebServer]     at Socket.ondata (node:internal/streams/readable:1008:24)
+[WebServer]     at Socket.emit (node:events:508:28)
+[WebServer]     at addChunk (node:internal/streams/readable:559:12)
+[WebServer] 12:37:44 am [vite] ws proxy socket error:
+[WebServer] Error: write EPIPE
+[WebServer]     at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+[WebServer]     at writeGeneric (node:internal/stream_base_commons:150:3)
+[WebServer]     at Socket._writeGeneric (node:net:966:11)
+[WebServer]     at Socket._write (node:net:978:8)
+[WebServer]     at writeOrBuffer (node:internal/streams/writable:570:12)
+[WebServer]     at _write (node:internal/streams/writable:499:10)
+[WebServer]     at Writable.write (node:internal/streams/writable:508:10)
+[WebServer]     at Socket.ondata (node:internal/streams/readable:1008:24)
+[WebServer]     at Socket.emit (node:events:508:28)
+[WebServer]     at addChunk (node:internal/streams/readable:559:12)
+[WebServer] INFO:     127.0.0.1:59859 - "WebSocket /api/v1/voice/sessions/6b2e85e0-6190-4a10-a486-128ad32ee65d/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  31 [voice] › e2e/voice.spec.ts:229:1 › S1-C recording: upload failure and a mid-session refresh are reported as partial, never filled in (1.0m)
+[WebServer] INFO:     127.0.0.1:60015 - "WebSocket /api/v1/voice/sessions/60404130-18f6-42db-bfbc-3e1570a7708e/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  32 [voice] › e2e/voice.spec.ts:277:1 › S1-D transcript: recorded conversation → local transcription → Call Detail → synchronised playback → segment seek (9.3s)
+[WebServer] INFO:     127.0.0.1:60121 - "WebSocket /api/v1/voice-lab/sessions/ff742458-69ad-460c-a3cb-5b8b95e1d043/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:60236 - "WebSocket /api/v1/voice-lab/sessions/65658759-6a67-4e95-ae79-ef4805e7f0e6/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] voice lab kill switch engaged; 0 live session(s) stopped
+  ✓  33 [voice] › e2e/zz-voice-lab.voice.spec.ts:14:1 › S1-E.1 Voice Lab: prompt → session → recording/transcript → dataset → mock experiment → evaluation → budget refusals → kill switch (19.8s)
+
+  33 passed (6.0m)
+exit 0

@@ -1,0 +1,22 @@
+# S1-E.2B backend verification 2026-11-19 00:24 +08
+## ruff check
+
+Found 7 errors.
+## ruff format --check
+190 files already formatted
+## mypy
+Success: no issues found in 95 source files
+## make openapi
+uv run python scripts/export_openapi.py
+Wrote contracts/generated/openapi.json (221985e73f2e789ab33e7f29018866509e2e0f0dc4aa7e0b56e13dc67d5af221)
+221985e73f2e789ab33e7f29018866509e2e0f0dc4aa7e0b56e13dc67d5af221
+## pytest
+tests/test_transcript.py::test_both_tracks_transcribed_with_speakers_times_provenance_and_audited_access
+  /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/tests/conftest.py:87: SAWarning: transaction already deassociated from connection
+    tx.rollback()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+511 passed, 7 warnings in 321.13s (0:05:21)
+.........................                                                [100%]
+## after lint fixes (comment/noqa only)
+All checks passed!

@@ -9,7 +9,7 @@ authorisation; never mark anything accepted without the owner's explicit words.
 **Secrets:** this document contains no passwords, API keys or encryption keys. They live only in gitignored local files
 (§4).
 
-## 0. Current state — read this first (2026-11-18)
+## 0. Current state — read this first (2026-11-19)
 
 **Project.** Call360 is a proposed AIA Standards & Compliance platform for policy-sale verification and auditable
 callback operations. Three independent Git repositories under `call360/`: `Call360-specs` (requirements, ADRs,
@@ -38,13 +38,24 @@ Singapore-only (D-39). The investigation screen is **Call Detail**; the script e
   made; paid expenditure USD 0.** The owner will personally run the first session ("S1-E.2 first live smoke test —
   exact procedure" in `S1.md`); the assistant must not initiate any paid call or claim live validation before the owner
   has run and reviewed it.
-- **Azure OpenAI (owner's provider, preferred):** **S1-E.2A IMPLEMENTED AND OFFLINE-VERIFIED 2026-11-18, awaiting
-  acceptance** (ADR-0009; D-103…D-108 proposed; `S1.md` S1-E.2A incl. the Azure configuration runbook). Providers:
+- **Azure OpenAI (owner's provider, preferred):** **S1-E.2A ACCEPTED 2026-11-18 as offline-verified** (committed by
+  the owner: specs `549448b`, backend `4ae0fb6`, frontend `cf2d621`; ADR-0009 and D-103…D-108 presented verbatim,
+  confirmation pending; `S1.md` S1-E.2A incl. the Azure configuration runbook). Providers:
   `AZURE_OPENAI_GPT_LIVE` (preferred), `OPENAI_GPT_LIVE`, `GPT_LIVE_MOCK` (Azure profile default), mocks; `GPT_LIVE`
   legacy alias. Azure price unknown → Azure fails closed until the owner configures a verified price.
 
+- **First live Azure session LAB-S-00023 (owner-run, 2026-11-18):** connection, confirmed close, usage 31 s,
+  reconciled USD 0.0259 (owner-entered USD 0.05/min) — **audio not validated**: the owner heard one word (the model
+  waits for the caller; background voices kept the VAD "speaking"; unbounded suppression dropped every reply).
+  Non-synthetic background speech reached Azure and the dev MIC transcript (purge = owner decision). Paid switch was
+  left **on** in dev. The dev backend on :8000 runs from the assistant session with the owner's Azure LIVE `.env`.
+- **S1-E.2B (`IMPLEMENT S1-E.2B`, 2026-11-19): IMPLEMENTED AND OFFLINE-VERIFIED, awaiting acceptance, uncommitted** —
+  opening instruction (D-109), bounded suppression `VOICE_LAB_SUPPRESS_MAX_S` 1.5 s (D-110), wait-for-caller mock with
+  `[mock:greet]` / `[mock:talk-over]` (D-111), quiet-room note (D-112). Backend 511, unit 117, Playwright 33; OpenAPI `221985e7…`; no
+  migration; `S1.md` "S1-E.2B", `evidence/S1-E.2B/`. A further live Azure session needs separate authorisation.
+
 **Development priorities (owner's sequence)** — each step needs its own explicit authorisation:
-0. S1-E.2A acceptance; the first live test should use **Azure OpenAI** (configure resource, deployment, credential
+0. S1-E.2B acceptance, then (if authorised) one owner-run Azure session with an opening instruction in a quiet room; the first live test should use **Azure OpenAI** (configure resource, deployment, credential
    and verified price per `S1.md` "Configuring an existing Azure OpenAI resource"), then the same smoke-test procedure.
 1. Owner runs the first live smoke test (procedure in `S1.md`: dedicated OpenAI project with a USD 1 project hard limit,
    key only in the owner's shell environment, dev.admin authorises once, dev.user starts one ≤ 120 s session ≤

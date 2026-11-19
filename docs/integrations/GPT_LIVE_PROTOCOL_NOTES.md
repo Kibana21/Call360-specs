@@ -65,7 +65,8 @@ slightly exceed the configured amount." Steps are quoted in `docs/acceptance/S1.
 | Need | GPT-Live mechanism used | Call360 behaviour where the protocol is silent |
 |---|---|---|
 | Audio format | `audio/pcm` 16 kHz both ways (supported) — no resampling; browser frames are 20 ms PCM16 | — |
-| Barge-in | none in the protocol | the S1-A local VAD on the caller's audio clears browser playback and drops provider audio until the caller's turn ends (documented client-side policy) |
+| Barge-in | none in the protocol | the S1-A local VAD on the caller's audio clears browser playback and drops provider audio until the first of: the caller's turn ends, provider audio resumes after a gap of at least 600 ms (a new reply), or `VOICE_LAB_SUPPRESS_MAX_S` (1.5 s) since the barge-in — S1-E.2B (D-110) |
+| Who speaks first | not documented | observed live (Azure, LAB-S-00023): the model waits for the caller; an optional opening instruction (`session.instructions.append`, once, after `session.started`, before caller audio) asks it to speak first — S1-E.2B (D-109) |
 | Response boundaries | none | a new "response" starts when provider audio resumes after ≥ 600 ms of silence or after a barge-in; "done" after 800 ms without audio |
 | Dynamic instructions | `session.instructions.append` (`delegation_id: null`) | per-turn instructions after each caller turn; ad-hoc instructions from the Playground |
 | Delegation | `delegation: {type: "client"}`; reply with `session.commentary.append` | deterministic Python responder (no LLM, no tool, no backend model) |
@@ -91,4 +92,17 @@ managed-identity page, and `azure.microsoft.com/en-us/pricing/details/azure-open
 | Regions | **not stated** on the pages read | owner records region and deployment type |
 | Quotas | concurrent sessions by tier (summary): default 10, tier 1 25, tier 2 50, tier 3 200, tier 4 300, tier 5 500 | Call360 allows one paid session |
 | Pricing | the pricing page lists "GPT-Live Global" and "GPT-Live Data Zone" at "$-/per 1 unit hour" — **no amount rendered**; WebRTC has a 15 s minimum that "doesn't apply to WebSocket sessions"; backend/tool usage billed separately | **unknown** → Azure fails closed until the owner configures a verified price |
+
+## Observed in the first live Azure session (LAB-S-00023, 2026-11-18, owner-run)
+
+Facts from the event trace (not documentation): `api-key` header accepted; `session.model` took the **deployment
+name** (`gpt-live-1`); `delegation: {type: "client"}` and voice `marin` accepted; 24 kHz wire audio worked both ways;
+`session.usage.updated` arrived (cumulative seconds); `session.closed` with `close_requested` and usage 31.0 s confirmed
+termination. **Behaviour:** the model produced no transcribed speech until it had heard the caller's side (about 14 s,
+driven by background voices); it then responded to that background speech. The local VAD saw the background voices as
+one continuous caller turn, so after one barge-in the then-unbounded suppression dropped every later reply — the owner
+heard about one word. Mic-side input is forwarded to the provider whatever its source (background voices included).
+S1-E.2B addresses the start (opening instruction) and the suppression bound; background-voice rejection is not
+addressed (D-112). Still unverified: whether an opening instruction makes the live model speak first, 16 kHz, billing
+units against Azure Cost Management, Entra ID.
 
