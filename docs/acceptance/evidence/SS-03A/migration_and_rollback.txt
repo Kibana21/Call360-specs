@@ -1,0 +1,12 @@
+# SS-03A — migration and rollback, isolated test database only. 2026-11-22 00:26 +0800
+tests/test_survey_store.py::test_the_migration_is_additive_and_points_at_no_script_table PASSED
+tests/test_survey_store.py::test_zz_migration_downgrades_to_the_previous_head_and_upgrades_again PASSED
+tests/test_survey_store.py::test_zz_downgrade_refuses_while_survey_definitions_exist PASSED
+tests/test_domain_schema.py::test_be_data_01_each_cp02_revision_round_trips_and_preserves_earlier_data PASSED
+tests/test_domain_schema.py::test_be_data_01_deferred_tables_are_not_built PASSED
+tests/test_domain_schema.py::test_be_data_01_cp02_table_catalogue_has_34_tables PASSED
+tests/test_domain_schema.py::test_be_data_05_provenance_not_null_on_every_p_table PASSED
+======================= 7 passed, 16 deselected in 3.72s =======================
+
+## Development server (development database, NOT migrated, still at 0026; setting off)
+live=200 ready=200 GET /api/v1/survey-definitions=404

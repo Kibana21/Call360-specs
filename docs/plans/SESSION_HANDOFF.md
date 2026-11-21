@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-21, UC-02 accepted; decision closure and SS-03A specification prepared (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-22, SS-03A built and technically verified, awaiting the owner's review (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -10,6 +10,39 @@ authorisation; never mark anything accepted without the owner's explicit words.
 (§4).
 
 ## 0. Current state — read this first (2026-11-19)
+
+> **Update 2026-11-22 — SS-03A. Read this block first; it supersedes the older blocks below where they differ.**
+> - **Owner message 2026-11-21 "Approve Decision Closure and Authorize SS-03A"** (register D-176…D-187): TS-1…TS-23
+>   approved with the six amendments; mechanisms PB-1…PB-12 approved with six clarifications (wording approval is
+>   separate append-only evidence; non-answer resolution reserved, no implementation; non-answer outcome class may
+>   exist in the schema, no codes; spoken variables default-deny; Publisher independent of Checker, most restrictive
+>   identity checks, no role granted; all synthetic content unapproved). No-answer and Compliance decisions stay open.
+> - **Local commits made on that authorisation, NOT pushed:** frontend `a867767`, specs `b2f81df` (each one ahead
+>   of `origin/main`). The earlier UC-01/UC-02 commits (`c575f76`, `33fdfce`) are on the remote; provenance in
+>   `27_…` §10. Nothing rewritten.
+> - **SS-03A — Survey definition foundation: BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT
+>   accepted. Backend work UNCOMMITTED (no commit authorisation for it).** Report:
+>   `docs/plans/survey-studio/27_SS-03A_IMPLEMENTATION_REPORT.md`; server contract: `04_…` §9; evidence:
+>   `docs/acceptance/evidence/SS-03A/`.
+>   - Backend (base `7228875`): new `app/domain/survey/` (canonical, documents, conditions, validator, store), new
+>     `app/api/survey_definitions.py` (15 operations), new migration **`0027_survey_definitions`** (nine additive
+>     tables, no foreign key to or from any existing table), five new test files (146 tests). Small changes in
+>     `main.py`, `settings.py`, `health.py`, `admin_access.py`, `cli.py`, `catalog.py`, `export_openapi.py`, one
+>     assertion in `tests/test_admin_access.py`; OpenAPI regenerated (`725fee2c…`, +15 operations, +22 schemas, 0
+>     changed).
+>   - Frontend (base `a867767`): generated client only (3 files). No screen calls the new API.
+>   - **Server setting `survey_definitions_enabled` is OFF by default**; with it off the routes do not exist.
+>     Permissions `survey.read/edit/approve/publish` are granted to **no role**.
+>   - **The development database was NOT migrated and is still at `0026`.** The server accepts `0026` only while
+>     the setting is off. **Never run `make migrate` or `make seed`** without the owner's authorisation.
+>   - Verified: backend 657 passed (isolated test database), lint, format, strict types, contract check; frontend
+>     403 unit, 13/13 prototype journeys, 33/33 standard Playwright; 27 fixtures regenerate byte-identically; specs
+>     validator PASS.
+> - **Not authorised:** SS-03B, execution, server call-plan assembly, any non-answer/refusal/repeat/consent/timeout
+>   policy, voice or telephony, Script Studio changes, development-database migration or re-seed, granting
+>   permissions, pushing, committing the SS-03A backend work, connecting Survey Studio screens to the API.
+> - **Next, owner's choice:** review SS-03A; then (separately) commit authorisation, and the proposals in `27_…` §8
+>   (SS-03B boundary; frontend integration FI-1/FI-2; who holds the four permissions in development).
 
 > **Update 2026-11-21 — read before the rest of §0.**
 > - **S1-E.2B ACCEPTED 2026-11-20** as offline-verified (D-109…D-112 confirmed) and committed by the owner (specs

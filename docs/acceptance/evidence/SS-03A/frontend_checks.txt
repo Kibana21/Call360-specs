@@ -1,0 +1,66 @@
+# SS-03A — frontend checks (generated client only changed). 2026-11-22 00:26 +0800
+## api:check
+api:check OK (openapi 725fee2ceeb0b9ecf11352070a38ce501fa3495475f13fee5645a9526ed09f28)
+## tsc
+tsc exit 0
+## eslint
+eslint exit 0
+## vitest
+ Test Files  32 passed (32)
+      Tests  403 passed (403)
+## prototype journeys (setting on)
+  ✓   1 [prototype] › e2e/prototype/conditions.proto.ts:49:1 › SS-02B.1 conditions and routing: decision points, reusable conditions, earlier answers, unknown, ordered rules, limits, undo (20.1s)
+  ✓   2 [prototype] › e2e/prototype/connections.proto.ts:67:1 › SS-02B.2.1 connection editing: select, disconnect, redraw, refuse, undo, parity, keyboard (37.1s)
+  ✓   3 [prototype] › e2e/prototype/governance.proto.ts:28:1 › SS-02C: validation, comparison and the simulated maker-checker journey, from library to published version (24.3s)
+  ✓   4 [prototype] › e2e/prototype/governance.proto.ts:388:1 › SS-02 closure: Graph menus near the bottom of the window stay fully on screen (3.6s)
+  ✓   5 [prototype] › e2e/prototype/graph.proto.ts:61:1 › SS-02B.2 graph builder: Guided/Graph parity, editing in the graph, large module, survey graph, keyboard (48.0s)
+  ✓   6 [prototype] › e2e/prototype/graph.proto.ts:352:1 › SS-02B.2 corrections: selection limits are never changed silently; condition references are stable and typed (5.1s)
+  ✓   7 [prototype] › e2e/prototype/refinements.proto.ts:43:1 › SS-02A.1 refinements: blank module, duplicate, interruptions, unresolved branches, undo, widths (26.5s)
+  ✓   8 [prototype] › e2e/prototype/refinements.proto.ts:277:1 › SS-02A.1 keyboard-only authoring: survey, modules, reorder, routes, questions, options, duplicate, undo (3.9s)
+  ✓   9 [prototype] › e2e/prototype/rules.proto.ts:31:1 › SS-02B.3.1 business rules: a jump does not bypass eligibility; terminal states are told apart; an invalid draft does not run (7.9s)
+  ✓  10 [prototype] › e2e/prototype/simulator.proto.ts:39:1 › SS-02B.3 journey simulator: seven synthetic customers, explanations, comparison, step/back/restart, after an edit (19.9s)
+  ✓  11 [prototype] › e2e/prototype/survey-studio.proto.ts:30:1 › SS-02A journeys A–H: build a survey, shape a module, test a condition, undo and redo (31.6s)
+  ✓  12 [prototype] › e2e/prototype/uc01.proto.ts:25:1 › UC-01: statements, typed answers, wording with variables, delivery and the call plan, on one model (9.3s)
+  ✓  13 [prototype] › e2e/prototype/uc02.proto.ts:24:1 › UC-02: a computable plan is never a live-call approval; the plan is compact and opens on demand (6.1s)
+  13 passed (4.1m)
+proto exit 0
+## standard Playwright (prototype off, real backend on the test database)
+  ✓   1 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1280px (2.5s)
+  ✓   2 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1440px (2.5s)
+  ✓   3 [chromium] › e2e/a11y.spec.ts:37:1 › FE-04 unauthorized and session-expired screens are accessible (1.1s)
+  ✓   4 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1280px (926ms)
+  ✓   5 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1440px (914ms)
+  ✓   6 [chromium] › e2e/assignment-rules.spec.ts:10:1 › S2-B Assignment Rules: create, configure, simulate, submit, approve by a checker, publish (7.6s)
+  ✓   7 [chromium] › e2e/auth.spec.ts:4:1 › E2E-01 unauthenticated redirect, login, landing with real session data, logout (1.3s)
+  ✓   8 [chromium] › e2e/auth.spec.ts:29:1 › E2E-15 tokens only in HttpOnly cookies; no storage or URL tokens; CSRF and origin enforced (587ms)
+  ✓   9 [chromium] › e2e/auth.spec.ts:53:1 › D-23 two tabs refreshing an expired access token concurrently keep the session (1.1s)
+  ✓  10 [chromium] › e2e/auth.spec.ts:72:1 › E2E-18 (partial) branding and terminology (565ms)
+  ✓  11 [chromium] › e2e/config.spec.ts:5:1 › E2E-20 Configuration: market label version (non-governed), governed denial, stage-locked flags, USER denied (1.5s)
+  ✓  12 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1280px (1.4s)
+  ✓  13 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1440px (1.5s)
+  ✓  14 [chromium] › e2e/conversation-lifecycle.spec.ts:41:1 › S2-D.1: lifecycle script → assignment → normal closing, identity failure and declined to proceed (6.4s)
+  ✓  15 [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout (51.3s)
+  ✓  16 [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data (7.0s)
+  ✓  17 [chromium] › e2e/permissions.spec.ts:4:1 › E2E-10 (partial) USER is denied Administration in the UI and by the API (630ms)
+  ✓  18 [chromium] › e2e/permissions.spec.ts:14:1 › E2E-13 (partial) ADMIN disables a user: that user is signed out on the next request; audit shows before/after (1.6s)
+  ✓  19 [chromium] › e2e/script-assignment.spec.ts:11:1 › S2-C assignment: new sale → callback case → preview → apply → pinned script → hold released (2.6s)
+  ✓  20 [chromium] › e2e/script-studio.spec.ts:23:1 › S2-A Script Studio: create, edit, submit, approve by a different checker, publish, immutable (6.0s)
+  ✓  21 [chromium] › e2e/simulation-evaluation.spec.ts:34:1 › S3-A: rules in Script Studio → simulate → wrong answers → evaluate → evidence trace → baseline scenario → batch (7.1s)
+  ✓  22 [chromium] › e2e/simulation-findings.spec.ts:41:1 › S3-B: finding rules (maker-checker) → simulate → evaluate → findings with severity, controls and evidence (8.1s)
+  ✓  23 [chromium] › e2e/simulation-workbench.spec.ts:33:1 › S2-E: draft script → scenarios → batch run → coverage → version comparison → interactive version test (6.2s)
+  ✓  24 [chromium] › e2e/text-simulator.spec.ts:25:1 › S2-D: new sale → case → assignment → text simulation → complete sequence → trace (4.5s)
+  ✓  25 [chromium] › e2e/workbench-review.spec.ts:49:1 › S3-C: synthetic operational case → findings → review → disposition → blocked premature verification → escalation → maker-checker verification (1.1m)
+  ✓  26 [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER) (12.6s)
+  ✓  27 [voice] › e2e/voice.spec.ts:76:1 › S1-A browser voice: a denied microphone never creates a session (945ms)
+  ✓  28 [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history (7.6s)
+  ✓  29 [voice] › e2e/voice.spec.ts:146:1 › S1-B tab closure: the session is interrupted, then finalised as abandoned (36.3s)
+  ✓  30 [voice] › e2e/voice.spec.ts:171:1 › S1-C recording: consent → record → interruption → stop → complete evidence; refusal records nothing (11.2s)
+  ✓  31 [voice] › e2e/voice.spec.ts:229:1 › S1-C recording: upload failure and a mid-session refresh are reported as partial, never filled in (52.1s)
+  ✓  32 [voice] › e2e/voice.spec.ts:277:1 › S1-D transcript: recorded conversation → local transcription → Call Detail → synchronised playback → segment seek (10.4s)
+  ✓  33 [voice] › e2e/zz-voice-lab.voice.spec.ts:14:1 › S1-E.1 Voice Lab: prompt → session → recording/transcript → dataset → mock experiment → evaluation → budget refusals → kill switch (20.1s)
+  33 passed (5.8m)
+std exit 0
+## git status
+ M src/api/contract.lock.json
+ M src/api/generated/schema.d.ts
+ M src/api/openapi.pinned.json

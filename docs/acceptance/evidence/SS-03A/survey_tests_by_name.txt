@@ -1,0 +1,148 @@
+# SS-03A — the 146 new tests by name, isolated test database. 2026-11-22 00:25 +0800
+tests/test_survey_domain.py::test_all_27_fixtures_and_82_expected_runs_are_present_and_unchanged_in_shape PASSED
+tests/test_survey_domain.py::test_canonical_bytes_ignore_key_order_and_whitespace_but_not_array_order PASSED
+tests/test_survey_domain.py::test_canonical_numbers_have_no_exponent_and_no_trailing_zeros PASSED
+tests/test_survey_domain.py::test_canonical_refuses_what_is_not_json_and_never_converts[nan] PASSED
+tests/test_survey_domain.py::test_canonical_refuses_what_is_not_json_and_never_converts[inf] PASSED
+tests/test_survey_domain.py::test_canonical_refuses_what_is_not_json_and_never_converts[bad2] PASSED
+tests/test_survey_domain.py::test_canonical_refuses_what_is_not_json_and_never_converts[bad3] PASSED
+tests/test_survey_domain.py::test_canonical_refuses_what_is_not_json_and_never_converts[bad4] PASSED
+tests/test_survey_domain.py::test_canonical_refuses_what_is_not_json_and_never_converts[bytes] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F1-simple-linear-survey] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F2-yes-no-branch-shared-rejoin] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F3-single-choice-per-option-routes] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F4-multi-select-ordered-followups] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F5-other-specify-with-validation] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F6-internal-condition-with-unknown] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F7-two-placements-one-question-definition] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[F8-survey-with-conditional-lego-modules] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[G1-jump-to-module-with-eligibility] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[G2-jump-skip-disposition-continue] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[G3-jump-without-skip-disposition-is-invalid] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[G4-first-matching-rule-routing] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[G5-evidence-states-and-review-halt-in-module] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[G6-mandatory-escalation-precedence] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[H1-activation-and-eligibility-are-independent] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[H2-a-jump-is-an-activation-but-never-bypasses-eligibility] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[H3-skip-disposition-in-sequence] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[H4-mandatory-escalation-cannot-be-overridden-by-survey-routing] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[J1-escalate-is-terminal-in-every-routing-mode] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K1-statements-are-delivered-in-order-and-take-no-answer] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K2-a-statement-cannot-branch-or-be-answered] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K3-numeric-answers-are-validated] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K4-acknowledgement-accepted-or-blocked-as-unresolved-policy] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K5-controlled-variables-render-deterministically-or-halt] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K6-wording-that-cannot-be-approved-is-an-error] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K7-one-question-placed-four-times-has-four-execution-identities] PASSED
+tests/test_survey_domain.py::test_every_fixture_document_meets_its_contract_and_hashes_stably[K8-the-call-plan-is-specific-to-the-application] PASSED
+tests/test_survey_domain.py::test_a_document_of_an_unknown_schema_or_shape_is_refused PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F1-simple-linear-survey] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F2-yes-no-branch-shared-rejoin] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F3-single-choice-per-option-routes] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F4-multi-select-ordered-followups] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F5-other-specify-with-validation] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F6-internal-condition-with-unknown] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F7-two-placements-one-question-definition] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[F8-survey-with-conditional-lego-modules] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[G1-jump-to-module-with-eligibility] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[G2-jump-skip-disposition-continue] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[G3-jump-without-skip-disposition-is-invalid] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[G4-first-matching-rule-routing] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[G5-evidence-states-and-review-halt-in-module] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[G6-mandatory-escalation-precedence] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[H1-activation-and-eligibility-are-independent] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[H2-a-jump-is-an-activation-but-never-bypasses-eligibility] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[H3-skip-disposition-in-sequence] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[H4-mandatory-escalation-cannot-be-overridden-by-survey-routing] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[J1-escalate-is-terminal-in-every-routing-mode] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K1-statements-are-delivered-in-order-and-take-no-answer] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K2-a-statement-cannot-branch-or-be-answered] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K3-numeric-answers-are-validated] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K4-acknowledgement-accepted-or-blocked-as-unresolved-policy] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K5-controlled-variables-render-deterministically-or-halt] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K6-wording-that-cannot-be-approved-is-an-error] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K7-one-question-placed-four-times-has-four-execution-identities] PASSED
+tests/test_survey_domain.py::test_server_validation_matches_the_fixture_expectation[K8-the-call-plan-is-specific-to-the-application] PASSED
+tests/test_survey_domain.py::test_every_rule_has_a_stable_code_and_a_schema_version PASSED
+tests/test_survey_domain.py::test_the_fixtures_state_enough_condition_results_to_mean_something PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F6\xb7Age 65, premium 15,000: TRUE AND (TRUE\xb7mi-enh/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F6\xb7Premium exactly 12,000 with '>': FALSE\xb7mi-enh/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F6\xb7Age 45, premium missing: FALSE AND UNK\xb7mi-enh/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F6\xb7Age 65, premium missing, risks underst\xb7mi-enh/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F6\xb7Age 65, premium missing, risks NOT und\xb7mi-enh/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F6\xb7Age missing, premium 15,000: UNKNOWN A\xb7mi-enh/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F8\xb7Premium missing and sum assured low: U\xb7mi-suitability] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[F8\xb7Premium missing and sum assured low: U\xb7mi-high-value] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G1\xb7Jump to an ELIGIBLE module: age 67 \u2014 t\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G1\xb7Jump to an INELIGIBLE module: age 40 \u2014\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G1\xb7Jump to a module with UNKNOWN eligibil\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G1\xb7No jump: in sequence the same module i\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G2\xb7Ineligible after a jump, disposition C\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G2\xb7UNKNOWN after a jump, policy SKIP_WITH\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G3\xb7A structurally invalid draft cannot ru\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G3\xb7The same draft still runs for a custom\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G5\xb7Answered: the policy contract was rece\xb7mi-d/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G5\xb7A VALID EMPTY selection is known: 'non\xb7mi-d/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[G5\xb7A question NOT ASKED on this route is \xb7mi-d/d1] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H1\xb7Trigger fired AND eligible: selected b\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H1\xb7Trigger fired but NOT eligible: being \xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H1\xb7Trigger fired, eligibility UNKNOWN wit\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H2\xb7An explicit jump SELECTS a module whos\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H2\xb7The jump selects it but never bypasses\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H2\xb7No jump: in sequence the trigger fires\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H2\xb7No jump, not eligible: in sequence the\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H3\xb7Both eligible: nothing is skipped and \xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H3\xb7Both eligible: nothing is skipped and \xb7mi-concern] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H3\xb7The later module is not eligible in se\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H3\xb7The later module is not eligible in se\xb7mi-concern] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H3\xb7The earlier module is not eligible in \xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_condition_evaluation_agrees_with_every_result_the_fixtures_state[H3\xb7Eligibility UNKNOWN with 'skip and rec\xb7mi-specialist] PASSED
+tests/test_survey_domain.py::test_eligibility_from_application_data_matches_every_expected_plan[K1-statements-are-delivered-in-order-and-take-no-answer] PASSED
+tests/test_survey_domain.py::test_eligibility_from_application_data_matches_every_expected_plan[K3-numeric-answers-are-validated] PASSED
+tests/test_survey_domain.py::test_eligibility_from_application_data_matches_every_expected_plan[K4-acknowledgement-accepted-or-blocked-as-unresolved-policy] PASSED
+tests/test_survey_domain.py::test_eligibility_from_application_data_matches_every_expected_plan[K5-controlled-variables-render-deterministically-or-halt] PASSED
+tests/test_survey_domain.py::test_eligibility_from_application_data_matches_every_expected_plan[K6-wording-that-cannot-be-approved-is-an-error] PASSED
+tests/test_survey_domain.py::test_eligibility_from_application_data_matches_every_expected_plan[K7-one-question-placed-four-times-has-four-execution-identities] PASSED
+tests/test_survey_domain.py::test_eligibility_from_application_data_matches_every_expected_plan[K8-the-call-plan-is-specific-to-the-application] PASSED
+tests/test_survey_domain.py::test_three_valued_logic_missing_is_unknown_never_false PASSED
+tests/test_survey_domain.py::test_numbers_compare_as_decimals_and_answers_as_codes PASSED
+tests/test_survey_domain.py::test_the_explanation_says_what_was_read PASSED
+tests/test_survey_domain.py::test_a_malformed_condition_is_an_error_not_a_result PASSED
+tests/test_survey_domain.py::test_typed_dependencies_are_checked_at_authoring_and_version_1_inputs_are_explicitly_limited PASSED
+tests/test_survey_domain.py::test_spoken_variables_are_default_deny_until_the_catalog_allowlists_a_field PASSED
+tests/test_survey_domain.py::test_conversational_delivery_is_never_publishable_and_a_recording_needs_an_approved_asset PASSED
+tests/test_survey_domain.py::test_a_response_obligation_must_be_a_code_of_the_governed_catalog PASSED
+tests/test_survey_domain.py::test_tampering_with_any_pinned_document_changes_the_manifest PASSED
+tests/test_survey_store.py::test_the_migration_is_additive_and_points_at_no_script_table PASSED
+tests/test_survey_store.py::test_status_is_derived_no_candidate_or_version_row_carries_one PASSED
+tests/test_survey_store.py::test_survey_permissions_exist_and_are_granted_to_no_role PASSED
+tests/test_survey_store.py::test_catalogs_are_synthetic_unapproved_and_no_field_is_speakable PASSED
+tests/test_survey_store.py::test_a_draft_is_revisioned_and_a_stale_revision_changes_nothing PASSED
+tests/test_survey_store.py::test_a_malformed_document_or_operation_is_refused_and_the_revision_does_not_move PASSED
+tests/test_survey_store.py::test_blockers_prevent_submission_and_freeze_nothing PASSED
+tests/test_survey_store.py::test_submission_freezes_the_assets_and_inserts_an_immutable_candidate PASSED
+tests/test_survey_store.py::test_approval_and_publication_need_different_people_whatever_they_are_permitted PASSED
+tests/test_survey_store.py::test_the_database_enforces_the_identity_rules_and_transitions_without_the_service PASSED
+tests/test_survey_store.py::test_a_changed_draft_supersedes_and_an_old_approval_cannot_be_used PASSED
+tests/test_survey_store.py::test_a_new_version_supersedes_the_previous_one_in_the_history_only PASSED
+tests/test_survey_store.py::test_tampering_with_a_manifest_is_detected_and_refused PASSED
+tests/test_survey_store.py::test_wording_approval_is_append_only_evidence_and_the_wording_row_is_never_touched PASSED
+tests/test_survey_store.py::test_the_usage_index_is_derived_and_can_be_rebuilt PASSED
+tests/test_survey_store.py::test_a_survey_outside_the_callers_markets_does_not_exist_for_them PASSED
+tests/test_survey_store.py::test_every_transition_is_audited_and_the_chain_verifies PASSED
+tests/test_survey_store.py::test_zz_migration_downgrades_to_the_previous_head_and_upgrades_again PASSED
+tests/test_survey_store.py::test_zz_downgrade_refuses_while_survey_definitions_exist PASSED
+tests/test_survey_api.py::test_with_the_setting_off_no_survey_route_exists_and_the_product_is_unchanged PASSED
+tests/test_survey_api.py::test_enabling_the_setting_adds_exactly_fifteen_operations_and_changes_no_other_route PASSED
+tests/test_survey_api.py::test_every_operation_requires_its_one_permission_and_every_write_is_csrf_protected PASSED
+tests/test_survey_api.py::test_without_a_session_every_operation_is_refused PASSED
+tests/test_survey_api.py::test_an_ordinary_user_holds_no_survey_permission_and_is_refused_everywhere PASSED
+tests/test_survey_api.py::test_each_permission_opens_only_its_own_operations PASSED
+tests/test_survey_api.py::test_a_write_without_the_csrf_token_is_refused PASSED
+tests/test_survey_api.py::test_draft_candidate_approval_and_publication_through_the_api PASSED
+tests/test_survey_api.py::test_a_stale_draft_revision_is_rejected_and_nothing_changes PASSED
+tests/test_survey_api.py::test_blockers_and_malformed_requests_have_explicit_codes PASSED
+tests/test_survey_api.py::test_a_survey_is_invisible_outside_its_market PASSED
+tests/test_survey_api.py::test_condition_evaluation_is_three_valued_and_stores_nothing PASSED
+tests/test_survey_api.py::test_the_published_contract_gains_the_fifteen_operations_and_loses_nothing PASSED
+============================= 146 passed in 13.25s =============================

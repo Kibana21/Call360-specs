@@ -1077,3 +1077,108 @@ validation code; the stored non-acknowledgement observation; a reserved non-answ
 `NON_ANSWER_EXCEPTION` outcome class. Each needs new fixtures and, for the last three, the corresponding
 Business/Compliance rulings. Nothing in schemas /1–/5 changes.
 
+---
+
+## 9. Amendment of 2026-11-22 (SS-03A): the server's canonical documents, hashes, codes and lifecycle
+
+**Authority:** owner decisions D-176…D-187. **Implemented in** `Call360-backend` `app/domain/survey/` (pure),
+`migrations/versions/0027_survey_definitions.py` and `app/api/survey_definitions.py`. Schemas /1–/5 and their 27
+fixtures are unchanged; the server reads each fixture under the rules of its own schema version.
+
+### 9.1 Canonical form and fingerprints
+
+- **Canonical bytes:** UTF-8; object keys sorted by code point; no insignificant whitespace; arrays in stored order;
+  numbers without exponent and without trailing zeros, a whole value written as an integer; `null`, `true`, `false`
+  as in JSON. **A value that is not a JSON value is refused, never converted.**
+- **Fingerprint:** SHA-256 of the canonical bytes, lower-case hexadecimal.
+- The pre-existing `digest.sha256_of` is **not** used for survey documents: it converts unknown types to text and
+  may write a float with an exponent. It is unchanged and still serves the manifests it already hashes.
+
+### 9.2 Document kinds and schema identifiers
+
+| Kind | `schema` | Identity |
+|---|---|---|
+| Option set | `call360.survey.option-set/1` | `code`, `version` |
+| Item | `call360.survey.item/1` | `code`, `version` |
+| Wording | `call360.survey.wording/1` | `item`, `language` (`en`), `wording_version` |
+| Condition | `call360.survey.condition/1` | `code`, `version` |
+| Module | `call360.survey.module/1` | `code`, `revision` |
+| Survey content | `call360.survey.content/1` | survey `code` |
+
+A reader refuses a schema identifier it does not know (`DOCUMENT_SCHEMA_UNKNOWN`), an unknown field
+(`DOCUMENT_FIELD_UNKNOWN`), a missing one (`DOCUMENT_FIELD_MISSING`), an invalid one (`DOCUMENT_FIELD_INVALID`) and
+a repeated code (`DOCUMENT_DUPLICATE_CODE`). `delivery_mode` is a required field of a wording (TS-4).
+`response_obligation` and `lifecycle_role` are two separate optional fields of an item (PB-5); the first is a code
+of a governed catalog.
+
+### 9.3 Manifest
+
+Every asset version a survey content pins, directly or through a module: `{kind, code, version, sha256}`, sorted by
+kind, code, version. `manifest_sha256` is the fingerprint of that list; `content_sha256` of the content document.
+Verified when a candidate is created (built), decided and published (recomputed from the stored rows): each entry
+exists, is frozen, and its stored content hashes to both its stored hash and the manifest's; and the manifest pins
+exactly what the content refers to. Any difference is `MANIFEST_MISMATCH`: the action is refused and the refusal is
+audited.
+
+### 9.4 Validation code register
+
+67 stable codes; a finding is identified by `code` and `at`, never by message. Each rule records the fixture schema
+that introduced it; a fixture is read under the rules of its own version; the server applies all of them.
+
+| Since | Codes |
+|---|---|
+| /1 (34) | `SURVEY_EMPTY` `MODULE_MISSING` `MODULE_EMPTY` `MODULE_ENTRY_MISSING` `NODE_UNREACHABLE` `MODULE_HAS_CYCLE` `TARGET_NODE_UNKNOWN` `OUTCOME_UNKNOWN` `OUTCOME_NOT_DECLARED` `ITEM_MISSING` `WORDING_MISSING` `WORDING_TEXT_MISSING` `OPTIONS_TOO_FEW` `OPTION_LABEL_MISSING` `ROUTE_MISSING` `REJOIN_MISSING` `DECISION_CONDITION_MISSING` `CONDITION_PARAM_MISSING` `CONDITION_INPUT_UNBOUND` `CONDITION_INPUT_NOT_AVAILABLE` `DECISION_ROUTE_MISSING` `DECISION_UNKNOWN_UNDECIDED` `CONDITION_FIELD_UNKNOWN` `CONDITION_PARAM_UNDECLARED` `CONDITION_OPERATOR_UNKNOWN` `CONDITION_EMPTY_GROUP` `CONDITION_OPERAND_INVALID` `SURVEY_ROUTE_MISSING` `SURVEY_ROUTE_TARGET_UNKNOWN` `SURVEY_ROUTE_BACKWARD` `ELIGIBILITY_CONDITION_MISSING` `UNKNOWN_POLICY_MISSING` `ACTIVATION_SOURCE_INVALID` `ACTIVATION_OUTCOMES_EMPTY` |
+| /2 (19) | `SELECTION_LIMITS_INVALID` `RULE_EMPTY` `RULE_ROUTE_MISSING` `FALLBACK_MISSING` `FOLLOWUP_BEHAVIOUR_UNDECLARED` `INTERRUPT_NOT_PERMITTED` `INTERRUPT_OUTCOME_MISSING` `INTERRUPT_RESUME_EMPTY` `INTERRUPT_REJOIN_MISSING` `CONDITION_INPUT_WRONG_ITEM` `CONDITION_INPUT_TYPE_MISMATCH` `CONDITION_INPUT_OPTION_UNKNOWN` `CONDITION_INPUT_UNDECLARED` `CONDITION_INPUT_TYPE_UNSUPPORTED` `CONDITION_OPERATOR_TYPE_MISMATCH` `SKIP_DISPOSITION_MISSING` `SKIP_DISPOSITION_TARGET_UNKNOWN` `SKIP_DISPOSITION_BACKWARD` `MANDATORY_ESCALATION_WEAKENED` |
+| /3 (1) | `MANDATORY_ESCALATION_OVERRIDDEN` |
+| /4 (1) | `ESCALATION_NOT_TERMINAL` |
+| /5 (10) | as §8.4 |
+| approved mechanisms, no golden fixture yet (2) | `VARIABLE_NOT_PERMITTED` (default-deny, D-181) · `RESPONSE_OBLIGATION_UNKNOWN` |
+
+`at` is `<module code>/<node>` for a finding in a module, `<instance>` or `<instance>:<outcome>` for one in a
+survey (`:@SKIP`, `:@SKIP_SEQ` for the two skip dispositions), and `<code>@<version>` for one in a condition.
+
+**How schemas /1 and /2 state an invalid draft.** They have no `validation` block. Fixture G3 is invalid on purpose
+and says so through a run that ends `DRAFT_INVALID` with reason `SKIP_DISPOSITION_MISSING`; the server reports
+exactly that code at `mi-specialist:@SKIP`.
+
+### 9.5 Condition engine
+
+As §5, with these points made explicit by the implementation: numeric comparison uses decimals, never floats;
+`EQ` / `NEQ` compare numbers as decimals and everything else by identity; `INCLUDES_*` take a selection and a list
+of option codes; a malformed condition is an **error** with a stable code (`CONDITION_OPERATOR_UNKNOWN`,
+`CONDITION_OPERAND_NOT_NUMERIC`, `CONDITION_EMPTY_GROUP` …), never a three-valued result; every evaluation returns
+an explanation tree listing each operand read. Verified against the 32 condition results the fixtures state
+explicitly and the 12 eligibility results of fixture K8's plans.
+
+### 9.6 Entities and lifecycle as stored
+
+Draft (mutable, `revision` advances by exactly one) · asset version (`DRAFT` → `FROZEN`, then immutable) · candidate
+(insert-only) · version (insert-only) · lifecycle event (append-only). **Status is derived from the newest event of
+a subject and is stored nowhere.** Wording approval is a separate append-only row naming the wording's item,
+language, version and hash, and the candidate (D-178); the wording row has no approval column.
+
+Candidate events: `SUBMITTED` → `APPROVED` | `REJECTED` | `WITHDRAWN` | `SUPERSEDED`; `APPROVED` → `PUBLISHED` |
+`WITHDRAWN` | `SUPERSEDED`. Version events: `PUBLISHED` (or `SCHEDULED` → `PUBLISHED`) → `SUPERSEDED` | `WITHDRAWN`.
+`SCHEDULED` and version `WITHDRAWN` are accepted by the schema and are produced by nothing in SS-03A.
+
+Identity rules, enforced by the service and again by a database trigger on the event table: an approver or rejecter
+is not the submitter and not a maker; a publisher is not the submitter, not a maker and not the approver. A version
+row can be inserted only for a candidate whose newest event is `APPROVED`.
+
+### 9.7 Governed catalogs
+
+`FIELD` (attributes: type, unit, values, `scale`, **`speakable`** — false on every entry), `OUTCOME` (attributes:
+`class`, one of `NORMAL_COMPLETION`, `EXCEPTION`, `ESCALATION`, `REVIEW_HALT`, `NON_ANSWER_EXCEPTION`; label) and `RESPONSE_OBLIGATION`. A CHECK constraint admits no approval state
+but `SYNTHETIC_UNAPPROVED`. The outcome class `NON_ANSWER_EXCEPTION` is admitted and has no entry. **No structured
+non-answer resolution is stored anywhere**: the capability is reserved in this contract and has no field, route key
+or behaviour (D-179).
+
+### 9.8 API
+
+Fifteen operations, `26_SS-03A_FOUNDATION_SPECIFICATION.md` §6, under `/api/v1/survey-definitions`,
+`/survey-candidates`, `/survey-versions`, `/survey-library`, `/survey-conditions`. The draft operation vocabulary is
+`PUT_ASSET`, `REMOVE_ASSET`, `SET_CONTENT`. Error codes: `STALE_DRAFT`, `VALIDATION_BLOCKED`, `DOCUMENT_INVALID`,
+`OPERATION_INVALID`, `ASSET_FROZEN`, `ASSET_OWNED_ELSEWHERE`, `MANIFEST_MISMATCH`, `SELF_REVIEW_DENIED`,
+`SELF_PUBLISH_DENIED`, `APPROVER_PUBLISH_DENIED`, `NOT_SUBMITTER`, `NOT_APPROVED`, `ALREADY_DECIDED`,
+`COMMENT_REQUIRED`, `SURVEY_CODE_TAKEN`, `MARKET_NOT_IN_SCOPE`, `CONDITION_INVALID`, `NOT_FOUND`.
+

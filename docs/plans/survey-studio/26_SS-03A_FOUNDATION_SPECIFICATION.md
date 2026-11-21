@@ -1,9 +1,9 @@
 # SS-03A — Survey definition foundation: specification
 
 **Requested by:** owner, 2026-11-21, "UC-02 Review and Backend Decision Closure" (D-175).
-**Status: SPECIFICATION ONLY — PROPOSED, for the owner's review. NOT AUTHORISED FOR IMPLEMENTATION.** No backend,
-database, migration, API or runtime file was changed to produce it. SS-03A must not begin until the owner authorises
-it by name.
+**Status: APPROVED AND AUTHORISED by the owner on 2026-11-21 (D-186), with clarifications D-178…D-183. Built and
+technically verified 2026-11-22 — see `27_SS-03A_IMPLEMENTATION_REPORT.md`; not yet accepted.** The text below is the
+specification as proposed; where a clarification changed it, the report and `04_…` §9 state what was built.
 
 **Purpose.** The smallest backend that makes a survey definition real: stored, validated, hashed, submitted as an
 immutable candidate, approved and published — and nothing that depends on an open business decision.

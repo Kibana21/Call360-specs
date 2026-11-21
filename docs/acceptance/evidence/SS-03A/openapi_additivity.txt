@@ -1,0 +1,24 @@
+# SS-03A — OpenAPI: committed (HEAD 7228875) vs regenerated
+sha256 before: 221985e73f2e789ab33e7f29018866509e2e0f0dc4aa7e0b56e13dc67d5af221
+sha256 after:  725fee2ceeb0b9ecf11352070a38ce501fa3495475f13fee5645a9526ed09f28
+operations: before 199 after 214 | added 15 | removed 0 | existing changed 0
+schemas: before 405 after 427 | added 22 | removed 0 | existing changed 0
+
+added operations:
+  GET /api/v1/survey-candidates/{candidate_id} -> survey_candidate_get
+  POST /api/v1/survey-candidates/{candidate_id}/decision -> survey_candidate_decide
+  POST /api/v1/survey-candidates/{candidate_id}/publish -> survey_candidate_publish
+  POST /api/v1/survey-candidates/{candidate_id}/withdraw -> survey_candidate_withdraw
+  POST /api/v1/survey-conditions/evaluate -> survey_condition_evaluate
+  GET /api/v1/survey-definitions -> survey_definition_list
+  POST /api/v1/survey-definitions -> survey_definition_create
+  GET /api/v1/survey-definitions/{survey_id} -> survey_definition_get
+  POST /api/v1/survey-definitions/{survey_id}/candidates -> survey_candidate_submit
+  GET /api/v1/survey-definitions/{survey_id}/draft -> survey_draft_get
+  POST /api/v1/survey-definitions/{survey_id}/draft/operations -> survey_draft_operation
+  POST /api/v1/survey-definitions/{survey_id}/draft/validate -> survey_draft_validate
+  GET /api/v1/survey-library/{kind} -> survey_library_list
+  GET /api/v1/survey-versions/{version_id} -> survey_version_get
+  GET /api/v1/survey-versions/{version_id}/content -> survey_version_content
+
+added schemas: SurveyCandidateOut, SurveyConditionEvaluateIn, SurveyConditionEvaluateOut, SurveyConditionExplanation, SurveyCreateIn, SurveyDecisionIn, SurveyDraftAsset, SurveyDraftOut, SurveyFindingOut, SurveyLibraryItem, SurveyLibraryOut, SurveyLifecycleEvent, SurveyList, SurveyManifestEntry, SurveyOperationIn, SurveyOut, SurveyPublishIn, SurveySubmitIn, SurveyValidationOut, SurveyVersionContent, SurveyVersionOut, SurveyWithdrawIn
