@@ -3,6 +3,7 @@
 **Status:** Proposed (CP0.0), 2026-11-15. Owner decisions applied: D-2 (Script Studio UI, `scripts` domain and API), C-4 (lifecycle), C-26 (do not rewrite the BRD; record an explicit exception)
 **Amends:** ADR-0002, for the script editor name only. All other ADR-0002 decisions stand: Call360 and **Call Detail**.
 **Exceptions recorded:** EXC-001, EXC-002 in `docs/spec/APPROVED_EXCEPTIONS.md`
+**Amended by:** ADR-0010 (2026-11-21, owner decision D-113) — §1 naming only: the new authoring product is named Survey Studio and Script Studio becomes a transitional label. The text below is kept unchanged as the historical decision; §2 and §3 remain in force.
 
 ## Context
 

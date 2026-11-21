@@ -10,6 +10,7 @@ Each ADR records one decision, its context, the alternatives considered and its 
 | [ADR-0004](ADR-0004-identity-tokens-authorization.md) | Identity provider abstraction, tokens, sessions and authorization | Proposed (CP0.0); owner decisions D-7, C-6 applied | S0 (S5 extends) |
 | [ADR-0005](ADR-0005-audit-and-immutability.md) | Append-only audit, immutable records and session pins | Proposed (CP0.0); owner decisions D-6, D-8 applied | S0–S6 |
 | [ADR-0006](ADR-0006-api-contract-and-generated-client.md) | API contract ownership, conventions and generated client | Proposed (CP0.0); owner decision D-14 applied | S0–S6 |
-| [ADR-0007](ADR-0007-script-studio-naming-and-lifecycle.md) | Script Studio naming and script lifecycle | Proposed (CP0.0); owner decisions D-2, C-4, C-26 applied | S0–S6 |
+| [ADR-0007](ADR-0007-script-studio-naming-and-lifecycle.md) | Script Studio naming and script lifecycle | Proposed (CP0.0); owner decisions D-2, C-4, C-26 applied; **§1 naming amended by ADR-0010** | S0–S6 |
 | [ADR-0008](ADR-0008-s0-scope-boundaries.md) | Stage 0 functional boundaries, holds, navigation and synthetic evidence | Proposed (CP0.0); owner decisions D-4, D-10, C-1, C-12 applied | S0 |
 | [ADR-0009](ADR-0009-gpt-live-providers-azure-preferred.md) | GPT-Live providers — one shared protocol adapter, Azure OpenAI preferred | Proposed (S1-E.2A); owner instruction: Azure OpenAI primary | S1-E (Voice Lab) |
+| [ADR-0010](ADR-0010-survey-studio-naming.md) | Survey Studio naming; Script Studio as a transitional name | Approved by the owner 2026-11-21 (D-113) | Survey Studio programme |

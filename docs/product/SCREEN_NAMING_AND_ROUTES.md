@@ -1,6 +1,6 @@
 # Call360 — Product terminology and screen/route contract
 
-**Status:** binding for implementation from spec v0.3; amended in CP0.0 (2026-11-15) by ADR-0007 (Script Studio) and ADR-0008 §3 (navigation, owner decision C-1) | **Owner:** S&C Product Owner (proposed)
+**Status:** binding for implementation from spec v0.3; amended in CP0.0 (2026-11-15) by ADR-0007 (Script Studio) and ADR-0008 §3 (navigation, owner decision C-1); amended 2026-11-21 by ADR-0010 (Survey Studio, owner decision D-113) | **Owner:** S&C Product Owner (proposed)
 
 ## Approved terminology for this project
 
@@ -11,7 +11,9 @@
 | Searchable all-calls register | **Call Explorer** | Call 360 | Find/filter cases, attempts, sessions |
 | Business dashboard | **Overview** (page title **Command Centre**) | Call Detail | Aggregate monitoring and work queues |
 | Browser full-duplex simulator | **Voice Studio** | Genesys Call | Browser-only test session at S1 |
-| Governed script library and editor | **Script Studio** | Survey Studio, AI Prompt Editor | Script families, versions, questions; draft, validation, approval, publish (S2) |
+| Governed survey authoring product (ADR-0010) | **Survey Studio** | Script Studio (for the new product), AI Prompt Editor | Surveys built from reusable modules; questions, routing, conditions; shown only when its feature setting is on |
+| Wording and delivery governance inside Survey Studio (ADR-0010) | **Wording & Delivery** | Script Studio | Customer-facing wording versions and delivery modes; a capability of Survey Studio, not a separate module |
+| Existing linear script library and editor (transitional, ADR-0010) | **Script Studio** | AI Prompt Editor | Script families, versions, questions; draft, validation, approval, publish (S2). Label kept until the owner retires these screens |
 | Human case handling | **Review Workbench** | AI Verdict, Compliance Reviews | Evidence-backed reviews and disposition |
 | Policy register / dossier | **Policy Explorer** / **Policy Detail** | Policy & Sales, Policy 360 | Policy, sale events, parties, risk, script assignment, cases |
 | Callback-selection risk view | **SBQ Risk Workbench** | Risk Assessment (as screen label) | SBQ callback-selection risk only; not suitability, not finding severity |
@@ -26,7 +28,7 @@ The approved HTML mockup's grouped structure and order, with canonical terms (EX
 | Group | Items in order |
 |---|---|
 | WORKSPACE | Overview · Call Explorer · Policy Explorer · SBQ Risk Workbench · Work Queues · Voice Studio · Live Monitor *(S4, disabled)* · Campaigns *(S4, disabled)* |
-| GOVERNANCE | Script Studio · Assignment Rules · Review Workbench |
+| GOVERNANCE | Survey Studio *(when enabled, ADR-0010)* · Script Studio · Assignment Rules · Review Workbench |
 | INTELLIGENCE | Search · Analytics *(S4, disabled)* |
 | PLATFORM | Data Intake *(ADMIN)* · Administration *(ADMIN)* |
 
@@ -69,6 +71,8 @@ This table must list the same routes as `S0_SCREEN_SPEC.md` §2 (validator check
 | Admin: Integrations | `/admin/integrations` | S0 | — |
 | Admin: System health | `/admin/system` | S0 | — |
 
+**Survey Studio routes (ADR-0010).** The new authoring product lives under the `survey-studio` path prefix and is registered only when its feature setting is on. It is outside the Stage 0 route contract in the table above, which is unchanged; its routes are specified in `docs/plans/survey-studio/` and will be added to a stage route contract when the programme's first production phase is authorised.
+
 The `/calls` register is intentionally named for user familiarity, but **`/cases/:caseId` is case-centric**. `GET /api/v1/cases/{case_id}` is independent of UI navigation. Deep links should survive refresh, back navigation and permission checks. Changing public routes requires an ADR, redirects and integration tests.
 
 ## Screen acceptance checks
@@ -79,4 +83,4 @@ The `/calls` register is intentionally named for user familiarity, but **`/cases
 4. A recording/transcript button is disabled with a clear reason when an artifact is absent or unauthorised; no silent empty player.
 5. Data availability, dates and KPI denominators come from authenticated backend responses.
 6. UX copy uses “AI-flagged concern” or “needs review” until human disposition; never assert final mis-selling from model output alone.
-7. The script area is labelled **Script Studio** everywhere (navigation, titles, breadcrumbs, accessible names, tests).
+7. The existing linear script area is labelled **Script Studio** everywhere (navigation, titles, breadcrumbs, accessible names, tests). The new authoring product is labelled **Survey Studio** and appears only when its feature setting is on (ADR-0010).

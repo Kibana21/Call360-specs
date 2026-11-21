@@ -1,0 +1,512 @@
+{
+  "schema": "call360.survey-studio.fixture/1",
+  "fixture": "F6-internal-condition-with-unknown",
+  "title": "An internal condition with UNKNOWN",
+  "purpose": "A reusable, parameterised condition bound at a Decision node. Three-valued logic: a missing input gives UNKNOWN unless a known operand already decides the result; UNKNOWN has its own explicit edge. The prior answer is supplied through a named input mapped by the binding. SS-AT-004, 005, 013.",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {
+      "customer.age_years": {
+        "type": "INTEGER",
+        "unit": "years",
+        "label": "Customer age"
+      },
+      "policy.annual_premium": {
+        "type": "MONEY",
+        "unit": "SGD",
+        "label": "Annual premium"
+      }
+    },
+    "outcomes": [
+      "COMPLETED",
+      "CLARIFICATION_REQUIRED",
+      "ESCALATE",
+      "CUSTOMER_DECLINED",
+      "UNABLE_TO_VERIFY"
+    ]
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-RISKS-UNDERSTOOD",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer understands the key risks",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-AFFORDABILITY",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Premium remains affordable after retirement",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-RISKS-UNDERSTOOD",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Do you understand the key risks and exclusions?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-AFFORDABILITY",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Will you still be able to afford this premium after you retire?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      }
+    ],
+    "conditions": [
+      {
+        "code": "C-ENHANCED-REVIEW",
+        "version": 1,
+        "name": "Enhanced review needed",
+        "summary": "Age is at least {minimum_age} AND (annual premium is above {premium_threshold} OR risks were not understood)",
+        "params": {
+          "minimum_age": {
+            "type": "INTEGER",
+            "unit": "years"
+          },
+          "premium_threshold": {
+            "type": "MONEY",
+            "unit": "SGD"
+          }
+        },
+        "inputs": {
+          "risk_understood": {
+            "type": "OPTION_CODE",
+            "option_set": {
+              "code": "OS-YES-NO",
+              "version": 1
+            }
+          }
+        },
+        "fields": [
+          "customer.age_years",
+          "policy.annual_premium"
+        ],
+        "ast": {
+          "op": "AND",
+          "args": [
+            {
+              "op": "GTE",
+              "left": {
+                "field": "customer.age_years"
+              },
+              "right": {
+                "param": "minimum_age"
+              }
+            },
+            {
+              "op": "OR",
+              "args": [
+                {
+                  "op": "GT",
+                  "left": {
+                    "field": "policy.annual_premium"
+                  },
+                  "right": {
+                    "param": "premium_threshold"
+                  }
+                },
+                {
+                  "op": "EQ",
+                  "left": {
+                    "input": "risk_understood"
+                  },
+                  "right": {
+                    "literal": "NO"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "modules": [
+      {
+        "code": "M-ENHANCED",
+        "revision": 1,
+        "kind": "RISK",
+        "name": "Enhanced review",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "CLARIFICATION_REQUIRED",
+          "UNABLE_TO_VERIFY"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-RISKS-UNDERSTOOD",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "d1",
+            "type": "DECISION",
+            "binding": {
+              "condition": {
+                "code": "C-ENHANCED-REVIEW",
+                "version": 1
+              },
+              "params": {
+                "minimum_age": 60,
+                "premium_threshold": 12000
+              },
+              "inputs": {
+                "risk_understood": {
+                  "answer": {
+                    "node": "n1"
+                  }
+                }
+              },
+              "unknown_policy": "ROUTE_UNKNOWN"
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-AFFORDABILITY",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "YES"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "ANY",
+            "to": {
+              "node": "d1"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "d1",
+            "on": "MATCH",
+            "to": {
+              "node": "n2"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "d1",
+            "on": "NO_MATCH",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e4",
+            "from": "d1",
+            "on": "UNKNOWN",
+            "to": {
+              "outcome": "UNABLE_TO_VERIFY"
+            }
+          },
+          {
+            "edge": "e5",
+            "from": "n2",
+            "on": "YES",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e6",
+            "from": "n2",
+            "on": "NO",
+            "to": {
+              "outcome": "CLARIFICATION_REQUIRED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-INTERNAL-CONDITION",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-enh"
+    ],
+    "instances": [
+      {
+        "instance": "mi-enh",
+        "module": {
+          "code": "M-ENHANCED",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "CLARIFICATION_REQUIRED",
+            "to": {
+              "survey_outcome": "CLARIFICATION_REQUIRED"
+            }
+          },
+          {
+            "on": "UNABLE_TO_VERIFY",
+            "to": {
+              "survey_outcome": "UNABLE_TO_VERIFY"
+            }
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "Age 65, premium 15,000: TRUE AND (TRUE OR FALSE) = MATCH",
+      "profile": {
+        "customer.age_years": 65,
+        "policy.annual_premium": 15000
+      },
+      "answers": {
+        "mi-enh/n1": {
+          "choice": "YES"
+        },
+        "mi-enh/n2": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-enh/n1",
+          "mi-enh/n2"
+        ],
+        "modules": [
+          {
+            "instance": "mi-enh",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "trace": [
+          "mi-enh/d1: TRUE"
+        ]
+      }
+    },
+    {
+      "name": "Premium exactly 12,000 with '>': FALSE, not an accidental '>='",
+      "profile": {
+        "customer.age_years": 65,
+        "policy.annual_premium": 12000
+      },
+      "answers": {
+        "mi-enh/n1": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-enh/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-enh",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "trace": [
+          "mi-enh/d1: FALSE"
+        ]
+      }
+    },
+    {
+      "name": "Age 45, premium missing: FALSE AND UNKNOWN = FALSE (a known FALSE decides)",
+      "profile": {
+        "customer.age_years": 45,
+        "policy.annual_premium": null
+      },
+      "answers": {
+        "mi-enh/n1": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-enh/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-enh",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "trace": [
+          "mi-enh/d1: FALSE"
+        ]
+      }
+    },
+    {
+      "name": "Age 65, premium missing, risks understood: TRUE AND (UNKNOWN OR FALSE) = UNKNOWN",
+      "profile": {
+        "customer.age_years": 65,
+        "policy.annual_premium": null
+      },
+      "answers": {
+        "mi-enh/n1": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-enh/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-enh",
+            "status": "ACTIVATED",
+            "outcome": "UNABLE_TO_VERIFY"
+          }
+        ],
+        "survey_outcome": "UNABLE_TO_VERIFY",
+        "trace": [
+          "mi-enh/d1: UNKNOWN"
+        ]
+      }
+    },
+    {
+      "name": "Age 65, premium missing, risks NOT understood: TRUE AND (UNKNOWN OR TRUE) = MATCH",
+      "profile": {
+        "customer.age_years": 65,
+        "policy.annual_premium": null
+      },
+      "answers": {
+        "mi-enh/n1": {
+          "choice": "NO"
+        },
+        "mi-enh/n2": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-enh/n1",
+          "mi-enh/n2"
+        ],
+        "modules": [
+          {
+            "instance": "mi-enh",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "trace": [
+          "mi-enh/d1: TRUE"
+        ]
+      }
+    },
+    {
+      "name": "Age missing, premium 15,000: UNKNOWN AND TRUE = UNKNOWN (never treated as false)",
+      "profile": {
+        "customer.age_years": null,
+        "policy.annual_premium": 15000
+      },
+      "answers": {
+        "mi-enh/n1": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-enh/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-enh",
+            "status": "ACTIVATED",
+            "outcome": "UNABLE_TO_VERIFY"
+          }
+        ],
+        "survey_outcome": "UNABLE_TO_VERIFY",
+        "trace": [
+          "mi-enh/d1: UNKNOWN"
+        ]
+      }
+    }
+  ]
+}

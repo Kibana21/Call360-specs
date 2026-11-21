@@ -54,7 +54,9 @@ BASELINE_SHA256 = {
     "docs/spec/REQUIREMENT_COUNTS.json": "887893e2b6127baa619a78906394b3ec547635fef7b55052487058d850871887",
 }
 BASELINE_ID_SET_SHA256 = "6cd7a348d628ed756694bd507f32e514a3a42262fa37ba00aa1848549251dd07"
-PROHIBITED_TERMS = ["Survey Studio", "Call 360", "GET /surveys", "/api/v1/surveys", "VALIDATION_FAILED/VALIDATED"]
+# "Survey Studio" was a prohibited label under ADR-0007 (D-2) until ADR-0010 (D-113, 2026-11-21) made it the approved name of
+# the new authoring product. The retirement is recorded in APPROVED_EXCEPTIONS.md §3; no file is exempt from the terms below.
+PROHIBITED_TERMS = ["Call 360", "GET /surveys", "/api/v1/surveys", "VALIDATION_FAILED/VALIDATED"]
 SCANNED_SUFFIXES = {".md", ".csv", ".json"}
 TEST_ID_RE = re.compile(r"\b(BE-[A-Z]+-\d{2}|FE-\d{2}|E2E-\d{2}|SCAN-\d{2}|DOC-\d{2}|SPEC-\d{2})\b")
 CP_RE = r"CP0\.(1A|1B|[2-6])"  # implementation checkpoints (CP0.1 split per D-21)
@@ -155,6 +157,13 @@ for term in PROHIBITED_TERMS:
             stale.append(f"{term!r} allowlisted for {rel} but absent")
 check("terminology: prohibited terms only in approved files", not term_violations, "; ".join(term_violations))
 check("terminology: no stale allowlist rows", not stale, "; ".join(stale))
+adr10 = ROOT / "docs/adr/ADR-0010-survey-studio-naming.md"
+check(
+    "terminology: Survey Studio naming is backed by ADR-0010 and the EXC-001 amendment",
+    adr10.exists() and "ADR-0010" in next((" ".join(r) for r in table_rows(exc_text, r"EXC-001")), "")
+    and "Retired prohibitions" in exc_text and "ADR-0010" in doc("docs/adr/ADR-0007-script-studio-naming-and-lifecycle.md"),
+    "ADR-0010, the EXC-001 amendment, the retired-prohibitions record or the ADR-0007 pointer is missing",
+)
 
 # 3. S0 requirement-to-test matrix.
 matrix = doc("docs/acceptance/S0_TEST_MATRIX.md")

@@ -1,0 +1,7 @@
+SS-02A.2 (Survey Studio UX refinement) prototype journeys (Chromium, prototype setting ON) 2026-11-21 12:07
+  ✓  1 [prototype] › e2e/prototype/refinements.proto.ts:43:1 › SS-02A.1 refinements: blank module, duplicate, interruptions, unresolved branches, undo, widths (25.9s)
+  ✓  2 [prototype] › e2e/prototype/refinements.proto.ts:278:1 › SS-02A.1 keyboard-only authoring: survey, modules, reorder, routes, questions, options, duplicate, undo (3.5s)
+  ✓  3 [prototype] › e2e/prototype/survey-studio.proto.ts:30:1 › SS-02A journeys A–H: build a survey, shape a module, test a condition, undo and redo (31.0s)
+  3 passed (1.1m)
+Accessibility (axe, WCAG 2.x A/AA rule tags): 0 serious/critical on 7 states at 1440 and on 4 states at 1440/1280/1024, incl. the modal drawer.
+Drawer keyboard check: 45 Tab and 12 Shift+Tab presses never left the dialog; background inert; Escape closes; focus returns to the opener.

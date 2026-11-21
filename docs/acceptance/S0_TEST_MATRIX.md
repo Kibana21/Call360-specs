@@ -190,7 +190,7 @@ No S0 requirement is BLOCKED.
 | E2E-15 | Playwright | frontend | No tokens in `localStorage`, `sessionStorage` or URL; cookies HttpOnly; cross-site POST without CSRF rejected | — |
 | E2E-16 | Playwright | frontend | Voice Studio preflight `NOT_AVAILABLE`; no microphone prompt | — |
 | E2E-17 | Playwright | frontend | axe, keyboard-only path through main flow, 1280 and 1440 px layouts | — |
-| E2E-18 | Playwright | frontend | Title "Call360"; Call Detail heading and breadcrumb; "Script Studio" label; no "Call 360" or "Survey Studio" label anywhere | — |
+| E2E-18 | Playwright | frontend | Title "Call360"; Call Detail heading and breadcrumb; "Script Studio" label; no "Call 360" label anywhere; the "Survey Studio" label is absent while its feature setting is off and present only when it is on (amended 2026-11-21, ADR-0010 / D-113; previously "no Survey Studio label anywhere") | — |
 | E2E-19 | Playwright | frontend | Admin corrects a policy premium; history shows diff, actor and reason; the earlier session's snapshot value is unchanged | T-33 |
 | E2E-20 | Playwright | frontend | Administration → Configuration: lists, governed badges, version history; ADMIN creates a new market-label version (non-governed) and sees history; governed lists offer no edit action and their API call is denied; stage-locked flags shown locked and their enable call returns 422; USER is denied | — |
 | DOC-01 | document review | specs | Threat model complete; every threat has a mitigation and a test ID or residual risk | — |

@@ -1,0 +1,96 @@
+[WebServer] INFO:     Started server process [35461]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+
+Running 33 tests using 1 worker
+
+  ✓   1 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1280px (2.5s)
+  ✓   2 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1440px (2.5s)
+  ✓   3 [chromium] › e2e/a11y.spec.ts:37:1 › FE-04 unauthorized and session-expired screens are accessible (1.1s)
+  ✓   4 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1280px (897ms)
+  ✓   5 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1440px (890ms)
+  ✓   6 [chromium] › e2e/assignment-rules.spec.ts:10:1 › S2-B Assignment Rules: create, configure, simulate, submit, approve by a checker, publish (7.4s)
+  ✓   7 [chromium] › e2e/auth.spec.ts:4:1 › E2E-01 unauthenticated redirect, login, landing with real session data, logout (1.3s)
+  ✓   8 [chromium] › e2e/auth.spec.ts:29:1 › E2E-15 tokens only in HttpOnly cookies; no storage or URL tokens; CSRF and origin enforced (559ms)
+  ✓   9 [chromium] › e2e/auth.spec.ts:53:1 › D-23 two tabs refreshing an expired access token concurrently keep the session (1.1s)
+  ✓  10 [chromium] › e2e/auth.spec.ts:72:1 › E2E-18 (partial) branding and terminology (528ms)
+  ✓  11 [chromium] › e2e/config.spec.ts:5:1 › E2E-20 Configuration: market label version (non-governed), governed denial, stage-locked flags, USER denied (1.5s)
+  ✓  12 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1280px (1.5s)
+  ✓  13 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1440px (1.4s)
+  ✓  14 [chromium] › e2e/conversation-lifecycle.spec.ts:41:1 › S2-D.1: lifecycle script → assignment → normal closing, identity failure and declined to proceed (6.3s)
+  ✓  15 [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout (49.4s)
+  ✓  16 [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data (6.4s)
+  ✓  17 [chromium] › e2e/permissions.spec.ts:4:1 › E2E-10 (partial) USER is denied Administration in the UI and by the API (593ms)
+  ✓  18 [chromium] › e2e/permissions.spec.ts:14:1 › E2E-13 (partial) ADMIN disables a user: that user is signed out on the next request; audit shows before/after (1.5s)
+  ✓  19 [chromium] › e2e/script-assignment.spec.ts:11:1 › S2-C assignment: new sale → callback case → preview → apply → pinned script → hold released (2.5s)
+  ✓  20 [chromium] › e2e/script-studio.spec.ts:23:1 › S2-A Script Studio: create, edit, submit, approve by a different checker, publish, immutable (5.9s)
+  ✓  21 [chromium] › e2e/simulation-evaluation.spec.ts:34:1 › S3-A: rules in Script Studio → simulate → wrong answers → evaluate → evidence trace → baseline scenario → batch (7.1s)
+  ✓  22 [chromium] › e2e/simulation-findings.spec.ts:41:1 › S3-B: finding rules (maker-checker) → simulate → evaluate → findings with severity, controls and evidence (8.0s)
+  ✓  23 [chromium] › e2e/simulation-workbench.spec.ts:33:1 › S2-E: draft script → scenarios → batch run → coverage → version comparison → interactive version test (6.0s)
+  ✓  24 [chromium] › e2e/text-simulator.spec.ts:25:1 › S2-D: new sale → case → assignment → text simulation → complete sequence → trace (4.6s)
+  ✓  25 [chromium] › e2e/workbench-review.spec.ts:49:1 › S3-C: synthetic operational case → findings → review → disposition → blocked premature verification → escalation → maker-checker verification (1.1m)
+[WebServer] INFO:     127.0.0.1:61757 - "WebSocket /api/v1/voice/sessions/7f55b663-f52c-467d-99a4-3f03523bfc7f/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:61799 - "WebSocket /api/v1/voice/sessions/8859dc9e-8a02-4c1b-b23d-2309609daadc/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  26 [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER) (12.5s)
+  ✓  27 [voice] › e2e/voice.spec.ts:76:1 › S1-A browser voice: a denied microphone never creates a session (905ms)
+[WebServer] INFO:     127.0.0.1:61875 - "WebSocket /api/v1/voice/sessions/ae30fbd3-b7d2-40e4-98e3-49496c3e7b0a/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:61902 - "WebSocket /api/v1/voice/sessions/80b9907b-9326-4a94-ac9b-900ab33effd2/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:61917 - "WebSocket /api/v1/voice/sessions/80b9907b-9326-4a94-ac9b-900ab33effd2/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  28 [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history (7.4s)
+[WebServer] INFO:     127.0.0.1:61991 - "WebSocket /api/v1/voice/sessions/d5844b08-0966-4f96-a99a-8706650694a0/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] Task exception was never retrieved
+[WebServer] future: <Task finished name='Task-5466' coro=<MockVoiceProvider.run.<locals>.speak() done, defined at /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/app/voice/mock.py:100> exception=WebSocketDisconnect()>
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 92, in send
+[WebServer]     await self._send(message)
+[WebServer]   File "/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 39, in sender
+[WebServer]     await send(message)
+[WebServer]   File "/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/.venv/lib/python3.12/site-packages/uvicorn/protocols/websockets/websockets_sansio_impl.py", line 436, in send
+[WebServer]     raise ClientDisconnected()
+[WebServer] uvicorn.protocols.utils.ClientDisconnected
+[WebServer] 
+[WebServer] During handling of the above exception, another exception occurred:
+[WebServer] 
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/app/voice/mock.py", line 105, in speak
+[WebServer]     await channel.send_audio(n, self.message[i * FRAME_BYTES : (i + 1) * FRAME_BYTES])
+[WebServer]   File "/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/app/api/voice.py", line 799, in send_audio
+[WebServer]     await self.ws.send_bytes(struct.pack("<I", response) + pcm)
+[WebServer]   File "/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 175, in send_bytes
+[WebServer]     await self.send({"type": "websocket.send", "bytes": data})
+[WebServer]   File "/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 95, in send
+[WebServer]     raise WebSocketDisconnect(code=1006)
+[WebServer] starlette.websockets.WebSocketDisconnect
+  ✓  29 [voice] › e2e/voice.spec.ts:146:1 › S1-B tab closure: the session is interrupted, then finalised as abandoned (41.2s)
+[WebServer] INFO:     127.0.0.1:62077 - "WebSocket /api/v1/voice/sessions/a9021fd8-979d-4192-adcb-3b98517caa0e/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] [2026-11-21 13:06:03.137] [ctranslate2] [thread 10189387] [warning] Tip: experimental MPS backend is available and often 2x+ faster than CPU on Apple Silicon (varies by workload and hardware). Try device="mps".
+[WebServer] INFO:     127.0.0.1:62153 - "WebSocket /api/v1/voice/sessions/82aeaf83-c6d1-4c0f-bd9a-309c70cb5bb6/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  30 [voice] › e2e/voice.spec.ts:171:1 › S1-C recording: consent → record → interruption → stop → complete evidence; refusal records nothing (11.1s)
+[WebServer] INFO:     127.0.0.1:62198 - "WebSocket /api/v1/voice/sessions/5cbc27ea-6ab2-4c01-9c7d-eafd835d951b/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:62237 - "WebSocket /api/v1/voice/sessions/09190d3c-51fa-4109-af13-2fccfcd83fac/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:62261 - "WebSocket /api/v1/voice/sessions/09190d3c-51fa-4109-af13-2fccfcd83fac/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  31 [voice] › e2e/voice.spec.ts:229:1 › S1-C recording: upload failure and a mid-session refresh are reported as partial, never filled in (50.2s)
+[WebServer] INFO:     127.0.0.1:62428 - "WebSocket /api/v1/voice/sessions/435b0505-e2cd-4e86-9f67-1d8c98399e44/stream" [accepted]
+[WebServer] INFO:     connection open
+  ✓  32 [voice] › e2e/voice.spec.ts:277:1 › S1-D transcript: recorded conversation → local transcription → Call Detail → synchronised playback → segment seek (10.4s)
+[WebServer] INFO:     127.0.0.1:62544 - "WebSocket /api/v1/voice-lab/sessions/d1b54bc9-c4a1-438c-8db7-a9852f613df4/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] INFO:     127.0.0.1:62665 - "WebSocket /api/v1/voice-lab/sessions/a2fcebbe-de79-43e3-8a12-39a496484751/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] voice lab kill switch engaged; 0 live session(s) stopped
+  ✓  33 [voice] › e2e/zz-voice-lab.voice.spec.ts:14:1 › S1-E.1 Voice Lab: prompt → session → recording/transcript → dataset → mock experiment → evaluation → budget refusals → kill switch (19.9s)
+
+  33 passed (5.8m)

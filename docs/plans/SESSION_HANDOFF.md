@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-18, end of the S2-E session (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-21, SS-02B.2 Survey Studio graph builder prototype (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -10,6 +10,130 @@ authorisation; never mark anything accepted without the owner's explicit words.
 (§4).
 
 ## 0. Current state — read this first (2026-11-19)
+
+> **Update 2026-11-21 — read before the rest of §0.**
+> - **S1-E.2B ACCEPTED 2026-11-20** as offline-verified (D-109…D-112 confirmed) and committed by the owner (specs
+>   `941d2c2`, backend `7228875`, frontend `f98d73e`). Still open: live Azure validation (owner-run, needs a new
+>   single-use authorisation), paid switch **on** in development, purge decision for the LAB-S-00023 microphone
+>   transcript, Cost Management comparison, and **rotation of the Azure key that was printed in a session transcript**.
+> - **S2-A.2 Script Studio layout ACCEPTED 2026-11-20** (frontend only; record in `acceptance/S2.md`,
+>   `evidence/S2-A.2/`). **Uncommitted** in frontend (9 files) and specs.
+> - **SS-00 Survey Studio assessment and design ACCEPTED 2026-11-21** as an assessment and planning checkpoint
+>   (`docs/plans/survey-studio/01…03`). The owner asked for a substantial Governance redesign per
+>   `docs/product/survey-studio/PRD_v1.1.md` (191 requirements, 161 P0) and `UX_EXCELLENCE_v1.1.md`.
+> - **Owner rulings 2026-11-21:** SS-D-01 extend in place — approved in principle (no forcing into incompatible tables;
+>   additive only; no history rewrite). SS-D-02 — Survey Studio owns structure, identities, answers, composition,
+>   conditions and routing; wording and delivery stay under the existing approved script governance; one question
+>   master, one approval chain. **SS-D-09 restriction REJECTED** — a Question Definition may be placed many times,
+>   also within one survey; each placement is a Question Instance with its own identity and evidence. SS-D-17 runtime
+>   last — approved (graph engine stays in simulation). SS-D-20 — the product is **Survey Studio**; Script Studio
+>   coexists temporarily; "Wording & Delivery" is a capability within it.
+> - **SS-01 Architecture and contract finalisation ACCEPTED 2026-11-21** (`docs/plans/survey-studio/04…07`,
+>   `fixtures/`). Owner rulings recorded as **D-113…D-121** in `06_SS-01_DECISION_REGISTER.md`: naming (D-113),
+>   Wording Version binding (D-114), findings per executed placement with stable idempotent ids (D-115), libraries
+>   (D-116), sequencing (D-117), UNKNOWN policy on every binding (D-118), follow-up queues with an explicit
+>   interrupt stop/resume policy (D-119), no wording-owner role in P0 (D-120), material warnings need recorded
+>   acknowledgement and blockers cannot be waived (D-121). SS-D-03, 04, 05, 08, 11–16, 19 remain proposals.
+> - **Naming amendment APPLIED 2026-11-21 (D-113):** new `docs/adr/ADR-0010-survey-studio-naming.md`; pointer in
+>   ADR-0007; EXC-001 amended; "Survey Studio" removed from the validator's prohibited terms with a check that the
+>   amendment exists; `SCREEN_NAMING_AND_ROUTES.md` and S0 test matrix E2E-18 updated. **Specs validator: PASS, 63
+>   checks.** Uncommitted.
+> - **SS-02A high-fidelity clickable prototype IMPLEMENTED AND VERIFIED 2026-11-21, awaiting the owner's review of
+>   the actual experience — not accepted.** Frontend only, in `Call360-frontend/src/features/surveystudio/`, behind
+>   the build setting `VITE_SURVEY_STUDIO_PROTOTYPE=1` (**off by default**; with it off there is no route, navigation
+>   entry or label). Five screens as one journey: Home and Library, Lego Composer, Entry Condition Drawer, Guided
+>   Module Builder, Choice and Follow-up Designer. Sample data in memory only (browser storage is forbidden by lint
+>   rule IAM-008, so a reload resets it); a demonstration evaluator in the browser, labelled as such. New dependency:
+>   `@dnd-kit` (core 6.3.1, sortable 10.0.0, utilities 3.2.2; 0 advisories). `@xyflow/react` authorised but **not
+>   installed** (graph is SS-02C). Evidence `docs/acceptance/evidence/SS-02A/`: journeys A–H pass in Chromium with
+>   28 screenshots and an axe scan clean on 7 states; 140 unit tests; standard Playwright 33/33 with the setting off;
+>   lint, types, contract (`221985e7…` unchanged), audit and secret scan clean. Report, UX self-assessment and gap
+>   list: `08_SS-02A_PROTOTYPE_REPORT.md`.
+> - **To open the prototype:** stop the running frontend dev server, then
+>   `VITE_SURVEY_STUDIO_PROTOTYPE=1 npm run dev` in `Call360-frontend`; Governance › Survey Studio. The evidence run
+>   is `npx playwright test -c playwright.prototype.config.ts` (it uses the standard test port, so never at the same
+>   time as the standard suite).
+> - **Frontend working tree:** the nine S2-A.2 files are still uncommitted and were **not touched**. SS-02A adds
+>   new files plus edits to `App.tsx`, `app/nav.ts`, `app/AppShell.tsx`, `tsconfig.json`, `package.json`,
+>   `package-lock.json`. Nothing staged or committed. `docs/design/DEVIATIONS.md` has no Survey Studio entry yet
+>   because it is one of the nine files.
+> - **Owner feedback 2026-11-21 ("SS-02A Refinement and SS-02B Preparation"):** SS-02A is technically verified but
+>   **not UX-accepted**; technical results are not UX sign-off. Seven refinements required (explicit interrupt
+>   behaviours: stop-and-escalate / handle-then-resume / stop-and-rejoin, the last two only when governed policy
+>   permits; Create Blank Module; inline option duplicate and reorder; incomplete branches obvious collapsed and
+>   expanded; layouts at 1440, 1280 and narrower; keyboard-only testing; keep "Prototype — not saved", no simulated
+>   persistence). SS-02B to be prepared around: internal condition builder, graph editor, profile-based simulator,
+>   Guided ↔ Graph parity, first-matching-rule routing, parameterised reusable conditions; no separate graph model.
+> - **SS-02A.1 prototype refinements — ACCEPTED by the owner 2026-11-21 as technically verified (not UX
+>   acceptance)** (authorised by "AUTHORIZE IMPLEMENT SS-02A.1"; decisions **D-122** interruption governance on the
+>   option definition — prohibited / optional / mandatory, with behaviours stop-and-escalate, handle-and-resume,
+>   stop-and-go; **D-123** a duplicated option never inherits routing; **D-124** 1024 px minimum width). Built: governed
+>   interruption controls; Create Blank Module (composer picker, shelf, Home); option Duplicate + drag / Alt+arrows /
+>   menu reorder behind an always-present **More** menu; unresolved-branch signals in folded and collapsed states plus
+>   **Next issue** (F8); library overlay below 1200 px; keyboard-only journey; wording that could imply saving removed.
+>   Evidence `docs/acceptance/evidence/SS-02A.1/`; report `docs/plans/survey-studio/10_SS-02A.1_REFINEMENTS_REPORT.md`
+>   (includes the keyboard map, findings K1–K7 and remaining gaps). 150 frontend unit tests; three prototype journeys
+>   pass (`npx playwright test -c playwright.prototype.config.ts`); checks at 1440 / 1280 / 1024 with accessibility
+>   scans; contract unchanged; no new dependency. **SS-02A is still not UX-accepted.**
+> - **SS-02A.2 (Survey Studio) Guided Question Builder UX refinement IMPLEMENTED AND TECHNICALLY VERIFIED
+>   2026-11-21 — awaiting the owner's UX review.** (Not the earlier S2-A.2 Script Studio layout.) Presentation only:
+>   no model, operation, evaluator, backend, API or dependency change. Built: simpler default question card (text,
+>   type, answers, destinations in one column, one "+", concise "n to fix"); advanced settings behind **Details** (ⓘ),
+>   the answer's **More** menu, **Rule** and "Try a combination"; interruption rules open one at a time with badges
+>   on the row and "Must escalate" always visible; entry-condition drawer is now a proper modal (backdrop, inert
+>   background, focus containment, Escape, focus restoration, `aria-modal`, named and described); the bar says "n to
+>   fix" or "Routing complete" and opens **Readiness** with routing structure, wording approval and ready-to-publish
+>   as three separate lines (no generic green "ready"). Report `docs/plans/survey-studio/11_SS-02A.2_UX_REFINEMENT_REPORT.md`;
+>   evidence `docs/acceptance/evidence/SS-02A.2/` (screens U1–U8 plus regenerated A–H, R, K, W sets). 150 unit tests;
+>   three prototype journeys pass; three widths and accessibility scans clean. **Survey Studio is NOT yet
+>   UX-accepted.**
+> - **Owner 2026-11-21 ("Accept SS-02A.2 and Authorize SS-02B.1"):** SS-02A.2 ACCEPTED as technically verified and as
+>   the visual / interaction baseline. Formal UX sign-off still pending (moderated testing, accessibility review, PRD
+>   UX gates). No further cosmetic redesign of the question cards unless a specific usability problem is identified.
+> - **SS-02B.1 Conditions and Routing Intelligence IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, awaiting the
+>   owner's review; uncommitted.** Frontend prototype only, no new dependency. Decision points inside a module
+>   (`DECISION` nodes, edges MATCH / NO_MATCH / UNKNOWN, safe insertion: only "otherwise" inherits); one shared
+>   condition drawer (`EntryRuleDrawer.tsx` → `RuleDrawer`) for module entry and decisions, with the definition kept
+>   apart from the placement binding; named settings (parameters), versions, consumer impact list, "new version for
+>   this placement" / "separate condition"; earlier answers as inputs with `availableAnswers` (always / some routes);
+>   routing mode `ORDERED_RULES` (first matching rule, required fallback, one winner, shadowed-rule warning,
+>   mandatory-escalation check); editable multi-select min/max with inline validation. Sample module
+>   `M-AFFORDABILITY` and condition `C-LARGE-COMMITMENT`. Report `docs/plans/survey-studio/12_SS-02B.1_CONDITIONS_AND_ROUTING_REPORT.md`
+>   (contract notes and proposals P-1…P-5 need owner decisions before SS-03); evidence `docs/acceptance/evidence/SS-02B.1/`
+>   (screens CR1–CR11, W-conditions-*). 166 unit tests (47 prototype; fixture F6 all six runs reproduced); 4 prototype
+>   journeys (`e2e/prototype/conditions.proto.ts` is new); standard Playwright 33/33 with the setting off; lint, types,
+>   contract (`221985e7…`), audit clean; validator 63 checks PASS. Fixed in passing: the modal drawer made its own
+>   contents inert when it was a direct child of the studio root.
+> - **Owner 2026-11-21 ("Accept SS-02B.1 and Authorize SS-02B.2"):** SS-02B.1 ACCEPTED as technically verified, subject
+>   to two corrections; P-1…P-5 approved → decisions **D-125…D-129**; corrections → **D-130** (selection limits never
+>   changed silently) and **D-131** (stable, typed condition references). Recorded in `06` and in `04` §3.4, §5.4.
+> - **SS-02B.2 Advanced Graph Builder and Guided/Graph parity IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, awaiting
+>   the owner's review; uncommitted.** Frontend prototype only. New pinned dependencies `@xyflow/react` 12.12.1 and
+>   `@dagrejs/dagre` 3.1.3 (MIT, audit clean; graph code is lazy-loaded). New files `model/graph.ts` (derived graph,
+>   layout, `connectRoute`/`connectProblem`, survey graph), `model/canonical.ts` (fingerprint), `model/large.ts`
+>   (40-question sample), `GraphView.tsx`, `model/graph.test.ts`, `e2e/prototype/graph.proto.ts`. Module graph
+>   (`?view=graph&node=…` on the builder) and survey graph (`?view=graph&inst=…` on the Composer) both edit through the
+>   existing operations; side panel = the step's own Guided card; outline/search in both views; one undo history.
+>   Also in this checkpoint: `InputDecl` typed inputs, `INCLUDES_ANY/ALL/NONE`, governed `REVIEW_REQUIRED` outcome,
+>   `ESCALATION_OUTCOMES`, no automatic change to `selection`. Report `docs/plans/survey-studio/13_SS-02B.2_GRAPH_BUILDER_REPORT.md`;
+>   evidence `docs/acceptance/evidence/SS-02B.2/` (screens GR*, GC*, W-*; `graph_parity_fingerprints.txt`). 183 unit
+>   tests (64 prototype, 14 graph/parity); 6 prototype journeys; standard Playwright 33/33 with the setting off; lint,
+>   types, contract (`221985e7…`), audit clean; validator 63 checks PASS.
+> - **Open for the owner (report 13 §6):** O-1 availability rule (SS-RUL-011 strict "every route" vs the prototype's
+>   "some route, with Unknown"); O-2 contents of the approved escalation outcome set; O-4 runtime governance of a
+>   Review-required halt.
+> - **SS-02B.3 (simulator) is NOT started and NOT authorised.**
+>   Each needs its own explicit authorisation. `@xyflow/react` is still not installed.
+> - **SS-02B plan** (internal condition builder, graph editor with `@xyflow/react` 12.12.1 + `@dagrejs/dagre`,
+>   simulator, Guided ↔ Graph parity, first-matching-rule routing, parameterised conditions) is in
+>   `09_SS-02A_REFINEMENTS_AND_SS-02B_PLAN.md` Part 2 — **proposed, not authorised; must not start until the owner
+>   approves the prototype experience.**
+> - **Running now:** the frontend dev server on :5173 runs from the assistant session with the prototype setting
+>   **on**, at the owner's request, for their review. To return to normal: stop it and `npm run dev`.
+> - **Frontend working tree:** nine S2-A.2 files untouched and uncommitted; SS-02A and SS-02A.1 changes uncommitted
+>   beside them. Nothing staged.
+> - **Next:** the owner's UX review of the refined prototype (report `11` §5). K4 (drawer focus) is closed; K5
+>   (question outline) and gaps N1–N7 of report `10` remain. **SS-02B and all backend work are not authorised.**
 
 **Project.** Call360 is a proposed AIA Standards & Compliance platform for policy-sale verification and auditable
 callback operations. Three independent Git repositories under `call360/`: `Call360-specs` (requirements, ADRs,

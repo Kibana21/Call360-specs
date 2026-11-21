@@ -1,0 +1,431 @@
+{
+  "schema": "call360.survey-studio.fixture/1",
+  "fixture": "F7-two-placements-one-question-definition",
+  "title": "Two placements referencing one reusable Question Definition",
+  "purpose": "Q-UNDERSTOOD@1 is placed in two modules used by the same survey. Each placement is a distinct Question Instance (mi-benefits/n2, mi-risks/n2) with its own routing; evidence is keyed by the instance and names the pinned definition version. Each instance executes once. SS-AT-028, SS-D-09.",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": [
+      "COMPLETED",
+      "CLARIFICATION_REQUIRED",
+      "ESCALATE",
+      "CUSTOMER_DECLINED",
+      "UNABLE_TO_VERIFY"
+    ]
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-UNDERSTOOD",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer understood what was just explained",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-BENEFITS-EXPLAINED",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Benefits were explained",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-RISKS-EXPLAINED",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Risks were explained",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-WHAT-TO-CLARIFY",
+        "version": 1,
+        "answer_type": "FREE_TEXT",
+        "intent": "What the customer wants clarified",
+        "mandatory": true,
+        "text": {
+          "required": true,
+          "min_length": 5,
+          "max_length": 500
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-UNDERSTOOD",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Did you understand what was just explained?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-BENEFITS-EXPLAINED",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Did your representative explain the benefits of this plan?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-RISKS-EXPLAINED",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Did your representative explain the risks of this plan?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-WHAT-TO-CLARIFY",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "FREE_TEXT",
+          "option_codes": []
+        },
+        "text": "What would you like us to clarify?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-BENEFITS",
+        "revision": 1,
+        "kind": "PRODUCT",
+        "name": "Benefits",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-BENEFITS-EXPLAINED",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-UNDERSTOOD",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "YES"
+            }
+          },
+          {
+            "node": "n3",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-WHAT-TO-CLARIFY",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "ANY",
+            "to": {
+              "node": "n2"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n2",
+            "on": "YES",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n2",
+            "on": "NO",
+            "to": {
+              "node": "n3"
+            }
+          },
+          {
+            "edge": "e4",
+            "from": "n3",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      },
+      {
+        "code": "M-RISKS",
+        "revision": 1,
+        "kind": "RISK",
+        "name": "Risks",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "CLARIFICATION_REQUIRED"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-RISKS-EXPLAINED",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-UNDERSTOOD",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "YES"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "ANY",
+            "to": {
+              "node": "n2"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n2",
+            "on": "YES",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n2",
+            "on": "NO",
+            "to": {
+              "outcome": "CLARIFICATION_REQUIRED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-SHARED-QUESTION",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-benefits",
+      "mi-risks"
+    ],
+    "instances": [
+      {
+        "instance": "mi-benefits",
+        "module": {
+          "code": "M-BENEFITS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      },
+      {
+        "instance": "mi-risks",
+        "module": {
+          "code": "M-RISKS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "CLARIFICATION_REQUIRED",
+            "to": {
+              "survey_outcome": "CLARIFICATION_REQUIRED"
+            }
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "The same Question Definition is answered twice, once per placement, with different routing",
+      "answers": {
+        "mi-benefits/n1": {
+          "choice": "YES"
+        },
+        "mi-benefits/n2": {
+          "choice": "YES"
+        },
+        "mi-risks/n1": {
+          "choice": "YES"
+        },
+        "mi-risks/n2": {
+          "choice": "NO"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-benefits/n1",
+          "mi-benefits/n2",
+          "mi-risks/n1",
+          "mi-risks/n2"
+        ],
+        "modules": [
+          {
+            "instance": "mi-benefits",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-risks",
+            "status": "ACTIVATED",
+            "outcome": "CLARIFICATION_REQUIRED"
+          }
+        ],
+        "survey_outcome": "CLARIFICATION_REQUIRED",
+        "evidence": [
+          {
+            "question_instance": "mi-benefits/n1",
+            "question": "Q-BENEFITS-EXPLAINED@1",
+            "wording_version": 1,
+            "answer": {
+              "choice": "YES"
+            }
+          },
+          {
+            "question_instance": "mi-benefits/n2",
+            "question": "Q-UNDERSTOOD@1",
+            "wording_version": 1,
+            "answer": {
+              "choice": "YES"
+            }
+          },
+          {
+            "question_instance": "mi-risks/n1",
+            "question": "Q-RISKS-EXPLAINED@1",
+            "wording_version": 1,
+            "answer": {
+              "choice": "YES"
+            }
+          },
+          {
+            "question_instance": "mi-risks/n2",
+            "question": "Q-UNDERSTOOD@1",
+            "wording_version": 1,
+            "answer": {
+              "choice": "NO"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

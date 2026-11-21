@@ -1,0 +1,7 @@
+S2-A.2 Playwright full suite 2026-11-20 07:39
+[WebServer] INFO:     127.0.0.1:63845 - "WebSocket /api/v1/voice-lab/sessions/5a9d1bbb-a796-4780-b72c-ece175476831/stream" [accepted]
+[WebServer] INFO:     connection open
+[WebServer] voice lab kill switch engaged; 0 live session(s) stopped
+  ✓  33 [voice] › e2e/zz-voice-lab.voice.spec.ts:14:1 › S1-E.1 Voice Lab: prompt → session → recording/transcript → dataset → mock experiment → evaluation → budget refusals → kill switch (20.1s)
+
+  33 passed (5.8m)

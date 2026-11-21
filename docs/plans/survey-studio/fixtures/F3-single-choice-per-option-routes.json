@@ -1,0 +1,481 @@
+{
+  "schema": "call360.survey-studio.fixture/1",
+  "fixture": "F3-single-choice-per-option-routes",
+  "title": "Single-choice with distinct per-option routes",
+  "purpose": "Four stable option codes, each with its own edge; three branches and the direct route merge at n-confirm, which has four incoming edges. Routing uses codes, never labels. SS-AT-009.",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": [
+      "COMPLETED",
+      "CLARIFICATION_REQUIRED",
+      "ESCALATE",
+      "CUSTOMER_DECLINED",
+      "UNABLE_TO_VERIFY"
+    ]
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "code": "OS-MAIN-CONCERN",
+        "version": 1,
+        "options": [
+          {
+            "code": "PREMIUM",
+            "business_label": "Premium affordability",
+            "order": 1
+          },
+          {
+            "code": "BENEFITS",
+            "business_label": "Product benefits",
+            "order": 2
+          },
+          {
+            "code": "CLAIMS",
+            "business_label": "Claims process",
+            "order": 3
+          },
+          {
+            "code": "NONE",
+            "business_label": "No concern",
+            "order": 4
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-MAIN-CONCERN",
+        "version": 1,
+        "answer_type": "SINGLE_SELECT",
+        "intent": "The customer's most important concern",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-MAIN-CONCERN",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-PREMIUM-DETAIL",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Premium is affordable for the full term",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-BENEFITS-DETAIL",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Benefits match what was explained",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-CLAIMS-DETAIL",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Claims process was explained",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-CONFIRM-PROCEED",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer is content to proceed",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-MAIN-CONCERN",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "SINGLE_SELECT",
+          "option_codes": [
+            "PREMIUM",
+            "BENEFITS",
+            "CLAIMS",
+            "NONE"
+          ]
+        },
+        "text": "Which of these is most important to you?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "PREMIUM": "Whether I can afford the premium",
+          "BENEFITS": "What the plan pays",
+          "CLAIMS": "How to claim",
+          "NONE": "None of these"
+        }
+      },
+      {
+        "question": "Q-PREMIUM-DETAIL",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Are you comfortable paying this premium for the full term?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-BENEFITS-DETAIL",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Do the benefits match what was explained to you?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-CLAIMS-DETAIL",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Was the claims process explained to you?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-CONFIRM-PROCEED",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Are you content to proceed with this policy?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-CONCERNS",
+        "revision": 1,
+        "kind": "COMMON",
+        "name": "Customer concerns",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "CLARIFICATION_REQUIRED"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-MAIN-CONCERN",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE"
+            }
+          },
+          {
+            "node": "n-prem",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-PREMIUM-DETAIL",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n-ben",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-BENEFITS-DETAIL",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n-claims",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-CLAIMS-DETAIL",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n-confirm",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-CONFIRM-PROCEED",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "YES"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "PREMIUM",
+            "to": {
+              "node": "n-prem"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n1",
+            "on": "BENEFITS",
+            "to": {
+              "node": "n-ben"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n1",
+            "on": "CLAIMS",
+            "to": {
+              "node": "n-claims"
+            }
+          },
+          {
+            "edge": "e4",
+            "from": "n1",
+            "on": "NONE",
+            "to": {
+              "node": "n-confirm"
+            }
+          },
+          {
+            "edge": "e5",
+            "from": "n-prem",
+            "on": "ANY",
+            "to": {
+              "node": "n-confirm"
+            }
+          },
+          {
+            "edge": "e6",
+            "from": "n-ben",
+            "on": "ANY",
+            "to": {
+              "node": "n-confirm"
+            }
+          },
+          {
+            "edge": "e7",
+            "from": "n-claims",
+            "on": "ANY",
+            "to": {
+              "node": "n-confirm"
+            }
+          },
+          {
+            "edge": "e8",
+            "from": "n-confirm",
+            "on": "YES",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e9",
+            "from": "n-confirm",
+            "on": "NO",
+            "to": {
+              "outcome": "CLARIFICATION_REQUIRED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-SINGLE-CHOICE",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-concerns"
+    ],
+    "instances": [
+      {
+        "instance": "mi-concerns",
+        "module": {
+          "code": "M-CONCERNS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "CLARIFICATION_REQUIRED",
+            "to": {
+              "survey_outcome": "CLARIFICATION_REQUIRED"
+            }
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "BENEFITS takes its own route, then merges",
+      "answers": {
+        "mi-concerns/n1": {
+          "choice": "BENEFITS"
+        },
+        "mi-concerns/n-ben": {
+          "choice": "YES"
+        },
+        "mi-concerns/n-confirm": {
+          "choice": "YES"
+        }
+      },
+      "rejected": [
+        {
+          "at": "mi-concerns/n1",
+          "answer": {
+            "choice": "PRICE"
+          },
+          "error": "UNKNOWN_OPTION"
+        }
+      ],
+      "expect": {
+        "asked": [
+          "mi-concerns/n1",
+          "mi-concerns/n-ben",
+          "mi-concerns/n-confirm"
+        ],
+        "modules": [
+          {
+            "instance": "mi-concerns",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "edges_taken": [
+          "mi-concerns/e2",
+          "mi-concerns/e6",
+          "mi-concerns/e8"
+        ]
+      }
+    },
+    {
+      "name": "NONE goes directly to the merge point",
+      "answers": {
+        "mi-concerns/n1": {
+          "choice": "NONE"
+        },
+        "mi-concerns/n-confirm": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-concerns/n1",
+          "mi-concerns/n-confirm"
+        ],
+        "modules": [
+          {
+            "instance": "mi-concerns",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "edges_taken": [
+          "mi-concerns/e4",
+          "mi-concerns/e8"
+        ]
+      }
+    }
+  ]
+}

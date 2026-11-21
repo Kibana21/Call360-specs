@@ -1,0 +1,5 @@
+SS-02B.2 Guided / Graph parity — model fingerprints (FNV-1a of the whole canonical model)
+SAME  guided=42884bc4  graph=42884bc4  re-point "No" of Q2 to "Module ends · Completed"
+SAME  guided=2118f28a  graph=2118f28a  insert a Yes/No question on Q1 · Yes
+SAME  guided=4a35d731  graph=4a35d731  insert a condition on Q2 · Yes (safe insertion: only "otherwise" inherits)
+SAME  guided=5283ea10  graph=5283ea10  survey: route "Escalate" of Suitability to the Clarifications module

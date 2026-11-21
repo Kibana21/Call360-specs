@@ -1,0 +1,539 @@
+{
+  "schema": "call360.survey-studio.fixture/1",
+  "fixture": "F4-multi-select-ordered-followups",
+  "title": "Multi-select with two ordered follow-up paths",
+  "purpose": "SEQUENTIAL_FOLLOWUPS: one cursor, one question at a time, explicit order, dedupe ONCE_PER_ANSWER, an interrupt, an exclusive option and one rejoin. SS-AT-038…042, 046 (contrast), 045 (validation).",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": [
+      "COMPLETED",
+      "CLARIFICATION_REQUIRED",
+      "ESCALATE",
+      "CUSTOMER_DECLINED",
+      "UNABLE_TO_VERIFY"
+    ]
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "code": "OS-CLARIFY-AREAS",
+        "version": 1,
+        "options": [
+          {
+            "code": "PREMIUM",
+            "business_label": "Premium",
+            "order": 1
+          },
+          {
+            "code": "BENEFITS",
+            "business_label": "Benefits",
+            "order": 2
+          },
+          {
+            "code": "CLAIMS",
+            "business_label": "Claims",
+            "order": 3
+          },
+          {
+            "code": "CRITICAL_RISK",
+            "business_label": "I did not agree to this policy",
+            "order": 4
+          },
+          {
+            "code": "NONE",
+            "business_label": "None of the above",
+            "order": 5,
+            "exclusive": true
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-CLARIFY-AREAS",
+        "version": 1,
+        "answer_type": "MULTI_SELECT",
+        "intent": "Areas the customer wants clarified",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-CLARIFY-AREAS",
+          "version": 1
+        },
+        "selection": {
+          "min": 1,
+          "max": 4
+        }
+      },
+      {
+        "code": "Q-PREMIUM-CLARIFY",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Premium amount and term are understood",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-COVER-CLARIFY",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Cover and claims are understood",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-CONFIRM-PROCEED",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer is content to proceed",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-CLARIFY-AREAS",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "MULTI_SELECT",
+          "option_codes": [
+            "PREMIUM",
+            "BENEFITS",
+            "CLAIMS",
+            "CRITICAL_RISK",
+            "NONE"
+          ]
+        },
+        "text": "Which of these would you like us to clarify? You may choose more than one.",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "PREMIUM": "Premium",
+          "BENEFITS": "Benefits",
+          "CLAIMS": "Claims",
+          "CRITICAL_RISK": "I did not agree to this policy",
+          "NONE": "None of the above"
+        }
+      },
+      {
+        "question": "Q-PREMIUM-CLARIFY",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Is the premium amount and payment term clear to you now?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-COVER-CLARIFY",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Is it clear to you what the plan covers and how to claim?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-CONFIRM-PROCEED",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Are you content to proceed with this policy?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-CLARIFICATIONS",
+        "revision": 1,
+        "kind": "COMMON",
+        "name": "Clarifications",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "CLARIFICATION_REQUIRED",
+          "ESCALATE"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-CLARIFY-AREAS",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "SEQUENTIAL_FOLLOWUPS",
+              "followups": [
+                {
+                  "option": "PREMIUM",
+                  "priority": 10,
+                  "nodes": [
+                    "n-prem"
+                  ]
+                },
+                {
+                  "option": "BENEFITS",
+                  "priority": 20,
+                  "nodes": [
+                    "n-cover"
+                  ]
+                },
+                {
+                  "option": "CLAIMS",
+                  "priority": 30,
+                  "nodes": [
+                    "n-cover"
+                  ]
+                }
+              ],
+              "no_followup": [
+                "NONE"
+              ],
+              "interrupts": [
+                {
+                  "option": "CRITICAL_RISK",
+                  "priority": 1,
+                  "outcome": "ESCALATE"
+                }
+              ],
+              "order": "PRIORITY_THEN_OPTION_ORDER",
+              "dedupe": "ONCE_PER_ANSWER",
+              "rejoin": {
+                "node": "n-confirm"
+              },
+              "empty_fallback": {
+                "node": "n-confirm"
+              }
+            }
+          },
+          {
+            "node": "n-prem",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-PREMIUM-CLARIFY",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            },
+            "role": "FOLLOWUP"
+          },
+          {
+            "node": "n-cover",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-COVER-CLARIFY",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            },
+            "role": "FOLLOWUP"
+          },
+          {
+            "node": "n-confirm",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-CONFIRM-PROCEED",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "YES"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n-prem",
+            "on": "ANY",
+            "to": {
+              "return": true
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n-cover",
+            "on": "ANY",
+            "to": {
+              "return": true
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n-confirm",
+            "on": "YES",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e4",
+            "from": "n-confirm",
+            "on": "NO",
+            "to": {
+              "outcome": "CLARIFICATION_REQUIRED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-MULTI-FOLLOWUPS",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-clar"
+    ],
+    "instances": [
+      {
+        "instance": "mi-clar",
+        "module": {
+          "code": "M-CLARIFICATIONS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "CLARIFICATION_REQUIRED",
+            "to": {
+              "survey_outcome": "CLARIFICATION_REQUIRED"
+            }
+          },
+          {
+            "on": "ESCALATE",
+            "to": {
+              "survey_outcome": "ESCALATE"
+            }
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "BENEFITS then PREMIUM ticked: follow-ups run in configured order, not click order",
+      "answers": {
+        "mi-clar/n1": {
+          "choices": [
+            "BENEFITS",
+            "PREMIUM"
+          ]
+        },
+        "mi-clar/n-prem": {
+          "choice": "YES"
+        },
+        "mi-clar/n-cover": {
+          "choice": "YES"
+        },
+        "mi-clar/n-confirm": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-clar/n1",
+          "mi-clar/n-prem",
+          "mi-clar/n-cover",
+          "mi-clar/n-confirm"
+        ],
+        "modules": [
+          {
+            "instance": "mi-clar",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "trace": [
+          "mi-clar/n1: QUEUE ['n-prem', 'n-cover']"
+        ]
+      }
+    },
+    {
+      "name": "BENEFITS and CLAIMS share one follow-up: asked once",
+      "answers": {
+        "mi-clar/n1": {
+          "choices": [
+            "CLAIMS",
+            "BENEFITS"
+          ]
+        },
+        "mi-clar/n-cover": {
+          "choice": "NO"
+        },
+        "mi-clar/n-confirm": {
+          "choice": "NO"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-clar/n1",
+          "mi-clar/n-cover",
+          "mi-clar/n-confirm"
+        ],
+        "modules": [
+          {
+            "instance": "mi-clar",
+            "status": "ACTIVATED",
+            "outcome": "CLARIFICATION_REQUIRED"
+          }
+        ],
+        "survey_outcome": "CLARIFICATION_REQUIRED",
+        "trace": [
+          "mi-clar/n1: QUEUE ['n-cover']; deduped ['n-cover']"
+        ]
+      }
+    },
+    {
+      "name": "CRITICAL_RISK interrupts: queue is not run, skipped items are traced",
+      "answers": {
+        "mi-clar/n1": {
+          "choices": [
+            "PREMIUM",
+            "CRITICAL_RISK"
+          ]
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-clar/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-clar",
+            "status": "ACTIVATED",
+            "outcome": "ESCALATE"
+          }
+        ],
+        "survey_outcome": "ESCALATE",
+        "trace": [
+          "mi-clar/n1: INTERRUPT CRITICAL_RISK -> ESCALATE; skipped ['n-prem']"
+        ]
+      }
+    },
+    {
+      "name": "NONE: empty queue takes the mandatory fallback; invalid sets are rejected",
+      "answers": {
+        "mi-clar/n1": {
+          "choices": [
+            "NONE"
+          ]
+        },
+        "mi-clar/n-confirm": {
+          "choice": "YES"
+        }
+      },
+      "rejected": [
+        {
+          "at": "mi-clar/n1",
+          "answer": {
+            "choices": [
+              "NONE",
+              "PREMIUM"
+            ]
+          },
+          "error": "EXCLUSIVE_OPTION_CONFLICT"
+        },
+        {
+          "at": "mi-clar/n1",
+          "answer": {
+            "choices": []
+          },
+          "error": "TOO_FEW_SELECTED"
+        }
+      ],
+      "expect": {
+        "asked": [
+          "mi-clar/n1",
+          "mi-clar/n-confirm"
+        ],
+        "modules": [
+          {
+            "instance": "mi-clar",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "survey_outcome": "COMPLETED",
+        "trace": [
+          "mi-clar/n1: QUEUE []"
+        ]
+      }
+    }
+  ]
+}

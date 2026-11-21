@@ -1,0 +1,4 @@
+SS-02A prototype journeys A-H with accessibility scans (Chromium, prototype setting ON) 2026-11-21 10:44
+  ✓  1 [prototype] › e2e/prototype/survey-studio.proto.ts:30:1 › SS-02A journeys A–H: build a survey, shape a module, test a condition, undo and redo (30.3s)
+  1 passed (34.7s)
+Accessibility: axe (WCAG 2.x A/AA rule tags), serious+critical = 0 on: home, composer-empty, composer-with-issues, builder-with-issue, builder-follow-ups, builder-complete, condition-drawer

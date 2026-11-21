@@ -1,0 +1,7 @@
+SS-02A.1 prototype journeys (Chromium, prototype setting ON) 2026-11-21 11:31
+  ✓  1 [prototype] › e2e/prototype/refinements.proto.ts:41:1 › SS-02A.1 refinements: blank module, duplicate, interruptions, unresolved branches, undo, widths (23.3s)
+  ✓  2 [prototype] › e2e/prototype/refinements.proto.ts:257:1 › SS-02A.1 keyboard-only authoring: survey, modules, reorder, routes, questions, options, duplicate, undo (3.7s)
+  ✓  3 [prototype] › e2e/prototype/survey-studio.proto.ts:30:1 › SS-02A journeys A–H: build a survey, shape a module, test a condition, undo and redo (31.5s)
+  3 passed (1.1m)
+Within the refinements journey: 4 screen states x 3 widths (1440, 1280, 1024): no sideways page scroll, essential routing controls inside the viewport, axe (WCAG 2.x A/AA) serious+critical = 0.
+Keyboard-only journey: after sign-in, key presses only.

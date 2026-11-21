@@ -1,0 +1,31 @@
+== SS-02B.1 frontend checks, 2026-11-21 13:07 ==
+-- tsc --noEmit
+(exit 0)
+-- eslint .
+-- vitest run
+ Test Files  26 passed (26)
+      Tests  166 passed (166)
+-- vitest run src/features/surveystudio
+ Test Files  2 passed (2)
+      Tests  47 passed (47)
+-- api:check
+api:check OK (openapi 221985e73f2e789ab33e7f29018866509e2e0f0dc4aa7e0b56e13dc67d5af221)
+-- npm audit
+found 0 vulnerabilities
+-- gitleaks (repo config .gitleaks.toml, values redacted), on everything this checkpoint touched
+src/features/surveystudio : no leaks found
+src/styles                : no leaks found
+e2e/prototype             : no leaks found
+note: a scan of all of src/ and e2e/ WITHOUT the repo config reports 6 generic-api-key matches, none in files this
+      checkpoint touched: src/api/contract.lock.json (the OpenAPI SHA-256) and e2e/.auth/accounts.json (generated
+      test-account credentials for the isolated test backend; git-ignored, never committed). Both pre-date SS-02B.1.
+-- nine pre-existing S2-A.2 files
+ 9 files changed, 224 insertions(+), 102 deletions(-)
+-- staged files
+       0
+-- HEAD
+f98d73e
+-- prototype flag default
+(not set in any env file = off)
+-- new dependencies since SS-02A.2
+ 1 file changed, 3 insertions(+)
