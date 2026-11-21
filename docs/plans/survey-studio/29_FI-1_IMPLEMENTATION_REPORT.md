@@ -2,7 +2,9 @@
 
 **Checkpoint:** FI-1, authorised by the owner on 2026-11-22 ("Accept SS-03A Enablement and Authorize FI-1"),
 decision register D-195…D-203.
-**Status: BUILT AND TECHNICALLY VERIFIED — presented for the owner's review. Not accepted.**
+**Status: TECHNICALLY ACCEPTED — PERSISTED AUTHORING (owner decision D-204, 2026-11-22), after the mandatory
+correction of §12.** Not formal business UX acceptance, screen-reader sign-off or production readiness. The contract
+additions of §3 are accepted (D-205). Sections 1–11 are the report as reviewed; §8 item 6 is superseded by §12.
 **Prepared:** 2026-11-22.
 
 **Scope held.** FI-2 and SS-03B were not started. No survey execution, no server call-plan assembly. No non-answer,
@@ -311,3 +313,101 @@ Not changed: every Script Studio file; `src/styles/app.css`; the prototype's pag
 
 `04_…` §10 · `06_…` D-195…D-203 · `29_…` (this report) · `README.md` · `SESSION_HANDOFF.md` ·
 **new** `canonical-documents/` (27 generated files) · **new** `docs/acceptance/evidence/FI-1/` (5 files, 20 screens).
+
+---
+
+## 12. Closure correction: browser Back and Forward with unsaved work (2026-11-22)
+
+**Owner's condition (D-204).** Browser Back must ask before leaving unsaved changes; staying must preserve the
+complete unsaved Workspace; leaving must not corrupt the saved revision; a real-browser regression test must cover
+the back/forward history path; the accepted UI must be preserved.
+
+### 12.1 What was wrong
+
+The application uses a plain browser router, which cannot refuse a history move. Links out of a survey asked first;
+the Back and Forward buttons did not. Nothing was lost by it — the edits stayed in memory — but the author was not
+asked.
+
+### 12.2 The correction
+
+`Call360-frontend/src/features/surveystudio/persist/historyGuard.ts` (new, 50 lines) and the leave dialog in
+`persist/Persistence.tsx`.
+
+- A history listener is registered when the module loads, before the router's own, and in the capture phase.
+- While a saved survey has unsaved work, a Back or Forward that would leave **that survey** is hidden from the
+  router, the address is put back, and the same "You have unsaved changes" dialog is shown.
+- **Nothing is unmounted.** The workspace, its undo history, the open screen and the scroll position are exactly as
+  they were — this is why staying preserves everything, rather than restoring it.
+- Leaving repeats the held move. The edits are not discarded: they stay in memory while the page is open, and are
+  still there, unsaved, on coming back. Nothing is sent to the server.
+- Moves between screens of the same survey (module → composer) are ordinary navigation and are never interrupted.
+- With nothing unsaved, the listener does nothing. It does nothing at all outside persisted Survey Studio.
+- Closing or reloading the page remains the browser's own prompt.
+
+No accepted screen changed. The dialog is the one already reviewed, with one sentence added: "The saved revision is
+not changed either way."
+
+### 12.3 Evidence
+
+Real-browser journey **FI-1.6** (`e2e/persisted/fi1.persisted.ts`), Chromium → Vite → FastAPI → PostgreSQL:
+
+| Step | Asserted |
+|---|---|
+| Back and Forward with nothing unsaved | Not interfered with |
+| Two unsaved edits, then Back within the survey | No question; model fingerprint unchanged |
+| Back out of the survey | Dialog shown; address restored to the survey |
+| **Stay** | Model fingerprint identical; still "unsaved"; Undo still enabled and still undoes the last edit; Redo restores it; Forward still leads to the module; both edited texts present |
+| Back again | Asked again — every time, not only the first |
+| Escape | Same as Stay |
+| **Leave** | Arrives at the list; the list shows the same saved revision; the server's draft — revision, content hash, every asset hash — is identical to before |
+| Forward into the survey again | The unsaved edits are still there; Save then creates exactly one new revision holding both edits |
+| Back after saving | Leaves without a question |
+| Browser storage | Empty throughout |
+
+| Regression after the correction | Result |
+|---|---|
+| Persisted journeys | 6 of 6 |
+| Frontend unit tests | 505 passed |
+| Prototype journeys | 13 of 13 |
+| Standard Playwright | 33 of 33 |
+| Type check, lint | Clean |
+| Golden fixtures, canonical documents | Unchanged |
+
+Screens: `FI18-back-button-unsaved-warning`, `FI19-after-staying-work-intact`, `FI20-after-leaving-list`.
+
+**Limit, stated.** A Back that leaves the Call360 page altogether (to another site) is handled by the browser's own
+prompt, like a reload. If the history position cannot be read (it always can with this router), the guard steps
+aside rather than guess.
+
+### 12.4 Commits and editor synchronisation
+
+FI-1 as reviewed was **already committed and pushed** in all three repositories at 04:46 on 2026-11-22 (message
+"commit", the owner's identity), before the review message arrived. I did not make or push those commits.
+
+| Repository | FI-1 as reviewed (on origin) | Correction and record (local, by Claude Code) |
+|---|---|---|
+| Call360-backend | `d808d92` | none needed |
+| Call360-frontend | `7141926` | see the completion message |
+| Call360-specs | `fa01cda` | see the completion message |
+
+**Editor settings — investigated, nothing changed.**
+
+| Setting | VS Code | Cursor | Effect |
+|---|---|---|---|
+| `git.enableSmartCommit` | true | true | A commit with nothing staged stages **everything** changed |
+| `git.confirmSync` | false | false | "Sync" pulls and **pushes without asking** |
+| `git.postCommitCommand` | not set | not set | Default: nothing runs after a commit by itself |
+| `git.autofetch` | not set | true | Fetch only; harmless |
+
+There is no hook, alias, scheduled job or repository automation. The pushes are consistent with the editor's
+"Commit & Sync" (or Commit followed by Sync) with confirmation off. That is an inference from the settings and the
+timing, not an observed fact.
+
+**Recommendation, for the owner to apply or not:**
+
+1. `"git.confirmSync": true` in both editors — the smallest change: a push then needs one explicit click.
+2. `"git.enableSmartCommit": false` — a commit then includes only what was staged, so unreviewed work in progress
+   (including mine) is not swept into "commit".
+3. Optionally, per repository and without touching editor preferences: a `pre-push` hook that refuses unless an
+   environment variable is set. I have not added one; it changes repository behaviour and needs the owner's decision.
+

@@ -1186,7 +1186,9 @@ Fifteen operations, `26_SS-03A_FOUNDATION_SPECIFICATION.md` §6, under `/api/v1/
 
 ## 10. Amendment of 2026-11-22 (FI-1): saving from an editor
 
-**Authority:** owner decisions D-196…D-201. **Implemented in** `Call360-backend` (`app/domain/survey/store.py`,
+**ACCEPTED into the canonical contract by the owner on 2026-11-22 (D-205).** The `authoring` metadata may affect
+content hashes; it must never acquire execution semantics, and no routing or wording rule may bypass validation
+through it. **Authority:** owner decisions D-196…D-201, D-205. **Implemented in** `Call360-backend` (`app/domain/survey/store.py`,
 `documents.py`, `app/api/survey_definitions.py`) and `Call360-frontend`
 (`src/features/surveystudio/model/documents.ts`, `persist/`). Every change is additive: no document that exists is
 changed, no hash changes, no fixture changes.
