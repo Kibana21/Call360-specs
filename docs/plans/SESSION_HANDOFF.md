@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-22, SS-03A built and technically verified, awaiting the owner's review (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-22, SS-03A accepted as technically verified; development database migrated to 0027 and survey API enabled in development; FI-1 proposed, not authorised (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -10,6 +10,33 @@ authorisation; never mark anything accepted without the owner's explicit words.
 (§4).
 
 ## 0. Current state — read this first (2026-11-19)
+
+> **Update 2026-11-22 (later) — SS-03A accepted and enabled in development. Read this block first; it supersedes
+> the SS-03A block below where they differ.**
+> - **Owner: "SS-03A is accepted as TECHNICALLY VERIFIED"** (D-188…D-194). Record:
+>   `docs/plans/survey-studio/28_SS-03A_ACCEPTANCE_AND_DEVELOPMENT_ENABLEMENT.md`; evidence
+>   `docs/acceptance/evidence/SS-03A/` (`fixture_reconciliation.txt`, `dev_enablement/01…06`).
+> - **Commits:** the SS-03A work was committed and pushed by the owner at 00:33 (backend `a607ff5`, frontend
+>   `abb7726`, specs `3ff4df7`). Local commits by Claude Code after that hold only this checkpoint's additions and
+>   are **not pushed** — check `git log origin/main..HEAD` in backend and specs.
+> - **The development database IS NOW at `0027_survey_definitions`** (migrated 2026-11-22 after ten preconditions).
+>   Backup taken before: `<workspace>/_db_backups/call360_dev_before_0027_20261122.dump` with `RESTORE.md` (outside
+>   the repositories; never commit it). Downgrade refuses because a survey definition exists. Still never run
+>   `make seed`, and never re-seed, truncate, rename or drop.
+> - **`SURVEY_DEFINITIONS_ENABLED=true` in the gitignored development `.env` only.** Code default and test
+>   configuration stay off. The dev server on port 8000 serves the 15 survey operations.
+> - **Three development-only identities** (`dev.survey.author`, `.checker`, `.publisher`; roles
+>   `DEV_SURVEY_AUTHOR/CHECKER/PUBLISHER`; read+edit, read+approve, read+publish; SG). Created by
+>   `Call360-backend/scripts/dev_survey_identities.py --confirm-development`; passwords only in the gitignored
+>   `.secrets/dev_survey_accounts.json` — **never print them**. ADMIN, USER and SC_CHECKER hold no survey permission.
+>   These people hold nothing else and cannot open the rest of the portal (the prototype route needs `script.read`).
+> - **Left in the development database by the checks:** synthetic survey `DEV-CHECK-AD5AEA8F` (version 1.0
+>   published; candidate 2 withdrawn). It cannot be deleted, by design.
+> - **Technical debt:** TD-SS03A-1 pre-existing `SAWarning` at `tests/conftest.py:87` in seven existing tests.
+> - **FI-1 (frontend on the persisted API: save, reload, optimistic concurrency, server validation authoritative) is
+>   PROPOSED, NOT AUTHORISED** — boundary and decisions FI-D-1…FI-D-5 in `28_…` §5. SS-03B not started.
+> - **Not authorised:** FI-1, FI-2, SS-03B, any non-answer behaviour or live-call eligibility, Script Studio
+>   changes, pushing.
 
 > **Update 2026-11-22 — SS-03A. Read this block first; it supersedes the older blocks below where they differ.**
 > - **Owner message 2026-11-21 "Approve Decision Closure and Authorize SS-03A"** (register D-176…D-187): TS-1…TS-23

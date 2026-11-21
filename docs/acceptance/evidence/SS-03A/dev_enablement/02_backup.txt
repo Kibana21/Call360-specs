@@ -1,0 +1,11 @@
+# Backup of the development schema before migration 0027 (2026-11-22, API server stopped)
+file: <workspace>/_db_backups/call360_dev_before_0027_20261122.dump   (outside all three repositories; mode 600)
+format: pg_dump custom format, PostgreSQL 15.12, schema call360 of database Call360_db on localhost:5432
+backup bytes: 1778391 | sha256: d75e6fb1f3fe134430916385e84be9fe1d1bb9d8fb181e8e56efc8849c28029f
+archive entries: TABLE 102 | TABLE DATA 102 | TRIGGER 93 | FUNCTION 43
+tables in inventory: 102 | tables with data in archive: 102 | rows in inventory: 14574 | rows in archive: 14574
+row-count mismatches: none
+verification method: the archive's data was written out with pg_restore and the rows of every table counted and
+compared with the live inventory taken immediately before. It was NOT restored into a database.
+restore instructions: <workspace>/_db_backups/RESTORE.md
+note: the archive lists 93 triggers and the inventory 92 because the inventory counts distinct (name, table) pairs.

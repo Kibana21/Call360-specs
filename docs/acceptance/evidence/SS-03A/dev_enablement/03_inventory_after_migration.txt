@@ -1,0 +1,132 @@
+# Development schema AFTER migration 0027, before any identity or survey was created.
+settings: {'app_env': 'local', 'schema': 'call360', 'expected_database': 'Call360_db', 'host': 'localhost', 'port': 5432, 'survey_definitions_enabled': False}
+connection: {'database': 'Call360_db', 'role': 'Call360_db_user', 'schema': 'call360', 'server_addr': '::1/128', 'server_port': 5432, 'pg_version': '15.12', 'read_only': 'on'}
+schemas: ['call360', 'call360_test']
+alembic revision: ['0027_survey_definitions'] (test schema: ['0027_survey_definitions'])
+tables: 111 | rows: 14594 | triggers: 101 | functions: 47 | permissions: 41
+
+alembic_version                        rows      1  digest 506dec241b0f453de126e1c6f070d7d3
+answer_observation                     rows    555  digest 6d06ca85ff35a6a73eb0d92686f47ea0
+app_group                              rows      4  digest 5ce35c381750d960b631fa52cdb25339
+assignment_rule_change_event           rows     19  digest e2ead5bc94e3993c4d2609b0cdb3d5e7
+assignment_rule_draft                  rows      4  digest 3230cd7e13904a975bb62dd180287df1
+assignment_rule_publication            rows      3  digest 36e0851af7019ded8cf0a9e23dce4d0e
+audit_event                            rows   2984  digest acb99e4069e3a4494ed1ab283fbcc62e
+auth_session                           rows    105  digest f20c3bfcded1888ca70fccc752df1224
+callback_case                          rows    258  digest cd08b11ad4dc299cc282b07d5d5051da
+case_contact_selection                 rows    372  digest daa667827752e12f49752f00d7335fd5
+case_event                             rows   1690  digest 339ec9f02db37860043f8354210d77aa
+case_hold                              rows     22  digest 7f6d6dbf64e10fbd097338f1986a204e
+code_list                              rows     10  digest 1fdc46474626cac9b950ef33169395bd
+code_list_version                      rows     10  digest a200344bb34fd95eb77358e505c85a2b
+code_value                             rows     40  digest 360118193005ca749ada54d6b9c6df89
+contact_attempt                        rows    415  digest ee2594fb833846abaf9b7ddb2dd1e3ed
+contact_method                         rows    597  digest d0abc902e579ac3ccf816233c2b775da
+control                                rows      5  digest a7d453011ab27175b98f044795c55d63
+control_mapping                        rows     12  digest a086f3f617fd8b5f7a9b145f2cb3bbdb
+conversation_session                   rows     95  digest 91070598fdeb4a262a180ade388febfa
+external_reference                     rows    840  digest 3a57dbdaa7f55376a2f2573bef8aa2a5
+feature_flag                           rows      4  digest 138d79b1e597c75e94d03ca2699e049e
+feature_flag_change                    rows      0  digest empty
+field_change                           rows      0  digest empty
+finding                                rows     26  digest b08efc5a999e7f882509bf7e157b6968
+finding_rule_set_event                 rows     10  digest c3db21731592cd6a7ccc674d90103f1e
+finding_rule_set_version               rows      1  digest 13723f0a150b05566ebfce6a0afd753b
+fsc_representative                     rows     24  digest 5ad0aa743c9b9e7c87b5ba700238d26b
+group_membership                       rows      3  digest 48ec3532baf41b4c5823f44e917742c8
+group_role_mapping                     rows      4  digest 81991b316835697c865750282b9a0c31
+group_scope_mapping                    rows      3  digest 6e008218e55dacabb89ee8ffee9770d0
+identity_binding                       rows      3  digest 4223fbaafb0c743cc2c16249e3f5ec7d
+identity_provider                      rows      1  digest dd27954f23f426163f22c73b651d0d9a
+intake_item                            rows      8  digest d6ec07b674bd662ee75398572cd6fcc3
+intake_run                             rows      8  digest 5f945ec67fbdc169b28c644e4a7094fb
+lab_budget                             rows      2  digest 6c18d2eda55637207b0a056a6be8f76a
+lab_config_change                      rows      6  digest 52f8852c5693de33f274a1d4b0b9fa17
+lab_control                            rows      1  digest 8452cf295d508deccc8d74dec18bfc88
+lab_dataset                            rows      1  digest 1b44975ca85f56dbb1c6f44c13907879
+lab_experiment                         rows      3  digest f93b8205f824a418a2a3f9cf2076a508
+lab_media                              rows      8  digest 9086a69d07b56ee7bfe0e9d14b28e046
+lab_paid_authorisation                 rows      2  digest 45532b52138f5f790289af525a7c7967
+lab_prompt                             rows      9  digest c3177bb976bdceec48768d03a37fe2b3
+lab_prompt_version                     rows     13  digest d7250f7528281b9f66f2ec9c6aa7f6c9
+lab_reservation                        rows      6  digest 45e400f6a04f54beac4c7a52ec6e4f61
+lab_session                            rows     24  digest f47bbe821e80f4acc521d002b75e6e72
+lab_session_event                      rows    414  digest 15ac9e127e3bcd79af7e8eda46cb4ff9
+lab_speech_assessment                  rows      0  digest empty
+lab_test_case                          rows      4  digest 25206e6f53ca712cc83d9df2e8186f42
+lab_test_case_revision                 rows      5  digest 46402ab72e484f10dd8e1f6bda9470a1
+lab_transcript                         rows     19  digest 93517cf77bb149a8cbc9033959c0f494
+lab_trial                              rows     18  digest a68f2fb0da89516b0a7dafa97975937a
+local_credential                       rows      3  digest 7a829955a18f782d8194c9bc34de9df5
+login_attempt                          rows    105  digest d0d2d7651991feb7f3b57e26276ae1d8
+media_asset                            rows     18  digest b1d50de4478b7f5aa4e6414253a6e9e2
+media_chunk                            rows    174  digest 71f7a27f5da2d90f607f2d1e7f84a9f3
+module_question                        rows     46  digest 1a24ba7c2d3e00bd8ff2951e807d1f55
+party                                  rows    327  digest ae19780231fa984cc09e3c7bab76c24b
+permission                             rows     41  digest a9f4e001651461be60fdd982a4d47f81
+policy                                 rows    237  digest e51824cc913933ab45f616b8c479dc45
+policy_fact_snapshot                   rows    258  digest b426e4d3acb148ca089dabe3f977579a
+policy_party_role                      rows   1056  digest 2fa8cebee0cd97744d170e7c44214949
+principal                              rows      3  digest 1cd7f94c7cddc730f111e67dacd9679e
+question_bank_item                     rows     38  digest 5c93c38354b3c4fe2e7befbff24a3aee
+question_execution                     rows    555  digest 10625e43b9278bd9f5bd2289d4a9f674
+question_revision                      rows     39  digest 74cb450d8682ee8892fe0273d2bd6ef5
+question_revision_detail               rows     23  digest 46338bba8956eed8c48ef8e8876b3ee5
+refresh_token                          rows    160  digest 8e1e64e79da1880e5dc497711c434c6d
+refresh_token_family                   rows    105  digest 099304463b618600a9ee8ca8433273f1
+regulatory_reference                   rows      2  digest 71118d571e7ecb64ea8e7573ba7d168c
+review_approval                        rows      1  digest 543aedd56322f742c4c86b07aa66e061
+review_decision                        rows      5  digest 67f75a32268af77210d9376e2b3e63fb
+risk_assessment                        rows    297  digest 982abc1ff092fed7bb03ac971df3412d
+risk_factor_result                     rows    490  digest 5af7bd0624eace270c7108835567ec40
+risk_rule_set_version                  rows      2  digest 49de14f865d91637f3d815357c28b3aa
+role                                   rows      3  digest a0fc32958863556abb52bfb10f0b1aa9
+role_permission                        rows     54  digest 825817b70b7cbcc4513b36540fa95b71
+rule_evaluation                        rows    421  digest 94444c1a7bec537f0571fc84bf685b91
+sale_event                             rows    258  digest 31a01cc14e576df0d24606ad650558c3
+script_assignment                      rows    251  digest e4975710ec6d0bbbf12fb9dd8da30145
+script_assignment_attempt              rows      7  digest 67f5710d4389d13b02bf94f3e2a4489a
+script_assignment_rule_version         rows      8  digest 4f26c05c57da58978c25089f900b23c0
+script_change_event                    rows     58  digest 4694fb277ccf2d1cf8dce1ca29763515
+script_family                          rows      7  digest c777d4123c4d4cb444a1c1c5d2a1b5aa
+script_module                          rows     19  digest ed965f4a14b9f1f8bb3a9a7c89eea985
+script_section                         rows     40  digest dbd3a6f2b9f6f201014e3575cb64666c
+script_simulation_event                rows    341  digest 2fbc8b276a36ed7dca7a3518dbd567ac
+script_simulation_run                  rows     10  digest 824b4e9a394d5f99cef90ed8431f4897
+script_version                         rows     11  digest a9aacf10c96b90b8bf6362a5143866c8
+script_version_control_link            rows     11  digest 0178350d5519381cad289c4e089e979d
+session_event                          rows    239  digest 1057e0f84063ac5112e6461104ce725b
+simulation_answer_evaluation           rows      5  digest 1c74dfb8b80c2fcd49948c3bce6ccee3
+simulation_batch                       rows      3  digest 52c4a5ffeedfa6b7b2ca61b44b1d96c7
+simulation_content_snapshot            rows      3  digest f61fcc378ffe7ef73cc1381a29a733a0
+simulation_finding                     rows      4  digest 3a6dea59bae71de304c109f6bcd90f4c
+simulation_finding_set                 rows      3  digest fbea385e4c1d4130561775b5c869e451
+simulation_result                      rows     10  digest f521e629f99782f754b514b06e3a5e5e
+simulation_scenario                    rows      4  digest cd0eb192a78979863728f1d5852402a9
+simulation_scenario_revision           rows      5  digest 07ad8abb235547b7ed9f1cf19a7c2f72
+survey_asset_usage                     rows      0  digest empty
+survey_asset_version                   rows      0  digest empty
+survey_candidate                       rows      0  digest empty
+survey_catalog_entry                   rows     16  digest e8abc35eb5ced30b4a776d3c5c065d4e
+survey_definition                      rows      0  digest empty
+survey_draft                           rows      0  digest empty
+survey_lifecycle_event                 rows      0  digest empty
+survey_run                             rows     82  digest 59ba57304b9db951a94e63a0ffa48eab
+survey_version                         rows      0  digest empty
+survey_wording_approval                rows      0  digest empty
+transcript_run                         rows     18  digest d836e66cb922da2f263bf525732ac9f1
+transcript_segment                     rows     47  digest c2a28bff5169423f57ee8ab9eb634c42
+
+# Comparison with the inventory before
+Alembic revision: before ['0026_gpt_live_provider'] -> after ['0027_survey_definitions']
+tables: before 102 after 111 | removed: none | added: ['survey_asset_usage', 'survey_asset_version', 'survey_candidate', 'survey_catalog_entry', 'survey_definition', 'survey_draft', 'survey_lifecycle_event', 'survey_version', 'survey_wording_approval']
+existing tables (102) with any change in row count or content digest: 2
+   alembic_version : rows 1 -> 1
+   permission : rows 37 -> 41
+existing tables byte-identical in content: 100 of 102
+column definitions of all pre-existing tables: digest identical
+triggers: removed none | added ['survey_asset_version_guard@survey_asset_version', 'survey_candidate_immutable@survey_candidate', 'survey_definition_market@survey_definition', 'survey_draft_guard@survey_draft', 'survey_lifecycle_event_guard@survey_lifecycle_event', 'survey_lifecycle_event_immutable@survey_lifecycle_event', 'survey_version_guard@survey_version', 'survey_version_immutable@survey_version', 'survey_wording_approval_immutable@survey_wording_approval']
+functions: removed none | added ['survey_asset_version_guard', 'survey_draft_guard', 'survey_lifecycle_event_guard', 'survey_version_guard']
+permissions: removed none | added ['survey.approve', 'survey.edit', 'survey.publish', 'survey.read']
+new table rows: {'survey_asset_usage': 0, 'survey_asset_version': 0, 'survey_candidate': 0, 'survey_catalog_entry': 16, 'survey_definition': 0, 'survey_draft': 0, 'survey_lifecycle_event': 0, 'survey_version': 0, 'survey_wording_approval': 0}
+Script Studio and related tables unchanged: 22 of 22

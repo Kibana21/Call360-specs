@@ -1,0 +1,7 @@
+# Readiness on the migrated development database, survey setting off and on (two temporary servers)
+port 8011 (SURVEY_DEFINITIONS_ENABLED=false): live=200 ready=200 GET /api/v1/survey-definitions (no session)=404 survey paths in /openapi.json=0
+port 8012 (SURVEY_DEFINITIONS_ENABLED=true):  live=200 ready=200 GET /api/v1/survey-definitions (no session)=401 survey paths in /openapi.json=14 (15 operations)
+
+# Development server restarted on port 8000 with the setting on in the gitignored .env
+live=200 ready=200 survey route without session=401 existing route (/api/v1/scripts) without session=401
+test configuration (.env.test): survey_definitions_enabled=False

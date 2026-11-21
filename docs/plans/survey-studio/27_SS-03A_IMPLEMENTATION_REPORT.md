@@ -3,7 +3,9 @@
 **Checkpoint:** SS-03A, authorised by the owner on 2026-11-21 ("Approve Decision Closure and Authorize SS-03A"),
 decision register D-176…D-187. Built in three internally verified steps: A.1 pure domain, A.2 persistence and
 governance, A.3 API and contract.
-**Status: BUILT AND TECHNICALLY VERIFIED — presented for the owner's review. Not accepted.**
+**Status: ACCEPTED 2026-11-22 as TECHNICALLY VERIFIED (D-188), the fixture-regeneration line reconciled in
+`28_SS-03A_ACCEPTANCE_AND_DEVELOPMENT_ENABLEMENT.md` §1.** The text below is the report as presented for review; where
+it says "uncommitted" or "the development database was not migrated", document 28 records what happened next.
 **Prepared:** 2026-11-22.
 
 **Scope held.** Additive backend only. The development database was **not** migrated, re-seeded, read or written:

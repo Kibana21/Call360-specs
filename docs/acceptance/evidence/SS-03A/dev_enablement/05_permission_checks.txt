@@ -1,0 +1,50 @@
+# Permission and identity checks on the development database through the real server (2026-11-22)
+## Who holds what (from /api/v1/me)
+  author: roles=['DEV_SURVEY_AUTHOR'] permissions=['survey.edit', 'survey.read'] markets=['SG']
+  checker: roles=['DEV_SURVEY_CHECKER'] permissions=['survey.approve', 'survey.read'] markets=['SG']
+  publisher: roles=['DEV_SURVEY_PUBLISHER'] permissions=['survey.publish', 'survey.read'] markets=['SG']
+## No session
+PASS  GET /survey-definitions without a session: (401, 'AUTH_REQUIRED')
+PASS  POST /survey-definitions without a session: True
+## Author builds and submits a synthetic survey
+PASS  author creates a survey: 201
+PASS  draft revision after ten operations: 10
+PASS  stale revision refused: (409, 'STALE_DRAFT')
+PASS  draft unchanged after the stale attempt: 10
+PASS  checker cannot edit the draft (no survey.edit): (403, 'FORBIDDEN')
+PASS  publisher cannot create a survey (no survey.edit): (403, 'FORBIDDEN')
+PASS  author submits a candidate: 201
+## Permission layer (HTTP): each identity holds only its own part
+PASS  author cannot approve (no survey.approve): (403, 'FORBIDDEN')
+PASS  author cannot publish (no survey.publish): (403, 'FORBIDDEN')
+PASS  publisher cannot approve (no survey.approve): (403, 'FORBIDDEN')
+PASS  publisher cannot publish an unapproved candidate: (409, 'NOT_APPROVED')
+PASS  checker cannot publish (no survey.publish): (403, 'FORBIDDEN')
+## Identity rules (service and database), independent of permissions
+PASS  service: the author approving their own candidate: SELF_REVIEW_DENIED
+PASS  checker approves: (200, 'APPROVED')
+PASS  service: the author publishing their own candidate: SELF_PUBLISH_DENIED
+PASS  service: the approver publishing the candidate they approved: APPROVER_PUBLISH_DENIED
+PASS  publisher (a third person) publishes: (201, '1.0', 'PUBLISHED')
+PASS  all three can read the version: [200, 200, 200]
+  audit chain: OK
+  survey rows now: {'survey_definition': 1, 'survey_candidate': 1, 'survey_version': 1, 'survey_lifecycle_event': 4, 'survey_wording_approval': 3, 'survey_asset_version': 9}
+  existing roles holding a survey permission: [('DEV_SURVEY_AUTHOR', 2), ('DEV_SURVEY_CHECKER', 2), ('DEV_SURVEY_PUBLISHER', 2)]
+
+RESULT: ALL CHECKS PASSED
+
+# The three 'database:' lines of the first run are omitted: my insert named a column that does not exist, so the
+# refusals it printed proved nothing. They were repeated correctly below, with a positive control.
+
+# Database-level identity rules: direct inserts into the event table, always rolled back
+candidate 2 IN_REVIEW
+PASS  database: APPROVED inserted in the author's name: REFUSED: a maker of a candidate cannot decide or publish it | event rows 5 -> 5
+PASS  control: APPROVED inserted in the checker's name is legal: ACCEPTED (then rolled back) | event rows 5 -> 5
+PASS  database: PUBLISHED inserted in the author's name: REFUSED: a maker of a candidate cannot decide or publish it | event rows 6 -> 6
+PASS  database: PUBLISHED inserted in the approver's name: REFUSED: the approver of a candidate cannot publish it | event rows 6 -> 6
+PASS  database: UPDATE of a submitted candidate: REFUSED: survey_candidate is immutable (UPDATE rejected)
+candidate 2 withdrawn by its submitter: 200 WITHDRAWN
+RESULT: ALL CHECKS PASSED
+
+# Grants per role afterwards (non-survey permissions, survey permissions)
+ADMIN (23, 0) | SC_CHECKER (13, 0) | USER (18, 0) | DEV_SURVEY_AUTHOR (0, 2) | DEV_SURVEY_CHECKER (0, 2) | DEV_SURVEY_PUBLISHER (0, 2)
