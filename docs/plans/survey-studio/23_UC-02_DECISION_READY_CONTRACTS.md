@@ -2,7 +2,9 @@
 
 **Checkpoint:** UC-02 (Contract and Call-Plan Readiness), authorised by the owner on 2026-11-21 ("Accept UC-01 and
 Authorize UC-02").
-**Status:** PROPOSED — presented for the owner's review. Part 1 sorts every remaining decision; Part 2 gives the
+**Status: REVIEWED BY THE OWNER 2026-11-21.** 17 technical decisions recommended for approval; 6 to be amended; the
+12 persistence blockers to be ruled. **The outcome, the amended wording and the proposed rulings are in
+`25_UC-02_DECISION_CLOSURE.md`, which governs where it differs.** Original status: PROPOSED — presented for the owner's review. Part 1 sorts every remaining decision; Part 2 gives the
 minimal authoritative interfaces; Part 3 is the readiness checklist. **Nothing here is implemented on a server, and no
 existing engine is re-implemented.**
 

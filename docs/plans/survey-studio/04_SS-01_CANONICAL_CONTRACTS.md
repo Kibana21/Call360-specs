@@ -1033,13 +1033,16 @@ conditions, each `MET`, `NOT_MET` or `NOT_AVAILABLE`:
 | The plan is built from a published, approved version | Publication |
 | Every item uses approved wording | Wording |
 | Every item can be delivered as approved (no conversational delivery; every recording has an approved asset) | Wording |
-| A mandatory identity check, a mandatory consent to proceed and a mandatory recording consent are present (D-67) | Gates |
+| A mandatory identity check, a mandatory consent to proceed and a mandatory recording consent are **present** (D-67) | Gates |
+| What each gate does when the customer says no, refuses or does not answer is approved (D-174) | Policy |
 | An approved assignment selects this version for this case | Assignment |
 | The requirements of the call channel are met | Channel |
 | What a call does when a customer does not answer is decided | Policy |
 
-Eligible means every condition is `MET`. **A gate condition is structural only:** it says the question exists. What a
-call does when the customer answers "no", refuses or does not answer is not specified here or anywhere.
+Eligible means every condition is `MET`. **A gate condition is structural only:** it says the question exists, and is
+reported as present or not present. **A gate being present never establishes that its enforcement is approved**: that
+is the separate Policy condition above, which stays `NOT_MET` until the business and Compliance rule. What a call does
+when the customer answers "no", refuses or does not answer is not specified here or anywhere.
 
 ### 8.7 Lifecycle states (owner decision AD-13)
 
@@ -1051,4 +1054,26 @@ scheduled version takes effect, and what withdrawal means for cases already assi
 
 Decisions, follow-up queues, rules, interruptions, jumps and activation triggers in combination with statements,
 variables or the plan; any non-answer; repeat and clarification wording; evaluation and control evidence.
+
+### 8.9 Clarifications of 2026-11-21 (owner decisions D-171, D-172) — proposed wording, no fixture changed
+
+The amended wording of TS-2, TS-4, TS-7, TS-9, TS-10 and TS-12 is in `25_UC-02_DECISION_CLOSURE.md` §1.2. In terms of
+this contract:
+
+- §8.2: the single-route rule restricts the item node only; a Decision after such an item may read its answer in a
+  later schema version.
+- §7.3, §8.1: `CONVERSATIONAL` is not a publishable value. A draft may hold it; a candidate may not.
+- §7.4, §8.1: every numeric field declares its precision; in schema /5 that is 0 for a whole number and 2 for money.
+  A per-field declared precision and its rejection code belong to schema /6.
+- §8.1, §8.3: an explicit non-acknowledgement is **evidence** — an observation that the customer did not
+  acknowledge — and never a successful acknowledgement. In schema /5 it is the `rejections` entry
+  `NON_ANSWER_POLICY_UNRESOLVED`. Its stored record belongs to schema /6.
+- §5: version-1 conditions read yes/no and choice answers only; the restriction is explicit and extensible.
+- §8.7: lifecycle states are **derived** from an append-only history of decisions; a candidate's content record is
+  never updated.
+
+**Schema /6 is reserved, not defined.** It will carry: a per-field `scale`; the `speakable` allowlist and its
+validation code; the stored non-acknowledgement observation; a reserved non-answer resolution; the
+`NON_ANSWER_EXCEPTION` outcome class. Each needs new fixtures and, for the last three, the corresponding
+Business/Compliance rulings. Nothing in schemas /1–/5 changes.
 

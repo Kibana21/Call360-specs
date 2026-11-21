@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-21, UC-02 Contract and Call-Plan Readiness built and presented for review (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-21, UC-02 accepted; decision closure and SS-03A specification prepared (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -321,9 +321,38 @@ authorisation; never mark anything accepted without the owner's explicit words.
 > - **Decisions the owner is asked for (`23_…` Part 1):** approve TS-1…TS-23 as a set; the 12 persistence blockers
 >   (UC-D-1, UC-D-2, UC-D-3a, UC-D-4, UC-D-6 = D-NA-5/10, G-4a, G-4b, G-4c, G-4e, SS-D-05, D-NA-9, D-NA-13); the
 >   runtime blockers; confirm P-23…P-29. No-answer register preserved unchanged (17 decisions, 4 parameters, no values).
-> - **Next step: none authorised. Wait for the owner's review of UC-02.** Uncommitted: frontend (UC-01 + UC-02, all
->   Survey Studio files) and specs (G-6, UC-01, UC-02 documents, fixtures K and evidence). Do not stage, commit or push
->   without separate authorisation. Script Studio untouched. Development database untouched. SS-03 not started.
+> - **Owner 2026-11-21 ("UC-02 Review and Backend Decision Closure").** **UC-02 ACCEPTED as technically verified,
+>   subject to contract clarifications (D-170)**; UX acceptance, policy approval, live-call eligibility and backend
+>   authorisation remain separate. **D-171:** TS-1, 3, 5, 6, 8, 11, 13–23 *recommended* for approval. **D-172:** TS-2,
+>   4, 7, 9, 10, 12 to be amended — amended wording PROPOSED in `25_UC-02_DECISION_CLOSURE.md` §1.2 (single-route rule
+>   restricts the item node only; conversational not publishable; declared numeric precision, never rounded; explicit
+>   non-acknowledgement kept as evidence, never a success; v1 condition-input restriction extensible; lifecycle status
+>   derived from append-only history, candidate content never updated). **No fixture changed; new behaviour reserved
+>   for schema /6.** **D-173:** twelve persistence rulings PB-1…PB-12 PROPOSED (`25_…` §2), each split into mechanism
+>   and policy content. **Not approved and must not be treated as approved:** actual permitted customer fields,
+>   refusal handling, consent policy, the outcome catalog, non-answer rules. **D-174:** P-23…P-29 classified (all safe
+>   engineering defaults, with named Business/Compliance and voice-channel parts); eligibility UI now has **eleven**
+>   conditions — gates read "Present"/"Not present" and `GATE_BEHAVIOUR` is a separate, not-met condition
+>   (`model/plan.ts`, `CallPlanPage.tsx`). Re-verified: 403 unit tests, 13/13 prototype journeys.
+> - **BASELINE IS IN GIT (D-175).** The owner committed UC-01 and UC-02 at 2026-11-21 23:23: **frontend `c575f76`**
+>   (28 files), **specs `33fdfce`** (49 files); both level with `origin/main`; backend unchanged `7228875`. All 27
+>   fixtures and five reference interpreters are tracked; they regenerate byte-for-byte (82 runs, 14 plans).
+>   **Uncommitted, made after those commits:** frontend 5 files (eligibility clarification: `model/plan.ts`,
+>   `CallPlanPage.tsx`, `model/uc02.test.ts`, `e2e/prototype/uc02.proto.ts`, `survey-studio.css`); specs documents 25
+>   and 26 (new), register, contract §8.6 and §8.9, status notes in 23 and 24, index, handoff, regenerated UC-02
+>   evidence. I made no commit and no push.
+> - **SS-03A FOUNDATION SPECIFICATION PREPARED — NOT AUTHORISED:** `26_SS-03A_FOUNDATION_SPECIFICATION.md`. Scope:
+>   canonical versioned graph documents; immutable drafts/candidates/versions with append-only lifecycle events;
+>   hashes and manifest validation; server validator with stable codes; pure three-valued condition engine; fifteen
+>   new `/api/v1/survey-definitions…` operations (the bare plural path is a validator-prohibited term; flagged for an
+>   ADR decision, not changed) with four new `survey.*` permissions, behind a server setting off by default.
+>   Additive only: new `survey_` tables, no existing table, endpoint or permission changed. Excludes non-answer
+>   behaviour, execution, plan assembly, live-call controls, telephony, destructive changes, Script Studio removal.
+>   Suggested split SS-03A.1 (pure modules) / .2 (persistence) / .3 (API).
+> - **Next step: none authorised. Wait for the owner.** Asked of the owner: commit, or authorise committing, the post-review changes
+>   (frontend 5 files; specs documents 25, 26 and updates); final approval of TS-1…TS-23 as amended; approval of the PB mechanisms; then, separately,
+>   SS-03A by name. Do not stage, commit or push without authorisation. Script Studio untouched. Development database
+>   untouched. SS-03 not started.
 > - **Still open (report 19 §3–§5):** all business-user testing (no moderated usability or screen-reader evidence);
 >   14 no-answer decisions block the runtime build (7 before any backend work); who holds Publisher and whether the
 >   approver may publish; draft locking during review; what "approved wording" is; escalation handling.

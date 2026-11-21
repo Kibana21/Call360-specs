@@ -70,3 +70,9 @@ export const surveyStudioEnabled = (): boolean => import.meta.env.VITE_SURVEY_ST
 
 == specs validator
 PASS: 63 CP0.0 specification checks (S0 matrix 70 requirements, 101 tests; 81 endpoints; 63 tables; 30 routes; 33 contradictions; 10 ADRs)
+
+== after the eligibility clarification (D-174), 2026-11-21 23:32
+unit tests, whole frontend: 403 passed (403)
+prototype journeys: 13 of 13 passed (prototype_journeys.txt regenerated)
+type check: 0 errors · lint: 0 problems
+standard suite (prototype off): not re-run for this change; it touches Survey Studio files only; 33 of 33 on the preceding build (playwright_standard.txt)

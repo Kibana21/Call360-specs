@@ -1,7 +1,11 @@
 # UC-02 — Contract and call-plan readiness: implementation and verification report
 
 **Checkpoint:** UC-02, authorised by the owner on 2026-11-21 ("Accept UC-01 and Authorize UC-02").
-**Status: BUILT AND TECHNICALLY VERIFIED — presented for the owner's review. Not accepted.**
+**Status: ACCEPTED 2026-11-21 as technically verified, subject to contract clarifications (D-170).** One addition was
+made after review, on the owner's instruction: the eligibility panel now has **eleven** conditions, the gates read
+"Present" / "Not present", and gate behaviour is its own condition (`25_UC-02_DECISION_CLOSURE.md` §4). Where this
+report says "ten conditions" or "Met" for a gate, that document governs. Original status: BUILT AND TECHNICALLY
+VERIFIED — presented for the owner's review.
 **Prepared:** 2026-11-21.
 
 **Scope held.** Specifications, independent fixtures and narrowly scoped prototype correctness improvements only.

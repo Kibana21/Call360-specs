@@ -215,6 +215,80 @@ authorised.
 | P-28 | Live eligibility is ten explicit conditions in three states (`MET`, `NOT_MET`, `NOT_AVAILABLE`). In the prototype it can never be "eligible": assignment and channel cannot be established, and a simulated publication does not count | Owner: a successful draft plan must never imply production eligibility | — |
 | P-29 | Rules introduced in UC-01 and UC-02 carry stable validation codes; earlier rules are still identified by their message | The fixtures compare codes | — |
 
+## Owner rulings of 2026-11-21 ("UC-02 Review and Backend Decision Closure")
+
+| D-no. | Subject | Ruling (owner's words, condensed) | Effect |
+|---|---|---|---|
+| D-170 | UC-02 accepted | UC-02 is accepted as technically verified, subject to the contract clarifications. Formal UX acceptance, business policy approval, live-call eligibility and backend authorization remain separate | Prototype baseline is SS-02 + UC-01 + UC-02. Clarifications: `25_UC-02_DECISION_CLOSURE.md` §1 |
+| D-171 | Technical decisions recommended | Recommend approval of TS-1, TS-3, TS-5, TS-6, TS-8, TS-11 and TS-13 through TS-23 | 17 decisions **RECOMMENDED FOR APPROVAL** as worded in `23_…` §1.2. I record them as recommended, not as finally approved: the owner's word was "recommend" |
+| D-172 | Technical decisions to amend | Amend TS-2, TS-4, TS-7, TS-9, TS-10 and TS-12 before their final approval: preserve future numeric/free-text-driven Decision nodes; exclude uncontrolled conversational wording from publishable surveys; use declared numeric precision, never round or truncate silently; capture explicit negative acknowledgements as evidence without treating them as successful acknowledgements; keep schema-v1 numeric-condition restrictions extensible; make lifecycle decision history append-only while keeping candidate content immutable. Do not make changes that invalidate accepted golden fixtures without an explicitly versioned contract and corresponding new fixtures | Amended wording **PROPOSED** in `25_…` §1.2. No fixture changed; new behaviour is assigned to a future schema `/6` |
+| D-173 | Persistence decisions | Prepare exact final rulings and dependency impacts for the 12 identified blockers, with ten recommendations. Do not mark actual permitted customer fields, refusal handling, consent policy, outcome catalog or non-answer rules approved without the appropriate Business/Compliance rulings | Twelve rulings **PROPOSED** as PB-1…PB-12 in `25_…` §2, each split into mechanism (approvable) and content (Business/Compliance). **None of the five named policy areas is marked approved** |
+| D-174 | Additional review | Read P-23 through P-29 verbatim and classify each. Clarify in the call-plan eligibility UI that a mandatory gate being present does not establish that its enforcement behaviour is approved | Classification: `25_…` §3. UI: gates read "Present" / "Not present"; a separate condition for gate behaviour, not met; a standing note. Eleven conditions |
+| D-175 | Baseline and next boundary | Confirm whether UC-01 and UC-02 were committed locally; report hashes; do not push. Preserve all 27 fixtures, 82 expected runs, 14 expected plans and the independent Python reference interpreters. Prepare a narrowly scoped SS-03A foundation specification; do not begin SS-03A implementation until separately authorized | **Committed by the owner at 23:23: frontend `c575f76`, specs `33fdfce`; both level with their remotes.** 27 fixtures and five interpreters tracked. The changes of this review (eligibility clarification; documents 25, 26 and register updates) came after and are uncommitted; I made no commit (`25_…` §5). Specification: `26_SS-03A_FOUNDATION_SPECIFICATION.md` — not authorised |
+
+### Technical schema decisions: status after D-171 and D-172
+
+| Status | Decisions |
+|---|---|
+| Recommended for approval as written | TS-1, TS-3, TS-5, TS-6, TS-8, TS-11, TS-13, TS-14, TS-15, TS-16, TS-17, TS-18, TS-19, TS-20, TS-21, TS-22, TS-23 |
+| Amended wording proposed, awaiting final approval | TS-2, TS-4, TS-7, TS-9, TS-10, TS-12 (`25_…` §1.2) |
+
+### Persistence rulings proposed (PB-1…PB-12): what is and is not being asked
+
+| Approvable by the owner now (mechanism) | Needs Business/Compliance (content) — **not approved** |
+|---|---|
+| PB-1 exact-text delivery by default · PB-2 conversational not publishable · PB-4 four statement roles, acknowledgement separate · PB-7 editable draft, immutable candidates · PB-9 activation, eligibility and two skip policies as four fields | — |
+| PB-3 a `speakable` allowlist flag, false unless set | The actual permitted customer fields |
+| PB-5 `response_obligation` separate from `lifecycle_role`, as a governed catalog | The obligation classes and their meaning (D-NA-5, D-NA-10) |
+| PB-6 a separate Publisher permission; most restrictive identity rule until ruled | Who holds Publisher; whether the approver may publish |
+| PB-8 an approval record on the Wording Version, set through the candidate decision | Who in S&C approves; what an approval requires |
+| PB-10 a governed outcome catalog with fixed classes | The outcome list and each outcome's class |
+| PB-11 a non-answer never matches an answer route; an explicit resolution is required | Every non-answer behaviour and parameter; refusal handling; consent policy |
+| PB-12 a separate `NON_ANSWER_EXCEPTION` outcome class | The outcome code or codes |
+
+### Prototype decisions P-23…P-29: classification (D-174)
+
+All seven are safe engineering defaults that fail closed and invent no policy. Parts that are not engineering: what a
+call does after a non-acknowledgement (P-24: Business/Compliance); the precision each field declares (P-26:
+Business) and how a value is spoken (P-26: voice channel); how a recording is produced and approved (P-23: voice
+channel); which conditions make a survey eligible for a live call (P-28: Business/Compliance) and what a channel
+requires (P-28: voice channel). Verbatim text and reasoning: `25_…` §3.
+
+## Owner rulings of 2026-11-21 ("Approve Decision Closure and Authorize SS-03A")
+
+"The project may now proceed from prototype work to the real Survey Studio backend foundation."
+
+| D-no. | Subject | Ruling (owner's words, condensed) | Effect |
+|---|---|---|---|
+| D-176 | Technical schema decisions | Approve TS-1 through TS-23, incorporating all six amendments in document 25 | **TS-1…TS-23 APPROVED**, with TS-2, TS-4, TS-7, TS-9, TS-10 and TS-12 as amended in `25_…` §1.2 |
+| D-177 | Persistence mechanisms | Approve the technical schema mechanisms PB-1 through PB-12, with six clarifications | **Mechanisms APPROVED** as in `25_…` §2, as clarified in D-178…D-183. **Policy content is not approved** (see "Unresolved policy boundaries" below) |
+| D-178 | Wording approval evidence (clarifies PB-8) | A Wording Version's content is immutable. Approval evidence must be append-only, referring to the exact wording version and candidate. Do not update the frozen wording record to mark it approved | Supersedes the "approval record on the Wording Version" of PB-8: approval is an **append-only event** `{wording item, language, wording version, candidate, actor, time}`. The wording row is never updated |
+| D-179 | Non-answer resolution (clarifies PB-11) | Reserve a structured non-answer resolution capability, but do not lock in a per-question routing implementation or any behaviour until D-NA-9 and the related business decisions are approved | The contract reserves the capability only. **No route key, node field or behaviour is fixed.** PB-11's "declared for that question" is withdrawn as a commitment |
+| D-180 | Non-answer exception category (clarifies PB-12) | A separate non-answer exception category may be represented in the catalog schema. No actual outcome codes, non-answer behaviour or escalation policy are approved | Outcome class `NON_ANSWER_EXCEPTION` exists in the catalog schema, with **no entry** |
+| D-181 | Spoken variables (clarifies PB-3) | Spoken-variable permissions are default-deny. No real customer field is authorized for speech by approving the catalog structure | `speakable` is false unless set; SS-03A sets it for no real field |
+| D-182 | Publisher (clarifies PB-6) | The Publisher permission is independent of Checker. Until the appropriate governance ruling, enforce the most restrictive distinct-identity checks. Do not grant production roles automatically | Approver ≠ any maker; publisher ≠ submitter; publisher ≠ approver. No production role receives a `survey.*` permission |
+| D-183 | Synthetic content | All synthetic catalogs and wording remain explicitly unapproved for operational use | Every catalog entry and wording created by SS-03A is marked synthetic and unapproved |
+| D-184 | Open decisions stay open | Keep the existing no-answer and Compliance decisions open | The no-answer register (17 decisions, 4 parameters) and gates G-3, G-4 are unchanged |
+| D-185 | Local commits | Authorize local commits for the post-UC-02 review changes in the frontend and specs repositories only; review staged changes; do not push. Verify and document the remote status and provenance of the previous UC-01/UC-02 commits; do not rewrite, revert or force-push history | See the SS-03A report §"Commits and provenance" |
+| D-186 | SS-03A authorised | AUTHORIZE SS-03A — Survey Definition Foundation, in three internally verified checkpoints (A.1 pure Python domain; A.2 persistence and governance; A.3 FastAPI and API contract), per document 26 with the approved clarifications. Use `/api/v1/survey-definitions`; preserve the naming ADR. Isolated test database only; do not migrate or re-seed the development database; no Script Studio table modified or removed; all operations disabled by default; no production permissions; no push | `27_SS-03A_IMPLEMENTATION_REPORT.md` |
+| D-187 | Exclusions | Do not start SS-03B or survey execution; no server call-plan assembly; no non-answer, refusal, repeat, consent or timeout policy; no telephony, Genesys, GPT Live or Voice Lab; no change to Script Studio; no additional authoring application | Held |
+
+### Unresolved policy boundaries (recorded on the owner's instruction, D-177…D-184)
+
+**Approved:** structures and mechanisms. **Not approved, by anyone, and not to be treated as approved:**
+
+| Area | What stays open | Who rules |
+|---|---|---|
+| Spoken customer data | Which fields may be spoken; the spoken form of values; what happens when a value is missing | Business, Compliance; voice channel |
+| Response obligation | The classes of obligation and what each means (D-NA-5, D-NA-10) | Business, Compliance |
+| Lifecycle gates | What a call does on "no", refusal or silence at identity, consent and recording gates | Business, Compliance |
+| Non-answer | Everything: reasons, resolution, routing (D-NA-9), repeats, timeouts, precedence, outcome codes, escalation policy | Business, Compliance, Engineering |
+| Outcome catalog | The list of outcomes and the class of each | Business, Compliance |
+| Wording | Who in S&C approves; what an approval requires; every actual wording | Compliance |
+| Publisher | Who holds the permission; whether the approver may publish | Business governance |
+| Conversational delivery | Whether any controlled form is ever allowed | Compliance |
+| Scheduled publication and withdrawal | Their operational behaviour | Business |
+
 ## Summary
 
 | ID | Subject | Status | Needs the owner now? |
