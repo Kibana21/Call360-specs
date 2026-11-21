@@ -1,0 +1,357 @@
+{
+ "assets": [
+  {
+   "code": "OS-DOCUMENTS",
+   "document": {
+    "code": "OS-DOCUMENTS",
+    "options": [
+     {
+      "code": "POLICY",
+      "label": "Policy contract"
+     },
+     {
+      "code": "SUMMARY",
+      "label": "Product summary"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "6ad10ede4e5c13fd4374a14056197d66c3bae458abd8884cc473e5fa90884ee2",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-DOCUMENTS",
+   "document": {
+    "answer_type": "MULTI_SELECT",
+    "code": "Q-DOCUMENTS",
+    "intent": "Which documents the customer received",
+    "option_set": {
+     "code": "OS-DOCUMENTS",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "selection": {
+     "max": 2,
+     "min": 0
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "d6a37b4aa0835adfa89355ba7ed2cc7eaa4f32dc87baa9ecab5cd0f37ef04135",
+   "version": 1
+  },
+  {
+   "code": "Q-RECEIVED-ANYTHING",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-RECEIVED-ANYTHING",
+    "intent": "Customer received documents",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "73366330c538b8ac416f06b6199a41c7232e78d0f97c8946a6ff1373f51bb515",
+   "version": 1
+  },
+  {
+   "code": "Q-REMARK",
+   "document": {
+    "answer_type": "FREE_TEXT",
+    "code": "Q-REMARK",
+    "intent": "Customer's own remark",
+    "schema": "call360.survey.item/1",
+    "text_rule": {
+     "max_length": 300,
+     "min_length": 0,
+     "required": false
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "7466e628232e416f83057ccf7685d5185a5fcca81c91c9529219fe339092ba28",
+   "version": 1
+  },
+  {
+   "code": "Q-DOCUMENTS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-DOCUMENTS",
+    "language": "en",
+    "option_texts": {
+     "POLICY": "Policy contract",
+     "SUMMARY": "Product summary"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Which documents did you receive?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "427878410674679d46695bb172d5c269f3ec94cb0fd2bc5d6ae28db266206f15",
+   "version": 1
+  },
+  {
+   "code": "Q-RECEIVED-ANYTHING",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-RECEIVED-ANYTHING",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Did you receive any documents?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "eac4048111c06094eb88c3fa5863f9fddc7e6bd61992314fe38d78fe2b0903a8",
+   "version": 1
+  },
+  {
+   "code": "Q-REMARK",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-REMARK",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Is there anything you would like to add?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "000e891864380b1c79edce5b88f8a7bab5a98ee54bcf650b967582822e8cdda5",
+   "version": 1
+  },
+  {
+   "code": "C-NO-POLICY-CONTRACT",
+   "document": {
+    "ast": {
+     "left": {
+      "input": "documents"
+     },
+     "op": "INCLUDES_NONE",
+     "right": {
+      "literal": [
+       "POLICY"
+      ]
+     }
+    },
+    "code": "C-NO-POLICY-CONTRACT",
+    "inputs": {
+     "documents": {
+      "answer_type": "MULTI_SELECT",
+      "item": {
+       "code": "Q-DOCUMENTS",
+       "version": 1
+      }
+     }
+    },
+    "name": "Policy contract not received",
+    "params": {},
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "9c30d6b2827e11429567e0bccf0f924edc90ec715f191a576aa12ad9f2d61349",
+   "version": 1
+  },
+  {
+   "code": "M-DOCUMENTS",
+   "document": {
+    "code": "M-DOCUMENTS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "YES",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "NO",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "d1"
+      }
+     },
+     {
+      "edge": "e5",
+      "from": "d1",
+      "on": "MATCH",
+      "to": {
+       "outcome": "CLARIFICATION_REQUIRED"
+      }
+     },
+     {
+      "edge": "e6",
+      "from": "d1",
+      "on": "NO_MATCH",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e7",
+      "from": "d1",
+      "on": "UNKNOWN",
+      "to": {
+       "outcome": "REVIEW_REQUIRED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Documents",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-RECEIVED-ANYTHING",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-DOCUMENTS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-REMARK",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "binding": {
+       "condition": {
+        "code": "C-NO-POLICY-CONTRACT",
+        "version": 1
+       },
+       "inputs": {
+        "documents": {
+         "node": "n2"
+        }
+       },
+       "params": {},
+       "unknown_policy": "BLOCK"
+      },
+      "node": "d1",
+      "type": "DECISION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED",
+     "REVIEW_REQUIRED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "584461312edcd83d36cf239bfb421fd963d6146e4ad9f8df775460786c62e05d",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "REVIEW_REQUIRED": "REVIEW_HALT",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-EVIDENCE-AND-REVIEW",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-d",
+    "module": {
+     "code": "M-DOCUMENTS",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": {
+      "survey_outcome": "CLARIFICATION_REQUIRED"
+     },
+     "COMPLETED": "@CONTINUE",
+     "REVIEW_REQUIRED": {
+      "survey_outcome": "REVIEW_REQUIRED"
+     }
+    }
+   }
+  ]
+ },
+ "content_sha256": "410e3cfb048376ae124d823d109dbdfe8b6fa57104341176f954d4ad73366cfa",
+ "manifest_sha256": "5f38cb5b86e74edeb9f6f60b49eb769d26a8073a36897c80e3c7a2dafdfa1ec6",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "G5-evidence-states-and-review-halt-in-module",
+ "source_schema": "call360.survey-studio.fixture/2"
+}

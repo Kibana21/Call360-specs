@@ -1,0 +1,387 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-AS-STATEMENT",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-AS-STATEMENT",
+    "intent": "A question placed by a STATEMENT node",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b01b0b632e674f063a11df83522c5b0a1fbb5fba6cfa72516dd4745f925134ab",
+   "version": 1
+  },
+  {
+   "code": "Q-BAD-LIMITS",
+   "document": {
+    "answer_type": "NUMERIC",
+    "code": "Q-BAD-LIMITS",
+    "intent": "A number question whose lowest is above its highest",
+    "number_rule": {
+     "integer": true,
+     "max": 5,
+     "min": 10
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "6e07c1d711060ef5ddbef2f0312d1e5aede23b00f367d5ad3c5788a242ae7cf5",
+   "version": 1
+  },
+  {
+   "code": "Q-NUMBER-BRANCH",
+   "document": {
+    "answer_type": "NUMERIC",
+    "code": "Q-NUMBER-BRANCH",
+    "intent": "A number question given a per-choice route",
+    "number_rule": {
+     "integer": true
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2e925636e07bb14c8a6bd5525b2d65f566c0c3044c47e8a29a9d77f57ef1ba3d",
+   "version": 1
+  },
+  {
+   "code": "S-AS-QUESTION",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-AS-QUESTION",
+    "intent": "A statement placed by a QUESTION node",
+    "schema": "call360.survey.item/1",
+    "statement_role": "DISCLOSURE",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "93e9e7bd09ed40025e69647ac1aa22d865e4bcf4473b0d7704db0ca48cf6ce14",
+   "version": 1
+  },
+  {
+   "code": "S-MANDATORY",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-MANDATORY",
+    "intent": "A statement marked mandatory with a question role",
+    "lifecycle_role": "IDENTITY_CHECK",
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "statement_role": "OPENING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "56f73f66e990936de78b68f910a2719a2e1ed820fa057f9dfed84644c72fbb0b",
+   "version": 1
+  },
+  {
+   "code": "S-TWO-WAYS",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-TWO-WAYS",
+    "intent": "A statement given two routes",
+    "schema": "call360.survey.item/1",
+    "statement_role": "TRANSITION",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2b962c7510bb066ddd35735ea0c4709356ffbdfb2983e1512bd876ad28c492cc",
+   "version": 1
+  },
+  {
+   "code": "Q-AS-STATEMENT",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-AS-STATEMENT",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Synthetic wording for Q-AS-STATEMENT.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "2c0d229393d1f0ea0137670f13d940d73dae844d1642fe28168daab8168d73f7",
+   "version": 1
+  },
+  {
+   "code": "Q-BAD-LIMITS",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-BAD-LIMITS",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Synthetic wording for Q-BAD-LIMITS.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "e638807a18a6f7265eefb980854a2b86c1b87b15fdcef43f61586a7d02927ba2",
+   "version": 1
+  },
+  {
+   "code": "Q-NUMBER-BRANCH",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-NUMBER-BRANCH",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Synthetic wording for Q-NUMBER-BRANCH.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "552f13d93106b97c2cb798f9553835c00c76e00f59072d02b30f49fe60f39d4d",
+   "version": 1
+  },
+  {
+   "code": "S-AS-QUESTION",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-AS-QUESTION",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Synthetic wording for S-AS-QUESTION.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "53512fb8b32a03c6a10e720324abec704626d0a1cd99dfba705ca960ddf9e8e3",
+   "version": 1
+  },
+  {
+   "code": "S-MANDATORY",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-MANDATORY",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Synthetic wording for S-MANDATORY.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "e962f3e3594bebb5c9cbda5db054b6b13b5c3425bfa435872aeeb4cdc576aa68",
+   "version": 1
+  },
+  {
+   "code": "S-TWO-WAYS",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-TWO-WAYS",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Synthetic wording for S-TWO-WAYS.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "d48aef78f1806f99c0b6745b50e8c90e517a41ece9e06ea96994182529b49a33",
+   "version": 1
+  },
+  {
+   "code": "M-INVALID",
+   "document": {
+    "code": "M-INVALID",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e1b",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "ESCALATE"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "ANY",
+      "to": {
+       "node": "n4"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n4",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n5"
+      }
+     },
+     {
+      "edge": "e5",
+      "from": "n5",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n6"
+      }
+     },
+     {
+      "edge": "e6",
+      "from": "n6",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Invalid on purpose",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-TWO-WAYS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-AS-QUESTION",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-AS-STATEMENT",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-MANDATORY",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n4",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-NUMBER-BRANCH",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n5",
+      "routing": {
+       "mode": "PER_CHOICE"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-BAD-LIMITS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n6",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "befbb5daa9c746b3b8061a1a41c473e3f8fe25f0c540ebc9d6290acb878378a1",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-INVALID",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-invalid",
+    "module": {
+     "code": "M-INVALID",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "ESCALATE": {
+      "survey_outcome": "ESCALATE"
+     }
+    }
+   }
+  ]
+ },
+ "content_sha256": "61976feae6e91df207f9f41c143b86ce789171fe398a61f6e636f90375a44b7a",
+ "manifest_sha256": "d14d3f2a1953de99f3db863f4cb4586a87e7a54f97fe455f300d1cf835e9bc1b",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K2-a-statement-cannot-branch-or-be-answered",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

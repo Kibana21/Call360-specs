@@ -1,0 +1,688 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-FUNDS",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-FUNDS",
+    "intent": "Customer confirms the source of funds",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "82189c6604d3ff1ecf49d6fba324d43de58cfed90cbd0303b094d4986ca45f52",
+   "version": 1
+  },
+  {
+   "code": "Q-IDENTITY",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-IDENTITY",
+    "intent": "Customer confirms they are the policyholder",
+    "lifecycle_role": "IDENTITY_CHECK",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "9aab88023ed730cfadfad3e80837b3d57c2c24c113739c9c8b9f77605ee3892d",
+   "version": 1
+  },
+  {
+   "code": "Q-REPLACEMENT-COSTS",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-REPLACEMENT-COSTS",
+    "intent": "Customer was told the costs of replacing a policy",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "fbdef8b6b2ff4e3160dace916efd3898bf8fe9a32c884b5d852fcf416306eeed",
+   "version": 1
+  },
+  {
+   "code": "Q-SENIOR",
+   "document": {
+    "answer_type": "ACKNOWLEDGEMENT",
+    "code": "Q-SENIOR",
+    "intent": "Older customer acknowledges the cooling-off period",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "56c84c307e4edc4278c56fde454b62c38ac5215211d6a469e2a01ede97b0ab6e",
+   "version": 1
+  },
+  {
+   "code": "S-BYE",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-BYE",
+    "intent": "Closes the call",
+    "schema": "call360.survey.item/1",
+    "statement_role": "CLOSING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "864b917481945e44490b60147374663e459ab389332667cf151dd5bc9245bd16",
+   "version": 1
+  },
+  {
+   "code": "S-HELLO",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-HELLO",
+    "intent": "Opens the call",
+    "schema": "call360.survey.item/1",
+    "statement_role": "OPENING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "704804cf77b29bb925f0cbacbef95f8b40763dc3079f0430741aed229d46364b",
+   "version": 1
+  },
+  {
+   "code": "S-HIGH-VALUE",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-HIGH-VALUE",
+    "intent": "States the premium that triggered the extra check",
+    "schema": "call360.survey.item/1",
+    "statement_role": "DISCLOSURE",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "7d323d147c57e1c352e8381ead780515bc5e982e7aa7bbe3725f45199af3e080",
+   "version": 1
+  },
+  {
+   "code": "Q-FUNDS",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-FUNDS",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Can you confirm that the funds for this policy are your own?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "6df6ed56e5c172446b8b5d67d09feb946ea7fbbfbc4fff8cc16d9ee5578ad23e",
+   "version": 1
+  },
+  {
+   "code": "Q-IDENTITY",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-IDENTITY",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Can you confirm that you are the policyholder?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "40f7464560c032b43e3b893cbfe252e1714274643c580fa386998cfbc9a00ee2",
+   "version": 1
+  },
+  {
+   "code": "Q-REPLACEMENT-COSTS",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-REPLACEMENT-COSTS",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Were you told about the costs of replacing your existing policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "d7ccb3904d798ea2d2af10b47372b499e806f51f1f0503921383a37839761cec",
+   "version": 1
+  },
+  {
+   "code": "Q-SENIOR",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-SENIOR",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Please confirm that you know you may cancel within fourteen days.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "871e543af6c70a126ab4bb4c59a53e9586613252ef7ac71f01bb18db85151a5d",
+   "version": 1
+  },
+  {
+   "code": "S-BYE",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-BYE",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Thank you. This call is now complete.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "a60fdb2cf6b3fe55a7c57b046f80c0380306de8e9cdf2dc261b4aa94a2a7f7bb",
+   "version": 1
+  },
+  {
+   "code": "S-HELLO",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-HELLO",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Good day. This is a service call about your policy.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "2550f88ec4d55bb27a8a8076441e0e68117281a5a993a6e528b3ad368e6a3bf6",
+   "version": 1
+  },
+  {
+   "code": "S-HIGH-VALUE",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-HIGH-VALUE",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Because your annual premium is {{policy.annual_premium}}, I have one more question.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "6b99c3350c92965bacf37f1dcbd43d80704995946ce4b7154f0c0d80ce0427c1",
+   "version": 1
+  },
+  {
+   "code": "C-HIGH-PREMIUM",
+   "document": {
+    "ast": {
+     "left": {
+      "field": "policy.annual_premium"
+     },
+     "op": "GTE",
+     "right": {
+      "param": "threshold"
+     }
+    },
+    "code": "C-HIGH-PREMIUM",
+    "inputs": {},
+    "name": "High premium",
+    "params": {
+     "threshold": {
+      "type": "MONEY",
+      "unit": "SGD"
+     }
+    },
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "9e0d05a8b088b01154b7154fbad96d5522f20c9f299c809d48ce78c1754ba777",
+   "version": 1
+  },
+  {
+   "code": "C-OLDER",
+   "document": {
+    "ast": {
+     "left": {
+      "field": "customer.age_years"
+     },
+     "op": "GTE",
+     "right": {
+      "param": "minimum_age"
+     }
+    },
+    "code": "C-OLDER",
+    "inputs": {},
+    "name": "Older customer",
+    "params": {
+     "minimum_age": {
+      "type": "INTEGER",
+      "unit": "years"
+     }
+    },
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "9627e2150f70a83660e76d273086f7efb0bfb85e7afe356e69438b3a3fdc67ef",
+   "version": 1
+  },
+  {
+   "code": "C-REPLACEMENT",
+   "document": {
+    "ast": {
+     "left": {
+      "field": "policy.is_replacement"
+     },
+     "op": "EQ",
+     "right": {
+      "literal": true
+     }
+    },
+    "code": "C-REPLACEMENT",
+    "inputs": {},
+    "name": "Policy replacement",
+    "params": {},
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "326ade98014c16202227968fa5ba2610c504daeff46e08d45e17a83ac50e0f0b",
+   "version": 1
+  },
+  {
+   "code": "M-CLOSING",
+   "document": {
+    "code": "M-CLOSING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Closing",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-BYE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "8b696591bdf0cc4e8206d84e23e0f9095988129c536f284b2633609983caec64",
+   "version": 1
+  },
+  {
+   "code": "M-HIGH-VALUE",
+   "document": {
+    "code": "M-HIGH-VALUE",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n2",
+      "on": "NO",
+      "to": {
+       "outcome": "ESCALATE"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "High value review",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-HIGH-VALUE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-FUNDS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "PER_CHOICE"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "4160a70e3369405bdd705b0d9edb491088c3ac480b0fb51255b41615540a234f",
+   "version": 1
+  },
+  {
+   "code": "M-OPENING",
+   "document": {
+    "code": "M-OPENING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n2",
+      "on": "NO",
+      "to": {
+       "outcome": "UNABLE_TO_VERIFY"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Opening",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-HELLO",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-IDENTITY",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "PER_CHOICE"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "UNABLE_TO_VERIFY"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "e1de5549c5b07a583fcfb5e738de3d3f4782242704e5e28380e5303b32d553a4",
+   "version": 1
+  },
+  {
+   "code": "M-REPLACEMENT",
+   "document": {
+    "code": "M-REPLACEMENT",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Policy replacement",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-REPLACEMENT-COSTS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "3c12ef77e43780aea905a9dec59bafa4d470933c42a35df6208954a1adfaa3b9",
+   "version": 1
+  },
+  {
+   "code": "M-SENIOR",
+   "document": {
+    "code": "M-SENIOR",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Senior customer",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-SENIOR",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "73b3754a4f074f1742c2d6358d88a844dd79b47876292a4373fbcd38d3bf0ad0",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {
+   "customer.age_years": {
+    "label": "Customer age",
+    "type": "INTEGER",
+    "unit": "years"
+   },
+   "policy.annual_premium": {
+    "label": "Annual premium",
+    "type": "MONEY",
+    "unit": "SGD"
+   },
+   "policy.is_replacement": {
+    "label": "Replaces an existing policy",
+    "type": "BOOLEAN"
+   }
+  },
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-APPLICATION",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-opening",
+    "module": {
+     "code": "M-OPENING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "UNABLE_TO_VERIFY": {
+      "survey_outcome": "UNABLE_TO_VERIFY"
+     }
+    }
+   },
+   {
+    "eligibility": {
+     "condition": {
+      "code": "C-HIGH-PREMIUM",
+      "version": 1
+     },
+     "params": {
+      "threshold": 12000
+     },
+     "unknown_policy": "BLOCK"
+    },
+    "instance": "mi-high-value",
+    "module": {
+     "code": "M-HIGH-VALUE",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "ESCALATE": {
+      "survey_outcome": "ESCALATE"
+     }
+    }
+   },
+   {
+    "eligibility": {
+     "condition": {
+      "code": "C-REPLACEMENT",
+      "version": 1
+     },
+     "params": {},
+     "unknown_policy": "SKIP_WITH_REASON"
+    },
+    "instance": "mi-replacement",
+    "module": {
+     "code": "M-REPLACEMENT",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "eligibility": {
+     "condition": {
+      "code": "C-OLDER",
+      "version": 1
+     },
+     "params": {
+      "minimum_age": 60
+     },
+     "unknown_policy": "BLOCK"
+    },
+    "instance": "mi-senior",
+    "module": {
+     "code": "M-SENIOR",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-closing",
+    "module": {
+     "code": "M-CLOSING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "6a0ed99d2ffebf1bf6ed2634d607fd244fcac14a4440b2c4b394e9e82e859ec9",
+ "manifest_sha256": "96caba5854e590d59c5ff1eb78d175a7705db6806e4b22a421e150afbd327b75",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K8-the-call-plan-is-specific-to-the-application",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

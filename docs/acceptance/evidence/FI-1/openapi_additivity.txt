@@ -1,0 +1,12 @@
+# FI-1 — OpenAPI: accepted SS-03A contract (a607ff5) vs regenerated
+sha256 before: 725fee2ceeb0b9ecf11352070a38ce501fa3495475f13fee5645a9526ed09f28
+sha256 after:  5a31269b168a6c4b2b36a2eded31b83d98b31646a990a712fc132269ab47b196
+operations: before 214 after 216 | added 2 | removed 0
+existing operations changed: 1
+   ('POST', '/api/v1/survey-definitions/{survey_id}/draft/operations') differs only in: ['description']
+schemas: before 427 after 431 | added 4 | removed 0 | existing changed 0
+
+added operations:
+  GET /api/v1/survey-definitions/{survey_id}/draft/documents -> survey_draft_documents
+  POST /api/v1/survey-definitions/{survey_id}/draft/save -> survey_draft_save
+added schemas: SurveyCatalogs, SurveyDraftAssetDocument, SurveyDraftDocumentsOut, SurveyDraftSaveIn

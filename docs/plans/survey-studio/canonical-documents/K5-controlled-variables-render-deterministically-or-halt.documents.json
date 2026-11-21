@@ -1,0 +1,295 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-CORRECT",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CORRECT",
+    "intent": "Customer confirms the details",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "bc5dda0f5b387f2ca11f50ee81b467e43b548353bf66fa7eedc59bc4eff3c212",
+   "version": 1
+  },
+  {
+   "code": "S-END",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-END",
+    "intent": "Closes the call, naming the plan again",
+    "schema": "call360.survey.item/1",
+    "statement_role": "CLOSING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "be7fd26283cbaa78ceda0b618fdec9b54144e24558a72f3923cc41590e9ed21c",
+   "version": 1
+  },
+  {
+   "code": "S-PLAN",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-PLAN",
+    "intent": "Names the plan",
+    "schema": "call360.survey.item/1",
+    "statement_role": "OPENING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "29721f66addc078d5d3a0d16ac341c55cdd069b2fe29040cbfa871484835eb60",
+   "version": 1
+  },
+  {
+   "code": "S-PREMIUM",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-PREMIUM",
+    "intent": "States the premium, the term and the product family",
+    "schema": "call360.survey.item/1",
+    "statement_role": "DISCLOSURE",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "3140c2a5246740828ba68a2349f39616fcf699e4e98d0d6c15074f9d08402258",
+   "version": 1
+  },
+  {
+   "code": "Q-CORRECT",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-CORRECT",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Are these details correct?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "7b2bacb0ce83d51c6bb60882355cb2792ab3c70ddacf642e5f6b118bdaae7b21",
+   "version": 1
+  },
+  {
+   "code": "S-END",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-END",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Thank you for confirming your {{policy.plan_name}} plan.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "22066d313ec9d67a6237e7acbe4d546270f58e79575e43dac123986614539fa1",
+   "version": 1
+  },
+  {
+   "code": "S-PLAN",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-PLAN",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Good day. This call is about your {{policy.plan_name}} plan.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "0ef558f2c5f698994d160c4db806a0ff6ff32c4550b18a33b79deb81f8cf48b7",
+   "version": 1
+  },
+  {
+   "code": "S-PREMIUM",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-PREMIUM",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Our records show a premium of {{policy.annual_premium}} a year for {{policy.term_years}} years. It is a {{ policy.product_family }} plan.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "8afe58e81ddacf0e4ca215b19e1c1fbf9b6c0e6bc81749ff9dbc5b86b2ebfd68",
+   "version": 1
+  },
+  {
+   "code": "M-DETAILS",
+   "document": {
+    "code": "M-DETAILS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "ANY",
+      "to": {
+       "node": "n4"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n4",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Details",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-PLAN",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-PREMIUM",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-CORRECT",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "S-END",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n4",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "ae39d1f5ef59600db913bc86c6530b6e8b7e8f48f73210ac0ad0b32a327d050c",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {
+   "policy.annual_premium": {
+    "label": "Annual premium",
+    "type": "MONEY",
+    "unit": "SGD"
+   },
+   "policy.plan_name": {
+    "label": "Plan name",
+    "type": "TEXT"
+   },
+   "policy.product_family": {
+    "label": "Product family",
+    "type": "ENUM",
+    "values": [
+     "PROTECTION",
+     "ILP",
+     "ENDOWMENT"
+    ]
+   },
+   "policy.term_years": {
+    "label": "Policy term",
+    "type": "INTEGER",
+    "unit": "years"
+   }
+  },
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-VARIABLES",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-details",
+    "module": {
+     "code": "M-DETAILS",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "a6f9580429b5f3d5082dceb5a4f706873cf4f5913636c44c048b20c7d2dcdf51",
+ "manifest_sha256": "9b61f0d3c9196b0a7c244eaa12a378ca6f963e8c21844cc4d3206c3c3ecaef32",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K5-controlled-variables-render-deterministically-or-halt",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

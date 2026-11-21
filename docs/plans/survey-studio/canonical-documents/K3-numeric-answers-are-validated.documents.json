@@ -1,0 +1,212 @@
+{
+ "assets": [
+  {
+   "code": "Q-ANY-NUMBER",
+   "document": {
+    "answer_type": "NUMERIC",
+    "code": "Q-ANY-NUMBER",
+    "intent": "A number with no limits",
+    "number_rule": {
+     "integer": false
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "121b87f563941fee584d386d00dbb40e2c83973ea07d434be29daafef17188fd",
+   "version": 1
+  },
+  {
+   "code": "Q-SHARE",
+   "document": {
+    "answer_type": "NUMERIC",
+    "code": "Q-SHARE",
+    "intent": "Share of income the premium takes, in percent",
+    "number_rule": {
+     "integer": false,
+     "max": 100,
+     "min": 0,
+     "unit": "percent"
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "aed3b966ea718f6f0eec3acf6e6a7efac5ddf71d56ba51ecbfa89fdea4d20fd1",
+   "version": 1
+  },
+  {
+   "code": "Q-YEARS",
+   "document": {
+    "answer_type": "NUMERIC",
+    "code": "Q-YEARS",
+    "intent": "Years the customer was told they would pay",
+    "number_rule": {
+     "integer": true,
+     "max": 99,
+     "min": 1,
+     "unit": "years"
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "39e0fb89a5385d85bc4235effcb7336db9bcca8e909d2069fd0cc145b4702c3a",
+   "version": 1
+  },
+  {
+   "code": "Q-ANY-NUMBER",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-ANY-NUMBER",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "How many other policies do you hold?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "8aac28fd4f928a7c22acb06ec47db61abef0cec3f60d2618c3830f07138e9e95",
+   "version": 1
+  },
+  {
+   "code": "Q-SHARE",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-SHARE",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Roughly what share of your income goes to this premium, in percent?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "9b0623daa205db058aea2fbed86bb72dcdbac61629c82c70d386c7d5e8b2929e",
+   "version": 1
+  },
+  {
+   "code": "Q-YEARS",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-YEARS",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "For how many years did your representative say you would pay premiums?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "df855d9e9f52a572be375908898e42045ad4cde757ffdde69fded855289dfa8b",
+   "version": 1
+  },
+  {
+   "code": "M-NUMBERS",
+   "document": {
+    "code": "M-NUMBERS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Numbers",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-YEARS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-SHARE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-ANY-NUMBER",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "f314da5d2538d7575882b83a6df1494f6872a60fd19d9bc15faea16a93d716a2",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-NUMBERS",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-numbers",
+    "module": {
+     "code": "M-NUMBERS",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "3d8d2d4940013cf1abf712c1b66e182b1e5b104f35adffb8375a03c927ad67a6",
+ "manifest_sha256": "20bb6238472dc32153d9c5248e808f9bb0f3e1f5a2d5200ed19b5a033b998772",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K3-numeric-answers-are-validated",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

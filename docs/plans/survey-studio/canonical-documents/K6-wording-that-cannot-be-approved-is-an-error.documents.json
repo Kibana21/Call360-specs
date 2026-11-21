@@ -1,0 +1,352 @@
+{
+ "assets": [
+  {
+   "code": "S-OWN-WORDS",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-OWN-WORDS",
+    "intent": "Left to the assistant's own words",
+    "schema": "call360.survey.item/1",
+    "statement_role": "TRANSITION",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "299eec0010eae9c54c3bc1412f45cba16425843117c0ba08945cb270c6f0c954",
+   "version": 1
+  },
+  {
+   "code": "S-RECORDING",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-RECORDING",
+    "intent": "An approved recording, with no recording attached",
+    "schema": "call360.survey.item/1",
+    "statement_role": "DISCLOSURE",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "82503a989f2df63df8e9a832735e14bdec9e7f4141a6a2bdfe7f60008f5aaedd",
+   "version": 1
+  },
+  {
+   "code": "S-RECORDING-VARIABLE",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-RECORDING-VARIABLE",
+    "intent": "A recording that would have to contain a variable",
+    "schema": "call360.survey.item/1",
+    "statement_role": "CLOSING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "4a9c8a18f982cbfe41db6b37c0b25f5d4bbf628a474e7c7a8f123ad7070c8d26",
+   "version": 1
+  },
+  {
+   "code": "S-UNFINISHED",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-UNFINISHED",
+    "intent": "Has an unfinished variable",
+    "schema": "call360.survey.item/1",
+    "statement_role": "TRANSITION",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "55e23336a3c12c73d07f51838dc82dcee46f0bb4ce0e4bd55023ee3e1a1b4516",
+   "version": 1
+  },
+  {
+   "code": "S-UNKNOWN-FIELD",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-UNKNOWN-FIELD",
+    "intent": "Names a field that is not in the catalog",
+    "schema": "call360.survey.item/1",
+    "statement_role": "OPENING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "e81f5969aa72ee52141a8e3141b9d805fca5c489a322510867c5a2bb8407f0b2",
+   "version": 1
+  },
+  {
+   "code": "S-YES-NO-FACT",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-YES-NO-FACT",
+    "intent": "Tries to speak a yes/no fact",
+    "schema": "call360.survey.item/1",
+    "statement_role": "DISCLOSURE",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2b1be2c12d448de2b24b7bb2adf9e8af4b49e3f7e9b6361dae31bdc6f87210b9",
+   "version": 1
+  },
+  {
+   "code": "S-OWN-WORDS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "S-OWN-WORDS",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Explain the next part in your own words.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "80404acfeddce27e00ea609e71e4bc0340ac5b04066b82ff08fbf242916cf690",
+   "version": 1
+  },
+  {
+   "code": "S-RECORDING",
+   "document": {
+    "delivery_mode": "EXACT_AUDIO",
+    "item": "S-RECORDING",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "This call may be recorded.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "269fca224812b4067f704657b09d0f5c2f2d63b65d32162248fe1d78c39e42ca",
+   "version": 1
+  },
+  {
+   "code": "S-RECORDING-VARIABLE",
+   "document": {
+    "delivery_mode": "EXACT_AUDIO",
+    "item": "S-RECORDING-VARIABLE",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Goodbye, and thank you for choosing {{policy.plan_name}}.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "19962e1dfe79a1f641a0edd94ddf31f25fcbd32f750a1bd4fa79a78e08ea122b",
+   "version": 1
+  },
+  {
+   "code": "S-UNFINISHED",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-UNFINISHED",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Your plan is {{policy.plan_name.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "70ea16633dedce024ceece4c7ec3eca32e1160d81689fe0066b7438890b31198",
+   "version": 1
+  },
+  {
+   "code": "S-UNKNOWN-FIELD",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-UNKNOWN-FIELD",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Good day {{customer.nickname}}.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "5c39d7f142d93b061966195518b67c6c060970a3c1879fc9b74c9b088f088823",
+   "version": 1
+  },
+  {
+   "code": "S-YES-NO-FACT",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-YES-NO-FACT",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "This policy replaces another: {{policy.is_replacement}}.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "1d3271934908241f8a9d9c55e38a90145c440a8d920d7ee40dea4a6db04e0295",
+   "version": 1
+  },
+  {
+   "code": "M-WORDING",
+   "document": {
+    "code": "M-WORDING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n4"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n4",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n5"
+      }
+     },
+     {
+      "edge": "e5",
+      "from": "n5",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n6"
+      }
+     },
+     {
+      "edge": "e6",
+      "from": "n6",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Wording that cannot be approved",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-UNKNOWN-FIELD",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-YES-NO-FACT",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-UNFINISHED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-OWN-WORDS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n4",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-RECORDING",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n5",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-RECORDING-VARIABLE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n6",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "58cfe96683ca916fb71a10f42fbd34414b18cff61cb5514ca265d9dad0193dc7",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {
+   "policy.is_replacement": {
+    "label": "Replaces an existing policy",
+    "type": "BOOLEAN"
+   },
+   "policy.plan_name": {
+    "label": "Plan name",
+    "type": "TEXT"
+   }
+  },
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-WORDING",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-wording",
+    "module": {
+     "code": "M-WORDING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "c61b379992b44424a075f402a2c354a352fd6975ddb0ec24b53b6411b223b71e",
+ "manifest_sha256": "74087754cffdd3457f7c163fb4432480db717c168fc206261f6a01cde83c366f",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K6-wording-that-cannot-be-approved-is-an-error",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

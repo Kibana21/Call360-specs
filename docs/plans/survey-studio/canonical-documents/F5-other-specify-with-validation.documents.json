@@ -1,0 +1,284 @@
+{
+ "assets": [
+  {
+   "code": "OS-PURCHASE-REASON",
+   "document": {
+    "code": "OS-PURCHASE-REASON",
+    "options": [
+     {
+      "code": "PROTECTION",
+      "label": "Protection for family"
+     },
+     {
+      "code": "SAVINGS",
+      "label": "Savings"
+     },
+     {
+      "code": "OTHER",
+      "is_other": true,
+      "label": "Other — please specify",
+      "other_text": {
+       "max_length": 200,
+       "min_length": 5,
+       "required": true
+      }
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "15a0ae125eb30bec4f66ab9f78a7aad9ab0e23e1043b919159270981473d703a",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PROCEED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CONFIRM-PROCEED",
+    "intent": "Customer is content to proceed",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b8c426d3ffd44221eafdd7aed131cc6fa9fda91f42cded4648d52ffb4981e4f4",
+   "version": 1
+  },
+  {
+   "code": "Q-PURCHASE-REASON",
+   "document": {
+    "answer_type": "SINGLE_SELECT",
+    "code": "Q-PURCHASE-REASON",
+    "intent": "Main reason for buying",
+    "option_set": {
+     "code": "OS-PURCHASE-REASON",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "89de14f2cb79a2a4aed691bebb797c9bd2b86aacce216aea8184abe100cbdddb",
+   "version": 1
+  },
+  {
+   "code": "Q-REASON-MATCHES-ADVICE",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-REASON-MATCHES-ADVICE",
+    "intent": "Stated reason matches the advice given",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "3224ce15586c1db9994dba6d431bfc1bcab1a120ac870d25ab79061bf3319889",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PROCEED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CONFIRM-PROCEED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Are you content to proceed with this policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "7186f06af9da493f632bf5c6b8de1e99da954978de6b75865cca71375db0b178",
+   "version": 1
+  },
+  {
+   "code": "Q-PURCHASE-REASON",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PURCHASE-REASON",
+    "language": "en",
+    "option_texts": {
+     "OTHER": "Other — please specify",
+     "PROTECTION": "Protection for family",
+     "SAVINGS": "Savings"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "What was your main reason for buying this policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "e39d5dcccdca5b6254281dc1b6c882370a0212349571fbaca33ed92bedca5b97",
+   "version": 1
+  },
+  {
+   "code": "Q-REASON-MATCHES-ADVICE",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-REASON-MATCHES-ADVICE",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Does that match the advice your representative gave you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "a8b5f85185e16349dfa906c302b61e2b47798e3c7f09ddfb71ac6a1faefba2cb",
+   "version": 1
+  },
+  {
+   "code": "M-PURCHASE-REASON",
+   "document": {
+    "code": "M-PURCHASE-REASON",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "OTHER",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n3",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Reason for purchase",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-PURCHASE-REASON",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-REASON-MATCHES-ADVICE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-CONFIRM-PROCEED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "89ffc82a9faf205b81d9a8f5bdecb6119604dbe2664e8250b32bd9cdcc8f2f48",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-OTHER-SPECIFY",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-reason",
+    "module": {
+     "code": "M-PURCHASE-REASON",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "b8470d1ada84179ee07040acb69ae915c5a2690fa06a64893e35d54b08c84d2e",
+ "manifest_sha256": "0d52b9dce079bab983cbce69521bf8a491297a72f72069df7027b189791b62a8",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "F5-other-specify-with-validation",
+ "source_schema": "call360.survey-studio.fixture/1"
+}

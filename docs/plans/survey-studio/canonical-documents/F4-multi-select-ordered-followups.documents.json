@@ -1,0 +1,384 @@
+{
+ "assets": [
+  {
+   "code": "OS-CLARIFY-AREAS",
+   "document": {
+    "code": "OS-CLARIFY-AREAS",
+    "options": [
+     {
+      "code": "PREMIUM",
+      "label": "Premium"
+     },
+     {
+      "code": "BENEFITS",
+      "label": "Benefits"
+     },
+     {
+      "code": "CLAIMS",
+      "label": "Claims"
+     },
+     {
+      "code": "CRITICAL_RISK",
+      "label": "I did not agree to this policy"
+     },
+     {
+      "code": "NONE",
+      "exclusive": true,
+      "label": "None of the above"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "bcc329c1f223a06f1da8753378ec4cb94a3cb9767ceb6d0326f46e3d6eb214ba",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-CLARIFY-AREAS",
+   "document": {
+    "answer_type": "MULTI_SELECT",
+    "code": "Q-CLARIFY-AREAS",
+    "intent": "Areas the customer wants clarified",
+    "option_set": {
+     "code": "OS-CLARIFY-AREAS",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "selection": {
+     "max": 4,
+     "min": 1
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "8386dee5d5c357ad89c6435b1a5a54227bed2810324976f8c84eb1253ccbd4a0",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PROCEED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CONFIRM-PROCEED",
+    "intent": "Customer is content to proceed",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b8c426d3ffd44221eafdd7aed131cc6fa9fda91f42cded4648d52ffb4981e4f4",
+   "version": 1
+  },
+  {
+   "code": "Q-COVER-CLARIFY",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-COVER-CLARIFY",
+    "intent": "Cover and claims are understood",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "45307575a23fe2f0015439f3b063ee0fa3416f53c00951585448a66f8984df09",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLARIFY",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PREMIUM-CLARIFY",
+    "intent": "Premium amount and term are understood",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "db39e6bce7ffcb059b2b2775334c5af2d1b48c53514c672baed53fe865da13d2",
+   "version": 1
+  },
+  {
+   "code": "Q-CLARIFY-AREAS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CLARIFY-AREAS",
+    "language": "en",
+    "option_texts": {
+     "BENEFITS": "Benefits",
+     "CLAIMS": "Claims",
+     "CRITICAL_RISK": "I did not agree to this policy",
+     "NONE": "None of the above",
+     "PREMIUM": "Premium"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Which of these would you like us to clarify? You may choose more than one.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "faf08c8f42d2990314e1adf3db9fcde2944b6ec92257539b5293746a808c6c50",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PROCEED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CONFIRM-PROCEED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Are you content to proceed with this policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "7186f06af9da493f632bf5c6b8de1e99da954978de6b75865cca71375db0b178",
+   "version": 1
+  },
+  {
+   "code": "Q-COVER-CLARIFY",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-COVER-CLARIFY",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is it clear to you what the plan covers and how to claim?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "010ab0e8a6958575f53ecb52cfe67b1316c828e18ae1c7bfe1a07fa853f60e78",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLARIFY",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PREMIUM-CLARIFY",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is the premium amount and payment term clear to you now?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "3c31091abed19c0e87f92e54d1451ed4c59b14812a0086a5237eb8b3f15e2491",
+   "version": 1
+  },
+  {
+   "code": "M-CLARIFICATIONS",
+   "document": {
+    "code": "M-CLARIFICATIONS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n-prem",
+      "on": "ANY",
+      "to": {
+       "return": true
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n-cover",
+      "on": "ANY",
+      "to": {
+       "return": true
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n-confirm",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n-confirm",
+      "on": "NO",
+      "to": {
+       "outcome": "CLARIFICATION_REQUIRED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Clarifications",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CLARIFY-AREAS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "followups": [
+        {
+         "nodes": [
+          "n-prem"
+         ],
+         "option": "PREMIUM"
+        },
+        {
+         "nodes": [
+          "n-cover"
+         ],
+         "option": "BENEFITS"
+        },
+        {
+         "nodes": [
+          "n-cover"
+         ],
+         "option": "CLAIMS"
+        }
+       ],
+       "interrupts": [
+        {
+         "option": "CRITICAL_RISK",
+         "outcome": "ESCALATE"
+        }
+       ],
+       "mode": "SEQUENTIAL_FOLLOWUPS",
+       "no_followup": [
+        "NONE"
+       ],
+       "rejoin": {
+        "node": "n-confirm"
+       }
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-PREMIUM-CLARIFY",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n-prem",
+      "role": "FOLLOWUP",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-COVER-CLARIFY",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n-cover",
+      "role": "FOLLOWUP",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-CONFIRM-PROCEED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n-confirm",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "08c81216ad3f6bf534976b718642ddc5c3758472fb6783621dc464867b9b8c31",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-MULTI-FOLLOWUPS",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-clar",
+    "module": {
+     "code": "M-CLARIFICATIONS",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": {
+      "survey_outcome": "CLARIFICATION_REQUIRED"
+     },
+     "COMPLETED": "@CONTINUE",
+     "ESCALATE": {
+      "survey_outcome": "ESCALATE"
+     }
+    }
+   }
+  ]
+ },
+ "content_sha256": "af57ed437d8142162dcc12b70140e411e1b98e99806ddcc26905d3b18beba0d4",
+ "manifest_sha256": "c1f2a7c7b927a1944bd8afb262cce3c84b87942dbf55e580037d7644d3d8677f",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "F4-multi-select-ordered-followups",
+ "source_schema": "call360.survey-studio.fixture/1"
+}

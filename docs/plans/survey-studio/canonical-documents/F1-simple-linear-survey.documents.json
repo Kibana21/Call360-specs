@@ -1,0 +1,325 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-ANYTHING-ELSE",
+   "document": {
+    "answer_type": "FREE_TEXT",
+    "code": "Q-ANYTHING-ELSE",
+    "intent": "Customer's own remarks",
+    "schema": "call360.survey.item/1",
+    "text_rule": {
+     "max_length": 500,
+     "required": false
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "edb7dbce3108bb7587965cbb8eeb8b1ad46c2d7a767ec5b4949f9b573202e2d6",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CLOSING-ACK",
+    "intent": "Customer acknowledges the closing statement",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2875926a7e7452926cbed5a56d89e0e92457e15a7b51a9eb3e25e876bad430f0",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PURCHASE",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CONFIRM-PURCHASE",
+    "intent": "Customer confirms the purchase",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "ae425ecd3ce78b50778434e7e2064a0b04e33615675ee4701746f44c94a8ae62",
+   "version": 1
+  },
+  {
+   "code": "Q-REP-EXPLAINED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-REP-EXPLAINED",
+    "intent": "Representative explained the plan",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "f4e6497ec1448b32ce2f7d172af8b806d95607bccd5c7162c95b7d6acd9b35d1",
+   "version": 1
+  },
+  {
+   "code": "Q-ANYTHING-ELSE",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-ANYTHING-ELSE",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Is there anything else you would like to tell us?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "17141ab7580998284986223d013cbba4f12c0092b67f1c298ba3195c9fe76421",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CLOSING-ACK",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Thank you. Do you acknowledge that this call has been completed?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "b05f81ca70f3b9024cafae9d50e03ca1a5d5f32e7e711e52f588b976d658f486",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PURCHASE",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CONFIRM-PURCHASE",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Can you confirm that you purchased this policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "cfefa1d3b02c23e79cb0aba8c9d5180fd73b01e45a98e3ba5115e6320e30312d",
+   "version": 1
+  },
+  {
+   "code": "Q-REP-EXPLAINED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-REP-EXPLAINED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Did your representative explain how the plan works?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "e440f4264f09d3f522f97008e6429c6e8c107dd51bc73bac0ab5dd8b5eecef4f",
+   "version": 1
+  },
+  {
+   "code": "M-CLOSING",
+   "document": {
+    "code": "M-CLOSING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Closing",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CLOSING-ACK",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "cc0615f82014b60dd54371b744001a980f8a7a78c9e78447ac27194ded5c7558",
+   "version": 1
+  },
+  {
+   "code": "M-GENERAL",
+   "document": {
+    "code": "M-GENERAL",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "General verification",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CONFIRM-PURCHASE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-REP-EXPLAINED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-ANYTHING-ELSE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "83ba7f0b4c80993ab423facd0e591ea1c0ad4c37276553ee0d3cec6e2cd9bce4",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-LINEAR",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-general",
+    "module": {
+     "code": "M-GENERAL",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-closing",
+    "module": {
+     "code": "M-CLOSING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "d4b222a05271ed26df2595a886c8fcf4548ce2eadd622979beb44f3f89910734",
+ "manifest_sha256": "c41b79b62fe63b33460e44927343495747b0a741c7fe5000311b361d5c924516",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "F1-simple-linear-survey",
+ "source_schema": "call360.survey-studio.fixture/1"
+}

@@ -1,0 +1,735 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-CALLBACK-CONSENT",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CALLBACK-CONSENT",
+    "intent": "Customer agrees to a follow-up from a specialist",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "253f67f68151e6b0bebc7464fbd17f72cf3f648963e331e745ddc866a22f5ab0",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CLOSING-ACK",
+    "intent": "Customer acknowledges the closing statement",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2875926a7e7452926cbed5a56d89e0e92457e15a7b51a9eb3e25e876bad430f0",
+   "version": 1
+  },
+  {
+   "code": "Q-IDENTITY-CONFIRMED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-IDENTITY-CONFIRMED",
+    "intent": "Customer confirms they are the policyholder",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2520609c56d905a547ae1ab896dcb8c491135b25f834fda668ad4ff92acfd66b",
+   "version": 1
+  },
+  {
+   "code": "Q-ILP-RISK-UNDERSTOOD",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-ILP-RISK-UNDERSTOOD",
+    "intent": "Customer understands investment risk",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "bd8a2f3a22f4be387a5601425b9e0d34e7ac810d06982a011bccbaf9081f1115",
+   "version": 1
+  },
+  {
+   "code": "Q-REPLACEMENT-COSTS",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-REPLACEMENT-COSTS",
+    "intent": "Customer was told the costs of replacing a policy",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "8b23a84566fed9b0f1d3080383803d55b615ead2c0e4f3efb73d5d8645857c02",
+   "version": 1
+  },
+  {
+   "code": "Q-SOURCE-OF-FUNDS",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-SOURCE-OF-FUNDS",
+    "intent": "Customer confirms the source of funds",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b93bb1459688bfc4754ec82e3caaa9b77676e42ceb048a2b57f8a9a6fae765d1",
+   "version": 1
+  },
+  {
+   "code": "Q-CALLBACK-CONSENT",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CALLBACK-CONSENT",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "May one of our specialists call you to explain this further?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "42421e34078ef4ec46be3c741942ae9d4edfd695e9aa32b43893f37fa90d5cbb",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CLOSING-ACK",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Thank you. Do you acknowledge that this call has been completed?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "b05f81ca70f3b9024cafae9d50e03ca1a5d5f32e7e711e52f588b976d658f486",
+   "version": 1
+  },
+  {
+   "code": "Q-IDENTITY-CONFIRMED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-IDENTITY-CONFIRMED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Can you confirm that you are the policyholder?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "8fd7874888ec26de202b052dd54c0a724d11d5b5568c710b9b475a8138b1724f",
+   "version": 1
+  },
+  {
+   "code": "Q-ILP-RISK-UNDERSTOOD",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-ILP-RISK-UNDERSTOOD",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Do you understand that the value of this plan can go down as well as up?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "71d8223e81132835feaa03a2fe1901e3c60cf3e988d3fcbbfbc2e4f5487628a6",
+   "version": 1
+  },
+  {
+   "code": "Q-REPLACEMENT-COSTS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-REPLACEMENT-COSTS",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Were you told about the costs of replacing your existing policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "f060e6995221cd3809b3c1ceb925b5d95cecb0d2fff2f2a479c535d84fc9a7cf",
+   "version": 1
+  },
+  {
+   "code": "Q-SOURCE-OF-FUNDS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-SOURCE-OF-FUNDS",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Can you confirm the funds for this policy are your own?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "d6bdbadfe9531ec996a38bf9dd8ad148bd576ab8743ff753be538430526cf9db",
+   "version": 1
+  },
+  {
+   "code": "C-HIGH-VALUE",
+   "document": {
+    "ast": {
+     "args": [
+      {
+       "left": {
+        "field": "policy.annual_premium"
+       },
+       "op": "GTE",
+       "right": {
+        "param": "premium_threshold"
+       }
+      },
+      {
+       "left": {
+        "field": "policy.sum_assured"
+       },
+       "op": "GTE",
+       "right": {
+        "param": "sum_assured_threshold"
+       }
+      }
+     ],
+     "op": "OR"
+    },
+    "code": "C-HIGH-VALUE",
+    "inputs": {},
+    "name": "High value sale",
+    "params": {
+     "premium_threshold": {
+      "type": "MONEY",
+      "unit": "SGD"
+     },
+     "sum_assured_threshold": {
+      "type": "MONEY",
+      "unit": "SGD"
+     }
+    },
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "2d5fef0e4401d696c266578c8daa15ec2288656456a93260e8fc7a5b772b33c1",
+   "version": 1
+  },
+  {
+   "code": "C-IS-ILP",
+   "document": {
+    "ast": {
+     "left": {
+      "field": "policy.product_family"
+     },
+     "op": "EQ",
+     "right": {
+      "literal": "ILP"
+     }
+    },
+    "code": "C-IS-ILP",
+    "inputs": {},
+    "name": "Product is ILP",
+    "params": {},
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "7e2c2571a1b1a01991cd5eee66e063d078254c38a83b9b55cfea6adf1935c2e2",
+   "version": 1
+  },
+  {
+   "code": "C-IS-REPLACEMENT",
+   "document": {
+    "ast": {
+     "left": {
+      "field": "policy.is_replacement"
+     },
+     "op": "EQ",
+     "right": {
+      "literal": true
+     }
+    },
+    "code": "C-IS-REPLACEMENT",
+    "inputs": {},
+    "name": "Policy replacement",
+    "params": {},
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "8d7b6468c900758d2f0a4489f8ad30209d1316bd0c21fa94d7b26e5be6915634",
+   "version": 1
+  },
+  {
+   "code": "M-CLOSING",
+   "document": {
+    "code": "M-CLOSING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Closing",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CLOSING-ACK",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "cc0615f82014b60dd54371b744001a980f8a7a78c9e78447ac27194ded5c7558",
+   "version": 1
+  },
+  {
+   "code": "M-ESCALATION",
+   "document": {
+    "code": "M-ESCALATION",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Escalation and follow-up",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CALLBACK-CONSENT",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "829d32b4bbc2d6e81ac156bf2dd7424e13563f146e92dabc2fcc642b6eef0ab4",
+   "version": 1
+  },
+  {
+   "code": "M-GENERAL",
+   "document": {
+    "code": "M-GENERAL",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "NO",
+      "to": {
+       "outcome": "UNABLE_TO_VERIFY"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "General verification",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-IDENTITY-CONFIRMED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "UNABLE_TO_VERIFY"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "43ca21aa6da72500c8c7f5a79281b47a0db005b8f98ae7b9b3464b8b22b710e2",
+   "version": 1
+  },
+  {
+   "code": "M-HIGH-VALUE",
+   "document": {
+    "code": "M-HIGH-VALUE",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "High value review",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-SOURCE-OF-FUNDS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "2aae4977c127edf38478a2a1e2decf58f9fe5695fd5269feafd3167218327601",
+   "version": 1
+  },
+  {
+   "code": "M-REPLACEMENT",
+   "document": {
+    "code": "M-REPLACEMENT",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Policy replacement",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-REPLACEMENT-COSTS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "3c12ef77e43780aea905a9dec59bafa4d470933c42a35df6208954a1adfaa3b9",
+   "version": 1
+  },
+  {
+   "code": "M-SUITABILITY",
+   "document": {
+    "code": "M-SUITABILITY",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "NO",
+      "to": {
+       "outcome": "CLARIFICATION_REQUIRED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Suitability",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-ILP-RISK-UNDERSTOOD",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "9962fa604b46398a74f5b52bbe033e97ec007104d639fd16d3f2b3c5e0841e61",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {
+   "policy.annual_premium": {
+    "label": "Annual premium",
+    "type": "MONEY",
+    "unit": "SGD"
+   },
+   "policy.is_replacement": {
+    "label": "Policy replacement",
+    "type": "BOOLEAN"
+   },
+   "policy.product_family": {
+    "label": "Product family",
+    "type": "ENUM",
+    "values": [
+     "PROTECTION",
+     "ILP",
+     "ENDOWMENT"
+    ]
+   },
+   "policy.sum_assured": {
+    "label": "Sum assured",
+    "type": "MONEY",
+    "unit": "SGD"
+   }
+  },
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-NEW-BUSINESS",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-general",
+    "module": {
+     "code": "M-GENERAL",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "UNABLE_TO_VERIFY": {
+      "survey_outcome": "UNABLE_TO_VERIFY"
+     }
+    }
+   },
+   {
+    "eligibility": {
+     "condition": {
+      "code": "C-IS-ILP",
+      "version": 1
+     },
+     "params": {},
+     "unknown_policy": "BLOCK"
+    },
+    "instance": "mi-suitability",
+    "module": {
+     "code": "M-SUITABILITY",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": "@CONTINUE",
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "eligibility": {
+     "condition": {
+      "code": "C-HIGH-VALUE",
+      "version": 1
+     },
+     "params": {
+      "premium_threshold": 12000,
+      "sum_assured_threshold": 500000
+     },
+     "unknown_policy": "BLOCK"
+    },
+    "instance": "mi-high-value",
+    "module": {
+     "code": "M-HIGH-VALUE",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "eligibility": {
+     "condition": {
+      "code": "C-IS-REPLACEMENT",
+      "version": 1
+     },
+     "params": {},
+     "unknown_policy": "SKIP_WITH_REASON"
+    },
+    "instance": "mi-replacement",
+    "module": {
+     "code": "M-REPLACEMENT",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "activation": {
+     "of": "mi-suitability",
+     "outcomes": [
+      "CLARIFICATION_REQUIRED"
+     ]
+    },
+    "instance": "mi-escalation",
+    "module": {
+     "code": "M-ESCALATION",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-closing",
+    "module": {
+     "code": "M-CLOSING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "707c3b73bae8594eedf68117f80d5699aa5790e11e0d55b846cee5c45dbed24a",
+ "manifest_sha256": "25743f225ccf12d2a21e0e0a9e9b01c235d652f36008a7f8eff889f3790cda35",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "F8-survey-with-conditional-lego-modules",
+ "source_schema": "call360.survey-studio.fixture/1"
+}

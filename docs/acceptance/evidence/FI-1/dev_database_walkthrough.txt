@@ -1,0 +1,15 @@
+# FI-1 — read-only walkthrough on the DEVELOPMENT database as dev.survey.author (running dev servers). 2026-11-22 04:34 +0800
+list rows: [
+  'Development enablement check (synthetic) — SS-03A development permission check. Synthetic; unapproved for oper'
+]
+status: saved | Revision 10 · 22 Nov, 12:38 am · Dev Survey Author
+save disabled: true
+modules in sequence: 3
+module page locked (published version): 1
+status after browsing: saved
+script studio as the survey author -> /unauthorized
+non-GET survey requests made: []
+alembic revision (development): ['0027_survey_definitions'] | test schema: ['0027_survey_definitions']
+tables: 111 | total rows: 14740 | survey_* tables: ['survey_asset_usage', 'survey_asset_version', 'survey_candidate', 'survey_catalog_entry'
+development tables changed since the enablement report: ['audit_event', 'auth_session', 'login_attempt', 'refresh_token', 'refresh_token_family']
+survey tables identical since the enablement report: True

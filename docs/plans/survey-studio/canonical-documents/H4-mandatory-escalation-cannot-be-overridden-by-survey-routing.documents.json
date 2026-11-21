@@ -1,0 +1,451 @@
+{
+ "assets": [
+  {
+   "code": "OS-AREAS",
+   "document": {
+    "code": "OS-AREAS",
+    "options": [
+     {
+      "code": "PREMIUM",
+      "label": "Premium"
+     },
+     {
+      "code": "COMPLAINT",
+      "interrupt": "OPTIONAL",
+      "label": "I want to complain"
+     },
+     {
+      "code": "FORGED",
+      "interrupt": "MANDATORY",
+      "label": "My signature was forged"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "025b72a21b15ec7f3524aaa01efd2dfc267d9caacda9d888204fedf8ea9b531e",
+   "version": 1
+  },
+  {
+   "code": "OS-CONSENT",
+   "document": {
+    "code": "OS-CONSENT",
+    "options": [
+     {
+      "code": "AGREED",
+      "label": "Yes, I agreed"
+     },
+     {
+      "code": "NEVER_AGREED",
+      "interrupt": "MANDATORY",
+      "label": "I did not agree to this policy"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "52507c852989355743ca320f7497e105e99357de98ab1b05e38e9ceec05f0ca6",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-AREAS",
+   "document": {
+    "answer_type": "MULTI_SELECT",
+    "code": "Q-AREAS",
+    "intent": "What the customer raises",
+    "option_set": {
+     "code": "OS-AREAS",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "selection": {
+     "max": 3,
+     "min": 1
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "1229e3d9f3e935d7e47fc4f3c7da4cf699376121fd5080417074117aeb68ab63",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CLOSING-ACK",
+    "intent": "Customer acknowledges the closing statement",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2875926a7e7452926cbed5a56d89e0e92457e15a7b51a9eb3e25e876bad430f0",
+   "version": 1
+  },
+  {
+   "code": "Q-CONSENT",
+   "document": {
+    "answer_type": "SINGLE_SELECT",
+    "code": "Q-CONSENT",
+    "intent": "Customer agreed to the policy",
+    "option_set": {
+     "code": "OS-CONSENT",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "d3e938800b6b5f6e00abb7b4d229db9ab26c9d03f4167a653741009036a18fe4",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLEAR",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PREMIUM-CLEAR",
+    "intent": "Premium is clear",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "9f0ee38739e3abaac643314cb1c8c8e0269e04105093b6932ffcd302237e3539",
+   "version": 1
+  },
+  {
+   "code": "Q-AREAS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-AREAS",
+    "language": "en",
+    "option_texts": {
+     "COMPLAINT": "I want to complain",
+     "FORGED": "My signature was forged",
+     "PREMIUM": "Premium"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is there anything you would like to raise?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "c2ff22e5f5a27659358a0aa335298e503ed46ab65ebd12f16a694057c088f332",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CLOSING-ACK",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Do you acknowledge that this call has been completed?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "253f8626e23ac3a240c1d3f432ce295c46d7942a1989dd43fb0442253389c00c",
+   "version": 1
+  },
+  {
+   "code": "Q-CONSENT",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CONSENT",
+    "language": "en",
+    "option_texts": {
+     "AGREED": "Yes, I agreed",
+     "NEVER_AGREED": "I did not agree to this policy"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Did you agree to take up this policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "1b37c0fc9b6eba04da00ef2510435c0d4057e30e61352940e20d5c4104a31eab",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLEAR",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PREMIUM-CLEAR",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is the premium clear to you now?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "89e8069a2af92562af274b395a09b21a6f1ab181d4a611d623a3e49bec2712d1",
+   "version": 1
+  },
+  {
+   "code": "M-AREAS",
+   "document": {
+    "code": "M-AREAS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "return": true
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Areas",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-AREAS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "followups": [
+        {
+         "nodes": [
+          "n2"
+         ],
+         "option": "PREMIUM"
+        }
+       ],
+       "interrupts": [
+        {
+         "option": "COMPLAINT",
+         "outcome": "CUSTOMER_DECLINED",
+         "policy": "STOP_ESCALATE"
+        },
+        {
+         "option": "FORGED",
+         "outcome": "ESCALATE",
+         "policy": "STOP_ESCALATE"
+        }
+       ],
+       "mode": "SEQUENTIAL_FOLLOWUPS",
+       "no_followup": [],
+       "rejoin": {
+        "outcome": "COMPLETED"
+       }
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-PREMIUM-CLEAR",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "role": "FOLLOWUP",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CUSTOMER_DECLINED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "558f0cb714a66f6bdd2b5e5d84fc7564b5170ec1276af9db18d8265f73870bcf",
+   "version": 1
+  },
+  {
+   "code": "M-CLOSING",
+   "document": {
+    "code": "M-CLOSING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Closing",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CLOSING-ACK",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "cc0615f82014b60dd54371b744001a980f8a7a78c9e78447ac27194ded5c7558",
+   "version": 1
+  },
+  {
+   "code": "M-CONSENT",
+   "document": {
+    "code": "M-CONSENT",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AGREED",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "NEVER_AGREED",
+      "to": {
+       "outcome": "ESCALATE"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Consent",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CONSENT",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "AGREED"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "e505e6212dd8f4f094f10196348eb3e05d3f16e5910f61fef4e8afd59dac8a98",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "REVIEW_REQUIRED": "REVIEW_HALT",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-MANDATORY-ESCALATION-SURVEY-LEVEL",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-consent",
+    "module": {
+     "code": "M-CONSENT",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "ESCALATE": {
+      "instance": "mi-closing"
+     }
+    }
+   },
+   {
+    "instance": "mi-areas",
+    "module": {
+     "code": "M-AREAS",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "CUSTOMER_DECLINED": {
+      "survey_outcome": "CUSTOMER_DECLINED"
+     },
+     "ESCALATE": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-closing",
+    "module": {
+     "code": "M-CLOSING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "1b748c2086a84df165de4f21e36eb89b2d7d0ab4b78b071ec9e1e74d83a5836c",
+ "manifest_sha256": "e5390e3af219dddb7667e57a70b723dc1b898c5f67f7a640aa6d134021c598af",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "H4-mandatory-escalation-cannot-be-overridden-by-survey-routing",
+ "source_schema": "call360.survey-studio.fixture/3"
+}

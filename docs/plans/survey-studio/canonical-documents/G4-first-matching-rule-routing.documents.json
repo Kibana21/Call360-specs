@@ -1,0 +1,252 @@
+{
+ "assets": [
+  {
+   "code": "OS-CONCERNS",
+   "document": {
+    "code": "OS-CONCERNS",
+    "options": [
+     {
+      "code": "PRICE",
+      "label": "Price"
+     },
+     {
+      "code": "COVER",
+      "label": "Cover"
+     },
+     {
+      "code": "CLAIMS",
+      "label": "Claims"
+     },
+     {
+      "code": "NONE",
+      "exclusive": true,
+      "label": "None of these"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "4614de9dc6c923d0797c93084ccc9673eb65cbeee26d80ff4b5415892e4f4fc2",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-CONCERNS",
+   "document": {
+    "answer_type": "MULTI_SELECT",
+    "code": "Q-CONCERNS",
+    "intent": "What the customer is concerned about",
+    "option_set": {
+     "code": "OS-CONCERNS",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "selection": {
+     "max": 3,
+     "min": 1
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "5cfe16f5a5b5c65c07da37d6cedf1c68cf84d453b804735b272bfae3dd514c8e",
+   "version": 1
+  },
+  {
+   "code": "Q-PRICE-AND-COVER",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PRICE-AND-COVER",
+    "intent": "Customer wants price and cover explained together",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b5264d0e8cba445f272609945e43def7bec0b525f2042a09e0512a6096775a7d",
+   "version": 1
+  },
+  {
+   "code": "Q-CONCERNS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CONCERNS",
+    "language": "en",
+    "option_texts": {
+     "CLAIMS": "Claims",
+     "COVER": "Cover",
+     "NONE": "None of these",
+     "PRICE": "Price"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Which of these concern you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "bf5de6125175eac438c9309050c3f9e7f4a497daa1bcf3eba925ecf82891d2eb",
+   "version": 1
+  },
+  {
+   "code": "Q-PRICE-AND-COVER",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PRICE-AND-COVER",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Shall we explain price and cover together?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "34579ca30a25aad4e6412f5129434a2e2273181aaaa37cc95f91fd968060e826",
+   "version": 1
+  },
+  {
+   "code": "M-CONCERNS",
+   "document": {
+    "code": "M-CONCERNS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Concerns",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CONCERNS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "fallback": {
+        "outcome": "COMPLETED"
+       },
+       "mode": "ORDERED_RULES",
+       "rules": [
+        {
+         "rule": "r1",
+         "to": {
+          "node": "n2"
+         },
+         "when": {
+          "kind": "ALL",
+          "options": [
+           "PRICE",
+           "COVER"
+          ]
+         }
+        },
+        {
+         "rule": "r2",
+         "to": {
+          "outcome": "CLARIFICATION_REQUIRED"
+         },
+         "when": {
+          "kind": "ANY",
+          "options": [
+           "PRICE",
+           "CLAIMS"
+          ]
+         }
+        }
+       ]
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-PRICE-AND-COVER",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "240e32075f28f9523bea2c820ed7d46c33041e8f846d7c2114f0035a3deeb06b",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "REVIEW_REQUIRED": "REVIEW_HALT",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-ORDERED-RULES",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-c",
+    "module": {
+     "code": "M-CONCERNS",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": {
+      "survey_outcome": "CLARIFICATION_REQUIRED"
+     },
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "fbd978304c14310482e414736d81c9a664c814d48d3ffc8834c6660edf75af77",
+ "manifest_sha256": "a2676f28a3480fcef2552aa3df45b77a78679fb9808464e6e089b53e10887c57",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "G4-first-matching-rule-routing",
+ "source_schema": "call360.survey-studio.fixture/2"
+}

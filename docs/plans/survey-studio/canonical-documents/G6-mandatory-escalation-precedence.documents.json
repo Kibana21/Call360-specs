@@ -1,0 +1,302 @@
+{
+ "assets": [
+  {
+   "code": "OS-AREAS",
+   "document": {
+    "code": "OS-AREAS",
+    "options": [
+     {
+      "code": "PREMIUM",
+      "label": "Premium"
+     },
+     {
+      "code": "COMPLAINT",
+      "interrupt": "OPTIONAL",
+      "label": "I want to complain"
+     },
+     {
+      "code": "NEVER_AGREED",
+      "interrupt": "MANDATORY",
+      "label": "I did not agree to this policy"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "f46c753ca6cebdab49486905dfe8b6df54a1c7a012d9c01a0ffd3dba4901b606",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-AREAS",
+   "document": {
+    "answer_type": "MULTI_SELECT",
+    "code": "Q-AREAS",
+    "intent": "What the customer raises",
+    "option_set": {
+     "code": "OS-AREAS",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "selection": {
+     "max": 3,
+     "min": 1
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "1229e3d9f3e935d7e47fc4f3c7da4cf699376121fd5080417074117aeb68ab63",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLEAR",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PREMIUM-CLEAR",
+    "intent": "Premium is clear",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "9f0ee38739e3abaac643314cb1c8c8e0269e04105093b6932ffcd302237e3539",
+   "version": 1
+  },
+  {
+   "code": "Q-PROCEED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PROCEED",
+    "intent": "Customer is content to proceed",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "afd2ea8e4c4981d9da8c0de2c90dbdba085c99866cc79fedfd2997677ebfdfa3",
+   "version": 1
+  },
+  {
+   "code": "Q-AREAS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-AREAS",
+    "language": "en",
+    "option_texts": {
+     "COMPLAINT": "I want to complain",
+     "NEVER_AGREED": "I did not agree to this policy",
+     "PREMIUM": "Premium"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is there anything you would like to raise?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "3cf3ef99c400d58f77fe3a741749ddac5285358a598675a4933fdec7d80beccb",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLEAR",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PREMIUM-CLEAR",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is the premium clear to you now?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "89e8069a2af92562af274b395a09b21a6f1ab181d4a611d623a3e49bec2712d1",
+   "version": 1
+  },
+  {
+   "code": "Q-PROCEED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PROCEED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Are you content to proceed?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "0ce88de704775f4f2eb29cfc6e40f10118d5834ac5c34262d2454255e74e0c2b",
+   "version": 1
+  },
+  {
+   "code": "M-AREAS",
+   "document": {
+    "code": "M-AREAS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "return": true
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n3",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Areas",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-AREAS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "followups": [
+        {
+         "nodes": [
+          "n2"
+         ],
+         "option": "PREMIUM"
+        }
+       ],
+       "interrupts": [
+        {
+         "option": "COMPLAINT",
+         "outcome": "CUSTOMER_DECLINED",
+         "policy": "STOP_ESCALATE"
+        },
+        {
+         "option": "NEVER_AGREED",
+         "outcome": "ESCALATE",
+         "policy": "STOP_ESCALATE"
+        }
+       ],
+       "mode": "SEQUENTIAL_FOLLOWUPS",
+       "no_followup": [],
+       "rejoin": {
+        "node": "n3"
+       }
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-PREMIUM-CLEAR",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "role": "FOLLOWUP",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-PROCEED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CUSTOMER_DECLINED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "830485a1d028f71bae3b5b35a5f2c55fed476e96978e848ffaa87c54130bb154",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "REVIEW_REQUIRED": "REVIEW_HALT",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-MANDATORY-ESCALATION",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-a",
+    "module": {
+     "code": "M-AREAS",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "CUSTOMER_DECLINED": {
+      "survey_outcome": "CUSTOMER_DECLINED"
+     },
+     "ESCALATE": {
+      "survey_outcome": "ESCALATE"
+     }
+    }
+   }
+  ]
+ },
+ "content_sha256": "5e9f14292e88419d0a3760c07c35bcf85aca53763a89f1ae5af639dde1e1db27",
+ "manifest_sha256": "0341b60ffa0a796a18d1769377d701717a38d089d28e6b7d97de06564f49ccad",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "G6-mandatory-escalation-precedence",
+ "source_schema": "call360.survey-studio.fixture/2"
+}

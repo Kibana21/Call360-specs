@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-22, SS-03A accepted as technically verified; development database migrated to 0027 and survey API enabled in development; FI-1 proposed, not authorised (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-22, FI-1 built and technically verified, awaiting the owner's review; uncommitted (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -10,6 +10,35 @@ authorisation; never mark anything accepted without the owner's explicit words.
 (§4).
 
 ## 0. Current state — read this first (2026-11-19)
+
+> **Update 2026-11-22 (FI-1) — read this block first; it supersedes the blocks below where they differ.**
+> - **Owner accepted SS-03A development enablement as technically verified** and approved FI-D-1…FI-D-5 with
+>   constraints (D-195…D-203), then gave **"AUTHORIZE FI-1"**.
+> - **FI-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT accepted. UNCOMMITTED in all three
+>   repositories — "No commits without separate authorization".** Report:
+>   `docs/plans/survey-studio/29_FI-1_IMPLEMENTATION_REPORT.md`; contract `04_…` §10; evidence
+>   `docs/acceptance/evidence/FI-1/`.
+>   - Frontend: persisted mode behind **`VITE_SURVEY_STUDIO_PERSISTED=1`** (off by default; separate from the
+>     prototype setting, which is unchanged). Route guarded by `survey.read`. New `model/documents.ts` (the one
+>     Workspace ↔ documents mapping) and `persist/` (Save, conflict, list, server validation). Small persisted-mode
+>     branches in `StudioRoot.tsx`, `JourneyNav.tsx`, `ValidationPage.tsx`, `store.tsx`.
+>   - Backend: two additive operations (`GET …/draft/documents`, `POST …/draft/save` atomic), draft operation
+>     `SET_DETAILS`, optional `authoring` on ITEM/MODULE/CONDITION. No migration. OpenAPI `5a31269b…` (216
+>     operations). New scripts `export_survey_fixture_documents.py`, `e2e_survey_setup.py` (test schema only).
+>   - Specs: new generated folder `docs/plans/survey-studio/canonical-documents/` (27 files; regenerate with the
+>     backend script, never edit).
+>   - Verified: backend 668; frontend 505 unit; **persisted journeys 5/5**
+>     (`npx playwright test -c playwright.persisted.config.ts`), prototype 13/13, standard 33/33. The three
+>     Playwright configurations share ports: never run two at once.
+> - **Dev servers:** backend on 8000 (survey setting on). Frontend on 5173 **now in persisted mode**; for the
+>   in-memory prototype start it with `VITE_SURVEY_STUDIO_PROTOTYPE=1` alone.
+> - **Development database:** unchanged by FI-1 (still `0027`; survey tables identical; only a read-only
+>   walkthrough as `dev.survey.author`). Do not write to the synthetic published survey `DEV-CHECK-AD5AEA8F`.
+> - **Git:** no hook or automation found (`evidence/FI-1/git_automation.txt`); editors have smart commit on and
+>   sync confirmation off. Backend `4ae7875` and specs `cab99e5` are local commits not pushed by Claude Code —
+>   re-check HEADs before reporting.
+> - **Not authorised:** FI-2 (proposed in `29_…` §10, decisions FI2-D-1…4), SS-03B, any non-answer behaviour,
+>   live eligibility, Script Studio changes, development-database migration or re-seed, commits, pushes.
 
 > **Update 2026-11-22 (later) — SS-03A accepted and enabled in development. Read this block first; it supersedes
 > the SS-03A block below where they differ.**

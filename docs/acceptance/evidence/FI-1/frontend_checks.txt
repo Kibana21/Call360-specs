@@ -1,0 +1,176 @@
+# FI-1 — frontend checks. 2026-11-22 04:34 +0800
+## api:check
+api:check OK (openapi 5a31269b168a6c4b2b36a2eded31b83d98b31646a990a712fc132269ab47b196)
+## tsc
+tsc exit 0
+## eslint
+eslint exit 0
+## vitest (whole suite)
+ Test Files  34 passed (34)
+      Tests  505 passed (505)
+exit 0
+## mapping and saving tests by name
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > reads the 27 fixtures of schemas /1 to /5 as exported by the backend
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F1-simple-linear-survey · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F1-simple-linear-survey · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F1-simple-linear-survey · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F2-yes-no-branch-shared-rejoin · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F2-yes-no-branch-shared-rejoin · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F2-yes-no-branch-shared-rejoin · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F3-single-choice-per-option-routes · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F3-single-choice-per-option-routes · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F3-single-choice-per-option-routes · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F4-multi-select-ordered-followups · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F4-multi-select-ordered-followups · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F4-multi-select-ordered-followups · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F5-other-specify-with-validation · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F5-other-specify-with-validation · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F5-other-specify-with-validation · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F6-internal-condition-with-unknown · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F6-internal-condition-with-unknown · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F6-internal-condition-with-unknown · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F7-two-placements-one-question-definition · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F7-two-placements-one-question-definition · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F7-two-placements-one-question-definition · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F8-survey-with-conditional-lego-modules · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F8-survey-with-conditional-lego-modules · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > F8-survey-with-conditional-lego-modules · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G1-jump-to-module-with-eligibility · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G1-jump-to-module-with-eligibility · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G1-jump-to-module-with-eligibility · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G2-jump-skip-disposition-continue · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G2-jump-skip-disposition-continue · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G2-jump-skip-disposition-continue · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G3-jump-without-skip-disposition-is-invalid · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G3-jump-without-skip-disposition-is-invalid · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G3-jump-without-skip-disposition-is-invalid · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G4-first-matching-rule-routing · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G4-first-matching-rule-routing · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G4-first-matching-rule-routing · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G5-evidence-states-and-review-halt-in-module · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G5-evidence-states-and-review-halt-in-module · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G5-evidence-states-and-review-halt-in-module · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G6-mandatory-escalation-precedence · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G6-mandatory-escalation-precedence · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > G6-mandatory-escalation-precedence · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H1-activation-and-eligibility-are-independent · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H1-activation-and-eligibility-are-independent · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H1-activation-and-eligibility-are-independent · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H2-a-jump-is-an-activation-but-never-bypasses-eligibility · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H2-a-jump-is-an-activation-but-never-bypasses-eligibility · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H2-a-jump-is-an-activation-but-never-bypasses-eligibility · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H3-skip-disposition-in-sequence · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H3-skip-disposition-in-sequence · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H3-skip-disposition-in-sequence · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H4-mandatory-escalation-cannot-be-overridden-by-survey-routing · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H4-mandatory-escalation-cannot-be-overridden-by-survey-routing · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > H4-mandatory-escalation-cannot-be-overridden-by-survey-routing · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > J1-escalate-is-terminal-in-every-routing-mode · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > J1-escalate-is-terminal-in-every-routing-mode · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > J1-escalate-is-terminal-in-every-routing-mode · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K1-statements-are-delivered-in-order-and-take-no-answer · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K1-statements-are-delivered-in-order-and-take-no-answer · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K1-statements-are-delivered-in-order-and-take-no-answer · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K2-a-statement-cannot-branch-or-be-answered · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K2-a-statement-cannot-branch-or-be-answered · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K2-a-statement-cannot-branch-or-be-answered · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K3-numeric-answers-are-validated · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K3-numeric-answers-are-validated · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K3-numeric-answers-are-validated · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K4-acknowledgement-accepted-or-blocked-as-unresolved-policy · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K4-acknowledgement-accepted-or-blocked-as-unresolved-policy · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K4-acknowledgement-accepted-or-blocked-as-unresolved-policy · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K5-controlled-variables-render-deterministically-or-halt · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K5-controlled-variables-render-deterministically-or-halt · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K5-controlled-variables-render-deterministically-or-halt · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K6-wording-that-cannot-be-approved-is-an-error · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K6-wording-that-cannot-be-approved-is-an-error · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K6-wording-that-cannot-be-approved-is-an-error · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K7-one-question-placed-four-times-has-four-execution-identities · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K7-one-question-placed-four-times-has-four-execution-identities · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K7-one-question-placed-four-times-has-four-execution-identities · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K8-the-call-plan-is-specific-to-the-application · documents → Workspace → documents is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K8-the-call-plan-is-specific-to-the-application · Workspace → documents → Workspace is exact
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > K8-the-call-plan-is-specific-to-the-application · identities are preserved
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping is lossless on all 27 golden fixtures > a survey behaves identically before and after the round trip (the same simulated journey)
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping on models made in the editor > every survey of the sample library converts, and converting again changes nothing
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping on models made in the editor > keeps what an author typed that has no field of its own: module intent, parameter labels, kind
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping on models made in the editor > changes() names exactly what an edit touched, and a new question version is a new document, never a changed one
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping on models made in the editor > refuses, rather than loses, what it cannot represent
+ ✓ src/features/surveystudio/model/documents.test.ts > the mapping on models made in the editor > numbers new codes in a range of the survey's own, above anything already used
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > a Save > starts saved, with the revision shown, and has nothing to send
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > a Save > an edit is unsaved until the server confirms the whole save; then it is the new revision
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > a Save > a name change is saved in the same single request as the documents
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > a Save > a refused save reports no success, changes nothing on the server and keeps the work
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > a Save > a reply that does not hold what was sent is not reported as saved
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > a Save > a network failure keeps the work; trying again sends it once
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > a Save > a save that reached the server but whose reply was lost is recognised, not applied twice
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > two sessions > a stale save is refused, nothing is lost, and the newer draft is shown apart from the local work
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > two sessions > saving on top keeps their changes, applies mine, and is one new revision
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > two sessions > what both changed is named before anything is replaced
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > two sessions > reloading the newer draft is explicit and drops only the local changes
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > the pure rules of a save > orders a save: documents, then the content that pins them, then removals, then details
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > the pure rules of a save > serverHolds is true only when every sent document and the content are exactly there
+ ✓ src/features/surveystudio/persist/Persistence.test.tsx > the pure rules of a save > compare names each side; onTop takes theirs where only they changed and mine where I changed
+ Test Files  2 passed (2)
+      Tests  102 passed (102)
+## PERSISTED journeys — Chromium → Vite → FastAPI → PostgreSQL (test schema), persisted setting on
+  ✓  1 [persisted] › e2e/persisted/fi1.persisted.ts:44:1 › FI-1.1 create → edit in Guided → edit in Graph → Save → browser restart → identical (10.4s)
+  ✓  2 [persisted] › e2e/persisted/fi1.persisted.ts:148:1 › FI-1.2 two sessions: a stale save is refused, nothing is lost, and the resolution is explicit (2.7s)
+  ✓  3 [persisted] › e2e/persisted/fi1.persisted.ts:203:1 › FI-1.3 a save that fails part-way, or never arrives, reports no success and changes nothing (1.7s)
+  ✓  4 [persisted] › e2e/persisted/fi1.persisted.ts:260:1 › FI-1.4 the server's validation is the one that counts (2.3s)
+  ✓  5 [persisted] › e2e/persisted/fi1.persisted.ts:307:1 › FI-1.5 access: read-only, no permission, another market, and no way into Script Studio (3.5s)
+  5 passed (25.2s)
+exit 0
+## prototype journeys (prototype setting on; unchanged)
+  ✓   1 [prototype] › e2e/prototype/conditions.proto.ts:49:1 › SS-02B.1 conditions and routing: decision points, reusable conditions, earlier answers, unknown, ordered rules, limits, undo (20.2s)
+  ✓   2 [prototype] › e2e/prototype/connections.proto.ts:67:1 › SS-02B.2.1 connection editing: select, disconnect, redraw, refuse, undo, parity, keyboard (37.1s)
+  ✓   3 [prototype] › e2e/prototype/governance.proto.ts:28:1 › SS-02C: validation, comparison and the simulated maker-checker journey, from library to published version (24.4s)
+  ✓   4 [prototype] › e2e/prototype/governance.proto.ts:388:1 › SS-02 closure: Graph menus near the bottom of the window stay fully on screen (3.6s)
+  ✓   5 [prototype] › e2e/prototype/graph.proto.ts:61:1 › SS-02B.2 graph builder: Guided/Graph parity, editing in the graph, large module, survey graph, keyboard (48.0s)
+  ✓   6 [prototype] › e2e/prototype/graph.proto.ts:352:1 › SS-02B.2 corrections: selection limits are never changed silently; condition references are stable and typed (5.0s)
+  ✓   7 [prototype] › e2e/prototype/refinements.proto.ts:43:1 › SS-02A.1 refinements: blank module, duplicate, interruptions, unresolved branches, undo, widths (26.5s)
+  ✓   8 [prototype] › e2e/prototype/refinements.proto.ts:277:1 › SS-02A.1 keyboard-only authoring: survey, modules, reorder, routes, questions, options, duplicate, undo (3.9s)
+  ✓   9 [prototype] › e2e/prototype/rules.proto.ts:31:1 › SS-02B.3.1 business rules: a jump does not bypass eligibility; terminal states are told apart; an invalid draft does not run (7.9s)
+  ✓  10 [prototype] › e2e/prototype/simulator.proto.ts:39:1 › SS-02B.3 journey simulator: seven synthetic customers, explanations, comparison, step/back/restart, after an edit (20.0s)
+  ✓  11 [prototype] › e2e/prototype/survey-studio.proto.ts:30:1 › SS-02A journeys A–H: build a survey, shape a module, test a condition, undo and redo (31.6s)
+  ✓  12 [prototype] › e2e/prototype/uc01.proto.ts:25:1 › UC-01: statements, typed answers, wording with variables, delivery and the call plan, on one model (9.4s)
+  ✓  13 [prototype] › e2e/prototype/uc02.proto.ts:24:1 › UC-02: a computable plan is never a live-call approval; the plan is compact and opens on demand (6.1s)
+  13 passed (4.1m)
+exit 0
+## standard Playwright (both settings off)
+  ✓   1 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1280px (2.5s)
+  ✓   2 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1440px (2.6s)
+  ✓   3 [chromium] › e2e/a11y.spec.ts:37:1 › FE-04 unauthorized and session-expired screens are accessible (1.1s)
+  ✓   4 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1280px (921ms)
+  ✓   5 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1440px (933ms)
+  ✓   6 [chromium] › e2e/assignment-rules.spec.ts:10:1 › S2-B Assignment Rules: create, configure, simulate, submit, approve by a checker, publish (7.6s)
+  ✓   7 [chromium] › e2e/auth.spec.ts:4:1 › E2E-01 unauthenticated redirect, login, landing with real session data, logout (1.2s)
+  ✓   8 [chromium] › e2e/auth.spec.ts:29:1 › E2E-15 tokens only in HttpOnly cookies; no storage or URL tokens; CSRF and origin enforced (581ms)
+  ✓   9 [chromium] › e2e/auth.spec.ts:53:1 › D-23 two tabs refreshing an expired access token concurrently keep the session (1.2s)
+  ✓  10 [chromium] › e2e/auth.spec.ts:72:1 › E2E-18 (partial) branding and terminology (563ms)
+  ✓  11 [chromium] › e2e/config.spec.ts:5:1 › E2E-20 Configuration: market label version (non-governed), governed denial, stage-locked flags, USER denied (1.5s)
+  ✓  12 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1280px (1.5s)
+  ✓  13 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1440px (1.5s)
+  ✓  14 [chromium] › e2e/conversation-lifecycle.spec.ts:41:1 › S2-D.1: lifecycle script → assignment → normal closing, identity failure and declined to proceed (6.5s)
+  ✓  15 [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout (51.4s)
+  ✓  16 [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data (7.1s)
+  ✓  17 [chromium] › e2e/permissions.spec.ts:4:1 › E2E-10 (partial) USER is denied Administration in the UI and by the API (628ms)
+  ✓  18 [chromium] › e2e/permissions.spec.ts:14:1 › E2E-13 (partial) ADMIN disables a user: that user is signed out on the next request; audit shows before/after (1.6s)
+  ✓  19 [chromium] › e2e/script-assignment.spec.ts:11:1 › S2-C assignment: new sale → callback case → preview → apply → pinned script → hold released (2.6s)
+  ✓  20 [chromium] › e2e/script-studio.spec.ts:23:1 › S2-A Script Studio: create, edit, submit, approve by a different checker, publish, immutable (6.1s)
+  ✓  21 [chromium] › e2e/simulation-evaluation.spec.ts:34:1 › S3-A: rules in Script Studio → simulate → wrong answers → evaluate → evidence trace → baseline scenario → batch (7.2s)
+  ✓  22 [chromium] › e2e/simulation-findings.spec.ts:41:1 › S3-B: finding rules (maker-checker) → simulate → evaluate → findings with severity, controls and evidence (8.0s)
+  ✓  23 [chromium] › e2e/simulation-workbench.spec.ts:33:1 › S2-E: draft script → scenarios → batch run → coverage → version comparison → interactive version test (6.1s)
+  ✓  24 [chromium] › e2e/text-simulator.spec.ts:25:1 › S2-D: new sale → case → assignment → text simulation → complete sequence → trace (4.7s)
+  ✓  25 [chromium] › e2e/workbench-review.spec.ts:49:1 › S3-C: synthetic operational case → findings → review → disposition → blocked premature verification → escalation → maker-checker verification (1.1m)
+  ✓  26 [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER) (12.8s)
+  ✓  27 [voice] › e2e/voice.spec.ts:76:1 › S1-A browser voice: a denied microphone never creates a session (918ms)
+  ✓  28 [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history (7.1s)
+  ✓  29 [voice] › e2e/voice.spec.ts:146:1 › S1-B tab closure: the session is interrupted, then finalised as abandoned (36.5s)
+  ✓  30 [voice] › e2e/voice.spec.ts:171:1 › S1-C recording: consent → record → interruption → stop → complete evidence; refusal records nothing (11.7s)
+  ✓  31 [voice] › e2e/voice.spec.ts:229:1 › S1-C recording: upload failure and a mid-session refresh are reported as partial, never filled in (50.3s)
+  ✓  32 [voice] › e2e/voice.spec.ts:277:1 › S1-D transcript: recorded conversation → local transcription → Call Detail → synchronised playback → segment seek (9.4s)
+  ✓  33 [voice] › e2e/zz-voice-lab.voice.spec.ts:14:1 › S1-E.1 Voice Lab: prompt → session → recording/transcript → dataset → mock experiment → evaluation → budget refusals → kill switch (20.0s)
+  33 passed (5.8m)
+exit 0

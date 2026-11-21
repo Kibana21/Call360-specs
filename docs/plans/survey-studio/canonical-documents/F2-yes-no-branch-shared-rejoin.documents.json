@@ -1,0 +1,263 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-BENEFITS-EXPLAINED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-BENEFITS-EXPLAINED",
+    "intent": "Benefits were explained",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "28777ae738e54d2a268ac0e3b1c645b2ca6587e6b8369804cb1bca3eece4ca1d",
+   "version": 1
+  },
+  {
+   "code": "Q-RISKS-UNDERSTOOD",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-RISKS-UNDERSTOOD",
+    "intent": "Customer understands the key risks",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b92547bda068ec8b081eb92daf6b4042c4d29d8bdd33c557735e65ad39edfe9e",
+   "version": 1
+  },
+  {
+   "code": "Q-WHAT-TO-CLARIFY",
+   "document": {
+    "answer_type": "FREE_TEXT",
+    "code": "Q-WHAT-TO-CLARIFY",
+    "intent": "What the customer wants clarified",
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "text_rule": {
+     "max_length": 500,
+     "min_length": 5,
+     "required": true
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "ba63019a761cdb050a1e1f8583143c09571f32dc58c151fede5ec53ad89ae4a7",
+   "version": 1
+  },
+  {
+   "code": "Q-BENEFITS-EXPLAINED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-BENEFITS-EXPLAINED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Did your representative explain the benefits of this plan?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "1837f715b324329befcd5d135fc7c403bc98146a96c84775a4e5f8543a6bf3b2",
+   "version": 1
+  },
+  {
+   "code": "Q-RISKS-UNDERSTOOD",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-RISKS-UNDERSTOOD",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Do you understand the key risks and exclusions?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "ba9d14e12a6617045e67eec78776c5f688f3d2536de471363b95e285912a0bc6",
+   "version": 1
+  },
+  {
+   "code": "Q-WHAT-TO-CLARIFY",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-WHAT-TO-CLARIFY",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "What would you like us to clarify?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "7c4ba4179b7c923027acb4ebd9fa09dfd2e6dea2a90d9223309590b3f004c485",
+   "version": 1
+  },
+  {
+   "code": "M-SUITABILITY",
+   "document": {
+    "code": "M-SUITABILITY",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "YES",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "NO",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n2",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e5",
+      "from": "n2",
+      "on": "NO",
+      "to": {
+       "outcome": "CLARIFICATION_REQUIRED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Suitability",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-BENEFITS-EXPLAINED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-RISKS-UNDERSTOOD",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-WHAT-TO-CLARIFY",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "9ba2caa70f356fb19ea992ce9103178ce37bff502be9cb33e9f340a7fe32a469",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-BRANCH-REJOIN",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-suit",
+    "module": {
+     "code": "M-SUITABILITY",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": {
+      "survey_outcome": "CLARIFICATION_REQUIRED"
+     },
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "837bec4c3fec85647785ce8df5c76e478295ce85ce65a1c3d287ceab41c954d0",
+ "manifest_sha256": "f2d9f981390574a16b5f4b9cfcca979648a8b7e8a14b8e53188d4e8d2633aa90",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "F2-yes-no-branch-shared-rejoin",
+ "source_schema": "call360.survey-studio.fixture/1"
+}

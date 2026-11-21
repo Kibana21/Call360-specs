@@ -1,0 +1,328 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-AFFORDABILITY",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-AFFORDABILITY",
+    "intent": "Premium remains affordable after retirement",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "95bbda6f45615d91a2911931641f76b9abe708ebd80f477bcf6b67630e5b6338",
+   "version": 1
+  },
+  {
+   "code": "Q-RISKS-UNDERSTOOD",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-RISKS-UNDERSTOOD",
+    "intent": "Customer understands the key risks",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b92547bda068ec8b081eb92daf6b4042c4d29d8bdd33c557735e65ad39edfe9e",
+   "version": 1
+  },
+  {
+   "code": "Q-AFFORDABILITY",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-AFFORDABILITY",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Will you still be able to afford this premium after you retire?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "babfe129fee38a93d153c9eb6a92b077dd9ed043289e82a213b25d7e6fcec794",
+   "version": 1
+  },
+  {
+   "code": "Q-RISKS-UNDERSTOOD",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-RISKS-UNDERSTOOD",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Do you understand the key risks and exclusions?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "ba9d14e12a6617045e67eec78776c5f688f3d2536de471363b95e285912a0bc6",
+   "version": 1
+  },
+  {
+   "code": "C-ENHANCED-REVIEW",
+   "document": {
+    "ast": {
+     "args": [
+      {
+       "left": {
+        "field": "customer.age_years"
+       },
+       "op": "GTE",
+       "right": {
+        "param": "minimum_age"
+       }
+      },
+      {
+       "args": [
+        {
+         "left": {
+          "field": "policy.annual_premium"
+         },
+         "op": "GT",
+         "right": {
+          "param": "premium_threshold"
+         }
+        },
+        {
+         "left": {
+          "input": "risk_understood"
+         },
+         "op": "EQ",
+         "right": {
+          "literal": "NO"
+         }
+        }
+       ],
+       "op": "OR"
+      }
+     ],
+     "op": "AND"
+    },
+    "code": "C-ENHANCED-REVIEW",
+    "inputs": {
+     "risk_understood": {
+      "answer_type": "YES_NO",
+      "item": {
+       "code": "Q-RISKS-UNDERSTOOD",
+       "version": 1
+      }
+     }
+    },
+    "name": "Enhanced review needed",
+    "params": {
+     "minimum_age": {
+      "type": "INTEGER",
+      "unit": "years"
+     },
+     "premium_threshold": {
+      "type": "MONEY",
+      "unit": "SGD"
+     }
+    },
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "4215dd8f01d125f8b8a3286eea2616d8e4c35630dcebfc45cfa6cb64eda9aa8c",
+   "version": 1
+  },
+  {
+   "code": "M-ENHANCED",
+   "document": {
+    "code": "M-ENHANCED",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "node": "d1"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "d1",
+      "on": "MATCH",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "d1",
+      "on": "NO_MATCH",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "d1",
+      "on": "UNKNOWN",
+      "to": {
+       "outcome": "UNABLE_TO_VERIFY"
+      }
+     },
+     {
+      "edge": "e5",
+      "from": "n2",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e6",
+      "from": "n2",
+      "on": "NO",
+      "to": {
+       "outcome": "CLARIFICATION_REQUIRED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Enhanced review",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-RISKS-UNDERSTOOD",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "binding": {
+       "condition": {
+        "code": "C-ENHANCED-REVIEW",
+        "version": 1
+       },
+       "inputs": {
+        "risk_understood": {
+         "node": "n1"
+        }
+       },
+       "params": {
+        "minimum_age": 60,
+        "premium_threshold": 12000
+       },
+       "unknown_policy": "ROUTE"
+      },
+      "node": "d1",
+      "type": "DECISION"
+     },
+     {
+      "item": {
+       "code": "Q-AFFORDABILITY",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED",
+     "UNABLE_TO_VERIFY"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "fd33ee8b53ba98305dcd34100027d33e29605bd1d8e29df1d7b6bc2a82441dcf",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {
+   "customer.age_years": {
+    "label": "Customer age",
+    "type": "INTEGER",
+    "unit": "years"
+   },
+   "policy.annual_premium": {
+    "label": "Annual premium",
+    "type": "MONEY",
+    "unit": "SGD"
+   }
+  },
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-INTERNAL-CONDITION",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-enh",
+    "module": {
+     "code": "M-ENHANCED",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": {
+      "survey_outcome": "CLARIFICATION_REQUIRED"
+     },
+     "COMPLETED": "@CONTINUE",
+     "UNABLE_TO_VERIFY": {
+      "survey_outcome": "UNABLE_TO_VERIFY"
+     }
+    }
+   }
+  ]
+ },
+ "content_sha256": "ccf32a21ff7d5305f118679c5e6a63f3b5100e2fe67e42784a31d524e1cfa29c",
+ "manifest_sha256": "713dcc549c290056a3610bb1802ba44ae82a1dab42e7dcec244e88e69850c9c2",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "F6-internal-condition-with-unknown",
+ "source_schema": "call360.survey-studio.fixture/1"
+}

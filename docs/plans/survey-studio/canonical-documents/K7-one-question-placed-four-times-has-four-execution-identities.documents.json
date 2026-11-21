@@ -1,0 +1,303 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-CLEAR",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CLEAR",
+    "intent": "Customer finds what was just said clear",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "7c52170996a07239a6787953a5bcc7249a5db07c74896930d118d564f287b04c",
+   "version": 1
+  },
+  {
+   "code": "S-FIRST-TOPIC",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-FIRST-TOPIC",
+    "intent": "Introduces the first topic",
+    "schema": "call360.survey.item/1",
+    "statement_role": "TRANSITION",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "3972185eed824bd1d854c31d43c8d6f526a8e4721f0177686637d2ffb912dab1",
+   "version": 1
+  },
+  {
+   "code": "S-SECOND-TOPIC",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-SECOND-TOPIC",
+    "intent": "Introduces the second topic",
+    "schema": "call360.survey.item/1",
+    "statement_role": "TRANSITION",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "0252090039ac3fc865da4277566ffda11b646e1e5b19d42455f51a7a41d63218",
+   "version": 1
+  },
+  {
+   "code": "Q-CLEAR",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-CLEAR",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Is that clear to you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "4f0ebf94ab4dd6f3fc0af82a0a7f8533a20a272650e8009a19e5bc3c38fd7a1f",
+   "version": 1
+  },
+  {
+   "code": "S-FIRST-TOPIC",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-FIRST-TOPIC",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "First, the premium is paid once a year.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "dc2eca8af282272df5a2e733dcb78229f8d5e961c5ddaa7ac20b799824dd49b5",
+   "version": 1
+  },
+  {
+   "code": "S-SECOND-TOPIC",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-SECOND-TOPIC",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Second, the cover lasts for the whole term.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "421e739d15328052bb94a3c64bc0b455c4dafd59eaf9e3e4a7fd81f1e4d811a5",
+   "version": 1
+  },
+  {
+   "code": "M-RECAP",
+   "document": {
+    "code": "M-RECAP",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Recap",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CLEAR",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "9d01cf43b584933aee67a2338770db8b965bcd0a99b7e1a656c7f38c3f8ab1b7",
+   "version": 1
+  },
+  {
+   "code": "M-TWO-TOPICS",
+   "document": {
+    "code": "M-TWO-TOPICS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n4"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n4",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Two topics",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-FIRST-TOPIC",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-CLEAR",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "S-SECOND-TOPIC",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-CLEAR",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n4",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "81af12f0433a0ae40d345901ffa798cb1f2a4c28b258f539de52da6b68358cc2",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-REPEATED",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-topics",
+    "module": {
+     "code": "M-TWO-TOPICS",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-recap",
+    "module": {
+     "code": "M-RECAP",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-recap-2",
+    "module": {
+     "code": "M-RECAP",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "e6c9ec0510b6d07e816c895285dee2cf17cca9e19f23ed6f8e9982ec04115116",
+ "manifest_sha256": "3f125bde4923b241ce4f557e5f7dd7263d9a47d9042bd2bdfa3a470beb3878f6",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K7-one-question-placed-four-times-has-four-execution-identities",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

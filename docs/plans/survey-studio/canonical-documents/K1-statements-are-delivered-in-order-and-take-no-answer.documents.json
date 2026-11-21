@@ -1,0 +1,382 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-EXPLAINED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-EXPLAINED",
+    "intent": "Representative explained the plan",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "0d36691046af97d3d7fbe72665893f798fba65460238eaa92eece80eae78a6f1",
+   "version": 1
+  },
+  {
+   "code": "Q-POLICYHOLDER",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-POLICYHOLDER",
+    "intent": "Customer confirms they are the policyholder",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "8e580c554af3e5e73bff2bf3bf310767577ce588cde548facc75ca27bd88bc30",
+   "version": 1
+  },
+  {
+   "code": "S-CLOSING",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-CLOSING",
+    "intent": "Closes the call",
+    "schema": "call360.survey.item/1",
+    "statement_role": "CLOSING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "3122117d9c2aa303ab415415391d57f29bd9f0edfa92825e0c23074f1e0a6b28",
+   "version": 1
+  },
+  {
+   "code": "S-DISCLOSURE",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-DISCLOSURE",
+    "intent": "States that the call is a verification call",
+    "schema": "call360.survey.item/1",
+    "statement_role": "DISCLOSURE",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "44900124c2070c2b739e56358c58f594cf4295cef113959f8314a8a547570861",
+   "version": 1
+  },
+  {
+   "code": "S-OPENING",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-OPENING",
+    "intent": "Opens the call",
+    "schema": "call360.survey.item/1",
+    "statement_role": "OPENING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "8b7e6a9f59630674d60cbf45f8c3ddb59e14e68ae4388fef5da563557e5a132b",
+   "version": 1
+  },
+  {
+   "code": "S-TRANSITION",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-TRANSITION",
+    "intent": "Moves on to the questions",
+    "schema": "call360.survey.item/1",
+    "statement_role": "TRANSITION",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "f2c4c7d10d96dc7f7e18e969404d1fd309477fb6e468c03055b98e1c0df63633",
+   "version": 1
+  },
+  {
+   "code": "Q-EXPLAINED",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-EXPLAINED",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Did your representative explain how the plan works?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "f958a31f8bf490eee134386ec25ebf0e5718740598067f43f99d114c7697dfba",
+   "version": 1
+  },
+  {
+   "code": "Q-POLICYHOLDER",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-POLICYHOLDER",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Can you confirm that you are the policyholder?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "f20a9cb1c5c154997e67c1cf89e98caf6c51a44de0eba47f046ae6edf37e1fbd",
+   "version": 1
+  },
+  {
+   "code": "S-CLOSING",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-CLOSING",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Thank you. This call is now complete.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "3a51f98f6e57fba30bbada4ffeb638bd11e566a9fbdfd2503d74202e1bebdeca",
+   "version": 1
+  },
+  {
+   "code": "S-DISCLOSURE",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-DISCLOSURE",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "This call is to verify how your policy was sold to you.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "4708ffcc6c766e694b068e5e7dfa35c654bcda46c05c04dd4e98603f80dcda99",
+   "version": 1
+  },
+  {
+   "code": "S-OPENING",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-OPENING",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Good day. This is a service call about your policy.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "882eb2e5cd2e2e5ac4171d107bb044c98ced2613d06e75012b4753e7a76a8a24",
+   "version": 1
+  },
+  {
+   "code": "S-TRANSITION",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-TRANSITION",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "I will now ask two short questions.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "b91bde3ff0de6c748af0a9e1613088a6c957c442282cf73410b14e250d84d83c",
+   "version": 1
+  },
+  {
+   "code": "M-CALL",
+   "document": {
+    "code": "M-CALL",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "YES",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n2",
+      "on": "NO",
+      "to": {
+       "outcome": "UNABLE_TO_VERIFY"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n4"
+      }
+     },
+     {
+      "edge": "e5",
+      "from": "n4",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n5"
+      }
+     },
+     {
+      "edge": "e6",
+      "from": "n5",
+      "on": "ANY",
+      "to": {
+       "node": "n6"
+      }
+     },
+     {
+      "edge": "e7",
+      "from": "n6",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Call",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-OPENING",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-POLICYHOLDER",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "PER_CHOICE"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "S-DISCLOSURE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "S-TRANSITION",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n4",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-EXPLAINED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n5",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "S-CLOSING",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n6",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "UNABLE_TO_VERIFY"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "c3fb95f4120ece3164ec4d7cc0d48d8150d1885237bebfde089d786d4f84b829",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-STATEMENTS",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-call",
+    "module": {
+     "code": "M-CALL",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "UNABLE_TO_VERIFY": {
+      "survey_outcome": "UNABLE_TO_VERIFY"
+     }
+    }
+   }
+  ]
+ },
+ "content_sha256": "5c823c89154574ddb2b9e9836ff9f0fcf75d5d5c85bfce080bf8d578d4ba9079",
+ "manifest_sha256": "51205bde9f60760ff7abb6ded098dacbb9723e30bebce659197ce8132d36095e",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K1-statements-are-delivered-in-order-and-take-no-answer",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

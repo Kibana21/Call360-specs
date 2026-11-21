@@ -1,0 +1,540 @@
+{
+ "assets": [
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-BENEFITS-EXPLAINED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-BENEFITS-EXPLAINED",
+    "intent": "Benefits were explained",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "28777ae738e54d2a268ac0e3b1c645b2ca6587e6b8369804cb1bca3eece4ca1d",
+   "version": 1
+  },
+  {
+   "code": "Q-CALLBACK-CONSENT",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CALLBACK-CONSENT",
+    "intent": "Customer agrees to a call from a specialist",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "281e46fa48f683536003ff4e60fbba47ed2b5bb69776f687f35dd42afaf42518",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CLOSING-ACK",
+    "intent": "Customer acknowledges the closing statement",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2875926a7e7452926cbed5a56d89e0e92457e15a7b51a9eb3e25e876bad430f0",
+   "version": 1
+  },
+  {
+   "code": "Q-NOTE-CONCERN",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-NOTE-CONCERN",
+    "intent": "Customer's concern is noted for follow-up",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "0f9405f1f478a79e52324f9ac9b1ef6501a08df1e50683adb2df7dad7a9ff1e5",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-COMFORTABLE",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PREMIUM-COMFORTABLE",
+    "intent": "Customer is comfortable with the premium",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "eeaa1dbb5d34f320a86cd3e20391afe3fc8d217bfe7db784c09a17cd124df545",
+   "version": 1
+  },
+  {
+   "code": "Q-BENEFITS-EXPLAINED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-BENEFITS-EXPLAINED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Did your representative explain the benefits?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "7c5dddf95b38eeda0e4f5e603deaf1c3f42120cca49dbda0128fe515cfece5fe",
+   "version": 1
+  },
+  {
+   "code": "Q-CALLBACK-CONSENT",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CALLBACK-CONSENT",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "May one of our specialists call you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "61b0b7621091e4d7773648200bd39a715b5f9d160e5f25dc7edcf703f6f1db88",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CLOSING-ACK",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Do you acknowledge that this call has been completed?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "253f8626e23ac3a240c1d3f432ce295c46d7942a1989dd43fb0442253389c00c",
+   "version": 1
+  },
+  {
+   "code": "Q-NOTE-CONCERN",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-NOTE-CONCERN",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "May we note your concern for follow-up?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "94f94a4496224cf3a5547a90ce855233fdcf4281359d062ced25679208937697",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-COMFORTABLE",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PREMIUM-COMFORTABLE",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Are you comfortable with the premium you are paying?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "670acd3035b2e180bf535f970bdf01076fb98e3c2e317b06b7dc751867bede6e",
+   "version": 1
+  },
+  {
+   "code": "C-OLDER-CUSTOMER",
+   "document": {
+    "ast": {
+     "left": {
+      "field": "customer.age_years"
+     },
+     "op": "GTE",
+     "right": {
+      "param": "minimum_age"
+     }
+    },
+    "code": "C-OLDER-CUSTOMER",
+    "inputs": {},
+    "name": "Older customer",
+    "params": {
+     "minimum_age": {
+      "type": "INTEGER",
+      "unit": "years"
+     }
+    },
+    "schema": "call360.survey.condition/1",
+    "version": 1
+   },
+   "kind": "CONDITION",
+   "sha256": "96cb45a4b59ee9f86593f81c8412d208ba4fb3b4d389cf84fc848b92557406e4",
+   "version": 1
+  },
+  {
+   "code": "M-AFFORDABILITY",
+   "document": {
+    "code": "M-AFFORDABILITY",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "NO",
+      "to": {
+       "outcome": "CLARIFICATION_REQUIRED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Affordability",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-PREMIUM-COMFORTABLE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "66406220cd446ee2e559e913eccac7befee66f239a43954f1db9015e7f3f05c3",
+   "version": 1
+  },
+  {
+   "code": "M-BENEFITS",
+   "document": {
+    "code": "M-BENEFITS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Benefits",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-BENEFITS-EXPLAINED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "f6f90074ba20e73d3f5e9d6031180552d319987764ffbcc6dfbb436b90232e8d",
+   "version": 1
+  },
+  {
+   "code": "M-CLOSING",
+   "document": {
+    "code": "M-CLOSING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Closing",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CLOSING-ACK",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "cc0615f82014b60dd54371b744001a980f8a7a78c9e78447ac27194ded5c7558",
+   "version": 1
+  },
+  {
+   "code": "M-CONCERN-NOTE",
+   "document": {
+    "code": "M-CONCERN-NOTE",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Concern note",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-NOTE-CONCERN",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "d65a2d3c2b41cf1537cd025cf4bae2d43da3160b2f67bea3acc1514e2030c002",
+   "version": 1
+  },
+  {
+   "code": "M-SPECIALIST",
+   "document": {
+    "code": "M-SPECIALIST",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Specialist call",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CALLBACK-CONSENT",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "0783b3e8a21478e9164af28cfab6f60aec4c0505f0530c221cf4544dc8fd61fe",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {
+   "customer.age_years": {
+    "label": "Customer age",
+    "type": "INTEGER",
+    "unit": "years"
+   }
+  },
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "REVIEW_REQUIRED": "REVIEW_HALT",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-JUMP-NO-DISPOSITION",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-afford",
+    "module": {
+     "code": "M-AFFORDABILITY",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": {
+      "instance": "mi-specialist"
+     },
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-benefits",
+    "module": {
+     "code": "M-BENEFITS",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "eligibility": {
+     "condition": {
+      "code": "C-OLDER-CUSTOMER",
+      "version": 1
+     },
+     "params": {
+      "minimum_age": 60
+     },
+     "unknown_policy": "BLOCK"
+    },
+    "instance": "mi-specialist",
+    "module": {
+     "code": "M-SPECIALIST",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "activation": {
+     "of": "mi-afford",
+     "outcomes": [
+      "CLARIFICATION_REQUIRED"
+     ]
+    },
+    "instance": "mi-concern",
+    "module": {
+     "code": "M-CONCERN-NOTE",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-closing",
+    "module": {
+     "code": "M-CLOSING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "bb0487516abc2b652f5d4bbecad64111ba6d49e2cb840b3b859ff81b9f7d2a13",
+ "manifest_sha256": "e4b684e185234776628731ff87241693da168e54b7263613f2a198392bf80158",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "G3-jump-without-skip-disposition-is-invalid",
+ "source_schema": "call360.survey-studio.fixture/2"
+}

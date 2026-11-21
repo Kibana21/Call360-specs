@@ -1,0 +1,198 @@
+{
+ "assets": [
+  {
+   "code": "Q-ACK",
+   "document": {
+    "answer_type": "ACKNOWLEDGEMENT",
+    "code": "Q-ACK",
+    "intent": "Customer acknowledges the summary",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "f0e235db30be00d59b2d01a82e4ebdad9ebef55bd962a672e0de25fffc940b18",
+   "version": 1
+  },
+  {
+   "code": "S-CLOSE",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-CLOSE",
+    "intent": "Closes the call",
+    "schema": "call360.survey.item/1",
+    "statement_role": "CLOSING",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "896ed00ec2560099cf6fd13d7d0a902450ab9bbab8a95fb9ab26f6b797bb0459",
+   "version": 1
+  },
+  {
+   "code": "S-SUMMARY",
+   "document": {
+    "answer_type": "STATEMENT",
+    "code": "S-SUMMARY",
+    "intent": "States what the customer is asked to acknowledge",
+    "schema": "call360.survey.item/1",
+    "statement_role": "DISCLOSURE",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "e04ef92bfed725167a6c5e83a7317490bf41d76d7a4be503419d04ec0538bf6a",
+   "version": 1
+  },
+  {
+   "code": "Q-ACK",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "Q-ACK",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Please confirm that you have heard this.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "2134d9e294b3d256a8657526a106e64fd9cd55a79d43f27b65142102f1c536ba",
+   "version": 1
+  },
+  {
+   "code": "S-CLOSE",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-CLOSE",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Thank you. This call is now complete.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "fcc5b5f87da81545a4ebd1b9a949580410ad7cedc34ca296d7e5c8a65b797341",
+   "version": 1
+  },
+  {
+   "code": "S-SUMMARY",
+   "document": {
+    "delivery_mode": "CONTROLLED_TTS",
+    "item": "S-SUMMARY",
+    "language": "en",
+    "schema": "call360.survey.wording/1",
+    "text": "Your policy has a fourteen-day free-look period.",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "70e7ecb5ccadefce361d12a0b1f2daca72c3d37769982f8bfb03ca61deb7f09c",
+   "version": 1
+  },
+  {
+   "code": "M-ACK",
+   "document": {
+    "code": "M-ACK",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n2"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n2",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "node": "n3"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n3",
+      "on": "AFTER_CAPTURE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Acknowledgement",
+    "nodes": [
+     {
+      "item": {
+       "code": "S-SUMMARY",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     },
+     {
+      "item": {
+       "code": "Q-ACK",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "S-CLOSE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n3",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "STATEMENT"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "fb02949dae4d4adedba50f8cde17d122fef4ed2f19b1a04081ea47bad79e0d0f",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-ACK",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-ack",
+    "module": {
+     "code": "M-ACK",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "73ba911a21cacee7ea9477c089a370547d7477781463d2b298fc6d9fd5ae381e",
+ "manifest_sha256": "472fb95903b759b8d003ecf43ce4d9499b019b351e5bc7337b641e65c0e5fa63",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "K4-acknowledgement-accepted-or-blocked-as-unresolved-policy",
+ "source_schema": "call360.survey-studio.fixture/5"
+}

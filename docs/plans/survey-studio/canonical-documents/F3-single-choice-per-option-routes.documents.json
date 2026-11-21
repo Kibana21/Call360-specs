@@ -1,0 +1,424 @@
+{
+ "assets": [
+  {
+   "code": "OS-MAIN-CONCERN",
+   "document": {
+    "code": "OS-MAIN-CONCERN",
+    "options": [
+     {
+      "code": "PREMIUM",
+      "label": "Premium affordability"
+     },
+     {
+      "code": "BENEFITS",
+      "label": "Product benefits"
+     },
+     {
+      "code": "CLAIMS",
+      "label": "Claims process"
+     },
+     {
+      "code": "NONE",
+      "label": "No concern"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "3456259c40ec11201a39018bb828d3ac4104e6951af2daf29231420d892d0f4f",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-BENEFITS-DETAIL",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-BENEFITS-DETAIL",
+    "intent": "Benefits match what was explained",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "8df07674583624cbb7ef3a0992d8b63c6b2c7ece6a46d705ac292eded5402ff9",
+   "version": 1
+  },
+  {
+   "code": "Q-CLAIMS-DETAIL",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CLAIMS-DETAIL",
+    "intent": "Claims process was explained",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "89473dd98e0faf529659ea8f712327e693aa5eadad918d67c6959bf0e0a408b7",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PROCEED",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CONFIRM-PROCEED",
+    "intent": "Customer is content to proceed",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "b8c426d3ffd44221eafdd7aed131cc6fa9fda91f42cded4648d52ffb4981e4f4",
+   "version": 1
+  },
+  {
+   "code": "Q-MAIN-CONCERN",
+   "document": {
+    "answer_type": "SINGLE_SELECT",
+    "code": "Q-MAIN-CONCERN",
+    "intent": "The customer's most important concern",
+    "option_set": {
+     "code": "OS-MAIN-CONCERN",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "31518696f8ae1b781bec4e0ece3b0e45f75dd012f14398388c0c37d5e097e9ba",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-DETAIL",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PREMIUM-DETAIL",
+    "intent": "Premium is affordable for the full term",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "8db7ec55580bcd8cc1c98e12bd6a624a896f3bcc6f65be676fee9e2ea63fe95b",
+   "version": 1
+  },
+  {
+   "code": "Q-BENEFITS-DETAIL",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-BENEFITS-DETAIL",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Do the benefits match what was explained to you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "4467b1eac65f8a319a638caedd67aad0adfc7f0d7fddd6b94d5196462c95e565",
+   "version": 1
+  },
+  {
+   "code": "Q-CLAIMS-DETAIL",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CLAIMS-DETAIL",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Was the claims process explained to you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "3a0b9560b27d1d7da23478965e89fba7667dfdfd106108ca4b0827bd24c16764",
+   "version": 1
+  },
+  {
+   "code": "Q-CONFIRM-PROCEED",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CONFIRM-PROCEED",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Are you content to proceed with this policy?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "7186f06af9da493f632bf5c6b8de1e99da954978de6b75865cca71375db0b178",
+   "version": 1
+  },
+  {
+   "code": "Q-MAIN-CONCERN",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-MAIN-CONCERN",
+    "language": "en",
+    "option_texts": {
+     "BENEFITS": "What the plan pays",
+     "CLAIMS": "How to claim",
+     "NONE": "None of these",
+     "PREMIUM": "Whether I can afford the premium"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Which of these is most important to you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "10a2bac2dd465d25834d9a279f8ef4cbf4b5cf681a5fd19aa40acfb16df77873",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-DETAIL",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PREMIUM-DETAIL",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Are you comfortable paying this premium for the full term?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "a4108b1602ee3ddd3e2dec3b29964b93c9bd604f9b9c7b45c56c691d0890ff04",
+   "version": 1
+  },
+  {
+   "code": "M-CONCERNS",
+   "document": {
+    "code": "M-CONCERNS",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "PREMIUM",
+      "to": {
+       "node": "n-prem"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "BENEFITS",
+      "to": {
+       "node": "n-ben"
+      }
+     },
+     {
+      "edge": "e3",
+      "from": "n1",
+      "on": "CLAIMS",
+      "to": {
+       "node": "n-claims"
+      }
+     },
+     {
+      "edge": "e4",
+      "from": "n1",
+      "on": "NONE",
+      "to": {
+       "node": "n-confirm"
+      }
+     },
+     {
+      "edge": "e5",
+      "from": "n-prem",
+      "on": "ANY",
+      "to": {
+       "node": "n-confirm"
+      }
+     },
+     {
+      "edge": "e6",
+      "from": "n-ben",
+      "on": "ANY",
+      "to": {
+       "node": "n-confirm"
+      }
+     },
+     {
+      "edge": "e7",
+      "from": "n-claims",
+      "on": "ANY",
+      "to": {
+       "node": "n-confirm"
+      }
+     },
+     {
+      "edge": "e8",
+      "from": "n-confirm",
+      "on": "YES",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e9",
+      "from": "n-confirm",
+      "on": "NO",
+      "to": {
+       "outcome": "CLARIFICATION_REQUIRED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Customer concerns",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-MAIN-CONCERN",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-PREMIUM-DETAIL",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n-prem",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-BENEFITS-DETAIL",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n-ben",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-CLAIMS-DETAIL",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n-claims",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-CONFIRM-PROCEED",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n-confirm",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "YES"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "CLARIFICATION_REQUIRED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "eb768b1449734d9a73650f18522c7604cc8e8a0c8aae9c0a532eda3fc07b33c4",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-SINGLE-CHOICE",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-concerns",
+    "module": {
+     "code": "M-CONCERNS",
+     "revision": 1
+    },
+    "routes": {
+     "CLARIFICATION_REQUIRED": {
+      "survey_outcome": "CLARIFICATION_REQUIRED"
+     },
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "bc00af19b0ae241d4837bcc7bae3b92f11e2b4b195ae2ea38c0e8e82ad9686f3",
+ "manifest_sha256": "0e9f5a14f70ecdf6211143c7865d1f440636a4aa4439e1864b3c47cd4191286e",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "F3-single-choice-per-option-routes",
+ "source_schema": "call360.survey-studio.fixture/1"
+}

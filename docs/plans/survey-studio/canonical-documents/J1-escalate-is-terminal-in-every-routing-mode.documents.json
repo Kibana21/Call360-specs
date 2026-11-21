@@ -1,0 +1,552 @@
+{
+ "assets": [
+  {
+   "code": "OS-HELP",
+   "document": {
+    "code": "OS-HELP",
+    "options": [
+     {
+      "code": "FINE",
+      "label": "No, everything is fine"
+     },
+     {
+      "code": "SENIOR",
+      "label": "Yes, I would like someone senior to call me"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "95ba40bce2c93ed29f1ab9419eb7706096fb5218cffdcee3dddaa698a43c64e7",
+   "version": 1
+  },
+  {
+   "code": "OS-TOPICS",
+   "document": {
+    "code": "OS-TOPICS",
+    "options": [
+     {
+      "code": "PREMIUM",
+      "label": "Premium"
+     },
+     {
+      "code": "BENEFITS",
+      "label": "Benefits"
+     },
+     {
+      "code": "DISPUTE",
+      "label": "I dispute this sale"
+     },
+     {
+      "code": "UPSET",
+      "interrupt": "OPTIONAL",
+      "label": "I am unhappy with the service"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "784a3dd9794c71dfd725177e7719545d8a28d61ff92a35c51c6d7d5ced510090",
+   "version": 1
+  },
+  {
+   "code": "OS-YES-NO",
+   "document": {
+    "code": "OS-YES-NO",
+    "options": [
+     {
+      "code": "YES",
+      "label": "Yes"
+     },
+     {
+      "code": "NO",
+      "label": "No"
+     }
+    ],
+    "schema": "call360.survey.option-set/1",
+    "version": 1
+   },
+   "kind": "OPTION_SET",
+   "sha256": "9786759fe443d8fc651b7a96a8b820500dbc96e72f69e7aa8daecb78739d8216",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-CLOSING-ACK",
+    "intent": "Customer acknowledges the closing statement",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2875926a7e7452926cbed5a56d89e0e92457e15a7b51a9eb3e25e876bad430f0",
+   "version": 1
+  },
+  {
+   "code": "Q-HELP",
+   "document": {
+    "answer_type": "SINGLE_SELECT",
+    "code": "Q-HELP",
+    "intent": "Customer asks for a senior call",
+    "option_set": {
+     "code": "OS-HELP",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "59d25c251e3e8fcdcea00fb6ccdd56ca3b0c43eea391da5aa0a5322432c6bf36",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLEAR",
+   "document": {
+    "answer_type": "YES_NO",
+    "code": "Q-PREMIUM-CLEAR",
+    "intent": "Premium is clear",
+    "option_set": {
+     "code": "OS-YES-NO",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "9f0ee38739e3abaac643314cb1c8c8e0269e04105093b6932ffcd302237e3539",
+   "version": 1
+  },
+  {
+   "code": "Q-RAISE",
+   "document": {
+    "answer_type": "MULTI_SELECT",
+    "code": "Q-RAISE",
+    "intent": "What the customer raises",
+    "option_set": {
+     "code": "OS-TOPICS",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "selection": {
+     "max": 4,
+     "min": 1
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "9c1e66954e1f519f751665b9c4689f64e95e18b25f9da848a65025afa80e8e67",
+   "version": 1
+  },
+  {
+   "code": "Q-TOPICS",
+   "document": {
+    "answer_type": "MULTI_SELECT",
+    "code": "Q-TOPICS",
+    "intent": "Topics the customer raises",
+    "option_set": {
+     "code": "OS-TOPICS",
+     "version": 1
+    },
+    "response_obligation": "MANDATORY",
+    "schema": "call360.survey.item/1",
+    "selection": {
+     "max": 4,
+     "min": 1
+    },
+    "version": 1
+   },
+   "kind": "ITEM",
+   "sha256": "2f4b7621e27bbbfed6364052babfb17b56f2318cbb3fb62b9d163d6758b6a94e",
+   "version": 1
+  },
+  {
+   "code": "Q-CLOSING-ACK",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-CLOSING-ACK",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Do you acknowledge that this call has been completed?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "253f8626e23ac3a240c1d3f432ce295c46d7942a1989dd43fb0442253389c00c",
+   "version": 1
+  },
+  {
+   "code": "Q-HELP",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-HELP",
+    "language": "en",
+    "option_texts": {
+     "FINE": "No, everything is fine",
+     "SENIOR": "Yes, I would like someone senior to call me"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Would you like someone senior to call you?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "14d9c2f568324915de88d2c0c010cfc31e57686e4a7d240250f704f58cf05c4f",
+   "version": 1
+  },
+  {
+   "code": "Q-PREMIUM-CLEAR",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-PREMIUM-CLEAR",
+    "language": "en",
+    "option_texts": {
+     "NO": "No",
+     "YES": "Yes"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is the premium clear to you now?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "89e8069a2af92562af274b395a09b21a6f1ab181d4a611d623a3e49bec2712d1",
+   "version": 1
+  },
+  {
+   "code": "Q-RAISE",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-RAISE",
+    "language": "en",
+    "option_texts": {
+     "BENEFITS": "Benefits",
+     "DISPUTE": "I dispute this sale",
+     "PREMIUM": "Premium",
+     "UPSET": "I am unhappy with the service"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Is there anything you would like to raise?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "90221c67c967e26b2e2461121fd314cf220a07081ed0badb3792c9070323479f",
+   "version": 1
+  },
+  {
+   "code": "Q-TOPICS",
+   "document": {
+    "delivery_mode": "CONVERSATIONAL",
+    "item": "Q-TOPICS",
+    "language": "en",
+    "option_texts": {
+     "BENEFITS": "Benefits",
+     "DISPUTE": "I dispute this sale",
+     "PREMIUM": "Premium",
+     "UPSET": "I am unhappy with the service"
+    },
+    "schema": "call360.survey.wording/1",
+    "text": "Which topics would you like to go through?",
+    "wording_version": 1
+   },
+   "kind": "WORDING",
+   "sha256": "27c41bb9fe42cb7bb9d9d8ae03fc286e54d669dda15f15d481e372147768b4b7",
+   "version": 1
+  },
+  {
+   "code": "M-CLOSING",
+   "document": {
+    "code": "M-CLOSING",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "ANY",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Closing",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-CLOSING-ACK",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "cc0615f82014b60dd54371b744001a980f8a7a78c9e78447ac27194ded5c7558",
+   "version": 1
+  },
+  {
+   "code": "M-HELP",
+   "document": {
+    "code": "M-HELP",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n1",
+      "on": "FINE",
+      "to": {
+       "outcome": "COMPLETED"
+      }
+     },
+     {
+      "edge": "e2",
+      "from": "n1",
+      "on": "SENIOR",
+      "to": {
+       "outcome": "ESCALATE"
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Help",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-HELP",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "mode": "PER_CHOICE",
+       "normal_answer": "FINE"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "fec4486572a2f58dc101101a7c97a858c4a6e8db6a8ae8786e0a533aa1b1ef33",
+   "version": 1
+  },
+  {
+   "code": "M-RAISE",
+   "document": {
+    "code": "M-RAISE",
+    "edges": [
+     {
+      "edge": "e1",
+      "from": "n2",
+      "on": "ANY",
+      "to": {
+       "return": true
+      }
+     }
+    ],
+    "entry": "n1",
+    "name": "Raise",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-RAISE",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "followups": [
+        {
+         "nodes": [
+          "n2"
+         ],
+         "option": "PREMIUM"
+        }
+       ],
+       "interrupts": [
+        {
+         "option": "UPSET",
+         "outcome": "ESCALATE",
+         "policy": "STOP_ESCALATE"
+        }
+       ],
+       "mode": "SEQUENTIAL_FOLLOWUPS",
+       "no_followup": [
+        "BENEFITS",
+        "DISPUTE"
+       ],
+       "rejoin": {
+        "outcome": "COMPLETED"
+       }
+      },
+      "type": "QUESTION"
+     },
+     {
+      "item": {
+       "code": "Q-PREMIUM-CLEAR",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n2",
+      "role": "FOLLOWUP",
+      "routing": {
+       "mode": "ALL_TO_NEXT"
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "75d26e6636e8989e1fe89ac4e552eee49942c5b87a144aad0e9f39e478b1d220",
+   "version": 1
+  },
+  {
+   "code": "M-TOPICS",
+   "document": {
+    "code": "M-TOPICS",
+    "edges": [],
+    "entry": "n1",
+    "name": "Topics",
+    "nodes": [
+     {
+      "item": {
+       "code": "Q-TOPICS",
+       "version": 1,
+       "wording_version": 1
+      },
+      "node": "n1",
+      "routing": {
+       "fallback": {
+        "outcome": "COMPLETED"
+       },
+       "mode": "ORDERED_RULES",
+       "rules": [
+        {
+         "rule": "r1",
+         "to": {
+          "outcome": "ESCALATE"
+         },
+         "when": {
+          "kind": "ANY",
+          "options": [
+           "DISPUTE"
+          ]
+         }
+        }
+       ]
+      },
+      "type": "QUESTION"
+     }
+    ],
+    "outcomes": [
+     "COMPLETED",
+     "ESCALATE"
+    ],
+    "revision": 1,
+    "schema": "call360.survey.module/1"
+   },
+   "kind": "MODULE",
+   "sha256": "4e900acefe4735a5712f99e460e5fb3ac5791154c125fd88a115f820b922d36d",
+   "version": 1
+  }
+ ],
+ "catalogs": {
+  "fields": {},
+  "outcomes": {
+   "CLARIFICATION_REQUIRED": "EXCEPTION",
+   "COMPLETED": "NORMAL_COMPLETION",
+   "CUSTOMER_DECLINED": "EXCEPTION",
+   "ESCALATE": "ESCALATION",
+   "REVIEW_REQUIRED": "REVIEW_HALT",
+   "UNABLE_TO_VERIFY": "EXCEPTION"
+  }
+ },
+ "content": {
+  "code": "S-ESCALATE-IS-TERMINAL",
+  "schema": "call360.survey.content/1",
+  "sequence": [
+   {
+    "instance": "mi-help",
+    "module": {
+     "code": "M-HELP",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "ESCALATE": "@CONTINUE"
+    }
+   },
+   {
+    "instance": "mi-topics",
+    "module": {
+     "code": "M-TOPICS",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "ESCALATE": {
+      "instance": "mi-closing"
+     }
+    }
+   },
+   {
+    "instance": "mi-raise",
+    "module": {
+     "code": "M-RAISE",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE",
+     "ESCALATE": {
+      "survey_outcome": "COMPLETED"
+     }
+    }
+   },
+   {
+    "instance": "mi-closing",
+    "module": {
+     "code": "M-CLOSING",
+     "revision": 1
+    },
+    "routes": {
+     "COMPLETED": "@CONTINUE"
+    }
+   }
+  ]
+ },
+ "content_sha256": "174f215fc706fceaf720ff5c0d76df0ed6f8a93282071b25e6f1175cd886274a",
+ "manifest_sha256": "afcf47c25737dd4947f68702cbaea890b8508c2102a1b00b00aa670f3e90eb90",
+ "note": "Generated from the golden fixture by Call360-backend. Do not edit by hand.",
+ "source_fixture": "J1-escalate-is-terminal-in-every-routing-mode",
+ "source_schema": "call360.survey-studio.fixture/4"
+}

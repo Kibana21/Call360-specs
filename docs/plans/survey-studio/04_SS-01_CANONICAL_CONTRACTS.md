@@ -1182,3 +1182,75 @@ Fifteen operations, `26_SS-03A_FOUNDATION_SPECIFICATION.md` §6, under `/api/v1/
 `SELF_PUBLISH_DENIED`, `APPROVER_PUBLISH_DENIED`, `NOT_SUBMITTER`, `NOT_APPROVED`, `ALREADY_DECIDED`,
 `COMMENT_REQUIRED`, `SURVEY_CODE_TAKEN`, `MARKET_NOT_IN_SCOPE`, `CONDITION_INVALID`, `NOT_FOUND`.
 
+---
+
+## 10. Amendment of 2026-11-22 (FI-1): saving from an editor
+
+**Authority:** owner decisions D-196…D-201. **Implemented in** `Call360-backend` (`app/domain/survey/store.py`,
+`documents.py`, `app/api/survey_definitions.py`) and `Call360-frontend`
+(`src/features/surveystudio/model/documents.ts`, `persist/`). Every change is additive: no document that exists is
+changed, no hash changes, no fixture changes.
+
+### 10.1 Two additional operations (seventeen in all)
+
+| Operation | Permission | Meaning |
+|---|---|---|
+| `GET /survey-definitions/{id}/draft/documents` | `survey.read` | Everything needed to open the draft: the content document; the full document, state, ownership and server SHA-256 of every asset version the survey owns or its content pins; the survey's name and purpose; the draft revision, when and by whom it was saved; the governed catalogs |
+| `POST /survey-definitions/{id}/draft/save` | `survey.edit` | **One Save.** `{expected_revision, operations[1…500]}`. Every operation is applied in order as **one revision**, in one database transaction, or none is. A stale `expected_revision` is `STALE_DRAFT` (409) with `current_revision`, and nothing is written. If any operation is refused the whole save is rolled back and the error names it (`operation_index`). The reply is the complete saved draft in the shape of the read above |
+
+Both are market-scoped like every survey operation, and the save is CSRF-protected and rate-limited. One audit
+event `SURVEY.DRAFT_SAVED` records the revision, the number of operations by kind and the assets touched.
+
+**Why.** The fifteen operations of SS-03A change one document per request. A Save of an edited survey touches
+several documents (answers, item, wording, module, content), so a client would have had to send several requests,
+and a failure between them would have left a partly saved survey. Compensation in the client was rejected (owner
+decision D-197).
+
+**Idempotence without a token.** A repeated save carries the old `expected_revision` and is refused as stale. A
+client whose reply was lost reads the draft: if it is at the next revision and holds exactly the documents that were
+sent, the save had succeeded. Nothing is applied twice.
+
+### 10.2 One additional draft operation
+
+`SET_DETAILS {name, purpose}` — the survey's name (3–160 characters) and purpose (at most 2000). Descriptive only:
+neither is part of a hashed document, a candidate or a version. Accepted by the batch save and by the single-operation
+endpoint; this adds one sentence to the description of the existing `…/draft/operations` operation in the published
+contract and changes nothing else about it.
+
+### 10.3 The optional `authoring` field
+
+ITEM, MODULE and CONDITION documents may carry an optional object `authoring`. It is part of the document and of its
+hash. **It has no execution meaning: no validation rule, condition, route or manifest entry reads it.** A document
+without it is byte-for-byte what it was; WORDING, OPTION_SET and content documents do not accept it.
+
+| Document | `authoring` keys | Holds |
+|---|---|---|
+| MODULE | `intent` · `default_entry` · `derived_for` | What the author wrote the module is for; the entry rule recommended when it is placed; the survey a draft revision was derived for |
+| CONDITION | `param_labels` · `shared` | The readable label of a parameter, when it differs from its name; `false` when the condition belongs to one placement |
+| ITEM | `wording_version` | Only for an item no module places, and only when its wording version differs from its own version: which wording it is edited with |
+
+**Why.** These are things an author types or the editor tracks that the documents had no field for. Without it they
+would be lost on reload.
+
+### 10.4 The editor mapping
+
+One module maps the editor's Workspace to and from the six document kinds. Its rules:
+
+- A value equal to its default is not stored: module `kind` `COMMON`; an empty intent; a parameter label equal to
+  its name; an option set named `OS-<item code>` at the item's version (in the Workspace). `delivery_mode` is
+  always stated in the document (TS-4).
+- A question's answers are an option set. Several questions may share one; a question that changes shared answers
+  gets its own set and never changes the others'.
+- `response_obligation` `MANDATORY` is the editor's "must be answered"; any other code is kept as stored.
+- Identities pass through unchanged: item, module, condition, option-set, node, edge, rule and instance codes. The
+  execution identity `<instance>/<node>` is therefore the same before and after.
+- The editor shows one wording per item version. A draft in which one item version is placed with two wording
+  versions is **refused, not opened**, because opening it would lose one.
+- A Save sends exactly the documents that differ from the loaded revision. A frozen version is never sent: a change
+  is a new version.
+
+**Proof.** `Call360-specs/docs/plans/survey-studio/canonical-documents/` holds the 27 fixtures as canonical
+documents with the server's hashes, generated by the backend (kept current by a backend test). The frontend proves,
+for each of the 27: documents → Workspace → documents is exact; Workspace → documents → Workspace is exact; node,
+edge, instance and execution identities are unchanged.
+

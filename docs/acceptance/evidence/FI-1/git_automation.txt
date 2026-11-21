@@ -1,0 +1,68 @@
+# Git automation inspection, 2026-11-22 03:47 +0800 — read-only
+== Call360-backend
+active hooks (.git/hooks, non-sample): [end]
+core.hooksPath: unset
+local config keys: core.repositoryformatversion core.filemode core.bare core.logallrefupdates core.ignorecase core.precomposeunicode remote.origin.url remote.origin.fetch branch.main.remote branch.main.merge branch.main.vscode-merge-base 
+push/remote settings: 
+husky/lefthook/pre-commit files: [end]
+editor settings in repo: [end]
+package.json scripts mentioning git: [end]
+last 4 reflog entries: 
+  4ae7875 HEAD@{2026-11-22 00:42:08 +0800} commit: SS-03A development enablement: development-only survey identities script (2026-11-22 00:42:08 +0800)
+  a607ff5 HEAD@{2026-11-22 00:33:31 +0800} commit: commit (2026-11-22 00:33:31 +0800)
+  7228875 HEAD@{2026-11-19 09:26:20 +0800} commit: commit (2026-11-19 09:26:20 +0800)
+  4ae0fb6 HEAD@{2026-11-18 23:31:27 +0800} commit: comit (2026-11-18 23:31:27 +0800)
+origin/main reflog: 
+  a607ff5 update by push (2026-11-22 00:33:31 +0800)
+  7228875 update by push (2026-11-19 09:26:20 +0800)
+  4ae0fb6 update by push (2026-11-18 23:31:27 +0800)
+== Call360-frontend
+active hooks (.git/hooks, non-sample): [end]
+core.hooksPath: unset
+local config keys: core.repositoryformatversion core.filemode core.bare core.logallrefupdates core.ignorecase core.precomposeunicode remote.origin.url remote.origin.fetch branch.main.remote branch.main.merge branch.main.vscode-merge-base 
+push/remote settings: 
+husky/lefthook/pre-commit files: [end]
+editor settings in repo: [end]
+package.json scripts mentioning git: [end]
+last 4 reflog entries: 
+  abb7726 HEAD@{2026-11-22 00:33:37 +0800} commit: commit (2026-11-22 00:33:37 +0800)
+  a867767 HEAD@{2026-11-21 23:40:26 +0800} commit: Survey Studio prototype: gate presence is not approved enforcement (UC-02 review) (2026-11-21 23:40:26 +0800)
+  c575f76 HEAD@{2026-11-21 23:23:01 +0800} commit: commit (2026-11-21 23:23:01 +0800)
+  d1cdb03 HEAD@{2026-11-21 21:07:05 +0800} commit: commit (2026-11-21 21:07:05 +0800)
+origin/main reflog: 
+  abb7726 update by push (2026-11-22 00:33:37 +0800)
+  c575f76 update by push (2026-11-21 23:23:01 +0800)
+  d1cdb03 update by push (2026-11-21 21:07:05 +0800)
+== Call360-specs
+active hooks (.git/hooks, non-sample): [end]
+core.hooksPath: unset
+local config keys: core.repositoryformatversion core.filemode core.bare core.logallrefupdates core.ignorecase core.precomposeunicode remote.origin.url remote.origin.fetch branch.main.remote branch.main.merge branch.main.vscode-merge-base 
+push/remote settings: 
+husky/lefthook/pre-commit files: [end]
+editor settings in repo: [end]
+package.json scripts mentioning git: [end]
+last 4 reflog entries: 
+  cab99e5 HEAD@{2026-11-22 00:42:08 +0800} commit: SS-03A accepted as technically verified; development enablement record; FI-1 proposed (2026-11-22 00:42:08 +0800)
+  3ff4df7 HEAD@{2026-11-22 00:33:42 +0800} commit: commit (2026-11-22 00:33:42 +0800)
+  b2f81df HEAD@{2026-11-21 23:40:26 +0800} commit: UC-02 review: decision closure, SS-03A specification, approvals recorded (2026-11-21 23:40:26 +0800)
+  33fdfce HEAD@{2026-11-21 23:23:06 +0800} commit: commit (2026-11-21 23:23:06 +0800)
+origin/main reflog: 
+  3ff4df7 update by push (2026-11-22 00:33:42 +0800)
+  33fdfce update by push (2026-11-21 23:23:06 +0800)
+  b5bae20 update by push (2026-11-21 21:15:02 +0800)
+== global
+global hooksPath: unset
+global template dir: unset
+global aliases/push keys: [end]
+(eval):1: no matches found: ~/Documents/Work/Projects/Call360/Call360/*.code-workspace
+workspace-level editor folders: [end]
+editor user settings (~/Library/Application Support/Code/User/settings.json) git keys:
+5:    "git.confirmSync": false,
+6:    "git.enableSmartCommit": true,
+7:    "git.ignoreRebaseWarning": true,
+editor user settings (~/Library/Application Support/Cursor/User/settings.json) git keys:
+3:    "git.enableSmartCommit": true,
+4:    "git.autofetch": true,
+5:    "git.confirmSync": false,
+Claude Code hooks in settings: ~/.claude/settings.json hooks: []
+launchd/cron: crontab=0 agents=0
