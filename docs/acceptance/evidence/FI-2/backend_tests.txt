@@ -1,0 +1,39 @@
+# FI-2 — backend checks, isolated test database. 2026-11-22 05:28 +0800
+## whole suite: 674 passed, 0 failed
+........................................................................ [ 10%]
+........................................................................ [ 21%]
+........................................................................ [ 32%]
+........................................................................ [ 42%]
+........................................................................ [ 53%]
+........................................................................ [ 64%]
+........................................................................ [ 74%]
+........................................................................ [ 85%]
+........................................................................ [ 96%]
+..........................                                               [100%]
+=============================== warnings summary ===============================
+tests/test_assignment_rules.py::test_create_configure_simulate_submit_approve_publish
+tests/test_assignment_rules.py::test_permissions_abandon_and_scope
+tests/test_recording.py::test_local_retention_purges_audio_and_keeps_metadata
+tests/test_script_authoring.py::test_create_edit_submit_approve_publish_by_a_different_checker
+tests/test_script_draft_isolation.py::test_control_link_and_question_changes_stay_inside_their_draft
+tests/test_script_draft_isolation.py::test_abandon_draft_is_audited_frozen_and_deletes_nothing
+tests/test_transcript.py::test_both_tracks_transcribed_with_speakers_times_provenance_and_audited_access
+  ~/Documents/Work/Projects/Call360/Call360/Call360-backend/tests/conftest.py:87: SAWarning: transaction already deassociated from connection
+    tx.rollback()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+exit 0
+## FI-2 tests by name
+tests/test_survey_fi2.py::test_the_server_raises_its_governed_warning_with_a_stable_code_and_only_where_there_is_wording PASSED
+tests/test_survey_fi2.py::test_a_draft_cannot_be_submitted_until_every_governed_warning_is_acknowledged_with_a_reason PASSED
+tests/test_survey_fi2.py::test_a_reviewer_sees_every_pinned_document_its_hash_the_makers_and_what_they_may_do PASSED
+tests/test_survey_fi2.py::test_reading_candidate_documents_and_history_needs_read_and_the_market PASSED
+tests/test_survey_fi2.py::test_later_edits_change_neither_the_candidate_nor_the_version_and_a_new_candidate_is_not_approved PASSED
+tests/test_survey_fi2.py::test_a_tampered_candidate_is_shown_as_such_and_can_be_neither_approved_nor_published PASSED
+============================== 6 passed in 5.99s ===============================
+## lint / format / types / contract / fixture documents
+All checks passed!
+209 files already formatted
+Success: no issues found in 102 source files
+OpenAPI matches (5b81d44f59bd793b7415b201d79ab857b5e3411b0797dbec9557a7aee486bcc2)
+Canonical fixture documents match (27 files)

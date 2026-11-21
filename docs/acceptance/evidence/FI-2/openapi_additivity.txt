@@ -1,0 +1,9 @@
+# FI-2 — OpenAPI: accepted FI-1 contract (d808d92) vs regenerated
+sha256 before: 5a31269b168a6c4b2b36a2eded31b83d98b31646a990a712fc132269ab47b196
+sha256 after:  5b81d44f59bd793b7415b201d79ab857b5e3411b0797dbec9557a7aee486bcc2
+operations: before 216 after 218 | added 2 | removed 0 | existing changed []
+schemas: before 431 after 440 | added 9 | removed 0 | existing changed []
+added operations:
+  GET /api/v1/survey-candidates/{candidate_id}/documents -> survey_candidate_documents
+  GET /api/v1/survey-definitions/{survey_id}/history -> survey_definition_history
+added schemas: SurveyAcknowledgement, SurveyCandidateAsset, SurveyCandidateDocumentsOut, SurveyCandidateRestrictions, SurveyCandidateValidation, SurveyHistoryCandidate, SurveyHistoryOut, SurveyHistoryVersion, SurveyPerson

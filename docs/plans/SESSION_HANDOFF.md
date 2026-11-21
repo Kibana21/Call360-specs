@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-22, FI-1 built and technically verified, awaiting the owner's review; uncommitted (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-22, FI-1 accepted and closed; FI-2 built and technically verified, awaiting the owner's review; FI-2 uncommitted (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -10,6 +10,32 @@ authorisation; never mark anything accepted without the owner's explicit words.
 (§4).
 
 ## 0. Current state — read this first (2026-11-19)
+
+> **Update 2026-11-22 (FI-2) — read this block first; it supersedes the blocks below where they differ.**
+> - **FI-1: TECHNICALLY ACCEPTED — PERSISTED AUTHORING** (D-204), after the Back/Forward correction
+>   (`persist/historyGuard.ts`; `29_…` §12). The batch save, draft-documents read, `SET_DETAILS` and `authoring`
+>   metadata are accepted contract (D-205; `04_…` §10). FI-1 as reviewed was committed and pushed by the owner at
+>   04:46 (backend `d808d92`, frontend `7141926`, specs `fa01cda`). Local commits by Claude Code, **not pushed**:
+>   frontend `63966a9` (correction), specs `f610365` (acceptance record).
+> - **Owner decisions FI2-D-1…4 (D-207…D-210)** and **"AUTHORIZE FI-2"** (D-211).
+> - **FI-2 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT accepted. UNCOMMITTED in all three
+>   repositories (commit authorisation covered FI-1 only).** Report
+>   `docs/plans/survey-studio/30_FI-2_IMPLEMENTATION_REPORT.md`; contract `04_…` §11; evidence
+>   `docs/acceptance/evidence/FI-2/`.
+>   - Backend: server-governed warnings (one code, `SYNTHETIC_WORDING_UNAPPROVED` — Claude Code's choice, needs
+>     acceptance) with required acknowledgements at submission; `GET …/history`; `GET …/candidates/{id}/documents`
+>     with `restrictions`. No migration. OpenAPI `5b81d44f…` (218 operations).
+>     **Submitting without acknowledging now fails** (`ACKNOWLEDGEMENT_REQUIRED`).
+>   - Frontend: `persist/ReviewPages.tsx` (review step, candidate, version), `persist/reviewApi.ts`; routes
+>     `…/review`, `…/candidates/:id`, `…/versions/:id`.
+>   - Verified: backend 674; frontend 505 unit; persisted journeys 9/9; prototype 13/13; standard 33/33.
+> - **Development database:** still `0027`. It now holds TWO synthetic surveys with a published version each:
+>   `DEV-CHECK-AD5AEA8F` (do not write to it) and `S-DEV-FI2-WALKTHROUGH` (created by the FI-2 walkthrough with the
+>   three development identities). Never re-seed or reset.
+> - **Editor settings (not changed):** VS Code and Cursor have `git.enableSmartCommit: true`,
+>   `git.confirmSync: false`; recommendation in `29_…` §12.4. Always re-check HEADs before reporting git state.
+> - **Not authorised:** committing FI-2, pushing, SS-03B, library reuse (LIB-1 proposed in `30_…` §7, decisions
+>   LIB-D-1…5), any non-answer or consent behaviour, live eligibility, Script Studio changes.
 
 > **Update 2026-11-22 (FI-1) — read this block first; it supersedes the blocks below where they differ.**
 > - **Owner accepted SS-03A development enablement as technically verified** and approved FI-D-1…FI-D-5 with

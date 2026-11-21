@@ -1,0 +1,29 @@
+# FI-2 — frontend checks. 2026-11-22 05:28 +0800
+## api:check
+api:check OK (openapi 5b81d44f59bd793b7415b201d79ab857b5e3411b0797dbec9557a7aee486bcc2)
+## tsc
+tsc exit 0
+## eslint
+eslint exit 0
+## vitest
+ Test Files  34 passed (34)
+      Tests  505 passed (505)
+exit 0
+## PERSISTED journeys — Chromium → Vite → FastAPI → PostgreSQL (test schema): FI-1 (6) and FI-2 (3)
+  ✓  1 [persisted] › e2e/persisted/fi1.persisted.ts:44:1 › FI-1.1 create → edit in Guided → edit in Graph → Save → browser restart → identical (10.3s)
+  ✓  2 [persisted] › e2e/persisted/fi1.persisted.ts:148:1 › FI-1.2 two sessions: a stale save is refused, nothing is lost, and the resolution is explicit (2.6s)
+  ✓  3 [persisted] › e2e/persisted/fi1.persisted.ts:203:1 › FI-1.3 a save that fails part-way, or never arrives, reports no success and changes nothing (1.6s)
+  ✓  4 [persisted] › e2e/persisted/fi1.persisted.ts:260:1 › FI-1.4 the server's validation is the one that counts (2.3s)
+  ✓  5 [persisted] › e2e/persisted/fi1.persisted.ts:307:1 › FI-1.5 access: read-only, no permission, another market, and no way into Script Studio (3.5s)
+  ✓  6 [persisted] › e2e/persisted/fi1.persisted.ts:348:1 › FI-1.6 browser Back and Forward with unsaved work: asked first; staying keeps everything; leaving harms nothing (2.6s)
+  ✓  7 [persisted] › e2e/persisted/fi2.persisted.ts:72:1 › FI-2.1 author submits C-1 → checker approves → publisher creates Version 1.0 → later edits change neither → C-2 is not approved (10.8s)
+  ✓  8 [persisted] › e2e/persisted/fi2.persisted.ts:237:1 › FI-2.2 self-review, self-publication and approver-publication are refused even with every permission; the unauthorised cannot review or publish (8.5s)
+  ✓  9 [persisted] › e2e/persisted/fi2.persisted.ts:298:1 › FI-2.3 a tampered candidate is shown as such, and the server refuses to approve it (1.9s)
+  9 passed (49.2s)
+exit 0
+## prototype journeys (prototype setting on)
+  13 passed (4.2m)
+exit 0
+## standard Playwright (both settings off)
+  33 passed (5.9m)
+exit 0

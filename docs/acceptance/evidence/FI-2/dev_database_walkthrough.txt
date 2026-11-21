@@ -1,0 +1,20 @@
+# FI-2 — walkthrough on the DEVELOPMENT database with the three development identities. 2026-11-22 05:28 +0800
+# It created ONE new synthetic survey (S-DEV-FI2-WALKTHROUGH) and took it through review and publication.
+author: submitted candidate C-1 | status IN_REVIEW | maker notice 1 | approve control 0 | publish control 0
+checker: integrity true | makers Dev Survey Author | publish control 0 | draft editable false
+checker: approved | approver notice 1
+publisher: approve control 0 | publish enabled true
+publisher: published Version 1.0 PUBLISHED
+server history: candidates [ 'C-1 PUBLISHED by Dev Survey Author' ] | versions [ '1.0 PUBLISHED by Dev Survey Publisher' ]
+candidate: manifest intact true | pinned 4 | all intact true | acknowledged [ 'SYNTHETIC_WORDING_UNAPPROVED' ] | ack fingerprint is the candidate's true
+surveys in development now: [
+  'DEV-CHECK-AD5AEA8F (draft r10, version 1.0)',
+  'S-DEV-FI2-WALKTHROUGH (draft r1, version 1.0)'
+]
+alembic revision (development): ['0027_survey_definitions'] | test schema: ['0027_survey_definitions']
+tables: 111 | total rows: 14800 | survey_* tables: ['survey_asset_usage', 'survey_asset_version', 'survey_candidate', 's
+development tables changed since FI-1 (rows before -> after): {'audit_event': (3022, 3035), 'auth_session': (111, 117), 'login_attempt': (111, 117), 'refresh_token': (166, 174), 'refresh_token_family': (111, 117), 'survey_asset_usage': (27, 35), 'survey_asset_version': (9, 13), 'survey_candidate': (2, 3), 'survey_definition': (1, 2), 'survey_draft': (1, 2), 'survey_lifecycle_event': (7, 11), 'survey_version': (1, 2), 'survey_wording_approval': (6, 7)}
+tables removed: none
+DEV-CHECK survey rows unchanged: [('DEV-CHECK-AD5AEA8F', 10, 2, 1), ('S-DEV-FI2-WALKTHROUGH', 1, 1, 1)]
+roles holding survey permissions: [('DEV_SURVEY_AUTHOR', 2), ('DEV_SURVEY_CHECKER', 2), ('DEV_SURVEY_PUBLISHER', 2)]
+audit chain ok: True
