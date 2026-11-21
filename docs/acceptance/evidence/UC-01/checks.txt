@@ -1,0 +1,57 @@
+UC-01 checks — 2026-11-21 22:09
+repos: specs b5bae20 · backend 7228875 · frontend d1cdb03 (UC-01 changes uncommitted)
+
+== type check
+exit 0
+
+== lint
+(no output = 0 problems)
+
+== unit tests
+ Test Files  30 passed (30)
+      Tests  347 passed (347)
+
+== unit tests, prototype only
+ Test Files  6 passed (6)
+      Tests  228 passed (228)
+
+== golden fixtures regenerated from the reference interpreters
+ALL OK: 8 fixtures, 25 expected runs
+ALL OK: 6 fixtures (schema /2), 18 expected runs, 2 rejected answers
+ALL OK: 4 fixtures (schema /3), 16 expected runs
+ALL OK: 1 fixture (schema /4), 4 expected runs
+files: 19 · byte-identical: yes
+
+== api contract
+api:check OK (openapi 221985e73f2e789ab33e7f29018866509e2e0f0dc4aa7e0b56e13dc67d5af221)
+
+== dependency audit
+found 0 vulnerabilities
+
+== dependencies changed
+(blank = none)
+
+== secret scan
+committed history (gitleaks detect): no leaks found
+uncommitted changes to tracked files (git diff piped to gitleaks): no leaks found
+new UC-01 files (piped to gitleaks): no leaks found
+note: a scan of the whole working tree without git reports 6 pre-existing matches that are not part of UC-01 and are
+not secrets being added: src/api/contract.lock.json (the OpenAPI checksum) and e2e/.auth/accounts.json (generated
+synthetic test accounts; the folder is gitignored).
+
+== Script Studio and other modules untouched
+(blank = only Survey Studio files changed)
+
+== backend
+0
+(0 = clean)
+
+== prototype flag default
+// With it off, no route, navigation entry or label of the prototype exists in the product (ADR-0010 §8).
+export const surveyStudioEnabled = (): boolean => import.meta.env.VITE_SURVEY_STUDIO_PROTOTYPE === '1';
+
+== browser storage in prototype
+0
+
+== API calls in prototype
+0

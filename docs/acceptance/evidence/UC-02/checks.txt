@@ -1,0 +1,72 @@
+UC-02 checks — 2026-11-21 22:41
+repos: specs b5bae20 · backend 7228875 · frontend d1cdb03 (UC-01 and UC-02 changes uncommitted)
+
+== golden fixtures regenerated from the five reference interpreters
+ALL OK: 8 fixtures, 25 expected runs
+ALL OK: 6 fixtures (schema /2), 18 expected runs, 2 rejected answers
+ALL OK: 4 fixtures (schema /3), 16 expected runs
+ALL OK: 1 fixture (schema /4), 4 expected runs
+ALL OK: 8 fixtures (schema /5), 19 expected runs, 14 expected plans
+files: 27 (historical F,G,H,J: 19; new K: 8) · byte-identical on regeneration: yes
+historical fixtures changed since the accepted baseline (git): 0 (0 = none)
+  F: 8 files, 25 expected runs
+  G: 6 files, 18 expected runs
+  H: 4 files, 16 expected runs
+  J: 1 files, 4 expected runs
+  K: 8 files, 19 expected runs
+  total expected runs: 82 · expected plans (K): 14
+reference interpreter v5 imports from earlier interpreters or the prototype: 0 (0 = independent)
+
+== type check
+exit 0
+
+== lint
+(no output = 0 problems)
+
+== unit tests, whole frontend
+ Test Files  32 passed (32)
+      Tests  403 passed (403)
+
+== unit tests, Survey Studio
+ Test Files  8 passed (8)
+      Tests  284 passed (284)
+
+== schema /5 fixtures through the prototype engine
+ Test Files  1 passed (1)
+      Tests  43 passed (43)
+
+== historical fixtures and Guided/Graph parity through the prototype engine
+ Test Files  2 passed (2)
+      Tests  121 passed (121)
+
+== api contract
+api:check OK (openapi 221985e73f2e789ab33e7f29018866509e2e0f0dc4aa7e0b56e13dc67d5af221)
+
+== dependency audit
+found 0 vulnerabilities
+
+== dependencies changed
+(blank = none)
+
+== secret scan
+committed history: 10:41PM INF no leaks found
+uncommitted changes to tracked files: 10:41PM INF no leaks found
+new files: 10:41PM INF no leaks found
+specs, changed folders scanned directly (docs/plans/survey-studio, evidence/UC-01, evidence/UC-02, SESSION_HANDOFF.md): no leaks found in any
+note: one generic match was reported once when all changed specs files were concatenated into a single stream; it did
+not reproduce when the same content was scanned as a file or folder by folder, and no file contains a credential.
+
+== files changed outside Survey Studio (frontend)
+(blank = none)
+
+== backend
+0 changed files (0 = clean)
+
+== prototype off by default
+export const surveyStudioEnabled = (): boolean => import.meta.env.VITE_SURVEY_STUDIO_PROTOTYPE === '1';
+
+== browser storage / API calls in the prototype
+0 / 0
+
+== specs validator
+PASS: 63 CP0.0 specification checks (S0 matrix 70 requirements, 101 tests; 81 endpoints; 63 tables; 30 routes; 33 contradictions; 10 ADRs)

@@ -1,0 +1,524 @@
+{
+  "schema": "call360.survey-studio.fixture/5",
+  "fixture": "K3-numeric-answers-are-validated",
+  "title": "Numeric answers are validated",
+  "purpose": "Three number questions: whole numbers from 1 to 99; decimals from 0 to 100; no limits. Accepted values, the inclusive limits, and each rejection code. A rejected answer is never recorded and the question is asked again.",
+  "notice": "Synthetic and illustrative. Wording, fields, limits and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": [
+      "COMPLETED",
+      "CLARIFICATION_REQUIRED",
+      "ESCALATE",
+      "CUSTOMER_DECLINED",
+      "UNABLE_TO_VERIFY"
+    ]
+  },
+  "library": {
+    "option_sets": [],
+    "items": [
+      {
+        "code": "Q-YEARS",
+        "version": 1,
+        "answer_type": "NUMERIC",
+        "intent": "Years the customer was told they would pay",
+        "number_rule": {
+          "integer": true,
+          "min": 1,
+          "max": 99,
+          "unit": "years"
+        },
+        "mandatory": true
+      },
+      {
+        "code": "Q-SHARE",
+        "version": 1,
+        "answer_type": "NUMERIC",
+        "intent": "Share of income the premium takes, in percent",
+        "number_rule": {
+          "integer": false,
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        }
+      },
+      {
+        "code": "Q-ANY-NUMBER",
+        "version": 1,
+        "answer_type": "NUMERIC",
+        "intent": "A number with no limits",
+        "number_rule": {
+          "integer": false
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "item": "Q-YEARS",
+        "wording_version": 1,
+        "language": "en",
+        "text": "For how many years did your representative say you would pay premiums?",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "Q-SHARE",
+        "wording_version": 1,
+        "language": "en",
+        "text": "Roughly what share of your income goes to this premium, in percent?",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "Q-ANY-NUMBER",
+        "wording_version": 1,
+        "language": "en",
+        "text": "How many other policies do you hold?",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-NUMBERS",
+        "revision": 1,
+        "name": "Numbers",
+        "outcomes": [
+          "COMPLETED"
+        ],
+        "entry": "n1",
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "item": {
+              "code": "Q-YEARS",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "item": {
+              "code": "Q-SHARE",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n3",
+            "type": "QUESTION",
+            "item": {
+              "code": "Q-ANY-NUMBER",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n2"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n2",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n3"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n3",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-NUMBERS",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-numbers"
+    ],
+    "instances": [
+      {
+        "instance": "mi-numbers",
+        "module": {
+          "code": "M-NUMBERS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      }
+    ]
+  },
+  "validation": {
+    "errors": []
+  },
+  "expected_plans": [
+    {
+      "name": "A number question is planned like any other: its wording is settled, its answer is not",
+      "facts": {},
+      "expect": {
+        "status": "READY",
+        "issues": [],
+        "inputs": {},
+        "modules": [
+          {
+            "instance": "mi-numbers",
+            "status": "IN"
+          }
+        ],
+        "items": {
+          "mi-numbers/n1": {
+            "statement": false,
+            "role": null,
+            "mandatory": true,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "For how many years did your representative say you would pay premiums?",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-numbers/n2": {
+            "statement": false,
+            "role": null,
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "Roughly what share of your income goes to this premium, in percent?",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-numbers/n3": {
+            "statement": false,
+            "role": null,
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "How many other policies do you hold?",
+            "values": [],
+            "certainty": "ALWAYS"
+          }
+        },
+        "open": {}
+      }
+    }
+  ],
+  "expected_runs": [
+    {
+      "name": "Valid numbers are accepted: a whole number, a decimal where decimals are allowed, and a negative number where nothing forbids it",
+      "facts": {},
+      "answers": {
+        "mi-numbers/n1": {
+          "number": 20
+        },
+        "mi-numbers/n2": {
+          "number": 12.5
+        },
+        "mi-numbers/n3": {
+          "number": -3
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-numbers/n1",
+          "mi-numbers/n2",
+          "mi-numbers/n3"
+        ],
+        "delivered": [
+          {
+            "key": "mi-numbers/n1",
+            "item": "Q-YEARS@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "For how many years did your representative say you would pay premiums?",
+            "values": []
+          },
+          {
+            "key": "mi-numbers/n2",
+            "item": "Q-SHARE@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Roughly what share of your income goes to this premium, in percent?",
+            "values": []
+          },
+          {
+            "key": "mi-numbers/n3",
+            "item": "Q-ANY-NUMBER@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "How many other policies do you hold?",
+            "values": []
+          }
+        ],
+        "rejections": [],
+        "modules": [
+          {
+            "instance": "mi-numbers",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "pending": null,
+        "evidence_states": {
+          "mi-numbers/n1": "ANSWERED",
+          "mi-numbers/n2": "ANSWERED",
+          "mi-numbers/n3": "ANSWERED"
+        }
+      }
+    },
+    {
+      "name": "The limits themselves are accepted: lowest and highest are inclusive",
+      "facts": {},
+      "answers": {
+        "mi-numbers/n1": {
+          "number": 1
+        },
+        "mi-numbers/n2": {
+          "number": 100
+        },
+        "mi-numbers/n3": {
+          "number": 0
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-numbers/n1",
+          "mi-numbers/n2",
+          "mi-numbers/n3"
+        ],
+        "delivered": [
+          {
+            "key": "mi-numbers/n1",
+            "item": "Q-YEARS@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "For how many years did your representative say you would pay premiums?",
+            "values": []
+          },
+          {
+            "key": "mi-numbers/n2",
+            "item": "Q-SHARE@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Roughly what share of your income goes to this premium, in percent?",
+            "values": []
+          },
+          {
+            "key": "mi-numbers/n3",
+            "item": "Q-ANY-NUMBER@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "How many other policies do you hold?",
+            "values": []
+          }
+        ],
+        "rejections": [],
+        "modules": [
+          {
+            "instance": "mi-numbers",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "pending": null,
+        "evidence_states": {
+          "mi-numbers/n1": "ANSWERED",
+          "mi-numbers/n2": "ANSWERED",
+          "mi-numbers/n3": "ANSWERED"
+        }
+      }
+    },
+    {
+      "name": "Each invalid number is refused with its own code, and the same question is asked again",
+      "facts": {},
+      "answers": {
+        "mi-numbers/n1": {
+          "number": 20
+        },
+        "mi-numbers/n2": {
+          "number": 30
+        },
+        "mi-numbers/n3": {
+          "number": 2
+        }
+      },
+      "rejected": [
+        {
+          "at": "mi-numbers/n1",
+          "answer": {},
+          "error": "NUMBER_REQUIRED"
+        },
+        {
+          "at": "mi-numbers/n1",
+          "answer": {
+            "number": "twenty"
+          },
+          "error": "NUMBER_REQUIRED"
+        },
+        {
+          "at": "mi-numbers/n1",
+          "answer": {
+            "number": 2.5
+          },
+          "error": "NUMBER_NOT_WHOLE"
+        },
+        {
+          "at": "mi-numbers/n1",
+          "answer": {
+            "number": 0
+          },
+          "error": "NUMBER_TOO_LOW"
+        },
+        {
+          "at": "mi-numbers/n1",
+          "answer": {
+            "number": 100
+          },
+          "error": "NUMBER_TOO_HIGH"
+        },
+        {
+          "at": "mi-numbers/n2",
+          "answer": {
+            "number": -0.5
+          },
+          "error": "NUMBER_TOO_LOW"
+        },
+        {
+          "at": "mi-numbers/n2",
+          "answer": {
+            "number": 100.5
+          },
+          "error": "NUMBER_TOO_HIGH"
+        }
+      ],
+      "expect": {
+        "asked": [
+          "mi-numbers/n1",
+          "mi-numbers/n2",
+          "mi-numbers/n3"
+        ],
+        "delivered": [
+          {
+            "key": "mi-numbers/n1",
+            "item": "Q-YEARS@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "For how many years did your representative say you would pay premiums?",
+            "values": []
+          },
+          {
+            "key": "mi-numbers/n2",
+            "item": "Q-SHARE@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Roughly what share of your income goes to this premium, in percent?",
+            "values": []
+          },
+          {
+            "key": "mi-numbers/n3",
+            "item": "Q-ANY-NUMBER@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "How many other policies do you hold?",
+            "values": []
+          }
+        ],
+        "rejections": [
+          {
+            "at": "mi-numbers/n1",
+            "error": "NUMBER_REQUIRED"
+          },
+          {
+            "at": "mi-numbers/n1",
+            "error": "NUMBER_REQUIRED"
+          },
+          {
+            "at": "mi-numbers/n1",
+            "error": "NUMBER_NOT_WHOLE"
+          },
+          {
+            "at": "mi-numbers/n1",
+            "error": "NUMBER_TOO_LOW"
+          },
+          {
+            "at": "mi-numbers/n1",
+            "error": "NUMBER_TOO_HIGH"
+          },
+          {
+            "at": "mi-numbers/n2",
+            "error": "NUMBER_TOO_LOW"
+          },
+          {
+            "at": "mi-numbers/n2",
+            "error": "NUMBER_TOO_HIGH"
+          }
+        ],
+        "modules": [
+          {
+            "instance": "mi-numbers",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "pending": null,
+        "evidence_states": {
+          "mi-numbers/n1": "ANSWERED",
+          "mi-numbers/n2": "ANSWERED",
+          "mi-numbers/n3": "ANSWERED"
+        }
+      }
+    }
+  ]
+}

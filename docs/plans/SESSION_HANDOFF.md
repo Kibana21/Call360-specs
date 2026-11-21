@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-21, SS-02 Survey Studio prototype TECHNICALLY ACCEPTED and closed (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-21, UC-02 Contract and Call-Plan Readiness built and presented for review (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -230,8 +230,100 @@ authorisation; never mark anything accepted without the owner's explicit words.
 >   execution harness assembles customer-specific call plans from approved survey definitions and application data;
 >   live customer answers dynamically select subsequent approved dialogue. It is an input to the **next assessment**.
 >   SS-D-02, SS-D-17 and SS-D-20 stay in force until then. **Do not modify or remove Script Studio.**
-> - **Next step: none authorised. Wait for the owner.** Everything from SS-02B.2.1 to the closure is still
->   **uncommitted and unstaged** in frontend and specs; do not stage, commit or push without separate authorisation.
+> - **SS-02 baseline is COMMITTED (D-153).** The owner asked for it to be committed locally; on inspection it was
+>   already committed and level with the remote — specs `786a7c0` (then `b5bae20` at 21:15, `.DS_Store` files only),
+>   frontend `d1cdb03` (2026-11-21 21:07), backend
+>   unchanged `7228875`. Verified after the fact: 19 fixtures / 63 runs regenerate byte-for-byte, 314 unit tests,
+>   types / lint / contract / secret scan clean, Script Studio and backend unaffected. Note: 12 `.DS_Store` files are
+>   tracked in specs (harmless; left alone).
+> - **G-6 ARCHITECTURE CONSOLIDATION ASSESSMENT — DELIVERED 2026-11-21, PROPOSED, awaiting the owner's review
+>   (D-154). Analysis and specification only; nothing implemented; Script Studio untouched.** Document:
+>   `docs/plans/survey-studio/20_G-6_ARCHITECTURE_CONSOLIDATION_ASSESSMENT.md`. Findings: "Script Studio" is three
+>   layers — (A) the authoring product (2 routes, ~1,490 UI lines, 26 API operations, `script_authoring.py`) which is
+>   fully redundant once Survey Studio is real; (B) the governed content store (12 core tables) which every pin, run,
+>   finding, review and KPI refers to; (C) assignment, controller, simulation, evaluation, findings, review, which are
+>   not authoring and are retained. Survey Studio lacks delivery mode, statements, lifecycle gates, mandatory flag,
+>   evaluation configuration, control mapping, numeric answers. Controlled variables, clarification/repeat scripts and
+>   multi-language exist in **neither** product. All consumers read the frozen content document, not authoring rows.
+>   `live_eligibility` (D-67) is computed but enforced nowhere. Recommendation: retire A; evolve then rename B; keep
+>   and re-point C; wording features on the existing screens (no Wording Studio); one publication process draft →
+>   immutable candidate → version. **Decisions asked: AD-1…AD-15** (AD-1 meaning of "remove completely"; AD-2 whether
+>   synthetic history is carried forward; AD-15 amend SS-D-01/02/20, retain SS-D-17). **Those rulings stay in force
+>   until the owner rules.** Proposed checkpoints (none authorised): D-0 decisions · W-1, W-2 wording and
+>   call-readiness · B-1, B-2, B-3 backend · M-1, M-2 migration · P-1 call-plan assembly · R-1 retirement · V-1
+>   runtime and voice — with the no-answer and governance decisions that block each (`20_…` §6.1).
+> - **Owner 2026-11-21 ("G-6 Architectural Direction Approved: Unified Survey Studio").** Governing rule: do not
+>   preserve a module merely because others depend on it; preserve business functionality, replace obsolete
+>   dependencies, remove redundant implementations. **D-155 (AD-1)** one canonical Survey Studio store and publication
+>   model; script tables, APIs, services and routes are reused, refactored, replaced or deleted on their merits.
+>   **D-156 (AD-2)** re-seed synthetic development data in principle — **five preconditions before anything
+>   destructive** (inventory the real dev database; identify protected demo records; verified backup; state exactly
+>   what a re-seed replaces; a separately approved destructive checkpoint). **D-157 (AD-15)** SS-D-01, SS-D-02, SS-D-20
+>   amended (wording in the register); **SS-D-17 retained** (runtime last). **D-158** target product list; no Wording
+>   Studio; no six-tab replica. **D-159** Assignment Rules, Simulation Workbench, Finding Rules and Review Workbench
+>   assessed by business workflow, not assumed separate. Objective: one Survey Studio, one canonical survey model, one
+>   approved publication process, one deterministic execution harness.
+> - **UC-01 UNIFIED SURVEY STUDIO FOUNDATION — BUILT AND TECHNICALLY VERIFIED 2026-11-21, presented for the owner's
+>   review; NOT accepted; uncommitted (D-160).** Frontend prototype and specs only. Built: **Statement nodes** (one
+>   item master; node `type: 'STATEMENT'`, item `answerType: 'STATEMENT'`, roles OPENING / TRANSITION / DISCLOSURE /
+>   CLOSING, one route); **NUMERIC** (`numberRule`) and **ACKNOWLEDGEMENT** items; **wording and delivery section** on
+>   the card (`WordingSection` in `BuilderPage.tsx`, closed by default; `wording.delivery` CONTROLLED_TTS default /
+>   EXACT_AUDIO warning / CONVERSATIONAL **blocked**); **controlled variables** `{{field_code}}` (`model/wording.ts`:
+>   deterministic `renderWording`, missing value = error; simulator halts `MISSING_INFORMATION_HALT` /
+>   `WORDING_VALUE_MISSING`); declared `mandatory` and `role` (no gate behaviour; `liveGates` reports D-67 as INFO);
+>   **interface contracts** `model/contract.ts` (`EvaluationConfig`, `ControlLink`, `toContent`, `legacyGaps`);
+>   **Call Plan Preview** `model/plan.ts` + `CallPlanPage.tsx` at `surveys/:surveyId/plan` (modules IN / OUT /
+>   CONDITIONAL / HALTS, exact wording per customer, open points, one simulated call shown separately); second demo
+>   `addReadinessDemo` (button `ss-add-readiness`). Simulator: `SAY` event, `deliveries[]`, evidence state DELIVERED.
+>   Documents: `20_…` §10, **`21_UC-01_CONSOLIDATION_MAP.md`** (per-capability disposition; of 39 script tables: 8
+>   replaced, 2 deleted, 11 refactored, 18 reused; nav ends as Survey Studio + Review Workbench),
+>   **`22_UC-01_IMPLEMENTATION_REPORT.md`**, contract `04_…` §7, register D-155…D-160 + P-13…P-22. Evidence
+>   `docs/acceptance/evidence/UC-01/`. **347 unit tests (228 prototype, 33 new); 19 fixtures / 63 runs unchanged and
+>   byte-identical; 12/12 prototype journeys; 33/33 standard Playwright; lint, types, audit, contract clean.**
+>   **Not done:** no golden fixture / reference interpreter for the new elements (schema /5 recommended before a
+>   server engine); no usability or screen-reader evidence; AD-2 preconditions not started (no database read).
+> - **Blocked, not invented (report 22 §5):** conversational delivery; variables in recordings; non-acknowledgement;
+>   mandatory-unanswered; identity/consent refusal; repeat counts, timeouts, clarification and repeat wording.
+> - **Decisions needed before backend (report 22 §8):** AD-2 preconditions; AD-3, AD-5, AD-12, AD-13, AD-14; UC-D-1…
+>   UC-D-12 (default delivery, conversational mode, variable policy, statement roles, gate behaviour, mandatory,
+>   numbers in conditions, evaluation config, assignment in Survey Studio, findings policy, repeat wording, P-13…P-22);
+>   G-3 seven no-answer decisions; G-4 governance; G-1, G-2.
+> - **Owner 2026-11-21 ("Accept UC-01 and Authorize UC-02").** **UC-01 ACCEPTED as TECHNICALLY VERIFIED — FRONTEND
+>   PROTOTYPE (D-161)**: the new prototype baseline (formal UX acceptance, policy approval, backend and operational
+>   readiness pending; do not reopen SS-02). Approved: **AD-3** hashed graph documents with server-enforced integrity
+>   (D-162); **AD-5** separate Publisher permission and independent identity rules (D-163); **AD-12** single language
+>   (D-164); **AD-13** scheduled publication and withdrawal in lifecycle contracts, no operational behaviour invented
+>   (D-165); **AD-14** Survey terminology for new APIs, destructive renaming deferred (D-166); **UC-D-9** assignment
+>   rules authored through Survey Studio but independently governed; **UC-D-10** findings policies in the Library under
+>   separate Compliance permissions (D-167). "One authoring application does not imply one enormous editor or one
+>   approval event for unrelated artifacts."
+> - **UC-02 CONTRACT AND CALL-PLAN READINESS — BUILT AND TECHNICALLY VERIFIED 2026-11-21, presented for the owner's
+>   review; NOT accepted; uncommitted (D-168).** Specs, fixtures and narrow prototype corrections only.
+>   **Fixtures:** schema `/5`, `fixtures/K1…K8*.json` (19 runs, 14 plans, 12 validation errors) from the standalone
+>   `fixtures/reference_interpreter_v5.py` (imports nothing from earlier interpreters or the prototype; expected values
+>   hand-written); prototype checked by `model/fixtures5.test.ts` — 43/43. Historical 19 fixtures / 63 runs unchanged.
+>   Total 27 files, 82 runs. **Prototype corrections:** `RECORDING_ASSET_MISSING` is an ERROR (was a warning);
+>   `{acknowledged:false}` → `NON_ANSWER_POLICY_UNRESOLVED`, run stays pending; unfinished variable undeliverable
+>   (`MALFORMED`); money > 2 decimals and fractional integers are `INVALID` (no rounding); `SINGLE_ROUTE_ITEM_BRANCHES`,
+>   `NODE_ITEM_KIND_MISMATCH`, `STATEMENT_NOT_A_QUESTION` and other stable `Issue.code`s; statement display labels S1,
+>   S2 … (`buildFlow`; node ids unchanged; plan and contract sort by reading order, never by label). **Call plan:**
+>   `model/plan.ts` now has `issues[{code, at}]`, canonical open points `{on, to}`, and `liveEligibility(ws, survey, sg,
+>   plan)` = ten explicit conditions (MET / NOT_MET / NOT_AVAILABLE; never eligible in the prototype);
+>   `CallPlanPage.tsx` rebuilt compact (two verdict panels A and B, six counts, three foldable sections; < 1,500 px).
+>   **Documents:** `23_UC-02_DECISION_READY_CONTRACTS.md` (TS-1…TS-23 approvable now; 12 decisions block persistence;
+>   13 + 3 voice block runtime; six minimal interfaces; readiness checklist), `24_UC-02_IMPLEMENTATION_REPORT.md`,
+>   contract `04_…` §8, register D-161…D-169 + P-23…P-29, `fixtures/README.md`. Evidence
+>   `docs/acceptance/evidence/UC-02/`. **403 unit tests (284 prototype); 13/13 prototype journeys; standard
+>   Playwright 33/33; lint, types, audit, contract clean; validator PASS.**
+> - **Still not done:** AD-2 preconditions (no database read, no backup); no usability or screen-reader evidence; /5
+>   does not cover decisions, queues, rules, interruptions or activation with statements; pre-UC-01 validation rules
+>   have no stable codes; the reference and the prototype share an author (independent in code only).
+> - **Decisions the owner is asked for (`23_…` Part 1):** approve TS-1…TS-23 as a set; the 12 persistence blockers
+>   (UC-D-1, UC-D-2, UC-D-3a, UC-D-4, UC-D-6 = D-NA-5/10, G-4a, G-4b, G-4c, G-4e, SS-D-05, D-NA-9, D-NA-13); the
+>   runtime blockers; confirm P-23…P-29. No-answer register preserved unchanged (17 decisions, 4 parameters, no values).
+> - **Next step: none authorised. Wait for the owner's review of UC-02.** Uncommitted: frontend (UC-01 + UC-02, all
+>   Survey Studio files) and specs (G-6, UC-01, UC-02 documents, fixtures K and evidence). Do not stage, commit or push
+>   without separate authorisation. Script Studio untouched. Development database untouched. SS-03 not started.
 > - **Still open (report 19 §3–§5):** all business-user testing (no moderated usability or screen-reader evidence);
 >   14 no-answer decisions block the runtime build (7 before any backend work); who holds Publisher and whether the
 >   approver may publish; draft locking during review; what "approved wording" is; escalation handling.

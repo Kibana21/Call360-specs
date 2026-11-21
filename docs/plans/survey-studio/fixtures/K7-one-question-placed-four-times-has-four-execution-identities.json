@@ -1,0 +1,482 @@
+{
+  "schema": "call360.survey-studio.fixture/5",
+  "fixture": "K7-one-question-placed-four-times-has-four-execution-identities",
+  "title": "One question placed four times has four execution identities",
+  "purpose": "The item Q-CLEAR is placed twice in one module and once in a module that is itself placed twice. Each placement is `<instance>/<node>`: four planned items, four deliveries, four answers. An answer to one placement is never read as the answer to another.",
+  "notice": "Synthetic and illustrative. Wording, fields, limits and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": [
+      "COMPLETED",
+      "CLARIFICATION_REQUIRED",
+      "ESCALATE",
+      "CUSTOMER_DECLINED",
+      "UNABLE_TO_VERIFY"
+    ]
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "label": "Yes"
+          },
+          {
+            "code": "NO",
+            "label": "No"
+          }
+        ]
+      }
+    ],
+    "items": [
+      {
+        "code": "Q-CLEAR",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer finds what was just said clear",
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "S-FIRST-TOPIC",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "Introduces the first topic",
+        "statement_role": "TRANSITION"
+      },
+      {
+        "code": "S-SECOND-TOPIC",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "Introduces the second topic",
+        "statement_role": "TRANSITION"
+      }
+    ],
+    "wordings": [
+      {
+        "item": "Q-CLEAR",
+        "wording_version": 1,
+        "language": "en",
+        "text": "Is that clear to you?",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "S-FIRST-TOPIC",
+        "wording_version": 1,
+        "language": "en",
+        "text": "First, the premium is paid once a year.",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "S-SECOND-TOPIC",
+        "wording_version": 1,
+        "language": "en",
+        "text": "Second, the cover lasts for the whole term.",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-TWO-TOPICS",
+        "revision": 1,
+        "name": "Two topics",
+        "outcomes": [
+          "COMPLETED"
+        ],
+        "entry": "n1",
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-FIRST-TOPIC",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "item": {
+              "code": "Q-CLEAR",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n3",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-SECOND-TOPIC",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n4",
+            "type": "QUESTION",
+            "item": {
+              "code": "Q-CLEAR",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n2"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n2",
+            "on": "ANY",
+            "to": {
+              "node": "n3"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n3",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n4"
+            }
+          },
+          {
+            "edge": "e4",
+            "from": "n4",
+            "on": "ANY",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      },
+      {
+        "code": "M-RECAP",
+        "revision": 1,
+        "name": "Recap",
+        "outcomes": [
+          "COMPLETED"
+        ],
+        "entry": "n1",
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "item": {
+              "code": "Q-CLEAR",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "ANY",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-REPEATED",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-topics",
+      "mi-recap",
+      "mi-recap-2"
+    ],
+    "instances": [
+      {
+        "instance": "mi-topics",
+        "module": {
+          "code": "M-TWO-TOPICS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      },
+      {
+        "instance": "mi-recap",
+        "module": {
+          "code": "M-RECAP",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      },
+      {
+        "instance": "mi-recap-2",
+        "module": {
+          "code": "M-RECAP",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      }
+    ]
+  },
+  "validation": {
+    "errors": []
+  },
+  "expected_plans": [
+    {
+      "name": "Four placements of one question are four planned items",
+      "facts": {},
+      "expect": {
+        "status": "READY",
+        "issues": [],
+        "inputs": {},
+        "modules": [
+          {
+            "instance": "mi-topics",
+            "status": "IN"
+          },
+          {
+            "instance": "mi-recap",
+            "status": "IN"
+          },
+          {
+            "instance": "mi-recap-2",
+            "status": "IN"
+          }
+        ],
+        "items": {
+          "mi-topics/n1": {
+            "statement": true,
+            "role": "TRANSITION",
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "First, the premium is paid once a year.",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-topics/n2": {
+            "statement": false,
+            "role": null,
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "Is that clear to you?",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-topics/n3": {
+            "statement": true,
+            "role": "TRANSITION",
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "Second, the cover lasts for the whole term.",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-topics/n4": {
+            "statement": false,
+            "role": null,
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "Is that clear to you?",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-recap/n1": {
+            "statement": false,
+            "role": null,
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "Is that clear to you?",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-recap-2/n1": {
+            "statement": false,
+            "role": null,
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": "Is that clear to you?",
+            "values": [],
+            "certainty": "ALWAYS"
+          }
+        },
+        "open": {}
+      }
+    }
+  ],
+  "expected_runs": [
+    {
+      "name": "One question, four placements, four different answers kept apart: twice in one module, and once in each of two placements of another module",
+      "facts": {},
+      "answers": {
+        "mi-topics/n2": {
+          "choice": "YES"
+        },
+        "mi-topics/n4": {
+          "choice": "NO"
+        },
+        "mi-recap/n1": {
+          "choice": "NO"
+        },
+        "mi-recap-2/n1": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-topics/n2",
+          "mi-topics/n4",
+          "mi-recap/n1",
+          "mi-recap-2/n1"
+        ],
+        "delivered": [
+          {
+            "key": "mi-topics/n1",
+            "item": "S-FIRST-TOPIC@1",
+            "statement": true,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "First, the premium is paid once a year.",
+            "values": []
+          },
+          {
+            "key": "mi-topics/n2",
+            "item": "Q-CLEAR@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Is that clear to you?",
+            "values": []
+          },
+          {
+            "key": "mi-topics/n3",
+            "item": "S-SECOND-TOPIC@1",
+            "statement": true,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Second, the cover lasts for the whole term.",
+            "values": []
+          },
+          {
+            "key": "mi-topics/n4",
+            "item": "Q-CLEAR@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Is that clear to you?",
+            "values": []
+          },
+          {
+            "key": "mi-recap/n1",
+            "item": "Q-CLEAR@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Is that clear to you?",
+            "values": []
+          },
+          {
+            "key": "mi-recap-2/n1",
+            "item": "Q-CLEAR@1",
+            "statement": false,
+            "wording_version": 1,
+            "delivery_mode": "CONTROLLED_TTS",
+            "text": "Is that clear to you?",
+            "values": []
+          }
+        ],
+        "rejections": [],
+        "modules": [
+          {
+            "instance": "mi-topics",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-recap",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-recap-2",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "pending": null,
+        "evidence_states": {
+          "mi-topics/n1": "DELIVERED",
+          "mi-topics/n2": "ANSWERED",
+          "mi-topics/n3": "DELIVERED",
+          "mi-topics/n4": "ANSWERED",
+          "mi-recap/n1": "ANSWERED",
+          "mi-recap-2/n1": "ANSWERED"
+        }
+      }
+    }
+  ]
+}

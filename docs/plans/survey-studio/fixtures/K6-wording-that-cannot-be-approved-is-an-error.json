@@ -1,0 +1,471 @@
+{
+  "schema": "call360.survey-studio.fixture/5",
+  "fixture": "K6-wording-that-cannot-be-approved-is-an-error",
+  "title": "Wording that cannot be approved is an error",
+  "purpose": "Six authoring errors, one per statement: a variable that is not a catalog field; a yes/no fact, which has no spoken form; an unfinished variable; delivery in the assistant's own words, which is blocked; an approved recording with no recording attached, which blocks delivery and is not a warning; and a recording that would have to contain a variable. Run anyway, the draft halts.",
+  "notice": "Synthetic and illustrative. Wording, fields, limits and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {
+      "policy.plan_name": {
+        "type": "TEXT",
+        "label": "Plan name"
+      },
+      "policy.is_replacement": {
+        "type": "BOOLEAN",
+        "label": "Replaces an existing policy"
+      }
+    },
+    "outcomes": [
+      "COMPLETED",
+      "CLARIFICATION_REQUIRED",
+      "ESCALATE",
+      "CUSTOMER_DECLINED",
+      "UNABLE_TO_VERIFY"
+    ]
+  },
+  "library": {
+    "option_sets": [],
+    "items": [
+      {
+        "code": "S-UNKNOWN-FIELD",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "Names a field that is not in the catalog",
+        "statement_role": "OPENING"
+      },
+      {
+        "code": "S-YES-NO-FACT",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "Tries to speak a yes/no fact",
+        "statement_role": "DISCLOSURE"
+      },
+      {
+        "code": "S-UNFINISHED",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "Has an unfinished variable",
+        "statement_role": "TRANSITION"
+      },
+      {
+        "code": "S-OWN-WORDS",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "Left to the assistant's own words",
+        "statement_role": "TRANSITION"
+      },
+      {
+        "code": "S-RECORDING",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "An approved recording, with no recording attached",
+        "statement_role": "DISCLOSURE"
+      },
+      {
+        "code": "S-RECORDING-VARIABLE",
+        "version": 1,
+        "answer_type": "STATEMENT",
+        "intent": "A recording that would have to contain a variable",
+        "statement_role": "CLOSING"
+      }
+    ],
+    "wordings": [
+      {
+        "item": "S-UNKNOWN-FIELD",
+        "wording_version": 1,
+        "language": "en",
+        "text": "Good day {{customer.nickname}}.",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "S-YES-NO-FACT",
+        "wording_version": 1,
+        "language": "en",
+        "text": "This policy replaces another: {{policy.is_replacement}}.",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "S-UNFINISHED",
+        "wording_version": 1,
+        "language": "en",
+        "text": "Your plan is {{policy.plan_name.",
+        "delivery_mode": "CONTROLLED_TTS",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "S-OWN-WORDS",
+        "wording_version": 1,
+        "language": "en",
+        "text": "Explain the next part in your own words.",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "S-RECORDING",
+        "wording_version": 1,
+        "language": "en",
+        "text": "This call may be recorded.",
+        "delivery_mode": "EXACT_AUDIO",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      },
+      {
+        "item": "S-RECORDING-VARIABLE",
+        "wording_version": 1,
+        "language": "en",
+        "text": "Goodbye, and thank you for choosing {{policy.plan_name}}.",
+        "delivery_mode": "EXACT_AUDIO",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-WORDING",
+        "revision": 1,
+        "name": "Wording that cannot be approved",
+        "outcomes": [
+          "COMPLETED"
+        ],
+        "entry": "n1",
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-UNKNOWN-FIELD",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n2",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-YES-NO-FACT",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n3",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-UNFINISHED",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n4",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-OWN-WORDS",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n5",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-RECORDING",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n6",
+            "type": "STATEMENT",
+            "item": {
+              "code": "S-RECORDING-VARIABLE",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n2"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n2",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n3"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n3",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n4"
+            }
+          },
+          {
+            "edge": "e4",
+            "from": "n4",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n5"
+            }
+          },
+          {
+            "edge": "e5",
+            "from": "n5",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "n6"
+            }
+          },
+          {
+            "edge": "e6",
+            "from": "n6",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-WORDING",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-wording"
+    ],
+    "instances": [
+      {
+        "instance": "mi-wording",
+        "module": {
+          "code": "M-WORDING",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      }
+    ]
+  },
+  "validation": {
+    "errors": [
+      {
+        "code": "UNKNOWN_VARIABLE",
+        "at": "M-WORDING/n1"
+      },
+      {
+        "code": "VARIABLE_TYPE_NOT_ALLOWED",
+        "at": "M-WORDING/n2"
+      },
+      {
+        "code": "VARIABLE_MALFORMED",
+        "at": "M-WORDING/n3"
+      },
+      {
+        "code": "DELIVERY_CONVERSATIONAL_BLOCKED",
+        "at": "M-WORDING/n4"
+      },
+      {
+        "code": "RECORDING_ASSET_MISSING",
+        "at": "M-WORDING/n5"
+      },
+      {
+        "code": "RECORDING_WITH_VARIABLE",
+        "at": "M-WORDING/n6"
+      }
+    ]
+  },
+  "expected_plans": [
+    {
+      "name": "An unknown variable can never be rendered, whatever the customer's data: the plan is BLOCKED at each one",
+      "facts": {
+        "policy.plan_name": "SecureLife Protect",
+        "policy.is_replacement": true
+      },
+      "expect": {
+        "status": "BLOCKED",
+        "issues": [
+          {
+            "code": "WORDING_VALUE_MISSING",
+            "at": "mi-wording/n1"
+          },
+          {
+            "code": "WORDING_VALUE_MISSING",
+            "at": "mi-wording/n2"
+          },
+          {
+            "code": "WORDING_VALUE_MISSING",
+            "at": "mi-wording/n3"
+          }
+        ],
+        "inputs": {
+          "policy.is_replacement": "PRESENT",
+          "policy.plan_name": "PRESENT"
+        },
+        "modules": [
+          {
+            "instance": "mi-wording",
+            "status": "IN"
+          }
+        ],
+        "items": {
+          "mi-wording/n1": {
+            "statement": true,
+            "role": "OPENING",
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": null,
+            "values": [
+              {
+                "variable": "customer.nickname",
+                "value": null,
+                "state": "UNKNOWN_VARIABLE"
+              }
+            ],
+            "certainty": "ALWAYS"
+          },
+          "mi-wording/n2": {
+            "statement": true,
+            "role": "DISCLOSURE",
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": null,
+            "values": [
+              {
+                "variable": "policy.is_replacement",
+                "value": null,
+                "state": "UNKNOWN_VARIABLE"
+              }
+            ],
+            "certainty": "ALWAYS"
+          },
+          "mi-wording/n3": {
+            "statement": true,
+            "role": "TRANSITION",
+            "mandatory": false,
+            "delivery_mode": "CONTROLLED_TTS",
+            "wording_version": 1,
+            "text": null,
+            "values": [
+              {
+                "variable": "",
+                "value": null,
+                "state": "MALFORMED"
+              }
+            ],
+            "certainty": "ALWAYS"
+          },
+          "mi-wording/n4": {
+            "statement": true,
+            "role": "TRANSITION",
+            "mandatory": false,
+            "delivery_mode": "CONVERSATIONAL",
+            "wording_version": 1,
+            "text": "Explain the next part in your own words.",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-wording/n5": {
+            "statement": true,
+            "role": "DISCLOSURE",
+            "mandatory": false,
+            "delivery_mode": "EXACT_AUDIO",
+            "wording_version": 1,
+            "text": "This call may be recorded.",
+            "values": [],
+            "certainty": "ALWAYS"
+          },
+          "mi-wording/n6": {
+            "statement": true,
+            "role": "CLOSING",
+            "mandatory": false,
+            "delivery_mode": "EXACT_AUDIO",
+            "wording_version": 1,
+            "text": "Goodbye, and thank you for choosing SecureLife Protect.",
+            "values": [
+              {
+                "variable": "policy.plan_name",
+                "value": "SecureLife Protect",
+                "state": "PRESENT"
+              }
+            ],
+            "certainty": "ALWAYS"
+          }
+        },
+        "open": {}
+      }
+    }
+  ],
+  "expected_runs": [
+    {
+      "name": "If such a draft were run, it halts at the first sentence that cannot be built — it is never spoken with the variable left in",
+      "facts": {
+        "policy.plan_name": "SecureLife Protect",
+        "policy.is_replacement": true
+      },
+      "answers": {},
+      "expect": {
+        "asked": [],
+        "delivered": [],
+        "rejections": [],
+        "modules": [
+          {
+            "instance": "mi-wording",
+            "status": "RUNNING"
+          }
+        ],
+        "terminal": {
+          "state": "MISSING_INFORMATION_HALT",
+          "reason": "WORDING_VALUE_MISSING",
+          "at": "mi-wording/n1"
+        },
+        "pending": null,
+        "evidence_states": {
+          "mi-wording/n1": "NOT_REACHED",
+          "mi-wording/n2": "NOT_REACHED",
+          "mi-wording/n3": "NOT_REACHED",
+          "mi-wording/n4": "NOT_REACHED",
+          "mi-wording/n5": "NOT_REACHED",
+          "mi-wording/n6": "NOT_REACHED"
+        }
+      }
+    }
+  ]
+}

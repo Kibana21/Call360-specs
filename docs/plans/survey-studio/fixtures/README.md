@@ -158,3 +158,48 @@ are the validation error `ESCALATION_NOT_TERMINAL`, and none is followed: the ca
 state `ENDED_WITH_OUTCOME` (not `MANDATORY_ESCALATION`). A fourth run has no escalation and completes.
 
 The only difference from /3 is that one rule. All fixtures together: **19 files, 63 expected runs** (25 + 18 + 16 + 4).
+
+## Schema /5 (UC-02, owner decision D-168)
+
+| Schema | Files | Generated and checked by | Status |
+|---|---|---|---|
+| `call360.survey-studio.fixture/5` | `K1`–`K8` — 19 runs, 14 plans, 12 expected validation errors, 10 rejected answers | `reference_interpreter_v5.py` | Added at UC-02. F, G, H and J are unchanged and regenerate byte-for-byte |
+
+```text
+python3 reference_interpreter_v5.py <output_dir>   → ALL OK: 8 fixtures (schema /5), 19 expected runs, 14 expected plans
+```
+
+`reference_interpreter_v5.py` **stands alone**: it imports nothing from the earlier interpreters and shares no code
+with the prototype. It was written from the contract (`../04_…` §7 and §8). Every expected value in the fixtures is
+written by hand in that file; the interpreter must reproduce each one or it writes nothing. The prototype's
+TypeScript engine is then checked against the same files (`Call360-frontend …/model/fixtures5.test.ts`), which only
+translates shapes.
+
+| Fixture | Shows | Runs | Plans | Validation errors |
+|---|---|---:|---:|---:|
+| `K1-statements-are-delivered-in-order-and-take-no-answer` | Opening, disclosure, transition and closing statements; delivered, never asked; a path that ends early does not deliver the rest; with no answers the first *question* is pending | 3 | 1 | 0 |
+| `K2-a-statement-cannot-branch-or-be-answered` | Six authoring errors: a statement with two routes; node and item of different kinds (both ways); a mandatory statement; a number routed per choice; an impossible number rule | 0 | 0 | 6 |
+| `K3-numeric-answers-are-validated` | Valid, the inclusive limits, a decimal where allowed; each rejection code | 3 | 1 | 0 |
+| `K4-acknowledgement-accepted-or-blocked-as-unresolved-policy` | Acknowledged; **not acknowledged → `NON_ANSWER_POLICY_UNRESOLVED`, the run stays pending**; no answer or another kind of answer | 3 | 1 | 0 |
+| `K5-controlled-variables-render-deterministically-or-halt` | Four variables of four types; a missing value, an amount with three decimals and a value outside its list all halt the run and block the plan | 4 | 5 | 0 |
+| `K6-wording-that-cannot-be-approved-is-an-error` | Unknown field; yes/no fact; unfinished variable; conversational delivery; a recording with no asset; a recording with a variable | 1 | 1 | 6 |
+| `K7-one-question-placed-four-times-has-four-execution-identities` | One item, twice in a module and once in a module placed twice: four keys, four answers | 1 | 1 | 0 |
+| `K8-the-call-plan-is-specific-to-the-application` | Five modules, three with eligibility: four applications, four plans; modules IN, OUT and HALTS; answers left open; each run delivers what its plan settled | 4 | 4 | 0 |
+
+**Layout of a /5 file** (differs from /1–/4 where the new elements need it):
+
+```text
+catalog          fields used; outcomes
+library          option_sets, items (questions and statements), wordings (text, delivery_mode), conditions, modules
+survey           sequence, instances (entry ALWAYS | RULE, outcome routes)
+validation       errors[{code, at: <module code>/<node>}]
+expected_plans[] facts → expect {status, issues, inputs, modules, items by execution key, open by key}
+expected_runs[]  facts, answers by execution key, optional rejected answers →
+                 expect {asked, delivered, rejections, modules, terminal | null, pending | null, evidence_states}
+```
+
+**Checked for every run, by both implementations:** each delivered item's text and values equal the plan's for the
+same facts.
+
+All fixtures together: **27 files, 82 expected runs** (25 + 18 + 16 + 4 + 19), plus 14 expected plans.
+

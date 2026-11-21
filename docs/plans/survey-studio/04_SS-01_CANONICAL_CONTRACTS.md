@@ -848,3 +848,207 @@ fails in two placements there are two findings, each pointing at exactly one pie
 stable identifier derived from (run, rule set, rule, question instance, trigger), so generating findings again for
 the same run yields the same identifiers and no duplicates. The interface may group related findings (for example by
 question definition) for reading; grouping never merges the underlying audit records.
+
+---
+
+## 7. Amendment of 2026-11-21 (UC-01): statements, number and acknowledgement items, wording delivery, controlled variables, call plan
+
+**Authority:** owner decisions D-155…D-160. **Status:** as built in the prototype; items marked *proposed* are
+prototype decisions P-13…P-22 awaiting confirmation. Nothing in §1–§6 changes meaning. Schemas `/1`–`/4` and their 19
+fixtures are unchanged: none of them contains any element defined here.
+
+### 7.1 One item master; a statement is an item, not a question
+
+The Question definition of §1.2 is generalised to an **Item**. Every item has an identity, versions, a pinned Wording
+Version, sharing and reuse exactly as before. Its `answer_type` now takes seven values:
+
+| `answer_type` | What it is | Answer | Routing |
+|---|---|---|---|
+| `YES_NO`, `SINGLE_SELECT`, `MULTI_SELECT`, `FREE_TEXT` | As §3 | As §3 | As §2 |
+| `NUMERIC` | A question answered with a number | `{"number": n}` checked against `number_rule {integer, min?, max?, unit?}` | Exactly one route, `AFTER_CAPTURE` |
+| `ACKNOWLEDGEMENT` | A question the customer acknowledges | `{"acknowledged": true}` | Exactly one route, `AFTER_CAPTURE` |
+| `STATEMENT` | **Not a question.** Approved wording that is delivered | None | Exactly one route, `AFTER_CAPTURE` |
+
+A node that places an item is `{"id", "type": "QUESTION" | "STATEMENT", "q": {code, version}, "routing"}`.
+**Invariant:** `type = STATEMENT` if and only if the item's `answer_type = STATEMENT`; violating it is a validation
+error. A statement declares `statement: OPENING | TRANSITION | DISCLOSURE | CLOSING`. The role changes no routing.
+
+Stable rejection codes added to §3.7: `NUMBER_REQUIRED`, `NUMBER_NOT_WHOLE`, `NUMBER_TOO_LOW`, `NUMBER_TOO_HIGH`,
+`ACKNOWLEDGEMENT_REQUIRED`. "The customer does not acknowledge" is a **non-answer**, not an answer value; its
+handling is §5.5 and undecided.
+
+**Not yet defined (proposed P-20):** reading a `NUMERIC` or `ACKNOWLEDGEMENT` answer in a condition, and routing on
+a number.
+
+### 7.2 Declared attributes of a question
+
+`mandatory: boolean` and `role: IDENTITY_CHECK | CONSENT_TO_PROCEED | RECORDING_CONSENT | CLOUD_PROCESSING_CONSENT`
+(yes/no questions only) are carried on the item version and into the content document. **They are declarations.**
+What an executor does when a mandatory question, an identity check or a consent is not answered, or is answered
+"no", is **not specified here**: routing does only what the author routed. The existing lifecycle's on-failure rules
+are development assumptions pending a business decision and are neither confirmed nor reproduced by this section.
+
+**Live eligibility (owner condition D-67), structural only:** a survey is structurally eligible for live calls only
+if it contains a mandatory `IDENTITY_CHECK`, a mandatory `CONSENT_TO_PROCEED` and a mandatory `RECORDING_CONSENT`.
+The check reports; it never makes a survey eligible.
+
+### 7.3 Wording Version: delivery mode
+
+`wording {version, text, approval, delivery}` with `delivery: CONTROLLED_TTS | EXACT_AUDIO | CONVERSATIONAL`.
+
+| Mode | Rule | Validation |
+|---|---|---|
+| `CONTROLLED_TTS` | Exactly the rendered text is synthesised. *Proposed default when unset (P-16)* | — |
+| `EXACT_AUDIO` | An approved recording is played | Warning: no asset can be attached yet. **Error if the wording contains a variable** |
+| `CONVERSATIONAL` | Undefined | **Error — blocked** until what an assistant may say in its own words is decided (G-6 AD-9) |
+
+### 7.4 Controlled variables
+
+- **Syntax.** `{{field_code}}` inside the wording text. `field_code` names exactly one field of the governed field
+  catalog. No expression, arithmetic, default or nesting.
+- **Authoring errors.** `UNKNOWN_VARIABLE`; `TYPE_NOT_ALLOWED` (a yes/no fact has no spoken form); `MALFORMED`.
+- **Rendering is a pure function** of (wording text, fact snapshot): one fixed format per type — money as
+  `<unit> <grouped digits>[.cc]`; integer as grouped digits; enumerated value as its display form; text as given.
+  No locale lookup. *The formats are prototype formats; how a value is to be spoken is undecided (AD-8).*
+- **Missing or unusable value.** Each variable resolves to `PRESENT`, `MISSING` or `INVALID`. If any is not
+  `PRESENT` the wording **is not delivered**: nothing is defaulted, omitted or improvised. In execution the run ends
+  in terminal state `MISSING_INFORMATION_HALT` with reason `WORDING_VALUE_MISSING`.
+- **Evidence.** A delivery record per item: `{item_instance, item, wording_version, delivery, text (as rendered),
+  values[{variable, value, state}], statement}`.
+
+### 7.5 Execution
+
+A `STATEMENT` node is **delivered**, not asked: it consumes no answer, appears in `deliveries` and never in `asked`,
+and continues by its single route. Evidence state `DELIVERED` is added beside `ANSWERED`, `ANSWERED_EMPTY`,
+`UNANSWERED`, `SKIPPED`. Loop protection counts every delivered item, statements included. The six terminal states
+are unchanged.
+
+### 7.6 Call plan (preview)
+
+`plan(version, facts) → call plan`, a pure function over the same model the executor runs:
+
+```json
+{"survey": "...", "status": "READY | BLOCKED", "blockers": ["..."],
+ "inputs":  [{"code": "policy.annual_premium", "state": "PRESENT | MISSING | INVALID", "value": "SGD 3,000", "usedBy": ["..."]}],
+ "modules": [{"instance": "mi-…", "status": "IN | OUT | CONDITIONAL | HALTS", "why": "...",
+              "items": [{"key": "mi-…/n4", "statement": true, "role": "DISCLOSURE", "delivery": "CONTROLLED_TTS",
+                         "source": "…{{policy.annual_premium}}…", "text": "…SGD 3,000…", "certainty": "ALWAYS | SOME"}],
+              "open":  [{"kind": "ANSWER | CONDITION | OUTCOME", "title": "...", "alternatives": [{"when": "...", "leads": "..."}]}]}],
+ "hash": "..."}
+```
+
+- A module is `IN` or `OUT` only from application data: eligibility is evaluated three-valued; `UNKNOWN` follows the
+  binding's stated policy (`SKIP_WITH_REASON` → `OUT`; `BLOCK` → `HALTS`). A module with an activation trigger is
+  `CONDITIONAL`.
+- `certainty = ALWAYS` when every path through the module passes through the item; otherwise `SOME`.
+- **Open points are enumerated, never resolved.** The plan lists the alternatives at every answer-dependent route,
+  every decision and every module ending. It contains no answers and no chosen path.
+- `BLOCKED` when any item a call could reach cannot be rendered, or any module `HALTS`.
+- **The plan is not the dialogue.** What was delivered and answered exists only in a run (§7.5).
+
+### 7.7 Not specified here — blocked, not invented
+
+Repeat counts; response timeouts; refusal handling; consent and identity gate behaviour; clarification and repeat
+wording; conversational wording; the spoken form of variable values; variables in recordings; evaluation and control
+configuration (interface contract only, `21_UC-01_CONSOLIDATION_MAP.md` §4).
+
+---
+
+## 8. Amendment of 2026-11-21 (UC-02): schema /5, corrected delivery rules, plan and eligibility kept apart
+
+**Authority:** owner decisions D-161…D-169. **Normative for** fixtures K1–K8 (`call360.survey-studio.fixture/5`) and
+`fixtures/reference_interpreter_v5.py`, which was written from this section and §7 and shares no code with the
+prototype. Where this section differs from §7, this section governs. Schemas /1–/4 are unchanged.
+
+### 8.1 Corrections to §7
+
+| §7 said | Now |
+|---|---|
+| `EXACT_AUDIO` without an asset: a warning | **An error, `RECORDING_ASSET_MISSING`.** A recording with no usable, approved asset cannot be delivered, so it blocks. `EXACT_AUDIO` requires `asset {id, sha256, approval}`; no fixture and no prototype item can carry one |
+| An acknowledgement not given: `ACKNOWLEDGEMENT_REQUIRED` | An explicit `{"acknowledged": false}` is rejected with **`NON_ANSWER_POLICY_UNRESOLVED`**: blocked as unresolved policy. It is never an answer value, a refusal or a default, and the run stays pending at that question. An absent or other-kind answer remains `ACKNOWLEDGEMENT_REQUIRED` |
+| An unfinished variable: an authoring error only | Also **undeliverable at execution**: it resolves to state `MALFORMED` and the item is not delivered. It is never spoken with its braces |
+| Money and integer formats | **Exact.** A whole-number field holding a fraction, or an amount with more than two decimal places, is `INVALID`. Nothing is rounded or truncated |
+| Display numbers Q1, Q2 … for every item | A statement is labelled **S1, S2 …** and never takes a question number. Labels are for display only: the identity of a step is its node id, and of a placement `<instance>/<node>` |
+
+### 8.2 Item and node rules (K1, K2, K7)
+
+- A node `{node, type: QUESTION | STATEMENT, item {code, version, wording_version}, routing {mode}}` places one item.
+- `type = STATEMENT` if and only if the item's `answer_type = STATEMENT`.
+- A `STATEMENT`, `NUMERIC`, `ACKNOWLEDGEMENT` or `FREE_TEXT` item has routing mode `ALL_TO_NEXT` and at most one
+  outgoing edge, on `AFTER_CAPTURE`.
+- A statement is not mandatory and has no question role.
+- The same item may be placed any number of times, in one module and across placements of a module. Each placement
+  is a separate execution with its own key, delivery record and answer.
+
+### 8.3 Execution (K1, K3, K4, K5, K7, K8)
+
+1. For each module instance in sequence, eligibility is evaluated three-valued from the facts: `TRUE` runs it; `FALSE`
+   → `SKIPPED_FALSE`; `UNKNOWN` → `SKIPPED_UNKNOWN` when the policy is `SKIP_WITH_REASON`, otherwise
+   `HALTED_MISSING_INFORMATION` and the run ends `MISSING_INFORMATION_HALT` / `ELIGIBILITY_UNKNOWN` at the instance.
+2. Before an item is delivered its wording is rendered. If it cannot be, the run ends `MISSING_INFORMATION_HALT` /
+   `WORDING_VALUE_MISSING` at the item; the module's status is `RUNNING` (started, no outcome).
+3. A statement is delivered and execution continues by its single route. It is recorded in `delivered`, never in
+   `asked`, and its evidence state is `DELIVERED`.
+4. A question is delivered; each rejected answer is recorded with its code and the question stays current; an
+   accepted answer is recorded and the route for it is followed (specific edge, then `ANY`, else `ROUTE_MISSING`).
+   With no answer available the run is **pending** at that question: no terminal state.
+5. A delivery record is `{key, item, statement, wording_version, delivery_mode, text, values[{variable, value,
+   state}]}`. A question's record is written when its answer is accepted.
+6. Evidence states at the end of a run, for every item of every module that started: `DELIVERED`, `ANSWERED`,
+   `UNANSWERED` (an optional free text left empty), `SKIPPED` (the module ended without reaching it), `NOT_REACHED`
+   (the module has no outcome yet).
+
+### 8.4 Validation codes (K2, K6)
+
+`NODE_ITEM_KIND_MISMATCH` · `STATEMENT_NOT_A_QUESTION` · `SINGLE_ROUTE_ITEM_BRANCHES` · `UNKNOWN_VARIABLE` ·
+`VARIABLE_TYPE_NOT_ALLOWED` · `VARIABLE_MALFORMED` · `DELIVERY_CONVERSATIONAL_BLOCKED` · `RECORDING_ASSET_MISSING` ·
+`RECORDING_WITH_VARIABLE` · `NUMBER_RULE_INVALID`. Each is an error at `<module code>/<node>`, reported in node order
+and, within a node, in the order listed here. All block submission; none can be acknowledged.
+
+### 8.5 The call plan (K1, K3–K8)
+
+- `status`: `READY`, or `BLOCKED` when `issues` is not empty.
+- `issues[{code, at}]`: `ELIGIBILITY_UNKNOWN` at an instance that `HALTS`; `WORDING_VALUE_MISSING` at an item that
+  cannot be rendered.
+- `modules[{instance, status}]`: `IN`, `OUT` (not eligible, or unknown and skipped) or `HALTS`. (`CONDITIONAL`, for a
+  module with an activation trigger, is specified in §7.6 and is **not covered by a /5 fixture**.)
+- `items{key → {statement, role, mandatory, delivery_mode, wording_version, text | null, values, certainty}}` for every
+  item of every module that is not `OUT`. `certainty` is `ALWAYS` when every path from the module's entry to any
+  ending passes through the item, otherwise `SOME`.
+- `open{key → {kind, alternatives[{on, to}]}}`: `ANSWER` at a per-choice question whose answers do not all lead to
+  the same place; `OUTCOME` at `<instance>:outcome` for a module with more than one outcome.
+- `inputs{field → PRESENT | MISSING | INVALID}`: every field an eligibility condition reads, and every variable of
+  the wording of a module that is not `OUT`.
+- **Consistency.** For every run, each delivered item's text and values equal the plan's for that key.
+
+### 8.6 Plan computability is not live-call eligibility
+
+`plan` answers one question: can a plan be computed from these data. It may be computed from a draft, and it carries
+no statement about use on a call. **Eligibility for an operational callback is a separate result** with explicit
+conditions, each `MET`, `NOT_MET` or `NOT_AVAILABLE`:
+
+| Condition | Group |
+|---|---|
+| A plan can be computed for this application | Plan |
+| The plan is built from a published, approved version | Publication |
+| Every item uses approved wording | Wording |
+| Every item can be delivered as approved (no conversational delivery; every recording has an approved asset) | Wording |
+| A mandatory identity check, a mandatory consent to proceed and a mandatory recording consent are present (D-67) | Gates |
+| An approved assignment selects this version for this case | Assignment |
+| The requirements of the call channel are met | Channel |
+| What a call does when a customer does not answer is decided | Policy |
+
+Eligible means every condition is `MET`. **A gate condition is structural only:** it says the question exists. What a
+call does when the customer answers "no", refuses or does not answer is not specified here or anywhere.
+
+### 8.7 Lifecycle states (owner decision AD-13)
+
+Candidate: `IN_REVIEW`, `APPROVED`, `REJECTED`, `WITHDRAWN`, `SUPERSEDED`, `PUBLISHED`. Version: `SCHEDULED`,
+`PUBLISHED`, `SUPERSEDED`, `WITHDRAWN`. `SCHEDULED` and version `WITHDRAWN` are states of the contract only: when a
+scheduled version takes effect, and what withdrawal means for cases already assigned, are **not specified**.
+
+### 8.8 Not covered by schema /5
+
+Decisions, follow-up queues, rules, interruptions, jumps and activation triggers in combination with statements,
+variables or the plan; any non-answer; repeat and clarification wording; evaluation and control evidence.
+

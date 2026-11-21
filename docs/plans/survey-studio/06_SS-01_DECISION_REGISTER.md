@@ -115,6 +115,106 @@ The delayed focus now never takes focus from a control inside the panel.
 | D-151 | Open decisions become gates | Mark unresolved business and governance decisions as explicit future gates | `19_…` §8.2: G-1 business-user UX acceptance · G-2 screen-reader sign-off · G-3 no-answer policy (D-NA-1…17, `NA-P-…`) · G-4 governance rules · G-5 remaining SS-01 proposals · G-6 architecture assessment · G-7 backend implementation (SS-03) · G-8 production readiness. Each needs its own explicit owner decision |
 | D-152 | Next architectural direction — **record only** | Survey Studio becomes the single authoritative journey-authoring experience; essential Script Studio features are rebuilt or incorporated into it; redundant Script Studio functionality is eventually retired after safe migration; the execution harness assembles customer-specific call plans from approved survey definitions and application data; live customer answers dynamically select subsequent approved dialogue | **PROPOSED architecture change for the next assessment — not implemented, not authorised.** Recorded in `19_…` §9. SS-D-02, SS-D-17 and SS-D-20 remain in force until an assessment amends them. Script Studio is not modified or removed |
 
+## Owner rulings of 2026-11-21 ("Preserve SS-02 Baseline and Authorize G-6 Architecture Assessment")
+
+| D-no. | Subject | Ruling (owner's words, condensed) | Effect |
+|---|---|---|---|
+| D-153 | Preserve the SS-02 baseline | Commit and preserve the accepted SS-02 baseline in separate local commits in frontend and specs; do not push | Found already committed and level with the remote when inspected: specs `786a7c0`, frontend `d1cdb03` (2026-11-21 21:07); backend unchanged at `7228875`. Verified, not re-committed: 19 fixtures / 63 runs regenerate byte-for-byte; 314 unit tests; types, lint, contract, secret scan clean; Script Studio and backend unaffected |
+| D-154 | G-6 authorised | Conduct the Script Studio retirement and Survey Studio consolidation assessment. Analysis and specifications only. Goal: Survey Studio the single authoritative journey-authoring application; eventually remove Script Studio completely, including redundant frontend code, backend APIs, services and database structures. Avoid a separate Wording Studio. Do not silently change previous decisions. Do not start SS-03 or implement the changes | `20_G-6_ARCHITECTURE_CONSOLIDATION_ASSESSMENT.md` — **PROPOSED, presented for review**. Nothing decided or implemented |
+
+### Proposals raised by G-6 (mine — none is decided)
+
+AD-1 meaning of "remove completely" for the governed store · AD-2 whether synthetic history is carried forward ·
+AD-3 module graph stored as one document · AD-4 draft → candidate → version publication · AD-5 Publisher separation
+on the server · AD-6 one engine · AD-7 statements and gates in Survey Studio · AD-8 controlled variables · AD-9
+conversational delivery · AD-10 Simulation Workbench · AD-11 Assignment and Finding Rules stay separate · AD-12
+single language · AD-13 scheduled publication and withdraw · AD-14 vocabulary · **AD-15 amend SS-D-01, SS-D-02 and
+SS-D-20; retain SS-D-17** (`20_…` §3.5). **SS-D-01, SS-D-02, SS-D-17 and SS-D-20 remain in force as worded until the
+owner rules.**
+
+## Owner rulings of 2026-11-21 ("G-6 Architectural Direction Approved: Unified Survey Studio")
+
+**Governing rule (owner):** do not preserve an existing module merely because other modules currently depend on it;
+preserve necessary business functionality, replace obsolete dependencies, remove redundant implementations.
+
+| D-no. | Subject | Ruling (owner's words, condensed) | Effect |
+|---|---|---|---|
+| D-155 | AD-1 — one canonical store | One authoritative Survey Studio definition and publication model. Existing script tables, APIs, service boundaries and UI routes are not automatically entitled to survive: reuse as a genuinely useful primitive, refactor, replace with a simpler design, or delete after dependent functionality has moved. No two long-lived content stores or competing authoring models. Justify by implementation complexity, data dependencies, rollback and long-term maintainability — not merely current imports | `21_UC-01_CONSOLIDATION_MAP.md`: disposition per capability and per structure |
+| D-156 | AD-2 — synthetic development data | Re-seed instead of preserving every legacy development record. Before any destructive implementation: inventory the actual development database; identify protected demonstration records and owner restrictions; produce a verified backup; identify exactly what a re-seed would replace; preserve the accepted SS-02 specifications, fixtures, reference interpreters and evidence; do not delete anything until a separate destructive-change checkpoint is approved. Synthetic development records are not production customer evidence | No legacy loader, evaluator or conversion path is to be built. **The five preconditions are not yet met** (no database was read in UC-01) |
+| D-157 | AD-15 — previous rulings | Amend SS-D-01, SS-D-02 and SS-D-20 consistent with complete Script Studio retirement. Retain SS-D-17: operational voice/runtime integration remains last. Preserve the strength of existing compliance controls, even when their implementation moves | Amended wording below |
+| D-158 | Target product | Survey Studio is the single authoring application, supporting: reusable modules and question definitions; answer routing and conditions; approved spoken wording; statement nodes for introductions, disclosures, transitions and closings; mandatory-question and lifecycle roles; numeric and acknowledgement answers; approved clarification and repeat wording; controlled variables; delivery mode and exact-wording controls; evaluation configuration; control and regulatory mappings; survey assignment configuration; interactive and batch simulation; call-plan preview; immutable candidate approval and publication. No separate Wording Studio; do not replicate Script Studio's six-tab design; inline editing and progressive disclosure | Status of each item after UC-01: `21_…` §5 |
+| D-159 | Other Call360 systems | Do not assume Assignment Rules, Simulation Workbench, Finding Rules or Review Workbench must remain separate products. Assess their UI responsibilities by business workflow. Move appropriate design-time configuration into Survey Studio. Retain operational case review, runtime execution and governance enforcement as separate backend responsibilities where justified. Prefer shared reusable engines over duplicated services | `21_…` §2. Withdraws my proposal AD-11 |
+| D-160 | UC-01 authorised | Unified Survey Studio Foundation: ten scope items. Do not implement unapproved repeat-count, timeout, refusal, consent or conversational wording policies. Do not delete Script Studio, reset the development database, change operational backend, API, runtime or voice behaviour, start SS-03, or commit or push | `22_UC-01_IMPLEMENTATION_REPORT.md` — BUILT AND TECHNICALLY VERIFIED, presented for review |
+
+### Amended rulings (D-157)
+
+**SS-D-01 — as amended.** Survey Studio has **one** authoritative definition and publication model. Existing
+structures are reused where they are genuinely useful primitives, refactored into the new implementation, replaced by
+a simpler design, or deleted once the functionality that depends on them has moved; none is kept because it exists.
+Migrations are additive until a separately approved destructive checkpoint. **Superseded:** "Survey Studio reuses the
+existing script families, published versions, question bank, modules, approvals … wherever their semantics are
+compatible" as a default, and "No historical data is rewritten" **as applied to synthetic development data** (D-156).
+**Unchanged:** production customer evidence, once it exists, is never rewritten.
+
+**SS-D-02 — as amended.** Survey Studio owns the canonical survey structure, question identities, answer definitions,
+module composition, conditions and routing, **and the customer-facing wording and its delivery**. There is one
+authoring experience, one approval and publishing chain and one item master. **Superseded:** "Customer-facing wording
+and delivery remain subject to the existing approved script governance" as a separate system. **Unchanged and
+binding:** wording is governed; a Wording Version is pinned by every placement and locked by the published manifest
+(W-1…W-5); the approval state "approved by S&C" can be set only by the S&C approval path; maker and checker are
+distinct identities; published versions are immutable.
+
+**SS-D-20 — as amended.** The authoring product is called Survey Studio and is the only authoring product. Script
+Studio coexists **only until its retirement checkpoint**, when its label, routes and navigation entry are removed.
+"Wording & Delivery" is the name of a capability in documents; it is **not** a screen, workspace, studio or
+navigation entry. Naming rules are still changed only explicitly (an ADR amending ADR-0010 and superseding ADR-0007
+§1, the screen-naming document, the validator's term list, and the tests) — **at the retirement checkpoint, not
+before.**
+
+**SS-D-17 — retained unchanged.** The graph runtime stays in simulation until operational integration is separately
+authorised.
+
+### Prototype decisions taken in UC-01 (mine — for the owner to confirm or change)
+
+| No. | Decision | Why | Where it would change |
+|---|---|---|---|
+| P-13 | A statement is a definition in the **one item master** (kind STATEMENT) placed by a STATEMENT node. It shares identity, versioning, wording, sharing and comparison with questions | "Do not introduce a second question or script model" | Contract §7.1 |
+| P-14 | Statement roles: Opening, Transition, Disclosure, Closing. **Transition is new** — the existing lifecycle has no such role | The owner named transitions | UC-D-4 |
+| P-15 | A statement, a number question and an acknowledgement have exactly one way on; none can branch | Already-defined semantics for number and acknowledgement (SS-01 §8.1) | UC-D-7 |
+| P-16 | A wording with no delivery mode set is delivered as exact text, synthesised. The canonical form of existing surveys is unchanged | The most restrictive mode that needs no recording; consistent with "no uncontrolled wording" | UC-D-1 |
+| P-17 | "In the assistant's own words" can be selected and is a **blocker**. An approved recording is a warning; with a variable it is a blocker | AD-9 is undecided; a recording cannot contain a variable | UC-D-2, UC-D-3 |
+| P-18 | A variable is written `{{field_code}}`, names one field of the governed catalog, and is rendered in one fixed format per type. Yes/no facts cannot be spoken. A missing or unusable value **stops delivery**: the simulator halts with "information is missing", the call plan is blocked | The owner asked for deterministic rendering and explicit missing-value errors | UC-D-3 |
+| P-19 | "Mandatory", identity, consent and recording roles are **declared attributes only**. No gate or non-answer behaviour is implemented. Live eligibility (D-67) is reported as information | The owner prohibited unapproved refusal and consent policies | UC-D-5, UC-D-6 |
+| P-20 | The answer to a number question or an acknowledgement cannot be read by a condition | No approved comparison semantics for them in conditions yet | UC-D-7 |
+| P-21 | The simulator offers only "acknowledged" for an acknowledgement | "Does not acknowledge" is a non-answer | G-3 |
+| P-22 | Clarification and repeat wording, and evaluation and control configuration, are shown on the card as **not available yet**, with the reason | Blocked by D-NA-8; contract only | UC-D-8, UC-D-11 |
+
+## Owner rulings of 2026-11-21 ("Accept UC-01 and Authorize UC-02")
+
+| D-no. | Subject | Ruling (owner's words, condensed) | Effect |
+|---|---|---|---|
+| D-161 | UC-01 accepted | Accept UC-01 as TECHNICALLY VERIFIED — FRONTEND PROTOTYPE. The unified authoring direction, Statement nodes, Numeric and Acknowledgement questions, wording/delivery controls, deterministic variables and customer-specific Call Plan Preview are accepted as the new prototype baseline. Formal UX acceptance, policy approval, backend implementation and operational readiness remain pending. Do not reopen SS-02 | Prototype baseline is SS-02 + UC-01. P-13…P-22 stand as the baseline, as amended by UC-02 |
+| D-162 | AD-3 | Validated, versioned and hashed graph documents, with server-enforced integrity and derived usage indexes | TS-11 |
+| D-163 | AD-5 | Separate Publisher permission and independently enforced maker/checker/publisher identity restrictions | TS-14. Who holds Publisher remains G-4a |
+| D-164 | AD-12 | Single-language implementation initially | TS-23 |
+| D-165 | AD-13 | Scheduled publication and withdrawal represented in lifecycle contracts, without inventing operational behaviour | Contract §8.7; `23_…` §2.1 |
+| D-166 | AD-14 | Survey terminology for new APIs; defer destructive legacy renaming | TS-22 |
+| D-167 | UC-D-9, UC-D-10 | Assignment rules authored through Survey Studio but independently governed and versioned. Findings policies authored through the Survey Studio Library, with separate Compliance permissions and governance. One authoring application does not imply one enormous editor or one approval event for unrelated artifacts | TS-20, TS-21; `23_…` §2.1 invariant 8 |
+| D-168 | UC-02 authorised | Contract and call-plan readiness: schema /5 golden fixtures with an independent Python reference; plan computation separated from live-call eligibility; a recording without an approved asset blocks; compact call-plan UI; decision-ready contracts; minimal interfaces. Specifications, independent fixtures and narrowly scoped prototype correctness improvements only | `24_UC-02_IMPLEMENTATION_REPORT.md` — BUILT AND TECHNICALLY VERIFIED, presented for review |
+| D-169 | Standing prohibitions repeated | Do not invent timeout values, retry limits, consent-refusal behaviour or spoken-data permissions. Do not modify or delete Script Studio. Do not touch the development database or re-seed. No backend, API, runtime or voice changes. No SS-03. No commits or pushes | Held |
+
+### Prototype decisions taken in UC-02 (mine — for the owner to confirm or change)
+
+| No. | Decision | Why | Supersedes |
+|---|---|---|---|
+| P-23 | A recording with no approved asset is an **error** `RECORDING_ASSET_MISSING`. The prototype has no asset concept, so every recording is blocked | Owner: delivery must be blocked; not an acknowledgable warning | P-17 in part |
+| P-24 | An explicit "not acknowledged" is rejected with `NON_ANSWER_POLICY_UNRESOLVED`; the run stays pending. Distinct from "no answer was given" | Owner: blocked as unresolved policy, not silently accepted | P-21 |
+| P-25 | An unfinished variable also stops delivery at execution (state `MALFORMED`) | It would otherwise be spoken with its braces | — |
+| P-26 | A fraction in a whole-number field, or an amount with more than two decimals, is `INVALID`; nothing is rounded | Owner: never silently defaulted; found while writing the reference interpreter | P-18 in part |
+| P-27 | Statements are labelled S1, S2 …; questions keep Q1, Q2 … counting questions only. Display only | Owner: distinguish statement labels from question numbering without changing canonical identities | — |
+| P-28 | Live eligibility is ten explicit conditions in three states (`MET`, `NOT_MET`, `NOT_AVAILABLE`). In the prototype it can never be "eligible": assignment and channel cannot be established, and a simulated publication does not count | Owner: a successful draft plan must never imply production eligibility | — |
+| P-29 | Rules introduced in UC-01 and UC-02 carry stable validation codes; earlier rules are still identified by their message | The fixtures compare codes | — |
+
 ## Summary
 
 | ID | Subject | Status | Needs the owner now? |
