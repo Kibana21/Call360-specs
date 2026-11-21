@@ -1,0 +1,4 @@
+SS-02B.2.1 connection editing — model fingerprints (FNV-1a of the whole canonical model)
+SAME  guided=f41056f4  graph=f41056f4  disconnect Q1 · Yes (Guided "Leave undecided" vs graph "Disconnect route")
+SAME  guided=0174f85f  graph=0174f85f  re-point Q1 · Yes to the "clarify" question (Guided picker vs graph drag from the Yes handle)
+SAME  guided=1d5b9dc0  graph=1d5b9dc0  survey: re-point "Completed" of General verification to Closing (Composer vs graph toolbar)

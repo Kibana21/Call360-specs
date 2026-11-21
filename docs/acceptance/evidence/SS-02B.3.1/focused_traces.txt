@@ -1,0 +1,140 @@
+SS-02B.3.1 — focused traces from the simulator engine (demonstration survey, synthetic customers). Not the Call360 runtime.
+
+1. A JUMP WHERE ELIGIBILITY PASSES — Uneasy older customer (age 67)
+  terminal: {"state":"COMPLETED","surveyOutcome":"COMPLETED"}
+  modules: General verification=ACTIVATED:COMPLETED | Suitability=SKIPPED_FALSE | High value review=SKIPPED_FALSE | Policy replacement=SKIPPED_FALSE | Affordability check=ACTIVATED:CLARIFICATION_REQUIRED | Clarifications=SKIPPED_BY_ROUTE | Escalation and follow-up=ACTIVATED:COMPLETED | Closing=ACTIVATED:COMPLETED
+  trace (from Affordability check):
+  [ENTRY · arrived by SEQUENCE] Affordability check: Affordability check runs
+        why: It is next in the sequence. It has no eligibility condition, so it runs.
+  [ASK] Affordability check: Q1 asked: Are you comfortable with the premium you are paying for this policy?
+  [ANSWER] Affordability check: Customer: No
+  [ROUTE] Affordability check: Q1 · “No” → the condition C1
+        why: Every answer to this question continues to the same place.
+  [DECISION] Affordability check: C1 · does not match → the condition C2
+        why: The condition “Annual premium is above 12,000 SGD and Sum assured is at least 500,000 SGD” came out FALSE, so the “Otherwise” route is taken.
+        read: Annual premium = 3,000 SGD (KNOWN); Sum assured = 150,000 SGD (KNOWN)
+  [DECISION] Affordability check: C2 · matches → the end of the module (Clarification required)
+        why: The condition “the answer to Q1 is “No”” came out TRUE, so the “Matches” route is taken.
+        read: the answer to Q1 = No (ANSWERED)
+  [MODULE_END] Affordability check: Affordability check ends: Clarification required
+  [SURVEY_ROUTE] Affordability check: Jumps to Escalation and follow-up as the next candidate
+        why: “Clarification required” of Affordability check is routed to Escalation and follow-up. Clarifications is passed over. The jump only selects Escalation and follow-up; whether it runs is decided by its own eligibility.
+  [ENTRY · arrived by JUMP] Escalation and follow-up: Escalation and follow-up runs
+        why: It was selected by a jump: “Clarification required” of Affordability check. A jump does not bypass eligibility: it is eligible when Customer age is at least 60 years. That is true for this customer.
+        read: Customer age = 67 years (KNOWN)
+  [ASK] Escalation and follow-up: Q1 asked: May one of our specialists call you to explain this further?
+  [ANSWER] Escalation and follow-up: Customer: Yes
+  [ROUTE] Escalation and follow-up: Q1 · “Yes” → the end of the module (Completed)
+        why: Every answer to this question continues to the same place.
+  [MODULE_END] Escalation and follow-up: Escalation and follow-up ends: Completed
+  [SURVEY_ROUTE] Escalation and follow-up: Continues to Closing
+        why: “Completed” of Escalation and follow-up is routed to continue with the next module.
+  [ENTRY · arrived by SEQUENCE] Closing: Closing runs
+        why: It is next in the sequence. It has no eligibility condition, so it runs.
+  [ASK] Closing: Q1 asked: Is there anything else you would like to tell us?
+  [ANSWER] Closing: Customer: (no answer given)
+  [ROUTE] Closing: Q1 · the answer → Q2
+        why: Every answer to this question continues to the same place.
+  [ASK] Closing: Q2 asked: Thank you. Do you acknowledge that this call has been completed?
+  [ANSWER] Closing: Customer: Yes
+  [ROUTE] Closing: Q2 · “Yes” → the end of the module (Completed)
+        why: Every answer to this question continues to the same place.
+  [MODULE_END] Closing: Closing ends: Completed
+  [SURVEY_ROUTE] Closing: That was the last module
+        why: “Completed” of Closing is routed to continue with the next module.
+  [END] Closing: The call is completed
+        why: Every module that applied to this customer has finished.
+
+2. A JUMP WHERE ELIGIBILITY FAILS — Uneasy younger customer (age 40); skip disposition: end the call, Clarification required
+  terminal: {"state":"ENDED_WITH_OUTCOME","surveyOutcome":"CLARIFICATION_REQUIRED"}
+  modules: General verification=ACTIVATED:COMPLETED | Suitability=SKIPPED_FALSE | High value review=SKIPPED_FALSE | Policy replacement=SKIPPED_FALSE | Affordability check=ACTIVATED:CLARIFICATION_REQUIRED | Clarifications=SKIPPED_BY_ROUTE | Escalation and follow-up=SKIPPED_FALSE | Closing=NOT_REACHED
+  trace (from Affordability check):
+  [ENTRY · arrived by SEQUENCE] Affordability check: Affordability check runs
+        why: It is next in the sequence. It has no eligibility condition, so it runs.
+  [ASK] Affordability check: Q1 asked: Are you comfortable with the premium you are paying for this policy?
+  [ANSWER] Affordability check: Customer: No
+  [ROUTE] Affordability check: Q1 · “No” → the condition C1
+        why: Every answer to this question continues to the same place.
+  [DECISION] Affordability check: C1 · does not match → the condition C2
+        why: The condition “Annual premium is above 12,000 SGD and Sum assured is at least 500,000 SGD” came out FALSE, so the “Otherwise” route is taken.
+        read: Annual premium = 3,000 SGD (KNOWN); Sum assured = 150,000 SGD (KNOWN)
+  [DECISION] Affordability check: C2 · matches → the end of the module (Clarification required)
+        why: The condition “the answer to Q1 is “No”” came out TRUE, so the “Matches” route is taken.
+        read: the answer to Q1 = No (ANSWERED)
+  [MODULE_END] Affordability check: Affordability check ends: Clarification required
+  [SURVEY_ROUTE] Affordability check: Jumps to Escalation and follow-up as the next candidate
+        why: “Clarification required” of Affordability check is routed to Escalation and follow-up. Clarifications is passed over. The jump only selects Escalation and follow-up; whether it runs is decided by its own eligibility.
+  [ENTRY · arrived by JUMP] Escalation and follow-up: Escalation and follow-up is skipped
+        why: It was selected by a jump: “Clarification required” of Affordability check. A jump does not bypass eligibility: it is eligible when Customer age is at least 60 years. That is false for this customer.
+        read: Customer age = 40 years (KNOWN)
+  [DISPOSITION] Escalation and follow-up: Escalation and follow-up does not apply, so the call ends: Clarification required
+        why: This is what the survey says to do when Escalation and follow-up is jumped to but is not eligible.
+  [END] Escalation and follow-up: The call ends: Clarification required
+        why: A module outcome was routed to end the call with “Clarification required”. Something needs to be explained to the customer.
+
+3. A JUMP WHERE ELIGIBILITY IS UNKNOWN — Uneasy customer, age unknown; UNKNOWN policy: stop for review
+  terminal: {"state":"MISSING_INFORMATION_HALT","reason":"ELIGIBILITY_UNKNOWN","at":"mi-escalation-and-follow-up"}
+  modules: General verification=ACTIVATED:COMPLETED | Suitability=SKIPPED_FALSE | High value review=SKIPPED_FALSE | Policy replacement=SKIPPED_FALSE | Affordability check=ACTIVATED:CLARIFICATION_REQUIRED | Clarifications=SKIPPED_BY_ROUTE | Escalation and follow-up=HALTED_MISSING_INFORMATION | Closing=NOT_REACHED
+  trace (from Affordability check):
+  [ENTRY · arrived by SEQUENCE] Affordability check: Affordability check runs
+        why: It is next in the sequence. It has no eligibility condition, so it runs.
+  [ASK] Affordability check: Q1 asked: Are you comfortable with the premium you are paying for this policy?
+  [ANSWER] Affordability check: Customer: No
+  [ROUTE] Affordability check: Q1 · “No” → the condition C1
+        why: Every answer to this question continues to the same place.
+  [DECISION] Affordability check: C1 · does not match → the condition C2
+        why: The condition “Annual premium is above 12,000 SGD and Sum assured is at least 500,000 SGD” came out FALSE, so the “Otherwise” route is taken.
+        read: Annual premium = 3,000 SGD (KNOWN); Sum assured = 150,000 SGD (KNOWN)
+  [DECISION] Affordability check: C2 · matches → the end of the module (Clarification required)
+        why: The condition “the answer to Q1 is “No”” came out TRUE, so the “Matches” route is taken.
+        read: the answer to Q1 = No (ANSWERED)
+  [MODULE_END] Affordability check: Affordability check ends: Clarification required
+  [SURVEY_ROUTE] Affordability check: Jumps to Escalation and follow-up as the next candidate
+        why: “Clarification required” of Affordability check is routed to Escalation and follow-up. Clarifications is passed over. The jump only selects Escalation and follow-up; whether it runs is decided by its own eligibility.
+  [ENTRY · arrived by JUMP] Escalation and follow-up: Escalation and follow-up cannot be decided — the call halts
+        why: It was selected by a jump: “Clarification required” of Affordability check. A jump does not bypass eligibility: it is eligible when Customer age is at least 60 years. That cannot be decided because Customer age is missing. Missing information is never treated as “no”: this module is set to stop for review.
+        read: Customer age = missing (MISSING)
+  [END] Escalation and follow-up: Halted — information is missing
+        why: Whether Escalation and follow-up applies could not be decided because Customer age is missing. The module never started, so it has no outcome. Automated progression stops here and the run is pending an authorised review; it is not completed.
+
+4. A GENUINE REVIEW_REQUIRED HALT — Missing-data customer; the decision C1 in Affordability check is set to "Stop and flag for review"
+  terminal: {"state":"REVIEW_REQUIRED","surveyOutcome":"REVIEW_REQUIRED","reason":"REVIEW_REQUIRED","at":"mi-affordability-check"}
+  modules: General verification=ACTIVATED:COMPLETED | Suitability=SKIPPED_FALSE | High value review=ACTIVATED:COMPLETED | Policy replacement=SKIPPED_UNKNOWN | Affordability check=ACTIVATED:REVIEW_REQUIRED | Clarifications=NOT_REACHED | Escalation and follow-up=NOT_REACHED | Closing=NOT_REACHED
+  trace (from Affordability check):
+  [ENTRY · arrived by SEQUENCE] Affordability check: Affordability check runs
+        why: It is next in the sequence. It has no eligibility condition, so it runs.
+  [ASK] Affordability check: Q1 asked: Are you comfortable with the premium you are paying for this policy?
+  [ANSWER] Affordability check: Customer: Yes
+  [ROUTE] Affordability check: Q1 · “Yes” → the condition C1
+        why: Every answer to this question continues to the same place.
+  [DECISION] Affordability check: C1 · cannot be decided (unknown) → stop: review required
+        why: The condition “Annual premium is above 12,000 SGD and Sum assured is at least 500,000 SGD” came out UNKNOWN, so the “Unknown” route is taken.
+        read: Annual premium = missing (MISSING); Sum assured = 600,000 SGD (KNOWN)
+  [MODULE_END] Affordability check: Affordability check ends: Review required
+  [END] Affordability check: Halted — review required
+        why: Affordability check ended with the governed outcome “Review required” (a decision in it is set to stop and flag for review). Automated progression stops here. The run is pending an authorised review; it is not completed.
+
+5. A STRUCTURALLY INVALID DRAFT THAT CANNOT RUN — the jump target has no skip disposition; Uneasy younger customer
+  terminal: {"state":"DRAFT_INVALID","reason":"SKIP_DISPOSITION_MISSING","at":"mi-escalation-and-follow-up"}
+  modules: General verification=ACTIVATED:COMPLETED | Suitability=SKIPPED_FALSE | High value review=SKIPPED_FALSE | Policy replacement=SKIPPED_FALSE | Affordability check=ACTIVATED:CLARIFICATION_REQUIRED | Clarifications=SKIPPED_BY_ROUTE | Escalation and follow-up=SKIPPED_FALSE | Closing=NOT_REACHED
+  trace (from Affordability check):
+  [ENTRY · arrived by SEQUENCE] Affordability check: Affordability check runs
+        why: It is next in the sequence. It has no eligibility condition, so it runs.
+  [ASK] Affordability check: Q1 asked: Are you comfortable with the premium you are paying for this policy?
+  [ANSWER] Affordability check: Customer: No
+  [ROUTE] Affordability check: Q1 · “No” → the condition C1
+        why: Every answer to this question continues to the same place.
+  [DECISION] Affordability check: C1 · does not match → the condition C2
+        why: The condition “Annual premium is above 12,000 SGD and Sum assured is at least 500,000 SGD” came out FALSE, so the “Otherwise” route is taken.
+        read: Annual premium = 3,000 SGD (KNOWN); Sum assured = 150,000 SGD (KNOWN)
+  [DECISION] Affordability check: C2 · matches → the end of the module (Clarification required)
+        why: The condition “the answer to Q1 is “No”” came out TRUE, so the “Matches” route is taken.
+        read: the answer to Q1 = No (ANSWERED)
+  [MODULE_END] Affordability check: Affordability check ends: Clarification required
+  [SURVEY_ROUTE] Affordability check: Jumps to Escalation and follow-up as the next candidate
+        why: “Clarification required” of Affordability check is routed to Escalation and follow-up. Clarifications is passed over. The jump only selects Escalation and follow-up; whether it runs is decided by its own eligibility.
+  [ENTRY · arrived by JUMP] Escalation and follow-up: Escalation and follow-up is skipped
+        why: It was selected by a jump: “Clarification required” of Affordability check. A jump does not bypass eligibility: it is eligible when Customer age is at least 60 years. That is false for this customer.
+        read: Customer age = 40 years (KNOWN)
+  [END] Escalation and follow-up: This draft cannot run past here
+        why: Escalation and follow-up was reached by a jump and does not apply, and the survey does not say what happens then. The draft is incomplete or invalid at this point. Nothing was decided and nothing is guessed: fix it in the builder and run again.

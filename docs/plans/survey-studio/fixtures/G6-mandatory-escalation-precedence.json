@@ -1,0 +1,413 @@
+{
+  "schema": "call360.survey-studio.fixture/2",
+  "fixture": "G6-mandatory-escalation-precedence",
+  "title": "Mandatory escalation precedence",
+  "purpose": "A mandatory-escalation answer leads whatever else is selected and whatever the configured order; the terminal state says so. An exception outcome is not an escalation. D-122, D-128, D-133, D-136.",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": {
+      "COMPLETED": "NORMAL_COMPLETION",
+      "CLARIFICATION_REQUIRED": "EXCEPTION",
+      "ESCALATE": "ESCALATION",
+      "CUSTOMER_DECLINED": "EXCEPTION",
+      "UNABLE_TO_VERIFY": "EXCEPTION",
+      "REVIEW_REQUIRED": "REVIEW_HALT"
+    }
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "code": "OS-AREAS",
+        "version": 1,
+        "options": [
+          {
+            "code": "PREMIUM",
+            "business_label": "Premium",
+            "order": 1
+          },
+          {
+            "code": "COMPLAINT",
+            "business_label": "I want to complain",
+            "order": 2,
+            "interrupt": "OPTIONAL"
+          },
+          {
+            "code": "NEVER_AGREED",
+            "business_label": "I did not agree to this policy",
+            "order": 3,
+            "interrupt": "MANDATORY"
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-AREAS",
+        "version": 1,
+        "answer_type": "MULTI_SELECT",
+        "intent": "What the customer raises",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-AREAS",
+          "version": 1
+        },
+        "selection": {
+          "min": 1,
+          "max": 3
+        }
+      },
+      {
+        "code": "Q-PREMIUM-CLEAR",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Premium is clear",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-PROCEED",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer is content to proceed",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-AREAS",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "MULTI_SELECT",
+          "option_codes": [
+            "PREMIUM",
+            "COMPLAINT",
+            "NEVER_AGREED"
+          ]
+        },
+        "text": "Is there anything you would like to raise?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "PREMIUM": "Premium",
+          "COMPLAINT": "I want to complain",
+          "NEVER_AGREED": "I did not agree to this policy"
+        }
+      },
+      {
+        "question": "Q-PREMIUM-CLEAR",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Is the premium clear to you now?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-PROCEED",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Are you content to proceed?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-AREAS",
+        "revision": 1,
+        "name": "Areas",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "CUSTOMER_DECLINED",
+          "ESCALATE"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-AREAS",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "SEQUENTIAL_FOLLOWUPS",
+              "followups": [
+                {
+                  "option": "PREMIUM",
+                  "nodes": [
+                    "n2"
+                  ]
+                }
+              ],
+              "no_followup": [],
+              "interrupts": [
+                {
+                  "option": "COMPLAINT",
+                  "policy": "STOP_ESCALATE",
+                  "outcome": "CUSTOMER_DECLINED"
+                },
+                {
+                  "option": "NEVER_AGREED",
+                  "policy": "STOP_ESCALATE",
+                  "outcome": "ESCALATE"
+                }
+              ],
+              "rejoin": {
+                "node": "n3"
+              }
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-PREMIUM-CLEAR",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            },
+            "role": "FOLLOWUP"
+          },
+          {
+            "node": "n3",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-PROCEED",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n2",
+            "on": "ANY",
+            "to": {
+              "return": true
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n3",
+            "on": "ANY",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-MANDATORY-ESCALATION",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-a"
+    ],
+    "instances": [
+      {
+        "instance": "mi-a",
+        "module": {
+          "code": "M-AREAS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "CUSTOMER_DECLINED",
+            "to": {
+              "survey_outcome": "CUSTOMER_DECLINED"
+            }
+          },
+          {
+            "on": "ESCALATE",
+            "to": {
+              "survey_outcome": "ESCALATE"
+            }
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "Mandatory escalation takes precedence over an interruption configured before it, and over the follow-ups",
+      "answers": {
+        "mi-a/n1": {
+          "choices": [
+            "PREMIUM",
+            "COMPLAINT",
+            "NEVER_AGREED"
+          ]
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-a/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-a",
+            "status": "ACTIVATED",
+            "outcome": "ESCALATE"
+          }
+        ],
+        "terminal": {
+          "state": "MANDATORY_ESCALATION",
+          "survey_outcome": "ESCALATE"
+        },
+        "trace": [
+          "mi-a/n1: INTERRUPT NEVER_AGREED -> ESCALATE; skipped ['n2'] (mandatory)"
+        ],
+        "evidence_states": {
+          "mi-a/n1": "ANSWERED",
+          "mi-a/n2": "SKIPPED",
+          "mi-a/n3": "SKIPPED"
+        }
+      }
+    },
+    {
+      "name": "An optional interruption ends the call with its outcome — an ordinary ending, NOT a mandatory escalation",
+      "answers": {
+        "mi-a/n1": {
+          "choices": [
+            "PREMIUM",
+            "COMPLAINT"
+          ]
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-a/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-a",
+            "status": "ACTIVATED",
+            "outcome": "CUSTOMER_DECLINED"
+          }
+        ],
+        "terminal": {
+          "state": "ENDED_WITH_OUTCOME",
+          "survey_outcome": "CUSTOMER_DECLINED"
+        },
+        "trace": [
+          "mi-a/n1: INTERRUPT COMPLAINT -> CUSTOMER_DECLINED; skipped ['n2']"
+        ],
+        "evidence_states": {
+          "mi-a/n1": "ANSWERED",
+          "mi-a/n2": "SKIPPED",
+          "mi-a/n3": "SKIPPED"
+        }
+      }
+    },
+    {
+      "name": "No interruption: the follow-up queue runs and the module completes",
+      "answers": {
+        "mi-a/n1": {
+          "choices": [
+            "PREMIUM"
+          ]
+        },
+        "mi-a/n2": {
+          "choice": "YES"
+        },
+        "mi-a/n3": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-a/n1",
+          "mi-a/n2",
+          "mi-a/n3"
+        ],
+        "modules": [
+          {
+            "instance": "mi-a",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "trace": [
+          "mi-a/n1: QUEUE ['n2']"
+        ],
+        "evidence_states": {
+          "mi-a/n1": "ANSWERED",
+          "mi-a/n2": "ANSWERED",
+          "mi-a/n3": "ANSWERED"
+        }
+      }
+    }
+  ]
+}

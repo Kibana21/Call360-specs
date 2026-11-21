@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-21, SS-02B.2 Survey Studio graph builder prototype (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-21, SS-02 Survey Studio prototype TECHNICALLY ACCEPTED and closed (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -119,10 +119,125 @@ authorisation; never mark anything accepted without the owner's explicit words.
 >   evidence `docs/acceptance/evidence/SS-02B.2/` (screens GR*, GC*, W-*; `graph_parity_fingerprints.txt`). 183 unit
 >   tests (64 prototype, 14 graph/parity); 6 prototype journeys; standard Playwright 33/33 with the setting off; lint,
 >   types, contract (`221985e7…`), audit clean; validator 63 checks PASS.
-> - **Open for the owner (report 13 §6):** O-1 availability rule (SS-RUL-011 strict "every route" vs the prototype's
->   "some route, with Unknown"); O-2 contents of the approved escalation outcome set; O-4 runtime governance of a
->   Review-required halt.
-> - **SS-02B.3 (simulator) is NOT started and NOT authorised.**
+> - **Owner committed on 2026-11-21 14:52** everything up to SS-02B.2 (frontend `b064253`, specs `0f0279b`; backend
+>   unchanged `7228875`), including the nine S2-A.2 Script Studio files. They are no longer uncommitted.
+> - **Owner review of SS-02B.2:** connections could not be intuitively deleted and redrawn → authorised
+>   **SS-02B.2.1 Connection Editing Refinement ONLY**. **IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, awaiting the
+>   owner's review; uncommitted** (frontend: `GraphView.tsx`, `BuilderPage.tsx`, `model/graph.ts`, `model/ops.ts`,
+>   `model/graph.test.ts`, `styles/survey-studio.css`, `e2e/prototype/graph.proto.ts`, new
+>   `e2e/prototype/connections.proto.ts`). One selectable edge per route (merging withdrawn); contextual route toolbar
+>   (Change destination / Disconnect route); Delete / Backspace; endpoint drag (`reconnectable: 'target'`);
+>   `disconnectRoute` / `disconnectProblem` / `disconnectSurveyRoute`; `setDecisionUnknown({ clear: true })`; broken-route
+>   indicator; structure lines (queue order, start, folded branch, interruption, governed halt) explained with the
+>   semantic edit. Report `docs/plans/survey-studio/14_SS-02B.2.1_CONNECTION_EDITING_REPORT.md`; evidence in
+>   `docs/acceptance/evidence/SS-02B.2/` (`screens/CE*`, `connection_parity_fingerprints.txt`). 187 unit tests; 7
+>   prototype journeys; standard Playwright 33/33 with the setting off; lint, types, audit, contract clean; validator PASS.
+> - **Owner 2026-11-21 ("Accept SS-02B.2 and Authorize SS-02B.3"):** SS-02B.2 ACCEPTED as technically verified (the
+>   message does not mention SS-02B.2.1 separately: built and verified, not explicitly accepted). Open points resolved →
+>   **D-132** (a condition may read a same-module answer asked on every or on some prior routes; uncollected = UNKNOWN;
+>   evidence states ANSWERED / ANSWERED_EMPTY / UNANSWERED / SKIPPED; impossible reference invalid; replaces SS-RUL-011),
+>   **D-133** (controlled outcome catalog with classes; ESCALATE the only escalation outcome; business catalog deferred),
+>   **D-134** (REVIEW_REQUIRED halts, pending review, not completed; resume/close need a separate authorised capability).
+>   Recorded in `04` §5.4 (d), (d-1), (g), (h) and `06`.
+> - **SS-02B.3 Journey Simulator IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, awaiting the owner's review;
+>   uncommitted.** Frontend prototype only, no new dependency. New: `model/sim.ts` (pure engine over the canonical model;
+>   `simulate`, `simulateInputs`, `validateAnswer` with SS-01 codes, `firstDivergence`), `model/demo.ts` (8 synthetic
+>   profiles, `addDemoSurvey`, `playback`), `model/sim.test.ts`, `SimulatorPage.tsx` (route
+>   `/survey-studio/surveys/:id/simulate?profile=&compare=`), `e2e/prototype/simulator.proto.ts`; `OUTCOME_CATALOG` in
+>   `model/sample.ts`. **All 8 SS-01 fixtures — 25 runs, 7 rejected answers — reproduced through the simulator engine**
+>   (`fixture_verification.txt`; fixtures unchanged). Report `docs/plans/survey-studio/15_SS-02B.3_JOURNEY_SIMULATOR_REPORT.md`;
+>   evidence `docs/acceptance/evidence/SS-02B.3/` (screens SJ1–SJ10, W-simulator-*). 225 unit tests (106 prototype);
+>   8 prototype journeys; standard Playwright 33/33 with the setting off; lint, types, audit, contract clean; validator
+>   PASS. Fixed in passing: view parameters (`?view`, `?profile`, `?compare`) are now read from the address, because two
+>   quick changes could lose the first.
+> - **Owner 2026-11-21 ("Accept SS-02B.3 Technical Verification and Authorize SS-02B.3.1"):** SS-02B.2.1 and SS-02B.3
+>   ACCEPTED as technically verified; simulator UI direction = prototype baseline (formal UX acceptance and production
+>   readiness pending). Rulings → **D-135** (a jump names the next CANDIDATE and never bypasses eligibility; routing /
+>   activation trigger / eligibility are distinct; skip disposition required for a jump target with a condition; no
+>   re-entry), **D-136** (six terminal states never merged: COMPLETED, ENDED_WITH_OUTCOME, MANDATORY_ESCALATION,
+>   REVIEW_REQUIRED, MISSING_INFORMATION_HALT, DRAFT_INVALID; explicit versioned fixture migration), **D-137** (no-answer
+>   behaviour recorded as an open requirement, not built). In `04` §2.2a, §2.2b, §5.5 and `06`.
+> - **SS-02B.3.1 Business-rule correctness IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, awaiting the owner's
+>   approval; uncommitted.** Frontend prototype + specs only, no new dependency. Model: `Instance.ifIneligible`,
+>   `setIfIneligible`, `jumpSources`, `canBeIneligible`; `validateSurvey` adds the `@SKIP` checks; `model/sim.ts` rewritten
+>   survey loop (arrival SEQUENCE/JUMP, `DISPOSITION` event, `terminal` with `TerminalState`, module status
+>   `HALTED_MISSING_INFORMATION`); survey graph route `@SKIP`; Composer row "Jumped to, but does not apply"; drawer
+>   Eligibility / Activation note; demo survey has an 8th module (specialist call, eligible age ≥ 60, reached by a jump)
+>   and three new synthetic customers. **Fixtures:** F1–F8 (schema /1) unchanged and byte-identical; new G1–G6 (schema
+>   /2, 18 runs, 2 rejected) generated and self-checked by `fixtures/reference_interpreter_v2.py` and reproduced by the
+>   simulator; the /2→/1 mapping lives in one function in `model/sim.test.ts`. Report
+>   `docs/plans/survey-studio/16_SS-02B.3.1_BUSINESS_RULE_CORRECTNESS_REPORT.md`; evidence
+>   `docs/acceptance/evidence/SS-02B.3.1/`. 250 unit tests (131 prototype); 9 prototype journeys (new
+>   `e2e/prototype/rules.proto.ts`); standard Playwright 33/33 with the setting off; lint, types, audit, contract clean;
+>   validator PASS.
+> - **Open for the owner (report 16 §7):** A-1 a jump to an "after an outcome" module activates it — confirm; A-2 a
+>   module cannot have both an activation trigger and an eligibility condition (schema, SS-03); A-3 skip disposition only
+>   after a jump; A-4 an escalation outcome can still be routed "continue" at survey level; A-5 the no-answer decisions.
+> - **Owner 2026-11-21 ("Accept SS-02B.3.1 and Authorize SS-02C"):** SS-02B.3.1 ACCEPTED as technically verified.
+>   Rulings **D-138** (a jump is a valid activation, never bypasses eligibility), **D-139** (activation and eligibility are
+>   independent instance members; `entry.mode ON_OUTCOME` still read), **D-140** (skip disposition in sequence, default
+>   continue; jump target still explicit), **D-141** (a mandatory escalation cannot be overridden by survey routing;
+>   `MANDATORY_ESCALATION_OVERRIDDEN`), **D-142** (decision-ready no-answer contract, nothing built). `04` §2.2c, `06`.
+> - **SS-02C FINAL PROTOTYPE CHECKPOINT — IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, presented for the owner's
+>   end-to-end acceptance review; uncommitted.** Frontend prototype + specs only, no new dependency.
+>   Model: `Instance.activation`, `Instance.ifSkippedInSequence`; ops `activationOf`, `eligibilityOf`, `setActivation`,
+>   `setEligibility`, `setIfSkippedInSequence`; `flow.mandatoryOutcomes`; `model/governance.ts` (candidate `snapshot` +
+>   fingerprint, `lockOf`, `assess` readiness, `standing`, `submit` / `decide` / `publish` / `withdraw`, `seedPublication`,
+>   three invented people incl. one with both roles); `model/diff.ts` (`compare` two snapshots); store slice `gov` /
+>   `govern` (outside undo). Screens: `JourneyNav.tsx` (six-step strip, role switch), `ValidationPage.tsx`
+>   (`…/validate`), `ReviewPage.tsx` (`…/review`, tabs review / compare / history). Demo: `demoBaseline` seeds a labelled
+>   simulated v1.0; the specialist-call module now also asks the shared "content to proceed" question.
+>   **Fixtures:** new H1–H4 (schema /3, 16 runs) from `fixtures/reference_interpreter_v3.py`; F and G unchanged.
+>   Report `docs/plans/survey-studio/18_SS-02C_FINAL_PROTOTYPE_REPORT.md` (includes the acceptance checklist);
+>   no-answer contract `17_SS-02C_NO_ANSWER_CONTRACT.md`; evidence `docs/acceptance/evidence/SS-02C/`.
+>   305 unit tests (186 prototype); 10 prototype journeys (new `e2e/prototype/governance.proto.ts`); standard Playwright
+>   33/33 with the setting off; lint, types, audit, contract clean; validator PASS.
+> - **Open for the owner (report 18):** two skip-disposition members instead of one; who may publish; whether an ordinary
+>   route to Escalate may continue; editing during review; D-NA-1…17; P-6…P-12. **No moderated usability test or
+>   screen-reader session has been run; formal UX sign-off pending.**
+> - **Owner 2026-11-21 ("SS-02C Final Closure Corrections"):** SS-02C functional delivery and visual direction ACCEPTED
+>   as the baseline; six narrow corrections required before closure → **D-143** immutable submitted candidates (approval
+>   binds to candidate ID + revision + pinned manifest; undo never transfers or resurrects an approval), **D-144**
+>   separate Publisher permission with identity check, **D-145** Escalate terminal in every routing mode, **D-146** two
+>   skip dispositions retained, **D-147** collision-aware Graph menus, **D-148** no-answer decisions marked UNRESOLVED
+>   with what each blocks. These supersede P-6 (in part), P-9 and "ordinary Escalate may be routed" of report 18.
+> - **SS-02 FINAL CLOSURE CORRECTIONS — IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, presented for the owner's
+>   closure decision; uncommitted.** `model/governance.ts`: `Submission` is a frozen candidate (`id` C-n, `n`, `manifest`,
+>   `manifestHash`, `wording`), statuses incl. `SUPERSEDED`; `Capability` AUTHOR/CHECKER/PUBLISHER, four invented people;
+>   `standing` reads the candidate record (stages DRAFT / IN_REVIEW / REJECTED / APPROVED / PUBLISHED, `draftDiffers`);
+>   `decideProblem(g, survey)`, `decide(g, survey, …)`, `publishProblem(g, survey)`, `publish(g, survey, at)` no longer
+>   take the workspace. `flow.escalationOutcomes`; validation part `'escalation'`; `ops.addInstance` / `syncOutcomes`
+>   set an escalation outcome's route to end the call; `sim` ends the call on any ESCALATION-class outcome.
+>   `ui.tsx` Popover: window-anchored, collision-aware placement in graph editors (incl. the transformed route toolbar).
+>   Builder/Composer: delayed panel focus no longer steals focus from inside the panel. **Fixture:** J1 (schema /4) from
+>   `fixtures/reference_interpreter_v4.py`; F, G, H unchanged. **Closure document:**
+>   `docs/plans/survey-studio/19_SS-02_FINAL_PROTOTYPE_CLOSURE.md`; evidence `docs/acceptance/evidence/SS-02-closure/`.
+>   314 unit tests (195 prototype); 11 prototype journeys; standard Playwright 33/33 with the setting off; lint, types,
+>   audit, contract clean; validator PASS.
+> - **Owner 2026-11-21 ("SS-02 Prototype Technical Closure Accepted") — SS-02: TECHNICALLY ACCEPTED — PROTOTYPE
+>   (D-149).** All six closure corrections accepted; **the original Survey Studio prototype story is CLOSED for feature
+>   development — do not reopen SS-02 for optional enhancements.** This is **not** formal business-user UX acceptance,
+>   **not** screen-reader accessibility sign-off, **not** production readiness, **not** approval of the unresolved
+>   no-answer policies and **not** authorisation for backend implementation. **Preserve (D-150):** the 19 fixtures / 63
+>   expected runs, the regression evidence folders, the UX acceptance matrix (report 18) and the closure documentation.
+>   **Open decisions are now explicit future gates (D-151, report 19 §8.2):** G-1 business-user UX acceptance · G-2
+>   screen-reader sign-off · G-3 no-answer policy · G-4 governance rules · G-5 remaining SS-01 proposals · G-6
+>   architecture assessment · G-7 backend implementation (SS-03) · G-8 production readiness. None is opened; each needs
+>   its own explicit owner decision.
+> - **Proposed architecture direction — RECORDED ONLY (D-152, report 19 §9); not implemented, not authorised:** Survey
+>   Studio becomes the single authoritative journey-authoring experience; essential Script Studio features are rebuilt
+>   or incorporated into it; redundant Script Studio functionality is eventually retired after safe migration; the
+>   execution harness assembles customer-specific call plans from approved survey definitions and application data;
+>   live customer answers dynamically select subsequent approved dialogue. It is an input to the **next assessment**.
+>   SS-D-02, SS-D-17 and SS-D-20 stay in force until then. **Do not modify or remove Script Studio.**
+> - **Next step: none authorised. Wait for the owner.** Everything from SS-02B.2.1 to the closure is still
+>   **uncommitted and unstaged** in frontend and specs; do not stage, commit or push without separate authorisation.
+> - **Still open (report 19 §3–§5):** all business-user testing (no moderated usability or screen-reader evidence);
+>   14 no-answer decisions block the runtime build (7 before any backend work); who holds Publisher and whether the
+>   approver may publish; draft locking during review; what "approved wording" is; escalation handling.
+> - **Script Studio consolidation is NOT started and NOT authorised.**
+> - **SS-03 and all real backend implementation are NOT started and NOT authorised.**
+>   demonstration verified against the fixtures; parity with the Python controller is a separate, later checkpoint.
 >   Each needs its own explicit authorisation. `@xyflow/react` is still not installed.
 > - **SS-02B plan** (internal condition builder, graph editor with `@xyflow/react` 12.12.1 + `@dagrejs/dagre`,
 >   simulator, Guided ↔ Graph parity, first-matching-rule routing, parameterised conditions) is in

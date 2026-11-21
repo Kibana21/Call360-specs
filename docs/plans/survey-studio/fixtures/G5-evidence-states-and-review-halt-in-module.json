@@ -1,0 +1,472 @@
+{
+  "schema": "call360.survey-studio.fixture/2",
+  "fixture": "G5-evidence-states-and-review-halt-in-module",
+  "title": "Four evidence states; missing versus empty; review halt inside a module",
+  "purpose": "One decision reads a multi-select answer that is asked on some routes only (D-132). Answered, answered-empty, unanswered and skipped are kept apart; a missing answer is UNKNOWN while a valid empty selection is known; the decision's stop is the governed REVIEW_REQUIRED outcome. D-125, D-127, D-131, D-132, D-134, D-136.",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": {
+      "COMPLETED": "NORMAL_COMPLETION",
+      "CLARIFICATION_REQUIRED": "EXCEPTION",
+      "ESCALATE": "ESCALATION",
+      "CUSTOMER_DECLINED": "EXCEPTION",
+      "UNABLE_TO_VERIFY": "EXCEPTION",
+      "REVIEW_REQUIRED": "REVIEW_HALT"
+    }
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "code": "OS-DOCUMENTS",
+        "version": 1,
+        "options": [
+          {
+            "code": "POLICY",
+            "business_label": "Policy contract",
+            "order": 1
+          },
+          {
+            "code": "SUMMARY",
+            "business_label": "Product summary",
+            "order": 2
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-RECEIVED-ANYTHING",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer received documents",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-DOCUMENTS",
+        "version": 1,
+        "answer_type": "MULTI_SELECT",
+        "intent": "Which documents the customer received",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-DOCUMENTS",
+          "version": 1
+        },
+        "selection": {
+          "min": 0,
+          "max": 2
+        }
+      },
+      {
+        "code": "Q-REMARK",
+        "version": 1,
+        "answer_type": "FREE_TEXT",
+        "intent": "Customer's own remark",
+        "mandatory": false,
+        "text": {
+          "required": false,
+          "min_length": 0,
+          "max_length": 300
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-RECEIVED-ANYTHING",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Did you receive any documents?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-DOCUMENTS",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "MULTI_SELECT",
+          "option_codes": [
+            "POLICY",
+            "SUMMARY"
+          ]
+        },
+        "text": "Which documents did you receive?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "POLICY": "Policy contract",
+          "SUMMARY": "Product summary"
+        }
+      },
+      {
+        "question": "Q-REMARK",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "FREE_TEXT",
+          "option_codes": []
+        },
+        "text": "Is there anything you would like to add?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED"
+      }
+    ],
+    "conditions": [
+      {
+        "code": "C-NO-POLICY-CONTRACT",
+        "version": 1,
+        "name": "Policy contract not received",
+        "summary": "The documents received include none of: Policy contract",
+        "params": {},
+        "inputs": {
+          "documents": {
+            "kind": "ANSWER",
+            "question": {
+              "code": "Q-DOCUMENTS",
+              "version": 1
+            },
+            "answer_type": "MULTI_SELECT",
+            "value_type": "OPTION_CODE_SET",
+            "scope": "MODULE"
+          }
+        },
+        "fields": [],
+        "ast": {
+          "op": "CONTAINS_NONE",
+          "left": {
+            "input": "documents"
+          },
+          "right": {
+            "literal": [
+              "POLICY"
+            ]
+          }
+        }
+      }
+    ],
+    "modules": [
+      {
+        "code": "M-DOCUMENTS",
+        "revision": 1,
+        "name": "Documents",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "CLARIFICATION_REQUIRED",
+          "REVIEW_REQUIRED"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-RECEIVED-ANYTHING",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "YES"
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-DOCUMENTS",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "n3",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-REMARK",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          },
+          {
+            "node": "d1",
+            "type": "DECISION",
+            "binding": {
+              "condition": {
+                "code": "C-NO-POLICY-CONTRACT",
+                "version": 1
+              },
+              "params": {},
+              "inputs": {
+                "documents": {
+                  "answer": {
+                    "node": "n2"
+                  }
+                }
+              },
+              "unknown_policy": "BLOCK"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "YES",
+            "to": {
+              "node": "n2"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n1",
+            "on": "NO",
+            "to": {
+              "node": "n3"
+            }
+          },
+          {
+            "edge": "e3",
+            "from": "n2",
+            "on": "ANY",
+            "to": {
+              "node": "n3"
+            }
+          },
+          {
+            "edge": "e4",
+            "from": "n3",
+            "on": "AFTER_CAPTURE",
+            "to": {
+              "node": "d1"
+            }
+          },
+          {
+            "edge": "e5",
+            "from": "d1",
+            "on": "MATCH",
+            "to": {
+              "outcome": "CLARIFICATION_REQUIRED"
+            }
+          },
+          {
+            "edge": "e6",
+            "from": "d1",
+            "on": "NO_MATCH",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e7",
+            "from": "d1",
+            "on": "UNKNOWN",
+            "to": {
+              "outcome": "REVIEW_REQUIRED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-EVIDENCE-AND-REVIEW",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-d"
+    ],
+    "instances": [
+      {
+        "instance": "mi-d",
+        "module": {
+          "code": "M-DOCUMENTS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "CLARIFICATION_REQUIRED",
+            "to": {
+              "survey_outcome": "CLARIFICATION_REQUIRED"
+            }
+          },
+          {
+            "on": "REVIEW_REQUIRED",
+            "to": {
+              "survey_outcome": "REVIEW_REQUIRED"
+            }
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "Answered: the policy contract was received — the condition is FALSE",
+      "answers": {
+        "mi-d/n1": {
+          "choice": "YES"
+        },
+        "mi-d/n2": {
+          "choices": [
+            "POLICY"
+          ]
+        },
+        "mi-d/n3": {
+          "text": "All fine."
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-d/n1",
+          "mi-d/n2",
+          "mi-d/n3"
+        ],
+        "modules": [
+          {
+            "instance": "mi-d",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "trace": [
+          "mi-d/d1: FALSE"
+        ],
+        "evidence_states": {
+          "mi-d/n1": "ANSWERED",
+          "mi-d/n2": "ANSWERED",
+          "mi-d/n3": "ANSWERED"
+        }
+      }
+    },
+    {
+      "name": "A VALID EMPTY selection is known: 'none of' is TRUE. The optional remark left blank is UNANSWERED",
+      "answers": {
+        "mi-d/n1": {
+          "choice": "YES"
+        },
+        "mi-d/n2": {
+          "choices": []
+        },
+        "mi-d/n3": {
+          "text": ""
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-d/n1",
+          "mi-d/n2",
+          "mi-d/n3"
+        ],
+        "modules": [
+          {
+            "instance": "mi-d",
+            "status": "ACTIVATED",
+            "outcome": "CLARIFICATION_REQUIRED"
+          }
+        ],
+        "terminal": {
+          "state": "ENDED_WITH_OUTCOME",
+          "survey_outcome": "CLARIFICATION_REQUIRED"
+        },
+        "trace": [
+          "mi-d/d1: TRUE"
+        ],
+        "evidence_states": {
+          "mi-d/n1": "ANSWERED",
+          "mi-d/n2": "ANSWERED_EMPTY",
+          "mi-d/n3": "UNANSWERED"
+        }
+      }
+    },
+    {
+      "name": "A question NOT ASKED on this route is UNKNOWN — not an empty selection: the decision stops for review inside the module",
+      "answers": {
+        "mi-d/n1": {
+          "choice": "NO"
+        },
+        "mi-d/n3": {
+          "text": "Nothing arrived."
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-d/n1",
+          "mi-d/n3"
+        ],
+        "modules": [
+          {
+            "instance": "mi-d",
+            "status": "ACTIVATED",
+            "outcome": "REVIEW_REQUIRED"
+          }
+        ],
+        "terminal": {
+          "state": "REVIEW_REQUIRED",
+          "reason": "REVIEW_REQUIRED",
+          "at": "mi-d",
+          "survey_outcome": "REVIEW_REQUIRED"
+        },
+        "trace": [
+          "mi-d/d1: UNKNOWN"
+        ],
+        "evidence_states": {
+          "mi-d/n1": "ANSWERED",
+          "mi-d/n2": "SKIPPED",
+          "mi-d/n3": "ANSWERED"
+        }
+      }
+    }
+  ]
+}

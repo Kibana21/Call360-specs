@@ -182,6 +182,183 @@ never confused with a customer answering "No" (F8, seven runs).
 **Sequencing policy (SS-D-06).** "Ordered eligibility": each instance is considered in order and runs if eligible.
 Outcome routes are explicit exceptions to that order. Backward routes are invalid (no cycles in P0).
 
+### 2.2a Amendment of 2026-11-21: routing, activation and eligibility (owner decision D-135)
+
+**This amends §2.2. Where it differs, this section governs.** In particular the sentence "Jump forward to a later
+instance, **entering it unconditionally**" is **withdrawn**: a jump never bypasses a module's condition.
+
+Three different things decide whether a module instance runs. They are kept apart in the contract, in validation, in
+the trace and in the authoring surface:
+
+| Concept | Question it answers | Expressed by |
+|---|---|---|
+| **Routing / jump** | Which instance is the next **candidate**? | The sequence (the next instance), an outcome route `{"instance": …}`, or a skip disposition `{"instance": …}` |
+| **Activation trigger** | **When is an instance selected** at all? | In sequence; by a jump; or — `entry.mode: ON_OUTCOME` — only by a named earlier outcome |
+| **Eligibility condition** | **May the candidate execute?** | `entry.mode: RULE` (a condition binding with an explicit UNKNOWN policy). `ALWAYS` = no eligibility condition |
+
+**Rule.** Eligibility is evaluated for every candidate, however it was reached. For a candidate reached by a jump:
+
+| Eligibility | Result |
+|---|---|
+| TRUE (or no eligibility condition) | The instance executes |
+| FALSE | The instance is skipped, recorded `SKIPPED_FALSE`, and the instance's **skip disposition** is followed |
+| UNKNOWN, policy `BLOCK` | A **missing-information halt** (§2.2b): the run stops pending review. The instance did not start |
+| UNKNOWN, policy `SKIP_WITH_REASON` | The instance is skipped, recorded `SKIPPED_UNKNOWN` ("information missing"), and the skip disposition is followed |
+| UNKNOWN, no policy | Validation error `UNKNOWN_POLICY_MISSING` (unchanged: there is no global default) |
+
+**Skip disposition.** A new, optional member of an instance:
+
+```json
+{"instance": "mi-specialist", "entry": {"mode": "RULE", "binding": {…, "unknown_policy": "BLOCK"}},
+ "if_ineligible": {"survey_outcome": "CLARIFICATION_REQUIRED"},
+ "routes": […]}
+```
+
+`if_ineligible` says what happens when the instance was reached **by a jump** and is not eligible. Its values are
+those of a route: `"@CONTINUE"` (the next instance in sequence is considered, as after a skip in sequence),
+`{"instance": …}` (a **later** instance — itself only a candidate, so its eligibility is evaluated in turn), or
+`{"survey_outcome": …}`.
+
+- It is **required** — validation error `SKIP_DISPOSITION_MISSING` — on every instance that (a) is the target of a
+  jump from an outcome route or from another instance's skip disposition and (b) has an eligibility condition. There
+  is **no default**: an executor that meets the gap ends the run as an invalid draft (§2.2b); it never continues.
+- It is not consulted when the instance is skipped in sequence: there the next instance is simply considered, as
+  before ("ordered eligibility", SS-D-06).
+- `{"instance": …}` must name a later instance (`BACKWARD_ROUTE` otherwise).
+
+**No re-entry, no loops.** Every move — sequence, outcome route, skip disposition — goes to a later instance, and each
+instance is considered at most once in a run. A candidate that is skipped is not reconsidered.
+
+**Activation by a named earlier outcome is preserved.** `ON_OUTCOME` remains an *activation trigger*: in sequence
+the instance is selected only if the named earlier instance emitted one of the listed outcomes
+(`SKIPPED_PRIOR_OUTCOME` otherwise). It is not an eligibility condition. **Open point for the owner:** in this
+amendment a *jump* to an `ON_OUTCOME` instance activates it (a jump is itself an explicit activation, and such an
+instance has no eligibility condition). An instance cannot currently carry both an activation trigger and an
+eligibility condition; whether it should is a schema question for SS-03.
+
+**Trace.** Every entry decision records how the instance was reached (`SEQUENCE` or `JUMP`), the eligibility result
+and what was read; a skip after a jump records the disposition that was followed. Fixtures G1–G3.
+
+### 2.2b Amendment of 2026-11-21: terminal states of a run (owner decision D-136)
+
+A run ends in exactly one of six states. They are different facts and are **never merged** — not in the engine, not
+in evidence, not to satisfy a comparison:
+
+| Terminal state | Meaning | Carries |
+|---|---|---|
+| `COMPLETED` | Every instance that applied finished and the survey reached its end | `survey_outcome: COMPLETED` |
+| `ENDED_WITH_OUTCOME` | A named outcome was routed to end the survey — an exception, or an escalation reached by ordinary routing | `survey_outcome` |
+| `MANDATORY_ESCALATION` | The survey ended with an outcome of class `ESCALATION` **because a mandatory-escalation answer was given** | `survey_outcome` |
+| `REVIEW_REQUIRED` | A module **ran and ended with** the governed outcome `REVIEW_REQUIRED` (a decision set to stop and flag for review, §5.4 (e)) | `survey_outcome: REVIEW_REQUIRED`, `at` (instance) |
+| `MISSING_INFORMATION_HALT` | An instance's **eligibility** was UNKNOWN and its policy is `BLOCK`. The instance never started, so there is **no module outcome** | `reason: ELIGIBILITY_UNKNOWN`, `at` (instance) |
+| `DRAFT_INVALID` | The draft is incomplete or invalid at this point (a missing route, condition, policy or skip disposition; a backward route; a loop). **Not a result of a call**: nothing was decided | `reason` (a validation code), `at` |
+
+`REVIEW_REQUIRED` and `MISSING_INFORMATION_HALT` both leave the run *pending review, not completed* (§5.4 (h)), but
+they are distinct: one is a module outcome, the other is the absence of one. Module status vocabulary changes
+accordingly: `BLOCKED_UNKNOWN` (schema /1) becomes **`HALTED_MISSING_INFORMATION`**.
+
+**Versioned migration of the fixture vocabulary.** The historical fixtures (schema `/1`, F1–F8) are preserved
+unchanged. Schema `/2` (G1–G6) uses the vocabulary above. The mapping is one-way, partial and stated once:
+
+| Schema /2 (and the engine) | Schema /1 |
+|---|---|
+| `terminal.state: MISSING_INFORMATION_HALT`, `at` | `blocked: {"reason": "BLOCKED_UNKNOWN", "at"}` — the only halt /1 could express |
+| module status `HALTED_MISSING_INFORMATION` | module status `BLOCKED_UNKNOWN` |
+| `terminal.state: DRAFT_INVALID`, `reason` R | `blocked: {"reason": R}` (for example `ROUTE_MISSING`) |
+| `COMPLETED`, `ENDED_WITH_OUTCOME`, `MANDATORY_ESCALATION` | `survey_outcome` only — /1 cannot say *why* a survey ended with `ESCALATE` |
+| `terminal.state: REVIEW_REQUIRED` | **no equivalent** — /1 has no governed review outcome |
+
+A comparison against a `/1` fixture applies this mapping explicitly, outside the engine; a `/2` comparison applies
+none. `/1` remains valid for what it covers (it contains no jump, so D-135 changes none of its expectations).
+
+### 2.2c Amendment of 2026-11-21 (SS-02C): activation and eligibility independent; skip disposition in sequence; mandatory escalation survey-wide (owner decisions D-138 … D-141)
+
+**This amends §2.2a. Where it differs, this section governs.** It resolves the "open point for the owner" of §2.2a.
+
+**(a) An explicit jump is a valid activation (D-138).** A jump selects its target even when the target is normally
+activated only after a named outcome and that outcome did not occur. The jump never bypasses eligibility: the
+target's eligibility condition is still evaluated, exactly as in §2.2a. The trace of an entry decision states both
+facts — how the module was selected, and whether it was eligible.
+
+**(b) Activation and eligibility are two independent members of an instance (D-139).** One field no longer carries
+two incompatible meanings:
+
+```json
+{"instance": "mi-specialist",
+ "activation": {"of": "mi-afford", "outcomes": ["CLARIFICATION_REQUIRED"]},
+ "entry": {"mode": "RULE", "binding": {"condition": {…}, "params": {…}, "unknown_policy": "SKIP_WITH_REASON"}},
+ "routes": […]}
+```
+
+| Member | Meaning | Absent |
+|---|---|---|
+| `activation` | The **activation trigger**: in sequence the instance is *selected* only if the named earlier instance ended with one of the listed outcomes | Selected in sequence |
+| `entry` | The **eligibility condition**: `ALWAYS` = none; `RULE` = a condition binding with an explicit UNKNOWN policy | — (required; `ALWAYS` is the neutral value) |
+
+Evaluation order for a candidate: **(1) activation** — reached in sequence with a trigger that did not fire, the
+instance is *not selected* (`SKIPPED_PRIOR_OUTCOME`), its eligibility is **not evaluated**, and the next instance is
+considered; reached by a jump, it is selected. **(2) eligibility** — evaluated for every selected instance.
+
+*Backward compatibility.* `entry.mode: ON_OUTCOME` (schemas /1 and /2) is still read and means exactly
+`activation` + `entry: ALWAYS`. Nothing written under /1 or /2 changes meaning. New edits write `activation`.
+Validation: `activation.of` must be an earlier instance and `outcomes` non-empty (`ACTIVATION_INVALID`).
+`REVIEW_REQUIRED` cannot be an activating outcome: it halts the run.
+
+**(c) Skip disposition for a module reached in sequence (D-140).** A second, optional member:
+
+| Member | Applies when | Absent | Values |
+|---|---|---|---|
+| `if_ineligible` (§2.2a, unchanged) | reached **by a jump** and not eligible | **Validation error** `SKIP_DISPOSITION_MISSING` when a jump can arrive and the instance has an eligibility condition. Never defaulted | `"@CONTINUE"` · `{"instance"}` (later) · `{"survey_outcome"}` |
+| `if_skipped_in_sequence` (new) | reached **in sequence** and not eligible | **The next instance is considered** — the normal default, as before | `{"instance"}` (later) · `{"survey_outcome"}` (an approved terminal outcome) |
+
+They are two members, not one, so that a survey written under /2 keeps its meaning: there, `if_ineligible` applied
+only after a jump and a module skipped in sequence always continued (fixture G1, run 4). Both dispositions are
+forward-only (`BACKWARD_ROUTE`); a target named by either is a jump target and is itself only a candidate. A
+disposition whose target instance was removed becomes *undecided* — a validation error — never re-pointed. A
+disposition is not used when the instance was not selected at all (activation did not fire).
+
+**(d) A mandatory escalation cannot be overridden by survey-level routing (D-141).** When a module ends because a
+mandatory-escalation answer was given (§2.3; single-choice, first-matching-rule or follow-up routing alike):
+
+- the survey **ends** with that module outcome as the survey outcome — in this release the governed `ESCALATE` —
+  in terminal state `MANDATORY_ESCALATION`, **whatever** route the instance has for that outcome;
+- a survey route for such an outcome that is anything other than `{"survey_outcome": <the same outcome>}` —
+  continuing, jumping to a later module, ending as a normal completion or as another outcome, or a review halt — is
+  the validation error **`MANDATORY_ESCALATION_OVERRIDDEN`**. Authoring surfaces offer only the governed ending;
+- a mandatory answer whose module-level route does not end in an outcome of class `ESCALATION` remains the
+  module-level error of §5.4 (g); at run time it is an invalid draft (`MANDATORY_ESCALATION_WEAKENED`).
+
+An *ordinary* route to `ESCALATE` (no mandatory answer) is ordinary routing and may be routed by the survey.
+A governed escalation-*handling* workflow (what happens after the call ends with `ESCALATE`) is out of scope and is
+not defined here.
+
+**Fixtures (schema `/3`):** H1 (the four activation × eligibility combinations; the earlier shape read unchanged),
+H2 (a jump as an activation that never bypasses eligibility), H3 (dispositions in sequence), H4 (mandatory
+escalation against two invalid survey mappings, with the expected validation errors). `/3` adds `activation`,
+`if_skipped_in_sequence`, `validation.errors` and two trace lines; a `/2` survey means the same under `/3`.
+
+### 2.2d Amendment of 2026-11-21 (SS-02 closure): Escalate is terminal in every routing mode (owner decision D-145)
+
+**This extends §2.2c (d).** That section made a *mandatory* escalation impossible to override. The owner has ruled
+that **every** escalation is terminal for the survey, however the module reached it:
+
+- A module outcome of class `ESCALATION` (in this release: `ESCALATE`) **ends the survey with that same outcome** —
+  whether the module ended that way because of a mandatory-escalation answer, a single-choice route, a
+  first-matching rule, an optional interruption or a decision's route.
+- The survey route for such an outcome is **governed**, like `REVIEW_REQUIRED`: it is set to
+  `{"survey_outcome": <the same outcome>}` when the outcome appears, and authoring surfaces offer nothing else.
+- A survey route for it that says anything else is a validation error — **`ESCALATION_NOT_TERMINAL`**, or
+  `MANDATORY_ESCALATION_OVERRIDDEN` when a mandatory answer can produce that outcome — and an executor **never
+  follows it**.
+- The terminal state still tells the two apart: `MANDATORY_ESCALATION` when a mandatory answer caused it, otherwise
+  `ENDED_WITH_OUTCOME` with `survey_outcome: ESCALATE`.
+- Unchanged: an outcome that is *not* an escalation may still be routed by the survey to end the call with
+  `ESCALATE`; and the two separate skip dispositions of §2.2c (c) are retained exactly as specified there.
+
+**Fixture (schema `/4`):** J1 — three modules end with Escalate without a mandatory answer (single choice, rule,
+optional interruption) against three different invalid survey routes. A `/3` survey whose escalation outcomes all
+end the call as themselves means the same under `/4`; F, G and H are unchanged.
+
 ### 2.3 Selection precedence (PRD §5.5)
 
 1. A lifecycle stop — a gate failure or a reported conversation event (SS-D-08).
@@ -416,6 +593,9 @@ Limits: depth ≤ 6, ≤ 50 nodes, list literals ≤ 100 items (SS-NFR-018; valu
 There is **no global default** for UNKNOWN (SS-D-07): a binding without a policy is a validation error.
 `SKIP_WITH_REASON` is not allowed on a module that contains a mandatory question.
 
+> **Superseded 2026-11-21 by §5.4 (d) (owner decision D-132):** an answer asked on *some* routes may also be read; the
+> paragraph below is kept as the original SS-01 text.
+
 **Availability rule (SS-RUL-011).** An input may reference an answer only if every path to the binding passes through
 that question (it dominates the binding). Otherwise the validator reports `DEPENDENCY_NOT_AVAILABLE` with the paths
 that miss it. A dominated answer can still be a non-answer at run time; that yields UNKNOWN, handled by the policy.
@@ -492,11 +672,32 @@ input is UNKNOWN, not TRUE.
 list of option codes. `CONTAINS` (one code) is `CONTAINS_ANY` with a one-item list. The prototype spells these
 `INCLUDES_ANY` / `INCLUDES_ALL` / `INCLUDES_NONE`; the canonical names are the ones in this section.
 
-**(d) Availability — an open point raised for the owner.** SS-RUL-011 above requires a bound answer to **dominate**
-the binding. The SS-02B.1 instruction says an answer not yet collected "evaluates according to the explicit UNKNOWN
-policy", and the prototype accordingly allows an answer that is asked on *some* routes to the binding (it is offered
-marked "not always asked", and yields UNKNOWN when it was not asked), while still rejecting an answer asked on *no*
-route before it. This is **looser than SS-RUL-011 as written**. It has not been decided; see the SS-02B.2 report §6.
+**(d) Availability (decided by the owner, 2026-11-21, D-132). This replaces SS-RUL-011 in §5.2.** A condition on a
+`DECISION` node may read an answer from the **same module** when the question
+
+- is asked on **every** route to the decision (*guaranteed*), or
+- is asked on **at least one** route to the decision (*possible*).
+
+A condition that reads a question which **cannot** have been executed before the decision — it lies after the decision
+on every route, in an unreachable part of the graph, or was removed — is **invalid**: `DEPENDENCY_NOT_AVAILABLE`
+(blocker). The authoring surface must show, for each readable answer, whether it is guaranteed or only possible.
+
+Because a *possible* answer may be absent on the executed route, **explicit UNKNOWN handling is mandatory** on every
+binding that reads an answer (§5.2: no global default). An answer not collected on the executed route evaluates
+**UNKNOWN — never FALSE, and never an empty selection**.
+
+**(d-1) Evidence states (D-132).** The trace of a run records, for every answer a condition read and for every
+question of every module that ran, exactly one of:
+
+| State | Meaning | As an operand |
+|---|---|---|
+| `ANSWERED` | The question was asked and a valid answer recorded | KNOWN |
+| `ANSWERED_EMPTY` | Asked, and a valid answer with **no option selected** was recorded (multi-select with `selection.min` 0) | KNOWN, the empty set |
+| `UNANSWERED` | Asked, and no answer content was given where none is required (an optional free-text answer left blank), or the turn ended as a non-answer | UNKNOWN |
+| `SKIPPED` | **Not asked on the executed route** (a branch not taken, a queue not entered, a module that did not run) | UNKNOWN |
+
+These four are never merged. In particular `SKIPPED` and `UNANSWERED` are different facts about a call, and neither
+is `ANSWERED_EMPTY`.
 
 **(e) Stop and flag for review (D-127).** `BLOCK` is a governed result named **`REVIEW_REQUIRED`**: automated
 progression halts at that point, the run is **pending authorised review**, and it is **not** completed. On a
@@ -509,6 +710,58 @@ it always halts the survey with `REVIEW_REQUIRED`. How a reviewer resumes or clo
 **(f) Version upgrades of a shared condition (D-129).** A new Condition Version never propagates. Each consumer
 (module entry binding or decision node) is upgraded by an explicit, separately authorised change to that consumer,
 recorded with the consumer's own revision; consumers that are not upgraded keep the version they pin.
+
+
+**(g) Controlled outcome catalog (D-133).** Outcomes are a governed catalog of **stable codes**, each with an explicit
+**classification**. No classification is implied by wording or by another classification.
+
+| Class | Meaning | Prototype catalog (synthetic) |
+|---|---|---|
+| `NORMAL_COMPLETION` | The module or survey finished normally | `COMPLETED` |
+| `EXCEPTION` | A named non-normal ending. **Not** an escalation | `CLARIFICATION_REQUIRED`, `CUSTOMER_DECLINED`, `UNABLE_TO_VERIFY` |
+| `ESCALATION` | A valid destination for a mandatory escalation (§3.4) | `ESCALATE` — **the only one** |
+| `REVIEW_HALT` | Governed halt, (e) above; not author-routable | `REVIEW_REQUIRED` |
+
+`REVIEW_REQUIRED` and the exception outcomes are **not equivalent to escalation**: a mandatory-escalation option that
+leads to any of them fails `MANDATORY_ESCALATION_BYPASSED`. The business-approved catalog — its codes, labels and
+classifications, and who may change them — is **deferred to production governance approval**; the list above is for
+the prototype only.
+
+**(h) Review-required halts (D-134).** `REVIEW_REQUIRED` halts automated progression. The run's status is **pending
+review**; it is not completed, and no later module, route or survey outcome is evaluated. **Resume, close and
+resolution are not part of the survey graph**: they require a separately authorised review / operations capability
+with explicitly permitted transitions and complete audit evidence (who, when, on what basis, with which result). None
+of that is specified or built here; the prototype only shows the halt, with synthetic data and no runtime record.
+
+
+### 5.5 Open requirement: a question that is not answered (recorded 2026-11-21; **not specified, not built**)
+
+> **2026-11-21 (SS-02C, D-142):** the decision-ready contract for this requirement is
+> `17_SS-02C_NO_ANSWER_CONTRACT.md`. It supersedes the table below as the working document; the table is kept as the
+> original record. Still nothing is specified as final and nothing is built.
+
+Real insurance callbacks need defined behaviour when the customer does not answer a question. **None of the
+following is specified by SS-01, implemented in the prototype, or to be assumed by any implementation.** The
+prototype has no "no answer" turn; its only related evidence state is `UNANSWERED` for an optional free-text answer
+left blank (§5.4 (d-1)).
+
+| # | Requirement to be decided | Why it cannot be invented here |
+|---|---|---|
+| NA-1 | **Silence / timeout**: how long, measured from what (end of the question's delivery?), and what a timeout is recorded as | Timing belongs to the voice channel and its latency; a compliance view is needed on what counts as "did not answer" |
+| NA-2 | **Customer refusal**: an explicit "I prefer not to say" — is it an answer, a non-answer, or its own state? For which questions is refusal acceptable? | Mandatory-disclosure and verification questions are unlikely to tolerate refusal the same way |
+| NA-3 | **Retry and repeat limits**: how many re-asks or rephrasings per question and per call; whether a repeat must use the approved wording verbatim | Approved-wording rules (SS-D-02) and customer-experience limits are business decisions |
+| NA-4 | **Escalation or termination policy** when the limits are reached: per question, per module, or per survey; to which catalogued outcome | Needs an outcome class in the governed catalog (§5.4 (g)); it must not silently become `COMPLETED`, an exception or an escalation |
+| NA-5 | **Explicit evidence** that a question was not answered: attempts, timestamps, the delivery that was made, the reason (silence, refusal, line drop, unintelligible) | Evidence must distinguish "not answered" from `SKIPPED` and from `ANSWERED_EMPTY`; the fourth state `UNANSWERED` exists but its sub-reasons do not |
+| NA-6 | **Routing of a non-answer**: a route key (for example `NO_ANSWER`) on question nodes, required or defaulted? What a condition reads (today: UNKNOWN) | A new route key changes the edge contract of §2.1 and the "specific → ANY → blocked" resolution |
+| NA-7 | **Interaction with mandatory questions, follow-up queues and mandatory escalation**: can a queue continue past an unanswered follow-up; can a non-answer to a mandatory-escalation question end otherwise | Precedence rules (§2.3) must place non-answers explicitly |
+| NA-8 | **Lifecycle events** that look like non-answers but are not (call dropped, customer asks to be called back, agent takeover) | Owned by the conversation lifecycle (SS-D-08), above the survey graph |
+
+**Contract decisions needed before backend implementation (SS-03 / SS-04):** (1) the evidence model for an unanswered
+question — states, reasons, attempts; (2) whether non-answer is a route key, a node-level policy or a lifecycle
+event, and its place in §2.3; (3) retry limits and who sets them (question, module, survey or channel); (4) the
+catalogued outcome(s) for "could not obtain an answer"; (5) what conditions and module eligibility read for a
+non-answer; (6) golden fixtures for each. Until then an executor that reaches a question it cannot get an answer to
+has **no defined behaviour**, and must not guess one.
 
 ---
 

@@ -1,0 +1,648 @@
+{
+  "schema": "call360.survey-studio.fixture/3",
+  "fixture": "H4-mandatory-escalation-cannot-be-overridden-by-survey-routing",
+  "title": "A mandatory escalation cannot be overridden by survey-level routing",
+  "purpose": "Two modules end with Escalate because of a mandatory-escalation answer (one single-choice, one multi-select). The survey routes that outcome to a later module and to 'continue'. Both mappings are validation errors, and neither is ever followed: the call ends with Escalate. A-4.",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": {
+      "COMPLETED": "NORMAL_COMPLETION",
+      "CLARIFICATION_REQUIRED": "EXCEPTION",
+      "ESCALATE": "ESCALATION",
+      "CUSTOMER_DECLINED": "EXCEPTION",
+      "UNABLE_TO_VERIFY": "EXCEPTION",
+      "REVIEW_REQUIRED": "REVIEW_HALT"
+    }
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "code": "OS-CONSENT",
+        "version": 1,
+        "options": [
+          {
+            "code": "AGREED",
+            "business_label": "Yes, I agreed",
+            "order": 1
+          },
+          {
+            "code": "NEVER_AGREED",
+            "business_label": "I did not agree to this policy",
+            "order": 2,
+            "interrupt": "MANDATORY"
+          }
+        ]
+      },
+      {
+        "code": "OS-AREAS",
+        "version": 1,
+        "options": [
+          {
+            "code": "PREMIUM",
+            "business_label": "Premium",
+            "order": 1
+          },
+          {
+            "code": "COMPLAINT",
+            "business_label": "I want to complain",
+            "order": 2,
+            "interrupt": "OPTIONAL"
+          },
+          {
+            "code": "FORGED",
+            "business_label": "My signature was forged",
+            "order": 3,
+            "interrupt": "MANDATORY"
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-CONSENT",
+        "version": 1,
+        "answer_type": "SINGLE_SELECT",
+        "intent": "Customer agreed to the policy",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-CONSENT",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-AREAS",
+        "version": 1,
+        "answer_type": "MULTI_SELECT",
+        "intent": "What the customer raises",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-AREAS",
+          "version": 1
+        },
+        "selection": {
+          "min": 1,
+          "max": 3
+        }
+      },
+      {
+        "code": "Q-PREMIUM-CLEAR",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Premium is clear",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-CLOSING-ACK",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer acknowledges the closing statement",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-CONSENT",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "SINGLE_SELECT",
+          "option_codes": [
+            "AGREED",
+            "NEVER_AGREED"
+          ]
+        },
+        "text": "Did you agree to take up this policy?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "AGREED": "Yes, I agreed",
+          "NEVER_AGREED": "I did not agree to this policy"
+        }
+      },
+      {
+        "question": "Q-AREAS",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "MULTI_SELECT",
+          "option_codes": [
+            "PREMIUM",
+            "COMPLAINT",
+            "FORGED"
+          ]
+        },
+        "text": "Is there anything you would like to raise?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "PREMIUM": "Premium",
+          "COMPLAINT": "I want to complain",
+          "FORGED": "My signature was forged"
+        }
+      },
+      {
+        "question": "Q-PREMIUM-CLEAR",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Is the premium clear to you now?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-CLOSING-ACK",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Do you acknowledge that this call has been completed?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-CONSENT",
+        "revision": 1,
+        "name": "Consent",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "ESCALATE"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-CONSENT",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "AGREED"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "AGREED",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n1",
+            "on": "NEVER_AGREED",
+            "to": {
+              "outcome": "ESCALATE"
+            }
+          }
+        ]
+      },
+      {
+        "code": "M-AREAS",
+        "revision": 1,
+        "name": "Areas",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "CUSTOMER_DECLINED",
+          "ESCALATE"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-AREAS",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "SEQUENTIAL_FOLLOWUPS",
+              "followups": [
+                {
+                  "option": "PREMIUM",
+                  "nodes": [
+                    "n2"
+                  ]
+                }
+              ],
+              "no_followup": [],
+              "interrupts": [
+                {
+                  "option": "COMPLAINT",
+                  "policy": "STOP_ESCALATE",
+                  "outcome": "CUSTOMER_DECLINED"
+                },
+                {
+                  "option": "FORGED",
+                  "policy": "STOP_ESCALATE",
+                  "outcome": "ESCALATE"
+                }
+              ],
+              "rejoin": {
+                "outcome": "COMPLETED"
+              }
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-PREMIUM-CLEAR",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            },
+            "role": "FOLLOWUP"
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n2",
+            "on": "ANY",
+            "to": {
+              "return": true
+            }
+          }
+        ]
+      },
+      {
+        "code": "M-CLOSING",
+        "revision": 1,
+        "name": "Closing",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-CLOSING-ACK",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "ANY",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-MANDATORY-ESCALATION-SURVEY-LEVEL",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-consent",
+      "mi-areas",
+      "mi-closing"
+    ],
+    "instances": [
+      {
+        "instance": "mi-consent",
+        "module": {
+          "code": "M-CONSENT",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "ESCALATE",
+            "to": {
+              "instance": "mi-closing"
+            }
+          }
+        ]
+      },
+      {
+        "instance": "mi-areas",
+        "module": {
+          "code": "M-AREAS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "CUSTOMER_DECLINED",
+            "to": {
+              "survey_outcome": "CUSTOMER_DECLINED"
+            }
+          },
+          {
+            "on": "ESCALATE",
+            "to": "@CONTINUE"
+          }
+        ]
+      },
+      {
+        "instance": "mi-closing",
+        "module": {
+          "code": "M-CLOSING",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "Single-choice mandatory answer: the call ends with Escalate although the survey routes that outcome to a later module",
+      "answers": {
+        "mi-consent/n1": {
+          "choice": "NEVER_AGREED"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-consent/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-consent",
+            "status": "ACTIVATED",
+            "outcome": "ESCALATE"
+          },
+          {
+            "instance": "mi-areas",
+            "status": "NOT_REACHED"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "NOT_REACHED"
+          }
+        ],
+        "terminal": {
+          "state": "MANDATORY_ESCALATION",
+          "survey_outcome": "ESCALATE"
+        },
+        "trace": [
+          "mi-consent: mandatory escalation -> ESCALATE; survey route overridden"
+        ],
+        "evidence_states": {
+          "mi-consent/n1": "ANSWERED"
+        }
+      }
+    },
+    {
+      "name": "Multi-select mandatory answer, selected with others: it leads, and the call ends with Escalate although the survey says 'continue'",
+      "answers": {
+        "mi-consent/n1": {
+          "choice": "AGREED"
+        },
+        "mi-areas/n1": {
+          "choices": [
+            "PREMIUM",
+            "COMPLAINT",
+            "FORGED"
+          ]
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-consent/n1",
+          "mi-areas/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-consent",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-areas",
+            "status": "ACTIVATED",
+            "outcome": "ESCALATE"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "NOT_REACHED"
+          }
+        ],
+        "terminal": {
+          "state": "MANDATORY_ESCALATION",
+          "survey_outcome": "ESCALATE"
+        },
+        "trace": [
+          "mi-areas/n1: INTERRUPT FORGED -> ESCALATE; skipped ['n2'] (mandatory)",
+          "mi-areas: mandatory escalation -> ESCALATE; survey route overridden"
+        ],
+        "evidence_states": {
+          "mi-consent/n1": "ANSWERED",
+          "mi-areas/n1": "ANSWERED",
+          "mi-areas/n2": "SKIPPED"
+        }
+      }
+    },
+    {
+      "name": "An optional interruption is ordinary routing: it follows the survey's route for its outcome and is NOT a mandatory escalation",
+      "answers": {
+        "mi-consent/n1": {
+          "choice": "AGREED"
+        },
+        "mi-areas/n1": {
+          "choices": [
+            "PREMIUM",
+            "COMPLAINT"
+          ]
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-consent/n1",
+          "mi-areas/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-consent",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-areas",
+            "status": "ACTIVATED",
+            "outcome": "CUSTOMER_DECLINED"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "NOT_REACHED"
+          }
+        ],
+        "terminal": {
+          "state": "ENDED_WITH_OUTCOME",
+          "survey_outcome": "CUSTOMER_DECLINED"
+        },
+        "trace": [
+          "mi-areas/n1: INTERRUPT COMPLAINT -> CUSTOMER_DECLINED; skipped ['n2']"
+        ],
+        "evidence_states": {
+          "mi-consent/n1": "ANSWERED",
+          "mi-areas/n1": "ANSWERED",
+          "mi-areas/n2": "SKIPPED"
+        }
+      }
+    },
+    {
+      "name": "No escalation: the follow-up runs and the call completes",
+      "answers": {
+        "mi-consent/n1": {
+          "choice": "AGREED"
+        },
+        "mi-areas/n1": {
+          "choices": [
+            "PREMIUM"
+          ]
+        },
+        "mi-areas/n2": {
+          "choice": "YES"
+        },
+        "mi-closing/n1": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-consent/n1",
+          "mi-areas/n1",
+          "mi-areas/n2",
+          "mi-closing/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-consent",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-areas",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "trace": [
+          "mi-areas/n1: QUEUE ['n2']"
+        ],
+        "evidence_states": {
+          "mi-consent/n1": "ANSWERED",
+          "mi-areas/n1": "ANSWERED",
+          "mi-areas/n2": "ANSWERED",
+          "mi-closing/n1": "ANSWERED"
+        }
+      }
+    }
+  ],
+  "validation": {
+    "errors": [
+      {
+        "code": "MANDATORY_ESCALATION_OVERRIDDEN",
+        "at": "mi-consent:ESCALATE"
+      },
+      {
+        "code": "MANDATORY_ESCALATION_OVERRIDDEN",
+        "at": "mi-areas:ESCALATE"
+      }
+    ]
+  }
+}

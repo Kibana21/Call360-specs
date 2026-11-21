@@ -1,0 +1,781 @@
+{
+  "schema": "call360.survey-studio.fixture/4",
+  "fixture": "J1-escalate-is-terminal-in-every-routing-mode",
+  "title": "Escalate is terminal, however the module reached it",
+  "purpose": "Three modules end with Escalate WITHOUT a mandatory-escalation answer — by a single-choice route, a first-matching rule and an optional interruption. The survey routes each onward in a different way. All three mappings are validation errors and none is followed: the call ends with Escalate, as an ordinary ending (not a 'mandatory escalation'). D-145.",
+  "notice": "Synthetic and illustrative. Wording, thresholds and outcomes are examples for contract design only; nothing here is approved AIA/MAS language or business policy.",
+  "catalog": {
+    "fields": {},
+    "outcomes": {
+      "COMPLETED": "NORMAL_COMPLETION",
+      "CLARIFICATION_REQUIRED": "EXCEPTION",
+      "ESCALATE": "ESCALATION",
+      "CUSTOMER_DECLINED": "EXCEPTION",
+      "UNABLE_TO_VERIFY": "EXCEPTION",
+      "REVIEW_REQUIRED": "REVIEW_HALT"
+    }
+  },
+  "library": {
+    "option_sets": [
+      {
+        "code": "OS-YES-NO",
+        "version": 1,
+        "options": [
+          {
+            "code": "YES",
+            "business_label": "Yes",
+            "order": 1
+          },
+          {
+            "code": "NO",
+            "business_label": "No",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "code": "OS-HELP",
+        "version": 1,
+        "options": [
+          {
+            "code": "FINE",
+            "business_label": "No, everything is fine",
+            "order": 1
+          },
+          {
+            "code": "SENIOR",
+            "business_label": "Yes, I would like someone senior to call me",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "code": "OS-TOPICS",
+        "version": 1,
+        "options": [
+          {
+            "code": "PREMIUM",
+            "business_label": "Premium",
+            "order": 1
+          },
+          {
+            "code": "BENEFITS",
+            "business_label": "Benefits",
+            "order": 2
+          },
+          {
+            "code": "DISPUTE",
+            "business_label": "I dispute this sale",
+            "order": 3
+          },
+          {
+            "code": "UPSET",
+            "business_label": "I am unhappy with the service",
+            "order": 4,
+            "interrupt": "OPTIONAL"
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "code": "Q-HELP",
+        "version": 1,
+        "answer_type": "SINGLE_SELECT",
+        "intent": "Customer asks for a senior call",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-HELP",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-TOPICS",
+        "version": 1,
+        "answer_type": "MULTI_SELECT",
+        "intent": "Topics the customer raises",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-TOPICS",
+          "version": 1
+        },
+        "selection": {
+          "min": 1,
+          "max": 4
+        }
+      },
+      {
+        "code": "Q-RAISE",
+        "version": 1,
+        "answer_type": "MULTI_SELECT",
+        "intent": "What the customer raises",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-TOPICS",
+          "version": 1
+        },
+        "selection": {
+          "min": 1,
+          "max": 4
+        }
+      },
+      {
+        "code": "Q-PREMIUM-CLEAR",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Premium is clear",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      },
+      {
+        "code": "Q-CLOSING-ACK",
+        "version": 1,
+        "answer_type": "YES_NO",
+        "intent": "Customer acknowledges the closing statement",
+        "mandatory": true,
+        "option_set": {
+          "code": "OS-YES-NO",
+          "version": 1
+        }
+      }
+    ],
+    "wordings": [
+      {
+        "question": "Q-HELP",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "SINGLE_SELECT",
+          "option_codes": [
+            "FINE",
+            "SENIOR"
+          ]
+        },
+        "text": "Would you like someone senior to call you?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "FINE": "No, everything is fine",
+          "SENIOR": "Yes, I would like someone senior to call me"
+        }
+      },
+      {
+        "question": "Q-TOPICS",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "MULTI_SELECT",
+          "option_codes": [
+            "PREMIUM",
+            "BENEFITS",
+            "DISPUTE",
+            "UPSET"
+          ]
+        },
+        "text": "Which topics would you like to go through?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "PREMIUM": "Premium",
+          "BENEFITS": "Benefits",
+          "DISPUTE": "I dispute this sale",
+          "UPSET": "I am unhappy with the service"
+        }
+      },
+      {
+        "question": "Q-RAISE",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "MULTI_SELECT",
+          "option_codes": [
+            "PREMIUM",
+            "BENEFITS",
+            "DISPUTE",
+            "UPSET"
+          ]
+        },
+        "text": "Is there anything you would like to raise?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "PREMIUM": "Premium",
+          "BENEFITS": "Benefits",
+          "DISPUTE": "I dispute this sale",
+          "UPSET": "I am unhappy with the service"
+        }
+      },
+      {
+        "question": "Q-PREMIUM-CLEAR",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Is the premium clear to you now?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      {
+        "question": "Q-CLOSING-ACK",
+        "wording_version": 1,
+        "language": "en",
+        "binds_to": {
+          "answer_type": "YES_NO",
+          "option_codes": [
+            "YES",
+            "NO"
+          ]
+        },
+        "text": "Do you acknowledge that this call has been completed?",
+        "delivery_mode": "CONVERSATIONAL",
+        "approval": "SYNTHETIC_UNAPPROVED",
+        "option_texts": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      }
+    ],
+    "conditions": [],
+    "modules": [
+      {
+        "code": "M-HELP",
+        "revision": 1,
+        "name": "Help",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "ESCALATE"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-HELP",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "PER_CHOICE",
+              "normal_answer": "FINE"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "FINE",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          },
+          {
+            "edge": "e2",
+            "from": "n1",
+            "on": "SENIOR",
+            "to": {
+              "outcome": "ESCALATE"
+            }
+          }
+        ]
+      },
+      {
+        "code": "M-TOPICS",
+        "revision": 1,
+        "name": "Topics",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "ESCALATE"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-TOPICS",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ORDERED_RULES",
+              "rules": [
+                {
+                  "rule": "r1",
+                  "when": {
+                    "kind": "ANY",
+                    "options": [
+                      "DISPUTE"
+                    ]
+                  },
+                  "to": {
+                    "outcome": "ESCALATE"
+                  }
+                }
+              ],
+              "fallback": {
+                "outcome": "COMPLETED"
+              }
+            }
+          }
+        ],
+        "edges": []
+      },
+      {
+        "code": "M-RAISE",
+        "revision": 1,
+        "name": "Raise",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED",
+          "ESCALATE"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-RAISE",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "SEQUENTIAL_FOLLOWUPS",
+              "followups": [
+                {
+                  "option": "PREMIUM",
+                  "nodes": [
+                    "n2"
+                  ]
+                }
+              ],
+              "no_followup": [
+                "BENEFITS",
+                "DISPUTE"
+              ],
+              "interrupts": [
+                {
+                  "option": "UPSET",
+                  "policy": "STOP_ESCALATE",
+                  "outcome": "ESCALATE"
+                }
+              ],
+              "rejoin": {
+                "outcome": "COMPLETED"
+              }
+            }
+          },
+          {
+            "node": "n2",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-PREMIUM-CLEAR",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            },
+            "role": "FOLLOWUP"
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n2",
+            "on": "ANY",
+            "to": {
+              "return": true
+            }
+          }
+        ]
+      },
+      {
+        "code": "M-CLOSING",
+        "revision": 1,
+        "name": "Closing",
+        "kind": "COMMON",
+        "entry": "n1",
+        "outcomes": [
+          "COMPLETED"
+        ],
+        "nodes": [
+          {
+            "node": "n1",
+            "type": "QUESTION",
+            "question": {
+              "code": "Q-CLOSING-ACK",
+              "version": 1,
+              "wording_version": 1
+            },
+            "routing": {
+              "mode": "ALL_TO_NEXT"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "edge": "e1",
+            "from": "n1",
+            "on": "ANY",
+            "to": {
+              "outcome": "COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "survey": {
+    "code": "S-ESCALATE-IS-TERMINAL",
+    "version_label": "1.0",
+    "language": "en",
+    "sequence": [
+      "mi-help",
+      "mi-topics",
+      "mi-raise",
+      "mi-closing"
+    ],
+    "instances": [
+      {
+        "instance": "mi-help",
+        "module": {
+          "code": "M-HELP",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "ESCALATE",
+            "to": "@CONTINUE"
+          }
+        ]
+      },
+      {
+        "instance": "mi-topics",
+        "module": {
+          "code": "M-TOPICS",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "ESCALATE",
+            "to": {
+              "instance": "mi-closing"
+            }
+          }
+        ]
+      },
+      {
+        "instance": "mi-raise",
+        "module": {
+          "code": "M-RAISE",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          },
+          {
+            "on": "ESCALATE",
+            "to": {
+              "survey_outcome": "COMPLETED"
+            }
+          }
+        ]
+      },
+      {
+        "instance": "mi-closing",
+        "module": {
+          "code": "M-CLOSING",
+          "revision": 1
+        },
+        "entry": {
+          "mode": "ALWAYS"
+        },
+        "routes": [
+          {
+            "on": "COMPLETED",
+            "to": "@CONTINUE"
+          }
+        ]
+      }
+    ],
+    "end": {
+      "survey_outcome": "COMPLETED"
+    }
+  },
+  "expected_runs": [
+    {
+      "name": "Single choice, ordinary route to Escalate: the call ends with Escalate although the survey says 'continue'",
+      "answers": {
+        "mi-help/n1": {
+          "choice": "SENIOR"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-help/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-help",
+            "status": "ACTIVATED",
+            "outcome": "ESCALATE"
+          },
+          {
+            "instance": "mi-topics",
+            "status": "NOT_REACHED"
+          },
+          {
+            "instance": "mi-raise",
+            "status": "NOT_REACHED"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "NOT_REACHED"
+          }
+        ],
+        "terminal": {
+          "state": "ENDED_WITH_OUTCOME",
+          "survey_outcome": "ESCALATE"
+        },
+        "trace": [],
+        "evidence_states": {
+          "mi-help/n1": "ANSWERED"
+        }
+      }
+    },
+    {
+      "name": "First-matching rule to Escalate: the call ends with Escalate although the survey jumps on to a later module",
+      "answers": {
+        "mi-help/n1": {
+          "choice": "FINE"
+        },
+        "mi-topics/n1": {
+          "choices": [
+            "PREMIUM",
+            "DISPUTE"
+          ]
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-help/n1",
+          "mi-topics/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-help",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-topics",
+            "status": "ACTIVATED",
+            "outcome": "ESCALATE"
+          },
+          {
+            "instance": "mi-raise",
+            "status": "NOT_REACHED"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "NOT_REACHED"
+          }
+        ],
+        "terminal": {
+          "state": "ENDED_WITH_OUTCOME",
+          "survey_outcome": "ESCALATE"
+        },
+        "trace": [
+          "mi-topics/n1: RULE r1"
+        ],
+        "evidence_states": {
+          "mi-help/n1": "ANSWERED",
+          "mi-topics/n1": "ANSWERED"
+        }
+      }
+    },
+    {
+      "name": "Optional interruption set to escalate: the call ends with Escalate although the survey would end it as Completed",
+      "answers": {
+        "mi-help/n1": {
+          "choice": "FINE"
+        },
+        "mi-topics/n1": {
+          "choices": [
+            "BENEFITS"
+          ]
+        },
+        "mi-raise/n1": {
+          "choices": [
+            "PREMIUM",
+            "UPSET"
+          ]
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-help/n1",
+          "mi-topics/n1",
+          "mi-raise/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-help",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-topics",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-raise",
+            "status": "ACTIVATED",
+            "outcome": "ESCALATE"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "NOT_REACHED"
+          }
+        ],
+        "terminal": {
+          "state": "ENDED_WITH_OUTCOME",
+          "survey_outcome": "ESCALATE"
+        },
+        "trace": [
+          "mi-topics/n1: FALLBACK",
+          "mi-raise/n1: INTERRUPT UPSET -> ESCALATE; skipped ['n2']"
+        ],
+        "evidence_states": {
+          "mi-help/n1": "ANSWERED",
+          "mi-topics/n1": "ANSWERED",
+          "mi-raise/n1": "ANSWERED",
+          "mi-raise/n2": "SKIPPED"
+        }
+      }
+    },
+    {
+      "name": "No escalation anywhere: every module completes and the call completes",
+      "answers": {
+        "mi-help/n1": {
+          "choice": "FINE"
+        },
+        "mi-topics/n1": {
+          "choices": [
+            "BENEFITS"
+          ]
+        },
+        "mi-raise/n1": {
+          "choices": [
+            "PREMIUM"
+          ]
+        },
+        "mi-raise/n2": {
+          "choice": "YES"
+        },
+        "mi-closing/n1": {
+          "choice": "YES"
+        }
+      },
+      "expect": {
+        "asked": [
+          "mi-help/n1",
+          "mi-topics/n1",
+          "mi-raise/n1",
+          "mi-raise/n2",
+          "mi-closing/n1"
+        ],
+        "modules": [
+          {
+            "instance": "mi-help",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-topics",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-raise",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          },
+          {
+            "instance": "mi-closing",
+            "status": "ACTIVATED",
+            "outcome": "COMPLETED"
+          }
+        ],
+        "terminal": {
+          "state": "COMPLETED",
+          "survey_outcome": "COMPLETED"
+        },
+        "trace": [
+          "mi-topics/n1: FALLBACK",
+          "mi-raise/n1: QUEUE ['n2']"
+        ],
+        "evidence_states": {
+          "mi-help/n1": "ANSWERED",
+          "mi-topics/n1": "ANSWERED",
+          "mi-raise/n1": "ANSWERED",
+          "mi-raise/n2": "ANSWERED",
+          "mi-closing/n1": "ANSWERED"
+        }
+      }
+    }
+  ],
+  "validation": {
+    "errors": [
+      {
+        "code": "ESCALATION_NOT_TERMINAL",
+        "at": "mi-help:ESCALATE"
+      },
+      {
+        "code": "ESCALATION_NOT_TERMINAL",
+        "at": "mi-topics:ESCALATE"
+      },
+      {
+        "code": "ESCALATION_NOT_TERMINAL",
+        "at": "mi-raise:ESCALATE"
+      }
+    ]
+  }
+}

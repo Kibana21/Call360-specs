@@ -1,0 +1,32 @@
+== SS-02C checks, 2026-11-21 17:58 ==
+-- tsc --noEmit: 0 errors
+-- eslint .: 0 problems
+-- vitest run (all)
+ Test Files  29 passed (29)
+      Tests  305 passed (305)
+-- vitest run src/features/surveystudio
+ Test Files  5 passed (5)
+      Tests  186 passed (186)
+-- fixtures in the simulator: /1 lines 27, /2 lines 20, /3 lines 25, failures 0
+ALL OK: 8 fixtures, 25 expected runs
+ALL OK: 6 fixtures (schema /2), 18 expected runs, 2 rejected answers
+ALL OK: 4 fixtures (schema /3), 16 expected runs
+F1-F8, G1-G6, H1-H4 on disk identical to fresh regeneration: yes
+git changes to historical fixtures and their interpreters (empty = none): 0 ; G fixtures / v2 interpreter modified since SS-02B.3.1: compare by regeneration above
+-- api:check
+api:check OK (openapi 221985e73f2e789ab33e7f29018866509e2e0f0dc4aa7e0b56e13dc67d5af221)
+-- npm audit
+found 0 vulnerabilities
+-- dependencies added: 0 files changed
+gitleaks src/features/surveystudio: 5:58PM INF no leaks found
+gitleaks src/styles: 5:58PM INF no leaks found
+gitleaks e2e/prototype: 5:59PM INF no leaks found
+-- nine S2-A.2 files changed since the owner's commit: 0
+-- voice files touched: 0
+-- prototype flag default:  mentions in .env.example; flag.ts: === '1'
+-- staged: 0 HEAD b064253
+-- backend: changed 0 HEAD 7228875
+-- prototype journeys (final run, after the shared question was added to the demonstration survey):  10 passed (3.7m)
+-- standard Playwright (prototype off, final run):  33 passed (5.8m)
+-- final unit run: Tests  305 passed (305)
+-- final tsc errors: 0  eslint problems: 0

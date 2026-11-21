@@ -1,0 +1,40 @@
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > covers all eight fixtures: 25 expected runs and 7 rejected answers 1ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F1-simple-linear-survey · Every answer continues to the next question 2ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F2-yes-no-branch-shared-rejoin · Yes path goes straight to the shared question 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F2-yes-no-branch-shared-rejoin · No path detours through clarification and rejoins the same node (asked once) 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F3-single-choice-per-option-routes · BENEFITS takes its own route, then merges 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F3-single-choice-per-option-routes · NONE goes directly to the merge point 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F4-multi-select-ordered-followups · BENEFITS then PREMIUM ticked: follow-ups run in configured order, not click order 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F4-multi-select-ordered-followups · BENEFITS and CLAIMS share one follow-up: asked once 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F4-multi-select-ordered-followups · CRITICAL_RISK interrupts: queue is not run, skipped items are traced 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F4-multi-select-ordered-followups · NONE: empty queue takes the mandatory fallback; invalid sets are rejected 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F5-other-specify-with-validation · OTHER with valid text: code and text stored, Other-specific route taken 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F5-other-specify-with-validation · SAVINGS: default route; no phantom Other text may be submitted 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F6-internal-condition-with-unknown · Age 65, premium 15,000: TRUE AND (TRUE OR FALSE) = MATCH 9ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F6-internal-condition-with-unknown · Premium exactly 12,000 with '>': FALSE, not an accidental '>=' 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F6-internal-condition-with-unknown · Age 45, premium missing: FALSE AND UNKNOWN = FALSE (a known FALSE decides) 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F6-internal-condition-with-unknown · Age 65, premium missing, risks understood: TRUE AND (UNKNOWN OR FALSE) = UNKNOWN 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F6-internal-condition-with-unknown · Age 65, premium missing, risks NOT understood: TRUE AND (UNKNOWN OR TRUE) = MATCH 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F6-internal-condition-with-unknown · Age missing, premium 15,000: UNKNOWN AND TRUE = UNKNOWN (never treated as false) 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F7-two-placements-one-question-definition · The same Question Definition is answered twice, once per placement, with different routing 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F8-survey-with-conditional-lego-modules · Term life, low premium: only General and Closing run 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F8-survey-with-conditional-lego-modules · ILP, high premium, replacement: every conditional module runs 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F8-survey-with-conditional-lego-modules · Low premium but sum assured 600,000: either side of the OR activates High value 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F8-survey-with-conditional-lego-modules · ILP customer does not understand the risk: Suitability emits CLARIFICATION_REQUIRED, which activates Escalation 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F8-survey-with-conditional-lego-modules · Premium missing and sum assured low: UNKNOWN blocks; it is never read as 'not high value' 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F8-survey-with-conditional-lego-modules · Premium missing but sum assured 600,000: UNKNOWN OR TRUE = TRUE; replacement flag missing is skipped with a reason 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the SS-01 canonical fixtures, run through the simulator > F8-survey-with-conditional-lego-modules · Identity not confirmed: General ends the survey; later modules are not reached 0ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > is a complete draft: nothing to fix, so no journey is blocked by the draft itself 4ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > normal policyholder: only the modules that apply run; the call is completed 3ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > conditional modules activate for the customers they are meant for 14ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > missing data: UNKNOWN is never read as "no" — a known value may still decide, a skip records its reason, a decision takes its Unknown route 3ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > multi-select follow-ups: asked in configured order, deduplicated, with what was not asked 3ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > mandatory escalation overrides everything else selected and ends the call with ESCALATE 3ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > review required halts automated progression: pending review, not completed, nothing after it runs 3ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > keeps apart: answered, answered with nothing selected, left unanswered, and skipped on this path 5ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > never bypasses an incomplete draft: a missing destination stops the run and says where 3ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > step and back are exact: a run is a pure function of the model, the profile and the answers so far 4ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > comparing two customers: the first divergence is the entry decision that differs 3ms
+ ✓ src/features/surveystudio/model/sim.test.ts > the demonstration survey > the same journey whether the survey was edited in Guided or in Graph 3ms
+ Test Files  1 passed (1)
+      Tests  38 passed (38)

@@ -70,11 +70,60 @@ Evidence: `docs/acceptance/evidence/SS-02B.1/`. Frontend prototype only; no new 
 Evidence: `docs/acceptance/evidence/SS-02B.2/`. Contract amendments: `04` §3.4 and §5.4; decisions: `06` (D-125…D-131).
 New pinned dependencies: `@xyflow/react` 12.12.1, `@dagrejs/dagre` 3.1.3.
 
-## SS-02B.3 — proposed, **not authorised**
+## SS-02B.2.1 — Graph connection editing (ACCEPTED by the owner 2026-11-21 as technically verified)
 
 | Document | Contents |
 |---|---|
-| `09_SS-02A_REFINEMENTS_AND_SS-02B_PLAN.md` | Part 1: the SS-02A.1 proposal (now implemented, with the owner's changes — see `10`) · Part 2: SS-02B plan — internal condition builder, graph editor, simulator, Guided ↔ Graph parity, first-matching-rule routing, parameterised conditions; how identities, branches and undo/redo are preserved; dependency checks · risks · four questions |
+| `14_SS-02B.2.1_CONNECTION_EDITING_REPORT.md` | Select, disconnect and redraw connections · incomplete routes shown and validated · governed restrictions and structure lines · one model · keyboard path · the eleven demonstrations · parity fingerprints · checks · gaps |
+
+Evidence is in the SS-02B.2 folder (`screens/CE*`, `connection_parity_fingerprints.txt`). No new dependency.
+
+## SS-02B.3 — Journey Simulator (ACCEPTED by the owner 2026-11-21 as technically verified; UI direction accepted as the prototype baseline)
+
+| Document | Contents |
+|---|---|
+| `15_SS-02B.3_JOURNEY_SIMULATOR_REPORT.md` | Decisions D-132…D-134 · the simulator screen, engine and explanations · eight synthetic customers and a demonstration survey · golden fixture verification (8 fixtures, 25 runs, 7 rejected answers, all matching) · Guided / Graph journey equivalence · demonstrations and screenshots · checks · gaps |
+
+Evidence: `docs/acceptance/evidence/SS-02B.3/` (`fixture_verification.txt`, `screens/SJ*`). Contract amendments: `04` §5.4
+(d), (d-1), (g), (h); decisions: `06` (D-132…D-134). No new dependency.
+
+SS-02B.2 was accepted by the owner on 2026-11-21 as implemented and technically verified.
+
+## SS-02B.3.1 — Business-rule correctness (ACCEPTED by the owner 2026-11-21 as technically verified)
+
+| Document | Contents |
+|---|---|
+| `16_SS-02B.3.1_BUSINESS_RULE_CORRECTNESS_REPORT.md` | D-135 a jump selects a candidate and never bypasses eligibility; the skip disposition · D-136 six terminal states and the explicit, versioned fixture migration · six new golden fixtures (schema /2) checked by an independent reference and reproduced by the simulator · D-137 the no-answer requirement, recorded not built · verification · points for approval · gaps |
+
+Evidence: `docs/acceptance/evidence/SS-02B.3.1/` (`fixture_verification.txt`, `focused_traces.txt`, `screens/BR*`).
+Contract amendments: `04` §2.2a, §2.2b, §5.5; decisions: `06` (D-135…D-137). Fixtures: `fixtures/G1…G6`,
+`reference_interpreter_v2.py`; F1–F8 unchanged. No new dependency.
+
+## SS-02C — Final prototype checkpoint (functional delivery and visual direction ACCEPTED by the owner 2026-11-21 as the baseline)
+
+| Document | Contents |
+|---|---|
+| `18_SS-02C_FINAL_PROTOTYPE_REPORT.md` | Part A rulings A-1…A-5 as built · Part B validation workspace · Part C revision comparison · Part D simulated maker-checker and publishing · Part E one journey, the nine screens and ten stories mapped · Part F evidence · **prototype acceptance checklist against the UX excellence requirements** · points for decision · gaps · walkthrough |
+| `17_SS-02C_NO_ANSWER_CONTRACT.md` | Decision-ready contract for unanswered questions: 17 decisions with approvers, named parameters with no values. **Proposed, not approved, nothing built** |
+
+Evidence: `docs/acceptance/evidence/SS-02C/` (`checks.txt`, `fixture_and_rule_verification.txt`, `prototype_journeys.txt`,
+`playwright_standard.txt`, `screens/W01–W05, GV01–GV13, BR1–BR6`). Contract: `04` §2.2c; decisions: `06` (D-138…D-142,
+P-6…P-12). Fixtures: `fixtures/H1…H4` (schema /3), `reference_interpreter_v3.py`; F1–F8 and G1–G6 unchanged.
+No new dependency. All approvals and publications in the prototype are simulated.
+
+## SS-02 — Final prototype closure (six corrections IMPLEMENTED AND TECHNICALLY VERIFIED 2026-11-21, presented for the owner's closure decision)
+
+| Document | Contents |
+|---|---|
+| **`19_SS-02_FINAL_PROTOTYPE_CLOSURE.md`** | **The single closure document. Status: TECHNICALLY ACCEPTED — PROTOTYPE (D-149); SS-02 closed for feature development.** Future gates G-1…G-8 (§8) · proposed architecture direction, recorded only (§9) · The six corrections (D-143…D-148) · what is complete · what requires business-user testing · what is deferred to the backend · which decisions block operational implementation · final evidence and the corrected interactions |
+
+Evidence: `docs/acceptance/evidence/SS-02-closure/` (`checks.txt`, `fixture_rule_and_parity_verification.txt`,
+`prototype_journeys.txt`, `playwright_standard.txt`, `screens/CL01–CL07` and the re-captured walkthrough). Contract:
+`04` §2.2d; fixture `fixtures/J1` (schema /4), `reference_interpreter_v4.py`. `17_…` now marks every decision
+UNRESOLVED and says what each blocks. No new dependency.
+
+## SS-03 and later — **not authorised**
+
 
 SS-00 and SS-01 are documentation only; SS-02A is frontend only. No backend code, database schema, migration or API
 contract was changed in any of them; the master BRD and the requirements register are untouched. Every later phase
