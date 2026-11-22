@@ -1,0 +1,6 @@
+OpenAPI contracts/generated/openapi.json
+SHA-256 be340238b2b21bee61eebbbebae5e1e7b283329fa38197f758e3e896c236ea4f
+275 operations (271 + 4), 521 schemas (512 + 9)
+Additive: POST/GET /api/v1/survey-modules, GET /api/v1/survey-modules/{module_id}, POST /api/v1/survey-module-tests;
+fields origin and artifact_kind on library components. No existing operation or schema removed or renamed.
+export_openapi.py --check: matches. Frontend api:check: OK.

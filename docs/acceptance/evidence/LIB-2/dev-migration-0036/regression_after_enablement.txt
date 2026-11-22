@@ -1,0 +1,8 @@
+Regressions run after the development enablement of 0036 (2026-11-22/23). No application code changed between
+the full LIB-2 regression (backend 1,020; vitest 630; Playwright 31 / 13 / 33) and this run; the tests use the
+isolated schema call360_test, never development.
+
+Backend — survey (all files, incl. the 82 golden runs and 14 golden plans), script authoring, script assignment,
+assignment rules, finding engine, review workbench: 542 passed, 0 failed
+Frontend unit tests: 630 passed
+Playwright persisted (real browser, real backend): 31 passed

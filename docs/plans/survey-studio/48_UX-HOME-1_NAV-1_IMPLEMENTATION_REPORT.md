@@ -1,6 +1,7 @@
 # UX-HOME-1 + NAV-1 — Survey Studio workspace and consolidated navigation: implementation report
 
-**Status: BUILT AND TECHNICALLY VERIFIED 2026-11-22, awaiting the owner's review. Not accepted.**
+**Status: ACCEPTED by the owner as TECHNICALLY VERIFIED on 2026-11-22 (D-330) — "This is not final business-user UX
+or screen-reader acceptance." Decisions reconciled in D-331; five follow-up UX issues closed in D-332 (`50_…` §2).**
 **Synthetic data only.** No survey execution, assignment, evaluation, finding or review semantics were changed; no
 published content, revision, fingerprint or golden expectation was touched; no migration was added. Technical
 verification is not a business UX sign-off or a screen-reader sign-off.

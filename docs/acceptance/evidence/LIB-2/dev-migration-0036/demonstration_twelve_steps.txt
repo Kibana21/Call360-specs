@@ -1,0 +1,14 @@
+ 1. created standalone module M-100007 from the homepage; the list of surveys is unchanged (5)
+ 2. added five questions (yes/no, single choice, multiple choice), per-answer routes and a condition on the annual premium; routing complete
+ 3. saved and reopened: draft revision 1, 17 documents, module DRAFT
+ 4. tested by the engine (call360.survey.execution/1): invalid response refused CHOICE_REQUIRED; Cash and Giro take different branches; missing premium ends "unable to verify"; premium 20,000 ends "completed"; replay identical
+ 5. submitted for review by dev.survey.author
+ 6. approved by dev.survey.checker (a different identity)
+ 7. published by dev.survey.publisher (a third identity). History: Submitted for review by Dev Survey Author · 22 Nov 2026, 11:58 pm Approved by Dev Survey Checker · 22 Nov 2026, 11:58 pm Published by Dev Survey Publisher · 22 Nov 2026, 11:58 pm
+ 8. found in the library and the gallery: revision 1, fingerprint 05bb1075b202a69e…, origin MODULE, used by 0 surveys
+ 9. reused in two surveys, each published by three people: S-DEV-LIB2-ONE, S-DEV-LIB2-TWO
+10. both pin M-100007 revision 1 with fingerprint 05bb1075b202a69e… in their manifests; the library now reports used by 2 surveys
+11. revision 2 drafted from the published one and published by three people: revision 1 SUPERSEDED, revision 2 PUBLISHED
+12. both consumer versions have the same content and manifest fingerprints as when published and still pin revision 1; the survey is told a newer revision exists and is not changed
+    a module's own publication is not a survey: simulation refused with 404; surveys now listed: S-DEV-LIB2-ONE, S-DEV-LIB2-TWO (the two consumers only)
+MODULE M-100007 3d24131b-ec13-4e38-9fb2-57820dff6b40

@@ -1,0 +1,55 @@
+== BEFORE (server stopped): database identity, revision and inventory
+connection: {'database': 'Call360_db', 'role': 'Call360_db_user', 'schema': 'call360', 'server_addr': '::1/128', 'server_port': 5432, 'pg_version': '15.12', 'read_only': 'on'}
+revision: ['0035_survey_execution_assurance'] | tables: 140 | rows: 15889 | triggers: 134 | functions: 51
+  definitions (id, code, name, purpose, market, created_by): 5 rows, sha256 cc0911ed5e20aa82707342da093a6eeb38f60147c047d9117d2896f17a0ee589
+  drafts (revision, content): 5 rows, sha256 40f0865df289e0f6d395490e57344bcd5cf1e0a485c9c038ace8b6774a33a230
+  asset versions (kind, code, version, state, sha256, content): 21 rows, sha256 79f315e0b245d6c3d962d0acc2453208b930b3549bc0ee0d5927e1e3c343b94e
+  candidates (content and manifest fingerprints): 4 rows, sha256 94229d6df6e22215e5453c12b265ddda35a0e7a3bc12b7e18274babe8bae52ea
+  versions: 3 rows, sha256 1ee1d5e0472b0c3ec06ec67da393767ba316de3e0bc239def2a3332183252643
+  lifecycle events: 15 rows, sha256 8524999c754f78f7389865c92e766cec61d357500096fc17681ce30b0e871fe1
+  issued codes: 6 rows, sha256 ec457887cb9d9da43ab52fa52b73215553c6ffa229df0d89c8012cbc96db3b83
+  asset usage (dependencies): 43 rows, sha256 c5743cab167808541b9929c6e08c202f7f575c85c60496c77a6713c2d0611425
+  wording approvals: 8 rows, sha256 02f0be7f53913d50b6a9f606d8b0f8c29a45585952047e7c84d6c1c036c965ec
+  simulations: 25 rows, sha256 c5c645224178bb2eeed70bfe25eda690757dff50b7f0a0bb38cd8a19e5d4cf78
+  call plans: 19 rows, sha256 1081529de1fdc2a7e631c8821ccc9bcfd64aa27ba9cd151e9032c0121de64a5f
+  assignment bindings: 3 rows, sha256 8f92f7c99e6bd69c02bc3fe1ac24a11e997485f8bc666d4adca108453eec181a
+
+== BACKUP call360_dev_before_0036_20261122.dump
+bytes 2082012 | sha256 a2e1b122de0ba46fbce897bf61a226d635275523749b3d695fc1efd38b6e8035
+archive: 140 tables, 140 data sets, 135 triggers, 51 functions; 15889 rows = 15889 rows in the inventory; row-count mismatches: none
+pg_restore to SQL dry run: exit 0, no error output (not restored into a database)
+
+== UPGRADE 0035 -> 0036 (one revision): every table before and after
+revision: ['0035_survey_execution_assurance'] -> ['0036_survey_module_authoring']
+tables: 140 -> 140 | added: [] | removed: []
+tables whose rows differ: [('alembic_version', 1, 1), ('survey_definition', 5, 5)]
+unchanged tables (row count and content digest identical): 138
+rows: 15889 -> 15889
+triggers added: ['survey_assignment_binding_survey_only@survey_assignment_binding', 'survey_call_plan_survey_only@survey_call_plan', 'survey_definition_kind_guard@survey_definition', 'survey_simulation_survey_only@survey_simulation'] | removed: []
+functions added: ['survey_definition_kind_guard', 'survey_module_not_a_survey'] | removed: []
+permissions added: [] | removed: []
+non-survey columns digest unchanged: True
+revision: 0035_survey_execution_assurance -> 0036_survey_module_authoring | kinds: {'SURVEY': 5}
+  IDENTICAL  definitions (id, code, name, purpose, market, created_by): 5 -> 5 rows
+  IDENTICAL  drafts (revision, content): 5 -> 5 rows
+  IDENTICAL  asset versions (kind, code, version, state, sha256, content): 21 -> 21 rows
+  IDENTICAL  candidates (content and manifest fingerprints): 4 -> 4 rows
+  IDENTICAL  versions: 3 -> 3 rows
+  IDENTICAL  lifecycle events: 15 -> 15 rows
+  IDENTICAL  issued codes: 6 -> 6 rows
+  IDENTICAL  asset usage (dependencies): 43 -> 43 rows
+  IDENTICAL  wording approvals: 8 -> 8 rows
+  IDENTICAL  simulations: 25 -> 25 rows
+  IDENTICAL  call plans: 19 -> 19 rows
+  IDENTICAL  assignment bindings: 3 -> 3 rows
+
+== EMPTY ROUND TRIP 0036 -> 0035 (compared with before the migration)
+revision: ['0035_survey_execution_assurance'] -> ['0035_survey_execution_assurance']
+tables: 140 -> 140 | added: [] | removed: []
+tables whose rows differ: []
+unchanged tables (row count and content digest identical): 140
+== and 0035 -> 0036 again (compared with the first upgrade)
+revision: ['0036_survey_module_authoring'] -> ['0036_survey_module_authoring']
+tables: 140 -> 140 | added: [] | removed: []
+tables whose rows differ: []
+unchanged tables (row count and content digest identical): 140

@@ -1,0 +1,31 @@
+kinds: {'MODULE': 1, 'SURVEY': 7}
+REFUSED      a simulation of a standalone module's publication: a standalone module is not a survey: it cannot be simulated, planned or assigned as one
+REFUSED      a call plan of a standalone module's publication: a standalone module is not a survey: it cannot be simulated, planned or assigned as one
+REFUSED      an assignment binding to a standalone module's publication: a standalone module is not a survey: it cannot be simulated, planned or assigned as one
+REFUSED      turning a standalone module into a survey: the kind of a definition never changes
+REFUSED      turning a survey into a standalone module: the kind of a definition never changes
+REFUSED      a definition of an unknown kind: the kind of a definition never changes
+
+== alembic downgrade 0035_survey_execution_assurance, with a standalone module present
+RuntimeError: standalone modules exist; downgrade would turn them into surveys
+revision afterwards: 0036_survey_module_authoring (head)
+
+== Tables changed between the pre-migration inventory and the end of the demonstration
+tables changed since before the migration: 15
+  survey authoring and library tables (the demonstration): [('survey_asset_usage', 43, 179), ('survey_asset_version', 21, 41), ('survey_candidate', 4, 8), ('survey_definition', 5, 8), ('survey_draft', 5, 8), ('survey_issued_code', 6, 18), ('survey_lifecycle_event', 15, 32), ('survey_version', 3, 7), ('survey_wording_approval', 8, 28)]
+  other tables: [('audit_event', 3392, 3423), ('auth_session', 211, 221), ('login_attempt', 211, 221), ('refresh_token', 285, 295), ('refresh_token_family', 211, 221)]
+unchanged tables: 125 | of which non-survey (operational, script, rules, findings, reviews, voice, intake…): 96
+  'script' tables: 14 | changed: []
+  'question' tables: 5 | changed: []
+  'rule' tables: 8 | changed: []
+  'finding' tables: 5 | changed: []
+  'review' tables: 2 | changed: []
+  'case' tables: 6 | changed: []
+  'attempt' tables: 3 | changed: ['login_attempt']
+  'session' tables: 5 | changed: ['auth_session']
+  'survey_run' tables: 1 | changed: []
+  'recording' tables: 0 | changed: []
+  'transcript' tables: 3 | changed: []
+  'policy' tables: 3 | changed: []
+  'customer' tables: 0 | changed: []
+  'party' tables: 2 | changed: []

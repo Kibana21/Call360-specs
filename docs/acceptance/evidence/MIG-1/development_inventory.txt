@@ -1,0 +1,141 @@
+MIG-1 — read-only inventory of the legacy script content and its operational references in DEVELOPMENT
+Read 2026-11-23 in read-only transactions (default_transaction_read_only=on). Counts and codes only. Synthetic data.
+
+-- script versions: family, label, status, sections, questions, cases pinned, sessions pinned, survey runs
+    ('SALES_VERIFICATION_MY', '1.0', 'PUBLISHED', 4, 13, 54, 22, 22)
+    ('SALES_VERIFICATION_SG', '0.9', 'WITHDRAWN', 4, 12, 0, 0, 0)
+    ('SALES_VERIFICATION_SG', '1.0', 'SUPERSEDED', 4, 12, 25, 15, 15)
+    ('SALES_VERIFICATION_SG', '1.1', 'PUBLISHED', 4, 13, 169, 56, 43)
+    ('SALES_VERIFICATION_SG', '1.2', 'DRAFT', 4, 13, 0, 0, 0)
+    ('SALES_VERIFICATION_SG_PROTECT', '1.0', 'PUBLISHED', 2, 6, 0, 0, 0)
+    ('SALES_VERIFICATION_SG_PROTECT1', '1.0', 'DRAFT', 0, 0, 0, 0, 0)
+    ('SALES_VERIFICATION_SG_PROTECT123', '1.0', 'DRAFT', 0, 0, 0, 0, 0)
+    ('SG_EVALUATION_DEMO', '1.0', 'DRAFT', 6, 11, 0, 0, 0)
+    ('SG_LIFECYCLE_DEMO', '1.0', 'PUBLISHED', 6, 11, 3, 2, 2)
+    ('SG_LIFECYCLE_DEMO', '1.1', 'DRAFT', 6, 11, 0, 0, 0)
+-- question revisions by answer type
+    ('ACKNOWLEDGEMENT', 11)
+    ('ENUM', 2)
+    ('FREE_TEXT', 4)
+    ('NUMERIC', 4)
+    ('YES_NO', 18)
+-- question revisions by delivery mode
+    ('CONTROLLED_TTS', 11)
+    ('CONVERSATIONAL', 28)
+-- question revisions by evaluation method
+    ('ACKNOWLEDGEMENT', 11)
+    ('EXACT_BOOLEAN', 11)
+    ('COLLECT_ONLY', 9)
+    ('NUMERIC_MATCH_POLICY_FACT', 4)
+    ('NARRATIVE_REVIEW', 3)
+    ('ENUM_MATCH_POLICY_FACT', 1)
+-- revisions: mandatory / max_reprompts>0 / evidence_required / acceptable_variants set / unacceptable_outcomes set / not_applicable set / escalation ref set
+    (36, 39, 18, 0, 0, 1, 0)
+-- revision details by lifecycle role / on_failure
+    ('CLOSING_STATEMENT', 'CONTINUE', 2, 0, 2)
+    ('CLOUD_PROCESSING_CONSENT', 'CONTINUE_WITHOUT_CLOUD_PROCESSING', 1, 0, 0)
+    ('CONSENT_TO_PROCEED', 'TERMINATE', 2, 0, 0)
+    ('DISCLOSURE', 'TERMINATE', 2, 0, 0)
+    ('IDENTITY_CHECK', 'TERMINATE', 4, 0, 0)
+    ('OPENING_STATEMENT', 'TERMINATE', 2, 0, 0)
+    ('RECORDING_CONSENT', 'CONTINUE_WITHOUT_RECORDING', 2, 0, 0)
+    ('RECORDING_CONSENT', 'TERMINATE', 1, 0, 0)
+    ('VERIFICATION', 'CONTINUE', 7, 1, 0)
+-- sections with an inclusion condition / module questions with a branch condition
+    (16, 40, 0, 46)
+-- modules by kind and status
+    ('CLOSING', 'DRAFT', 1)
+    ('CLOSING', 'PUBLISHED', 1)
+    ('COMMON', 'DRAFT', 1)
+    ('COMMON', 'PUBLISHED', 3)
+    ('COMMON', 'SUPERSEDED', 1)
+    ('CONSENT', 'DRAFT', 2)
+    ('CONSENT', 'PUBLISHED', 1)
+    ('DISCLOSURE', 'DRAFT', 1)
+    ('DISCLOSURE', 'PUBLISHED', 1)
+    ('IDENTITY', 'DRAFT', 1)
+    ('IDENTITY', 'PUBLISHED', 1)
+    ('OPENING', 'DRAFT', 1)
+    ('OPENING', 'PUBLISHED', 1)
+    ('PRODUCT', 'PUBLISHED', 2)
+    ('RISK', 'PUBLISHED', 1)
+-- assignment rule versions: code, version, status, target, survey bindings
+    ('MY-SALES-VERIFY', 1, 'PUBLISHED', 'SALES_VERIFICATION_MY 1.0', 0)
+    ('S2C-DEMO-LEGACY-CONFLICT', 1, 'WITHDRAWN', 'SALES_VERIFICATION_SG_PROTECT 1.0', 0)
+    ('S2D1-LIFECYCLE-DEMO', 1, 'PUBLISHED', 'SG_LIFECYCLE_DEMO 1.0', 0)
+    ('SG-ILP-HIGH-RISK', 1, 'SUPERSEDED', 'SALES_VERIFICATION_SG 1.1', 0)
+    ('SG-ILP-HIGH-RISK', 2, 'PUBLISHED', 'SALES_VERIFICATION_SG 1.1', 2)
+    ('SG-PILOT', 1, 'WITHDRAWN', 'SALES_VERIFICATION_SG 0.9', 0)
+    ('SG-SALES-VERIFY', 1, 'SUPERSEDED', 'SALES_VERIFICATION_SG 1.0', 0)
+    ('SG-SALES-VERIFY', 2, 'PUBLISHED', 'SALES_VERIFICATION_SG 1.1', 1)
+-- script assignments by origin
+    ('ENGINE', 6)
+    ('SEED', 245)
+-- finding rule sets
+    ('SG', 1, 'PUBLISHED', 6)
+-- findings by whether tied to a question execution
+    (True, 26)
+-- question executions / distinct revisions referenced / review decisions tied to an execution
+    (555, 24, 1, 5)
+-- audit events by legacy family
+    ('SURVEY', 228)
+    ('SCRIPT', 55)
+    ('SIMULATION', 35)
+    ('RULE', 21)
+    ('FINDING_RULES', 10)
+    ('REVIEW', 6)
+-- simulation scenarios by status
+    ('ACTIVE', 4)
+
+-- legacy and shared tables with row counts (survey authoring tables excluded)
+   answer_observation: 555
+   assignment_rule_change_event: 19
+   assignment_rule_draft: 4
+   assignment_rule_publication: 3
+   callback_case: 258
+   case_contact_selection: 372
+   case_event: 1690
+   case_hold: 22
+   contact_attempt: 415
+   control: 5
+   control_mapping: 12
+   conversation_session: 95
+   finding: 26
+   finding_rule_set_event: 10
+   finding_rule_set_version: 1
+   lab_control: 1
+   lab_test_case: 4
+   lab_test_case_revision: 5
+   lab_transcript: 19
+   module_question: 46
+   question_bank_item: 38
+   question_execution: 555
+   question_revision: 39
+   question_revision_detail: 23
+   regulatory_reference: 2
+   review_approval: 1
+   review_decision: 5
+   risk_rule_set_version: 2
+   rule_evaluation: 421
+   script_assignment: 251
+   script_assignment_attempt: 7
+   script_assignment_rule_version: 8
+   script_change_event: 58
+   script_family: 7
+   script_module: 19
+   script_section: 40
+   script_simulation_event: 341
+   script_simulation_run: 10
+   script_version: 11
+   script_version_control_link: 11
+   simulation_answer_evaluation: 5
+   simulation_batch: 3
+   simulation_content_snapshot: 3
+   simulation_finding: 4
+   simulation_finding_set: 3
+   simulation_result: 10
+   simulation_scenario: 4
+   simulation_scenario_revision: 5
+   survey_run: 82
+   transcript_run: 18
+   transcript_segment: 47

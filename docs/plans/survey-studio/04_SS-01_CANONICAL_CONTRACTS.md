@@ -2320,3 +2320,93 @@ Nothing here is estimated, scored or ranked by anything but those counts and tim
 | `surveys[]` on the workspace read | every survey of the reader's markets with what its **current draft** holds: `modules`, `questions`, `statements`, `decisions`, `conditional_entries`, `branching`, `draft_revision`, `saved_at`, `published_at`, `latest_version_label`. Counted from the draft's own documents; nothing is executed |
 | `facts.branching` on a `MODULE` in the component library (§13) | true when the module's own document has a decision, a step whose links lead to more than one destination, or rule-ordered, follow-up or interrupting routing. Read from the document; nothing is executed |
 
+## 22. Amendment of 2026-11-22 (LIB-2): a module authored on its own
+
+Authorised by the owner on 2026-11-22 (D-333). Design: `49_LIB-2_ASSESSMENT_AND_ARCHITECTURE.md`. Report:
+`50_LIB-2_IMPLEMENTATION_REPORT.md`. **No document format changes**: a standalone module is the module document of
+§5, its dependencies the documents of §1–§4, its draft the content document of §8.
+
+### 22.1 The kind of a definition — migration `0036_survey_module_authoring` (one additive column)
+
+`survey_definition.artifact_kind` is `SURVEY` (the default; every definition before LIB-2) or `MODULE`. It never
+changes. A `MODULE` definition is the authoring and publication record of one reusable module; its `code` is the
+module's code, issued by the server.
+
+A `MODULE` definition is never a survey. It is absent from the list of surveys and from the workspace's counts;
+no published version of it can be simulated, given a call plan, bound to an assignment rule, coordinated or
+evaluated. The application refuses by not finding it (404); the database refuses a `survey_simulation`,
+`survey_call_plan` or `survey_assignment_binding` row that names one.
+
+### 22.2 The frame
+
+The content of a `MODULE` definition's draft is **exactly**:
+
+```json
+{"schema": "call360.survey.content/1", "code": "<module code>",
+ "sequence": [{"instance": "<name>", "module": {"code": "<module code>", "revision": <n>},
+               "routes": {"<outcome>": {"survey_outcome": "<outcome>"}, "…": "…"}}]}
+```
+
+one placement, of a revision of the definition's own module that the definition owns, with one route per declared
+outcome of that revision, each ending the run as that outcome. No eligibility, activation or skip disposition. Any
+other content is refused at save and at submission with `422 MODULE_FRAME_INVALID`. The definition's name and purpose
+are taken from the module document (`name`, `authoring.intent`) on every save.
+
+### 22.3 Operations (registered only with `survey_module_authoring_enabled` and the library)
+
+| Operation | Permission | Meaning |
+|---|---|---|
+| `POST /api/v1/survey-modules` | `survey.edit` | create a standalone module: its issued code, an empty revision 1 and the frame. No survey is created |
+| `GET /api/v1/survey-modules` | `survey.read` | the standalone modules of the reader's markets, drafts included |
+| `GET /api/v1/survey-modules/{module_id}` | `survey.read` | one; a survey's id is not found here |
+| `POST /api/v1/survey-module-tests` | `survey.simulate` (and `survey.read`) | run one module with the Python engine; nothing is recorded |
+
+Everything else — draft documents, save, code issuing, validation, submission, candidate read and documents,
+decision, withdrawal, publication, version read, history — is the existing operation of §9–§12, addressed by the
+module's id. `GET /survey-versions/{id}` and its content read return a module's publication record too; nothing that
+executes, plans, assigns or evaluates does.
+
+`SurveyModuleOut`: `id`, `code`, `name`, `description`, `market_code`, `draft_revision` (the save counter),
+`saved_at`, `saved_by_you`, `working_revision`, `working_state` (`DRAFT` | `FROZEN`), `unpublished_changes`, `facts`
+(as on a library module), `open_candidate` (`id`, `n`, `status`, `revision`, `submitted_at`, `submitted_by_you`,
+`your_action` `DECIDE` | `PUBLISH` | null — the identity rule AND the reader's permission, `waiting_for`
+`A_REVIEWER` | `A_PUBLISHER`), `published[]` (`revision`, `version_id`, `version_label`, `status`, `published_at`),
+`latest_published_revision`.
+
+### 22.4 The module test
+
+Request: `module_id` (a standalone module — its working draft, or `revision` of it) **or** `code` and `revision` of a
+module published in the reader's markets; `facts` (catalog fields, as for a simulation); `inputs` — an ordered list
+of `{key, answer}`, at most 200.
+
+The engine is given the frame of that revision, built for the test. It is `execution.execute_inputs`, unchanged.
+Returned: `record_class` `MODULE_TEST`; `module` (code, revision, name, fingerprint, state, `source`
+`WORKING_DRAFT` | `FROZEN_REVISION` | `PUBLISHED_REVISION`, `published`); `engine_contract`; `frame`; `manifest`
+(every exact version executed); `requires.fields` and `fields` (the catalog definition of each fact its conditions
+read); `findings`; `testable`; `facts`, `facts_sha256`; `inputs[]` (`seq`, `key`, `answer`, `accepted`,
+`rejection_code`, `run_status`); `status` (`PENDING` | `POLICY_UNRESOLVED` | `TERMINAL` | `NOT_TESTABLE`); `run`;
+`run_sha256`.
+
+- A module with a validation blocker is `NOT_TESTABLE`: its findings are returned and the engine is not run.
+- An input for a question that is not current, or after the end, is refused (`409 INPUT_NOT_CURRENT`).
+- An answer the engine rejects is in `inputs` as refused, with its stable code; the same question stays current.
+- **Nothing is written** — no simulation, plan, audit event or any other row. The same request always gives the same
+  `run` and `run_sha256`.
+- A test is not validation for publication, not approval and not eligibility for any call.
+
+### 22.5 The library (adds to §13)
+
+| Field | Meaning |
+|---|---|
+| `origin` on a component | where this version was written: `definition_id`, `code`, `name`, `artifact_kind` of the definition that owns it |
+| `artifact_kind` on each `published_in[]` | `SURVEY`: a survey whose published version pins it. `MODULE`: the standalone module's own publication record |
+| `used_by` | counts **surveys** only; a module's own publication record is not a use |
+
+The reuse rule is the one of §13: a version is reusable if and only if a published version pins it. A module
+published on its own is pinned by its own publication record.
+
+### 22.6 Settings and migrations (adds to §19.8)
+
+`survey_module_authoring_enabled` — off by default; on only with `survey_library_enabled`; needs migration `0036`.
+With it off, a schema at `0035` is accepted and serves everything else unchanged.
+

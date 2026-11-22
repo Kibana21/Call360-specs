@@ -1,0 +1,11 @@
+Frontend, run after the last source change (2026-11-22)
+tsc --noEmit: clean
+eslint src e2e: clean
+vitest: 41 files, 630 tests passed
+vite build: built
+api:check: OK, OpenAPI be340238b2b21bee61eebbbebae5e1e7b283329fa38197f758e3e896c236ea4f
+
+Backend
+ruff check: All checks passed
+ruff format --check: 259 files already formatted
+mypy app: no issues in 127 source files

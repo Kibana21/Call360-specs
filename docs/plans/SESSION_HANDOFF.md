@@ -11,7 +11,59 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-22 (UX-HOME-1 + NAV-1) — read this block first; it supersedes the blocks below where they differ.**
+> **Update 2026-11-23 (LIB-2 accepted; development at 0036; MIG-1 assessment) — read this block first.**
+> - **LIB-2 — ACCEPTED by the owner as technically verified, simulation-only** (D-344). Rulings P-1…P-8 recorded
+>   (D-345); LIB-D-1 now reads "An asset is reusable when its exact revision is pinned by a published survey version
+>   or published independently through the governed module lifecycle" (D-346). Open: a separate library authority
+>   (P-3), ownership (P-4), withdrawal (P-5). LIB-3 stays a proposal (D-350).
+> - **Development is at `0036_survey_module_authoring` with `SURVEY_MODULE_AUTHORING_ENABLED` on** (D-348). Backup
+>   `_db_backups/call360_dev_before_0036_20261122.dump`; recovery in `_db_backups/RESTORE.md` ("Rolling 0036 back").
+>   The downgrade now refuses (a standalone module exists). Demonstration data: module `M-100007` (two revisions),
+>   surveys `S-DEV-LIB2-ONE`, `S-DEV-LIB2-TWO`. No permission was granted: `dev.survey.author` already held
+>   `survey.simulate` (D-349). Evidence `docs/acceptance/evidence/LIB-2/dev-migration-0036/`. No further migration
+>   exists. Never run `make migrate`, `make seed`, a reset or a re-seed.
+> - **MIG-1 — ASSESSMENT ONLY, presented for review; nothing decided or built**: `survey-studio/51_…`, roadmap
+>   `docs/plans/ROADMAP.md`, D-351…D-355, evidence `docs/acceptance/evidence/MIG-1/`. Script Studio is exactly as it
+>   was. Finding: it cannot be retired today (a rule needs a published script; only a script reaches a case; history
+>   is bound to script records; parity gaps). **A conflict awaits the owner's ruling (D-353, B-1):** the MIG brief
+>   against D-156 (AD-2 re-seed, no conversion path) and D-154 (remove database structures).
+> - **Nothing is authorised next.** Recommended: SHARED-1 (rules independent of script authoring). Do NOT begin a
+>   converter, any Script Studio change or deletion, VOICE-1 or LIB-3.
+> - Repositories: LIB-2, the enablement documents and MIG-1 are uncommitted. The assistant never commits.
+>
+> **Update 2026-11-22 (LIB-2) — superseded by the block above where they differ.**
+> - **UX-HOME-1 + NAV-1 — ACCEPTED by the owner as technically verified** (D-330; not business UX or screen-reader
+>   acceptance). D-321…D-329 reconciled (D-331); five follow-up UX issues closed (D-332).
+> - **LIB-2 (a reusable module authored on its own) — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review;
+>   NOT accepted; uncommitted.** Documents: `survey-studio/49_…` (assessment, architecture AD-L2-1…8, contract,
+>   migration assessment, open questions P-1…P-8), `50_…` (report), contract §22, D-330…D-343.
+>   - A standalone module is a `survey_definition` of `artifact_kind` `MODULE` (migration
+>     `0036_survey_module_authoring`: one column, a kind-never-changes trigger, a database guard on simulation, call
+>     plan and assignment binding). Its draft holds a fixed one-module frame (`store.module_frame`;
+>     `MODULE_FRAME_INVALID` otherwise). Draft, save, codes, validation, candidates, decision, publication and history
+>     are the EXISTING operations by the module's id. `store.version()` returns survey versions unless both kinds are
+>     asked for. The kind is read through `to_jsonb`, so the code also runs on a `0035` schema.
+>   - Backend: `app/api/survey_modules.py` (4 operations), `app/domain/survey/module_test.py` (stateless test through
+>     `execute_inputs`; writes nothing), `store.create_module` / `module` / `_module_rules` / `origin_of`; setting
+>     `survey_module_authoring_enabled` (needs the library). Tests `tests/test_survey_lib2.py`.
+>   - Frontend: `src/features/surveystudio/place.tsx` (where the open workspace lives), `model/standalone.ts`
+>     (`keepFrame`, `startNextRevision`), `persist/ModuleStudio.tsx`, `persist/moduleApi.ts`, `persist/focus.ts`;
+>     routes `/survey-studio/modules/:code` (+ `/test`, `/review`, `/candidates/:id`, `/versions/:id`) and
+>     `/survey-studio/module-tests/:code/:revision`. `BuilderPage` takes `standalone`; `StudioProvider` takes
+>     `normalize`. Journey `e2e/persisted/zzzzz-lib2.persisted.ts`; test identity `e2e.survey.moduleauthor`.
+>   - **Development WAS migrated to `0036` on 2026-11-22 (owner-authorised, D-348) and the setting is on.** Backup
+>     `call360_dev_before_0036_20261122.dump`; recovery in `_db_backups/RESTORE.md`. Demonstration data: module
+>     `M-100007` (two revisions), surveys `S-DEV-LIB2-ONE`, `S-DEV-LIB2-TWO`. `dev.survey.author` already held
+>     `survey.simulate`; nothing was granted (D-349). Never run `make migrate`.
+>   - Verified: backend 1,020; vitest 630; Playwright persisted 31, prototype 13, standard 33; golden 82 / 14
+>     unchanged; OpenAPI 275 operations, 521 schemas, SHA-256 `be340238…c236ea4f`.
+>   - Running a later Playwright suite clears `test-results/`: copy screenshots to the evidence folder first.
+>   - The owner committed UX-HOME-1 + NAV-1 himself (backend `725ceaa`, frontend `03df023`, specs `e8dc06b`); LIB-2
+>     is uncommitted on top. The assistant never commits.
+>   - Open with the owner: D-338 (wording of LIB-D-1), D-341 (P-1…P-8), D-342 (ten choices), D-343, LIB-3 (independent
+>     questions, conditions, answer sets — proposed, NOT authorised), commits (the owner's).
+>
+> **Update 2026-11-22 (UX-HOME-1 + NAV-1) — superseded by the LIB-2 block above where they differ.**
 > - **The owner committed and pushed everything through the first UX-HOME-1 version** (backend `92aa725`, frontend
 >   `ea8a354`, specs `76d70f2`). E2E-1 has no explicit acceptance message on record. The assistant never commits.
 > - **UX-HOME-1 + NAV-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review; NOT accepted; uncommitted.**

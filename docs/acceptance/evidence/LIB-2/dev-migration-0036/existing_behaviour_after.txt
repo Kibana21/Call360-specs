@@ -1,0 +1,19 @@
+== Development server after migration, setting on
+ready: 200 {'status': 'ok'}
+surveys listed: 7 ['DEV-CHECK-AD5AEA8F', 'S-DEV-EVAL-SHARED', 'S-DEV-FI2-WALKTHROUGH', 'S-DEV-LIB-COPY', 'S-DEV-LIB-PIN', 'S-DEV-LIB2-ONE', 'S-DEV-LIB2-TWO']
+standalone modules: 200 1
+workspace surveys total: 7 | library components: {'MODULE': 4, 'ITEM': 9, 'CONDITION': 1, 'OPTION_SET': 7}
+existing simulations replayed by the engine now: 25 | recompute to the recorded run: 25 | differ or unreadable: 0
+existing call plans assembled again now: 19 | same fingerprint as recorded: 19 | differ or unreadable: 0
+assignment policy: 200 | bindings: [('SG-SALES-VERIFY', 2, 'DEV-CHECK-AD5AEA8F', 'PUBLISHED'), ('SG-ILP-HIGH-RISK', 2, 'S-DEV-FI2-WALKTHROUGH', 'SUPERSEDED'), ('SG-ILP-HIGH-RISK', 2, 'S-DEV-EVAL-SHARED', 'PUBLISHED')]
+requirement groups: 200 2
+journeys: 200 30
+library MODULE: 5 | origins: ['MODULE', 'SURVEY'] | published_in kinds: ['MODULE', 'SURVEY']
+library ITEM: 10 | origins: ['MODULE', 'SURVEY'] | published_in kinds: ['MODULE', 'SURVEY']
+library CONDITION: 1 | origins: ['MODULE'] | published_in kinds: ['MODULE', 'SURVEY']
+library OPTION_SET: 7 | origins: ['MODULE', 'SURVEY'] | published_in kinds: ['MODULE', 'SURVEY']
+
+== Permissions of the development identities (unchanged by this checkpoint)
+  DEV_SURVEY_AUTHOR -> survey.assignment.read, survey.edit, survey.evaluate, survey.evaluation.read, survey.read, survey.simulate
+  DEV_SURVEY_CHECKER -> survey.approve, survey.assignment.read, survey.evaluation.read, survey.read
+  DEV_SURVEY_PUBLISHER -> survey.assignment.read, survey.evaluation.read, survey.publish, survey.read
