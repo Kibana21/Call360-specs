@@ -33,6 +33,27 @@ of them did.
 saved drafts and published versions, what awaits the reader, and modules pinned by more than one survey. No table,
 migration, setting or permission. Everything else reads operations that already existed.
 
+## 1a. The owner's review during the checkpoint, and what changed
+
+The first version put everything on one long page. The owner's review (2026-11-22): *"Where do I create the building
+blocks like modules, questions, conditions and answer sets? I still feel that the screen is very cluttered. Organize
+it well."* Two changes followed:
+
+1. **Three views instead of one page** — Overview, Surveys, Building blocks (and a link to the rules explorer), as
+   one row of tabs under the header. The overview is now: the five counts, the reader's surveys, the four ways on,
+   and one row of at most four modules. "Recently edited" and "Recently published" became one list of surveys, most
+   recently saved first; the separate "reused modules" section became the order of that one row; "Awaiting you"
+   appears only when something awaits or is waiting on someone else. The surveys grid and the full gallery moved to
+   their own views.
+2. **"New building block"** beside "New survey" (and "New module / question / condition / answer set" in the gallery
+   and in its empty states). Building blocks are not created on their own in Call360: each is authored inside a
+   survey — a module in the survey's composer, a question, condition or answer set inside a module — and becomes a
+   reusable block when that survey is published by three people. The panel says exactly that for the chosen kind, in
+   three steps, and lists the surveys open for editing to make it in. **It creates nothing itself**, and no way of
+   creating a block outside a survey was added: that would be a second authoring path beside the governed one.
+
+The table below describes the page as reorganised.
+
 ## 2. What was built
 
 | | |
@@ -48,15 +69,15 @@ unchanged. Script Studio, the prototype Survey Studio and all engines are untouc
 
 | # | Required | Built |
 |---|---|---|
-| 1 | Workspace header and primary creation actions | "Survey Studio" header; **New survey** (the existing create form) and **Browse building blocks**; a reader sees "read only" instead |
+| 1 | Workspace header and primary creation actions | "Survey Studio" header; **New survey** (the existing create form) and **New building block** (where each kind is made, and the survey to make it in); a reader sees "read only" instead |
 | 2 | Studio-specific search across asset types | one search box: surveys, modules, questions, conditions and answer sets, by name, wording, description, code or the survey a block is published in; results grouped by kind |
-| 3 | Live inventory from persisted data | five tiles — surveys (published / draft only / in review), modules, questions (and statements), conditions, answer sets, each with how many are reused — the server's counts; each tile jumps to its list |
-| 4 | Recently edited drafts and published content | two lists, by the records' own times |
-| 5 | Governance actions awaiting the signed-in user | "Awaiting you": what the identity rules and the reader's permissions allow now, and separately what the reader submitted that waits on someone else |
-| 6 | Featured or frequently reused modules where verifiable | "Modules reused across surveys": those pinned by more than one survey. Absent when none. **No frequency or popularity figure exists, so none is shown** |
-| 7 | A visible Building Blocks gallery | tabs for modules, questions, conditions, answer sets; cards, not tables; each module card carries a strip of tiles — one per question, statement and decision, then its endings — drawn from the module's published counts |
-| 8 | Entry points to Assignment, Control Policies, Evaluation, Application Journeys | four cards with a sentence each, plus the rules explorer; shown only to a person who may open them |
-| 9 | Compact synthetic-environment notice | one line in the header, with the full text behind "Why"; the market is a chip beside it |
+| 3 | Live inventory from persisted data | five tiles — surveys (published / draft only / in review), modules, questions (and statements), conditions, answer sets, each with how many are reused — the server's counts; each tile opens its view |
+| 4 | Recently edited drafts and published content | "Your surveys": every survey, most recently saved first by the record's own time, each with its draft revision, published version and status |
+| 5 | Governance actions awaiting the signed-in user | "Awaiting you", shown when there is something: what the identity rules and the reader's permissions allow now, and what the reader submitted that waits on someone else |
+| 6 | Featured or frequently reused modules where verifiable | the overview's row of modules is ordered by how many surveys pin each, and a reused one is tagged; the gallery has a "reused by more than one survey" filter. **No frequency or popularity figure exists, so none is shown** |
+| 7 | A visible Building Blocks gallery | a row of module cards on the overview and the full gallery in its own view: tabs for modules, questions, conditions, answer sets; cards, not tables; each module card carries a strip of tiles — one per question, statement and decision, then its endings — drawn from the module's published counts |
+| 8 | Entry points to Assignment, Control Policies, Evaluation, Application Journeys | "Go to": four cards with a sentence each, including the rules explorer; shown only to a person who may open them |
+| 9 | Compact synthetic-environment notice | one line beside the tabs, with the full text behind "Why"; the market is a chip beside it |
 | 10 | Responsive desktop layout using the width | fluid to 1,680 px; five, three or two inventory columns; the side column folds under at 1,180 px; one column at 860 px |
 
 ### Asset discovery
@@ -111,7 +132,8 @@ content the earlier journeys published). It reads the server's records and asser
 
 | Step | Asserted |
 |---|---|
-| Discover | every latest published module is a card; filters; search finds a module and a survey by name; a search with no match says so |
+| Where blocks are made | "New building block" says where each of the four kinds is made and lists the survey to make it in; nothing is created by it |
+| Discover | the overview's counts open the views; every latest published module is a card; filters; search finds a module and a survey by name; a search with no match says so |
 | Inspect | from the card of the richest published module: as many graph nodes and step rows as the published document has nodes; each step's exact wording; as many branch lines as the document has edges from that step; every ending |
 | Understand | selecting a graph node selects its step; conditions in words; each consuming survey with its pinned version and how it is entered |
 | History | as many revisions as published; as many dependency rows as documents pinned |
@@ -139,7 +161,8 @@ content the earlier journeys published). It reads the server's records and asser
 | "Awaiting you" | exact for survey candidates (server rules). For control policies, mappings, bindings and requirement groups it is derived in the browser from status, proposer, approver and permission — the same facts their own screens show; the server still decides when the action is tried |
 | Governance of a block | who published the survey version it came with is shown. Who submitted and approved is on the candidate, which is not read here |
 | Testing a module | a module cannot be simulated alone; the entry point opens a survey that pins it |
-| Follow-up and rule-ordered routing | drawn and described by the inspector (dashed lines, "Rule 1…", "Otherwise", "After the follow-ups"); the modules published in the browser test data use per-answer and "always next" routing, so those two forms are covered by code and unit reading only, not by a browser assertion |
+| Follow-up and rule-ordered routing | drawn and described by the inspector (dashed lines, "Rule 1…", "Otherwise", "After the follow-ups"). The modules published in the browser test data use per-answer and "always next" routing, so these two forms are verified by a unit test of the inspector's reading (`Inspector.test.ts`), not by a browser assertion |
+| Creating a block | happens in the existing composer and module builder; the panel opens the survey's composer, not the exact control. The wording of the steps describes those screens; it was not checked against every label in them |
 | Finding rules | need the existing Finding Rules permission; the survey identities do not hold it and see an explanation |
 | Rules explorer | lists published rules; survey-level entry conditions are shown in the inspector under each consuming survey, not as a separate list |
 | Inspector as a dialog | closes with Escape and the close button, and takes focus when opened; focus is not trapped inside it |
