@@ -11,7 +11,30 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-22 (E2E-1) — read this block first; it supersedes the blocks below where they differ.**
+> **Update 2026-11-22 (UX-HOME-1 + NAV-1) — read this block first; it supersedes the blocks below where they differ.**
+> - **The owner committed and pushed everything through the first UX-HOME-1 version** (backend `92aa725`, frontend
+>   `ea8a354`, specs `76d70f2`). E2E-1 has no explicit acceptance message on record. The assistant never commits.
+> - **UX-HOME-1 + NAV-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review; NOT accepted; uncommitted.**
+>   Documents: `survey-studio/47_…` (assessment and design), `48_…` (report), contract §21, D-321…D-329,
+>   `docs/product/SCREEN_NAMING_AND_ROUTES.md` (primary navigation amended to five groups). `46_…` is superseded.
+>   - NAV-1: `src/app/nav.ts` (five groups, sub-pages, `placeOf`), `AppShell.tsx`, `src/styles/nav.css`. Every earlier
+>     route, label and guard is kept. Script Studio is kept (tag "Legacy"). Do not touch `app.css`, `DEVIATIONS.md`,
+>     `f6-checks.ts`, `script-studio.spec.ts`.
+>   - Survey Studio (persisted): `persist/Workspace.tsx` (views `?view=surveys|blocks`), `Inspector.tsx`
+>     (`?inspect=KIND~code~version`), `SurveyOverview.tsx` (`?survey=CODE`), `RulesExplorer.tsx`
+>     (`/survey-studio/rules`), `SimulationHub.tsx` (`/survey-studio/simulation`), `workspaceApi.ts`.
+>   - Backend, read-only, NO migration: `GET /api/v1/survey-definitions/workspace` (with `surveys[]`),
+>     `facts.branching` on library modules; test `tests/test_survey_workspace.py`. Browser-test setup has a read-only
+>     cross-platform identity `e2e.survey.platform`.
+>   - Verified: backend 1,009; vitest 624; Playwright persisted 27, prototype 13, standard 33; golden 82 / 14;
+>     OpenAPI 271 operations, 512 schemas, SHA-256 `e7aface9…c4e3b20`.
+>   - **Independent authoring of building blocks is NOT built** (D-328): it is a design ruling (LIB-D-1), proposed as
+>     LIB-2, not authorised. The workspace only says where each kind is made.
+>   - Open with the owner: `48_…` §7 (L-1…L-8), D-329 (eight choices), LIB-2, commits.
+> - Development database stays at `0035`; nothing was migrated, reset or re-seeded.
+> - **Nothing is authorised next.**
+>
+> **Update 2026-11-22 (E2E-1)**
 > - **Accepted by the owner:** EVAL-2B as TECHNICALLY VERIFIED, simulation only (D-312) — not production, Compliance
 >   or spoken-delivery acceptance. D-311 reconciled (D-313). **Technical gap TG-1 is recorded and open** (D-314):
 >   queued follow-up order from multi-select answers is not verified edge by edge; never claim full branch fidelity.

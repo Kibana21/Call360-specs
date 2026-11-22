@@ -1,0 +1,5 @@
+tsc: 0 errors
+eslint: 0 errors
+vitest: Tests  624 passed (624)
+build: [plugin builtin:vite-reporter] 
+✓ built in 190ms

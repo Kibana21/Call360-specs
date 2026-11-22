@@ -21,16 +21,24 @@
 
 **Never conflate these domain objects:** callback case (obligation), contact attempt (dial/test attempt), conversation session (connected media), survey run (one execution of a frozen script version), structured answer (extraction), compliance decision (controlled review result).
 
-## Primary navigation (owner decision C-1)
+## Primary navigation (owner decision NAV-1 of 2026-11-22; supersedes the four groups of C-1)
 
-The approved HTML mockup's grouped structure and order, with canonical terms (EXC-003). Disabled items are visible and focusable with a stage chip; their routes show a stage notice without data.
+Five groups, by what a person is doing. **Every route and label of the earlier navigation is kept**; entries are
+regrouped and some gain sub-pages. Disabled items are visible and focusable with a stage chip, as before. A sub-page
+is listed only for a person who holds its permission; the route's own guard is unchanged.
 
 | Group | Items in order |
 |---|---|
-| WORKSPACE | Overview · Call Explorer · Policy Explorer · SBQ Risk Workbench · Work Queues · Voice Studio · Live Monitor *(S4, disabled)* · Campaigns *(S4, disabled)* |
-| GOVERNANCE | Survey Studio *(when enabled, ADR-0010)* · Script Studio · Assignment Rules · Review Workbench |
-| INTELLIGENCE | Search · Analytics *(S4, disabled)* |
-| PLATFORM | Data Intake *(ADMIN)* · Administration *(ADMIN)* |
+| WORKSPACE | Overview · Search · Call Explorer · Policy Explorer · SBQ Risk Workbench · Work Queues |
+| DESIGN & GOVERN | Survey Studio *(when enabled, ADR-0010; in persisted mode with Home · Surveys · Building blocks · Rules explorer)* · Assignment Rules *(in persisted mode with Rules · Survey bindings and groups)* · Finding Rules |
+| SIMULATE & ANALYZE | Simulation & Evaluation *(persisted mode: All simulation and evaluation · Application journeys · Controls and evidence · Simulation Workbench)* — otherwise Simulation Workbench · Analytics *(S4, disabled)* |
+| OPERATIONS | Review Workbench · Voice Studio · Voice Lab · Live Monitor *(S4, disabled)* · Campaigns *(S4, disabled)* |
+| LEGACY & ADMINISTRATION | Script Studio *(tagged Legacy; kept in use)* · Data Intake *(ADMIN)* · Administration *(ADMIN)* |
+
+The earlier four groups (WORKSPACE, GOVERNANCE, INTELLIGENCE, PLATFORM) followed the approved HTML mockup. NAV-1 is
+an intentional, owner-directed deviation from that mockup's grouping; labels, routes and screens are unchanged.
+Script Studio is not retired, hidden or disabled. The operational **Review Workbench** and the simulation-only
+**Evaluation Workbench** are different capabilities in different groups and share no persistence.
 
 A persistent global search box (⌘K / Ctrl+K) sits in the top bar. **Call Detail**, Policy Detail and script version pages are reached from records, not from navigation.
 

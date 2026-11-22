@@ -1,0 +1,3 @@
+ruff check: All checks passed! | format: 255 files already formatted | mypy: Success: no issues found in 125 source files
+pytest (schema call360_test only): 1009 passed, 7 warnings in 550.02s (0:09:10)
+golden: 82 expected runs and 14 expected plans pass; fixture files modified: 0 (backend), 0 (specs)

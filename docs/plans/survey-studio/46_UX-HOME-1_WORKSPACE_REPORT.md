@@ -1,6 +1,6 @@
 # UX-HOME-1 — The Survey Studio workspace: assessment, design and implementation report
 
-**Status: BUILT AND TECHNICALLY VERIFIED 2026-11-22, awaiting the owner's UX review. Not accepted.**
+**Status: SUPERSEDED 2026-11-22 by `47_…` and `48_…` (UX-HOME-1 + NAV-1), which widen and replace this checkpoint. Kept as the record of the first version and of the owner's mid-checkpoint review (§1a).**
 **Synthetic data only.** No evaluation or business-rule meaning was added or changed. Technical verification is not
 a business UX sign-off or a screen-reader sign-off.
 
@@ -172,11 +172,11 @@ content the earlier journeys published). It reads the server's records and asser
 
 ## 7. Regression
 
-{{REGRESSION}}
+Superseded: this checkpoint was widened to UX-HOME-1 + NAV-1 before its final regression was recorded. The regression of the combined work is in `48_UX-HOME-1_NAV-1_IMPLEMENTATION_REPORT.md` §6.
 
 ## 8. State
 
-{{STATE}}
+See `48_…` §8.
 
 ## 9. Stopped here for UX review
 

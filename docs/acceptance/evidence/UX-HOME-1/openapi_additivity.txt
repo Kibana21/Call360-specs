@@ -1,0 +1,2 @@
+contract SHA-256: e7aface99882fb28807078d9cb1a1a3cc79e5a9cf650924e60445a9e9c4e3b20
+against the last committed contract (HEAD 92aa725): operations 271 -> 271, removed none; schemas 512 -> 512, removed none; existing schemas with a removed or changed property: none; response fields newly present: {'SurveyWorkspaceOut': ['surveys']}

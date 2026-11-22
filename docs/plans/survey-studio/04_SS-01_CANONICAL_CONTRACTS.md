@@ -2313,3 +2313,10 @@ Market-scoped: everything is counted in the reader's markets only. It writes not
 
 Nothing here is estimated, scored or ranked by anything but those counts and times.
 
+**Added in UX-HOME-1 + NAV-1 (D-329 f), both read-only and additive:**
+
+| Field | Meaning |
+|---|---|
+| `surveys[]` on the workspace read | every survey of the reader's markets with what its **current draft** holds: `modules`, `questions`, `statements`, `decisions`, `conditional_entries`, `branching`, `draft_revision`, `saved_at`, `published_at`, `latest_version_label`. Counted from the draft's own documents; nothing is executed |
+| `facts.branching` on a `MODULE` in the component library (§13) | true when the module's own document has a decision, a step whose links lead to more than one destination, or rule-ordered, follow-up or interrupting routing. Read from the document; nothing is executed |
+
