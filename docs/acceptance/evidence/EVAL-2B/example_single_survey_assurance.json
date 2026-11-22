@@ -1,0 +1,452 @@
+{
+ "id": "3596d748-7fb6-4538-8dec-2ed422527538",
+ "record_class": "SIMULATION",
+ "note": "EXECUTION ASSURANCE OF A SIMULATION. It verifies the recorded trace of a synthetic journey against the survey versions it pinned. VERIFIED means the supported technical checks passed for that recording. It is not a compliance outcome, it says nothing of whether controls are satisfied or covered, it does not show that a person heard any wording, and it establishes nothing about a real call.",
+ "contract": "call360.survey.execution-assurance/1",
+ "execution_contract": "call360.survey.execution/1",
+ "market_code": "SG",
+ "created_at": "2026-11-22T16:49:17.693825+08:00",
+ "created_by": "eb29e293-4f67-4cc0-8b12-25d35a44b43f",
+ "journey_kind": "SINGLE_SURVEY",
+ "simulation_id": "b270a093-453b-49aa-8415-d9145791007b",
+ "coordinated_id": null,
+ "evaluation_id": "b86778ad-534d-45e7-bc9e-647126f72a43",
+ "journey": {
+  "id": "b270a093-453b-49aa-8415-d9145791007b",
+  "kind": "SINGLE_SURVEY",
+  "status": "COMPLETED",
+  "complete": true
+ },
+ "status": "VERIFIED",
+ "current_status": "VERIFIED",
+ "summary": {
+  "surveys": 1,
+  "findings": 0,
+  "by_status": {
+   "VERIFIED": 1,
+   "INCOMPLETE": 0,
+   "NOT_ASSESSABLE": 0,
+   "INTEGRITY_FAILED": 0,
+   "DEVIATION_DETECTED": 0
+  },
+  "deliveries": 3,
+  "wording_exact": 3,
+  "refused_inputs": 1,
+  "surveys_completed": 1,
+  "surveys_ended_without_completed": 0
+ },
+ "surveys": [
+  {
+   "state": "COMPLETED",
+   "checks": [
+    {
+     "check": "INTEGRITY",
+     "notes": [],
+     "status": "PASSED",
+     "examined": 3,
+     "findings": [],
+     "question": "Does the recorded simulation still recompute to its recorded fingerprints?",
+     "incomplete_because": null
+    },
+    {
+     "check": "TRACE_WELL_FORMED",
+     "notes": [],
+     "status": "PASSED",
+     "examined": 18,
+     "findings": [],
+     "question": "Is the recorded trace whole: every event once, in order, nothing after the end?",
+     "incomplete_because": null
+    },
+    {
+     "check": "DELIVERIES_EXPECTED",
+     "notes": [],
+     "status": "PASSED",
+     "examined": 3,
+     "findings": [],
+     "question": "Was everything delivered a part of the pinned survey version, and delivered once?",
+     "incomplete_because": null
+    },
+    {
+     "check": "WORDING_EXACT",
+     "notes": [
+      "Compared with the pinned wording as text. A simulation does not show that a person heard it."
+     ],
+     "status": "PASSED",
+     "examined": 3,
+     "findings": [],
+     "question": "Was every statement and question delivered in its exact pinned wording?",
+     "incomplete_because": null
+    },
+    {
+     "check": "ANSWERS_AND_REJECTIONS",
+     "notes": [],
+     "status": "PASSED",
+     "examined": 2,
+     "findings": [],
+     "question": "Was every accepted answer valid, and every invalid answer refused and recorded?",
+     "incomplete_because": null
+    },
+    {
+     "check": "BRANCHING",
+     "notes": [
+      "A decision's recorded condition result is shown as recorded; conditions are not evaluated again here."
+     ],
+     "status": "PASSED",
+     "examined": 3,
+     "findings": [],
+     "question": "Does every branch follow an edge of the pinned module, on recorded evidence?",
+     "incomplete_because": null
+    },
+    {
+     "check": "MODULE_SEQUENCE",
+     "notes": [],
+     "status": "PASSED",
+     "examined": 5,
+     "findings": [],
+     "question": "Were modules entered in the pinned order, and was nothing that was owed left out?",
+     "incomplete_because": null
+    },
+    {
+     "check": "TERMINATION",
+     "notes": [],
+     "status": "PASSED",
+     "examined": 1,
+     "findings": [],
+     "question": "Did the survey end the way its recorded routes say?",
+     "incomplete_because": null
+    }
+   ],
+   "counts": {
+    "events": 18,
+    "answers": 1,
+    "branches": 3,
+    "findings": 0,
+    "delivered": 3,
+    "placements": 7,
+    "not_delivered": {
+     "VALID_CONDITIONAL_EXCLUSION": 4
+    },
+    "wording_exact": 3,
+    "refused_inputs": 1
+   },
+   "ending": {
+    "state": "COMPLETED",
+    "reason": null,
+    "completed": true,
+    "survey_outcome": "COMPLETED"
+   },
+   "inputs": 2,
+   "status": "VERIFIED",
+   "pending": null,
+   "branches": [
+    {
+     "to": {
+      "node": "n2"
+     },
+     "via": "AFTER_CAPTURE",
+     "edge": "e1",
+     "kind": "ROUTE",
+     "node": "n1",
+     "event": 2,
+     "instance": "mi-opening",
+     "condition": null,
+     "explanation": null
+    },
+    {
+     "to": {
+      "outcome": "COMPLETED"
+     },
+     "via": "YES",
+     "edge": "e2",
+     "kind": "ROUTE",
+     "node": "n2",
+     "event": 6,
+     "instance": "mi-opening",
+     "condition": null,
+     "explanation": null
+    },
+    {
+     "to": {
+      "outcome": "COMPLETED"
+     },
+     "via": "AFTER_CAPTURE",
+     "edge": "e1",
+     "kind": "ROUTE",
+     "node": "n1",
+     "event": 14,
+     "instance": "mi-closing",
+     "condition": null,
+     "explanation": null
+    }
+   ],
+   "position": 1,
+   "deliveries": [
+    {
+     "item": {
+      "code": "Q-100007",
+      "version": 1,
+      "wording_version": 1
+     },
+     "kind": "STATEMENT",
+     "event": 1,
+     "wording": "EXACT",
+     "placement": "mi-opening/n1",
+     "delivery_mode": "CONTROLLED_TTS",
+     "expected_text": "Good day. This is a service call about your policy.",
+     "recorded_text": "Good day. This is a service call about your policy.",
+     "wording_sha256": "75fc2465539c823a4852f859c337dfe954a794312cf447a6898f6eb4f056de3f",
+     "awaiting_answer": false,
+     "wording_version": 1
+    },
+    {
+     "item": {
+      "code": "Q-100003",
+      "version": 1,
+      "wording_version": 1
+     },
+     "kind": "QUESTION",
+     "event": 3,
+     "wording": "EXACT",
+     "placement": "mi-opening/n2",
+     "delivery_mode": "CONTROLLED_TTS",
+     "expected_text": "Can you confirm that you are the policyholder?",
+     "recorded_text": "Can you confirm that you are the policyholder?",
+     "wording_sha256": "5df35c191d31943fd97e7ca3877f03f61577f4b731f27ab33eec4787c1f11821",
+     "awaiting_answer": false,
+     "wording_version": 1
+    },
+    {
+     "item": {
+      "code": "Q-100006",
+      "version": 1,
+      "wording_version": 1
+     },
+     "kind": "STATEMENT",
+     "event": 13,
+     "wording": "EXACT",
+     "placement": "mi-closing/n1",
+     "delivery_mode": "CONTROLLED_TTS",
+     "expected_text": "Thank you. This call is now complete.",
+     "recorded_text": "Thank you. This call is now complete.",
+     "wording_sha256": "ea9335da7516e49044fc56de9fa0ebaa28d6c9d8bd51c0a12bcfc4e0c75c1568",
+     "awaiting_answer": false,
+     "wording_version": 1
+    }
+   ],
+   "exclusions": [
+    {
+     "why": "The module's published entry condition is false for this application",
+     "item": {
+      "code": "Q-100008",
+      "version": 1,
+      "wording_version": 1
+     },
+     "class": "VALID_CONDITIONAL_EXCLUSION",
+     "event": 9,
+     "placement": "mi-high-value/n1",
+     "module_status": "SKIPPED_FALSE"
+    },
+    {
+     "why": "The module's published entry condition is false for this application",
+     "item": {
+      "code": "Q-100002",
+      "version": 1,
+      "wording_version": 1
+     },
+     "class": "VALID_CONDITIONAL_EXCLUSION",
+     "event": 9,
+     "placement": "mi-high-value/n2",
+     "module_status": "SKIPPED_FALSE"
+    },
+    {
+     "why": "The module's published entry condition is false for this application",
+     "item": {
+      "code": "Q-100004",
+      "version": 1,
+      "wording_version": 1
+     },
+     "class": "VALID_CONDITIONAL_EXCLUSION",
+     "event": 10,
+     "placement": "mi-replacement/n1",
+     "module_status": "SKIPPED_FALSE"
+    },
+    {
+     "why": "The module's published entry condition is false for this application",
+     "item": {
+      "code": "Q-100005",
+      "version": 1,
+      "wording_version": 1
+     },
+     "class": "VALID_CONDITIONAL_EXCLUSION",
+     "event": 11,
+     "placement": "mi-senior/n1",
+     "module_status": "SKIPPED_FALSE"
+    }
+   ],
+   "rejections": [
+    {
+     "code": "CHOICE_REQUIRED",
+     "event": 4,
+     "answer": {},
+     "placement": "mi-opening/n2"
+    }
+   ],
+   "run_sha256": "0f1c024a9377b1fff8c676e5a1235ed8db8d55d85f84efd53ae555e488e19355",
+   "survey_code": "S-64735079DE",
+   "survey_name": "Application survey",
+   "simulation_id": "b270a093-453b-49aa-8415-d9145791007b",
+   "version_label": "1.0",
+   "content_sha256": "2f97a79e0a73d53d3793ee5e45d0a4e1193d4ad9d59ee9d4364d8ae0f352339d",
+   "engine_contract": "call360.survey.execution/1",
+   "manifest_sha256": "711852d02fe06aa31aeae6d0c3db161edb1bd07827d61e42f8f507eaaca2e5f8",
+   "survey_version_id": "96395bc7-c4a8-44a2-8616-4d49890788e4"
+  }
+ ],
+ "journey_checks": [],
+ "findings": [],
+ "control_evaluation": {
+  "id": "b86778ad-534d-45e7-bc9e-647126f72a43",
+  "note": "Control outcomes and coverage are shown exactly as the control evaluation recorded them. Nothing is evaluated again here.",
+  "policy": null,
+  "result_sha256": "27a8b6712f039b0dbc5bbf3656f1e4a1d372dbd2050aad869699abe3df5e102a",
+  "coverage_status": "NOT_ASSERTED",
+  "of_this_evidence": true,
+  "processing_status": "INCOMPLETE"
+ },
+ "control_evidence": [
+  {
+   "outcome": "SATISFIED",
+   "coverage": null,
+   "evidence": [
+    {
+     "gap": null,
+     "seq": 1,
+     "why": null,
+     "result": "MATCH",
+     "delivery": "EXACT",
+     "execution": "EXECUTION_VERIFIED",
+     "placement": "mi-opening/n2",
+     "deviations": [],
+     "simulation_id": "b270a093-453b-49aa-8415-d9145791007b",
+     "survey_status": "VERIFIED",
+     "survey_position": 1,
+     "not_delivered_class": null
+    },
+    {
+     "gap": null,
+     "seq": 2,
+     "why": null,
+     "result": "DELIVERED",
+     "delivery": "EXACT",
+     "execution": "EXECUTION_VERIFIED",
+     "placement": "mi-opening/n1",
+     "deviations": [],
+     "simulation_id": "b270a093-453b-49aa-8415-d9145791007b",
+     "survey_status": "VERIFIED",
+     "survey_position": 1,
+     "not_delivered_class": null
+    }
+   ],
+   "obligation": null,
+   "control_code": "SYN-CTRL-01",
+   "control_name": "Representative disclosure (synthetic control)",
+   "execution_evidence": "EXECUTION_VERIFIED",
+   "result_is_trustworthy": true
+  },
+  {
+   "outcome": "UNRESOLVED",
+   "coverage": null,
+   "evidence": [],
+   "obligation": null,
+   "control_code": "SYN-CTRL-02",
+   "control_name": "Needs discussed before recommendation (synthetic control)",
+   "execution_evidence": "NO_EXECUTION_EVIDENCE",
+   "result_is_trustworthy": true
+  },
+  {
+   "outcome": "UNRESOLVED",
+   "coverage": null,
+   "evidence": [],
+   "obligation": null,
+   "control_code": "SYN-CTRL-03",
+   "control_name": "Product understanding (synthetic control)",
+   "execution_evidence": "NO_EXECUTION_EVIDENCE",
+   "result_is_trustworthy": true
+  },
+  {
+   "outcome": "INSUFFICIENT_EVIDENCE",
+   "coverage": null,
+   "evidence": [
+    {
+     "gap": "MODULE_EXCLUDED_BY_CONDITION",
+     "seq": 3,
+     "why": "The module's published entry condition is false for this application",
+     "result": "NOT_APPLICABLE",
+     "delivery": "NOT_DELIVERED",
+     "execution": "EXECUTION_VERIFIED",
+     "placement": "mi-replacement/n1",
+     "deviations": [],
+     "simulation_id": "b270a093-453b-49aa-8415-d9145791007b",
+     "survey_status": "VERIFIED",
+     "survey_position": 1,
+     "not_delivered_class": "VALID_CONDITIONAL_EXCLUSION"
+    }
+   ],
+   "obligation": null,
+   "control_code": "SYN-CTRL-04",
+   "control_name": "Premium term and affordability (synthetic control)",
+   "execution_evidence": "EXECUTION_VERIFIED",
+   "result_is_trustworthy": true
+  },
+  {
+   "outcome": "UNRESOLVED",
+   "coverage": null,
+   "evidence": [],
+   "obligation": null,
+   "control_code": "SYN-CTRL-05",
+   "control_name": "Elevated-risk review (synthetic control)",
+   "execution_evidence": "NO_EXECUTION_EVIDENCE",
+   "result_is_trustworthy": true
+  }
+ ],
+ "pins": {
+  "journey": {
+   "id": "b270a093-453b-49aa-8415-d9145791007b",
+   "kind": "SINGLE_SURVEY",
+   "replay_sha256": "0f1c024a9377b1fff8c676e5a1235ed8db8d55d85f84efd53ae555e488e19355",
+   "application_sha256": "fe5adeaec5edf4d46f377d05627e512516ec41986e12f5e53d5e8f3a2408213c"
+  },
+  "contract": "call360.survey.execution-assurance/1",
+  "composite": null,
+  "executions": [
+   {
+    "inputs": 2,
+    "position": 1,
+    "run_sha256": "0f1c024a9377b1fff8c676e5a1235ed8db8d55d85f84efd53ae555e488e19355",
+    "simulation_id": "b270a093-453b-49aa-8415-d9145791007b",
+    "content_sha256": "2f97a79e0a73d53d3793ee5e45d0a4e1193d4ad9d59ee9d4364d8ae0f352339d",
+    "engine_contract": "call360.survey.execution/1",
+    "manifest_sha256": "711852d02fe06aa31aeae6d0c3db161edb1bd07827d61e42f8f507eaaca2e5f8",
+    "survey_version_id": "96395bc7-c4a8-44a2-8616-4d49890788e4"
+   }
+  ],
+  "control_evaluation": {
+   "id": "b86778ad-534d-45e7-bc9e-647126f72a43",
+   "result_sha256": "27a8b6712f039b0dbc5bbf3656f1e4a1d372dbd2050aad869699abe3df5e102a"
+  },
+  "execution_contract": "call360.survey.execution/1"
+ },
+ "input_sha256": "f51ff803388f9f6ccf252c3d1acdab45e49bbe582b105e89049c50b4a4859cf2",
+ "result_sha256": "f74382378e731ef30294e06ca0d169980ea6af799ea5a88268673c854f98f5de",
+ "replay": {
+  "consistent": true,
+  "code": null,
+  "reasons": [],
+  "recorded_result_sha256": "f74382378e731ef30294e06ca0d169980ea6af799ea5a88268673c854f98f5de",
+  "recomputed_result_sha256": "f74382378e731ef30294e06ca0d169980ea6af799ea5a88268673c854f98f5de"
+ },
+ "operational_call_eligibility": {
+  "status": "NOT_ESTABLISHED",
+  "note": "Operational call eligibility is not established by any execution-assurance result, including VERIFIED."
+ }
+}

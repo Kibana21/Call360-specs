@@ -1,0 +1,43 @@
+== RECORDED BY THE AUTHORITATIVE EXECUTOR (a real simulation through the API) ==
+record_class SIMULATION | journey SINGLE_SURVEY | ASSURANCE VERIFIED | recomputes True | operational call eligibility NOT_ESTABLISHED
+survey S-64735079DE 1.0 | simulation b270a093 | run 0f1c024a9377 | VERIFIED | ended COMPLETED
+   PASSED     INTEGRITY                Does the recorded simulation still recompute to its recorded fingerprints?
+   PASSED     TRACE_WELL_FORMED        Is the recorded trace whole: every event once, in order, nothing after the end?
+   PASSED     DELIVERIES_EXPECTED      Was everything delivered a part of the pinned survey version, and delivered once?
+   PASSED     WORDING_EXACT            Was every statement and question delivered in its exact pinned wording?
+   PASSED     ANSWERS_AND_REJECTIONS   Was every accepted answer valid, and every invalid answer refused and recorded?
+   PASSED     BRANCHING                Does every branch follow an edge of the pinned module, on recorded evidence?
+   PASSED     MODULE_SEQUENCE          Were modules entered in the pinned order, and was nothing that was owed left out?
+   PASSED     TERMINATION              Did the survey end the way its recorded routes say?
+   deliveries (expected = recorded):
+      event  1 mi-opening/n1      wording v1 75fc246553 EXACT: 'Good day. This is a service call about your policy.'
+      event  3 mi-opening/n2      wording v1 5df35c191d EXACT: 'Can you confirm that you are the policyholder?'
+      event 13 mi-closing/n1      wording v1 ea9335da75 EXACT: 'Thank you. This call is now complete.'
+   not delivered, and why:
+      mi-high-value/n1     VALID_CONDITIONAL_EXCLUSION  event 9 — The module's published entry condition is false for this application
+      mi-high-value/n2     VALID_CONDITIONAL_EXCLUSION  event 9 — The module's published entry condition is false for this application
+      mi-replacement/n1    VALID_CONDITIONAL_EXCLUSION  event 10 — The module's published entry condition is false for this application
+      mi-senior/n1         VALID_CONDITIONAL_EXCLUSION  event 11 — The module's published entry condition is false for this application
+   refused answers: [('mi-opening/n2', 'CHOICE_REQUIRED', 'event 4')]
+   branches: [('mi-opening/n1', 'AFTER_CAPTURE', {'node': 'n2'}), ('mi-opening/n2', 'YES', {'outcome': 'COMPLETED'}), ('mi-closing/n1', 'AFTER_CAPTURE', {'outcome': 'COMPLETED'})]
+control results, COPIED from control evaluation b86778ad (not computed here):
+   SYN-CTRL-01 outcome SATISFIED              execution evidence EXECUTION_VERIFIED     trustworthy True | mi-opening/n2: EXACT; mi-opening/n1: EXACT
+   SYN-CTRL-02 outcome UNRESOLVED             execution evidence NO_EXECUTION_EVIDENCE  trustworthy True | 
+   SYN-CTRL-03 outcome UNRESOLVED             execution evidence NO_EXECUTION_EVIDENCE  trustworthy True | 
+   SYN-CTRL-04 outcome INSUFFICIENT_EVIDENCE  execution evidence EXECUTION_VERIFIED     trustworthy True | mi-replacement/n1: NOT_DELIVERED (VALID_CONDITIONAL_EXCLUSION)
+   SYN-CTRL-05 outcome UNRESOLVED             execution evidence NO_EXECUTION_EVIDENCE  trustworthy True | 
+
+== TAMPERED COPIES OF A REAL RUN (injected in a test; the executor cannot produce these) ==
+TAMPERED wording of a question: DEVIATION_DETECTED
+   WORDING_EXACT / WORDING_ALTERED: mi-opening/n2 was not delivered in its exact pinned wording | evidence {"placement": "mi-opening/n2", "event": 3, "expected": "Can you confirm that you are the policyholder?", "recorded": "Can you confirm that you are the policyholder? Just say yes."}
+INJECTED delivery of something the version does not contain: DEVIATION_DETECTED
+   DELIVERIES_EXPECTED / UNEXPECTED_DELIVERY: mi-opening/n99 was delivered, and the pinned survey version has no such placement | evidence {"placement": "mi-opening/n99", "event": 2}
+   DELIVERIES_EXPECTED / MISSING_RECORDED_DELIVERY: mi-opening/n99 appears in the trace as delivered, and the record of deliveries does not have it | evidence {"placement": "mi-opening/n99"}
+   BRANCHING / TRANSITION_UNEXPLAINED: mi-opening/n99 was delivered, and the recorded route led to mi-opening/n1 | evidence {"placement": "mi-opening/n99", "event": 2, "expected": "mi-opening/n1"}
+TAMPERED: a delivery removed from the record of deliveries: DEVIATION_DETECTED
+   DELIVERIES_EXPECTED / MISSING_RECORDED_DELIVERY: mi-opening/n1 appears in the trace as delivered, and the record of deliveries does not have it | evidence {"placement": "mi-opening/n1"}
+TAMPERED: an event recorded twice: DEVIATION_DETECTED
+   TRACE_WELL_FORMED / DUPLICATE_EVENT: An execution event is recorded more than once | evidence {"events": [3]}
+   DELIVERIES_EXPECTED / DUPLICATE_DELIVERY: mi-opening/n2 was delivered 2 times; a placement is delivered at most once | evidence {"placement": "mi-opening/n2", "events": [3, 3]}
+INJECTED replay drift: INTEGRITY_FAILED
+   INTEGRITY / REPLAY_DRIFT: The simulation no longer recomputes to its recorded result | evidence {"drift": {"code": "REPLAY_DRIFT"}}

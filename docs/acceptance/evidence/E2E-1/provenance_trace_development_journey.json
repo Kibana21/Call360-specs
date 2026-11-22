@@ -1,0 +1,1281 @@
+{
+ "record_class": "SIMULATION",
+ "note": "PROVENANCE OF A SIMULATED JOURNEY, for a synthetic application. Read-only: it lays out records other services keep and decides nothing. It is not a compliance outcome and does not establish that a call may be made.",
+ "contract": "call360.survey.journey-trace/1",
+ "market_code": "SG",
+ "journey": {
+  "kind": "COORDINATED",
+  "id": "1f0cda30-f449-4beb-bba3-c45cca9a58a4",
+  "label": "EVAL-2A development walkthrough: conflict",
+  "status": "ALL_SURVEYS_COMPLETED"
+ },
+ "evaluation_id": "cd707ee3-02cf-4815-b3d8-1c68be9a0ae9",
+ "assurance_id": "58ba6312-639f-4ab8-9919-02c7a8ba6a51",
+ "evaluations": [
+  {
+   "id": "cd707ee3-02cf-4815-b3d8-1c68be9a0ae9",
+   "created_at": "2026-11-22T16:14:00.394161+08:00",
+   "status": "REQUIRES_REVIEW",
+   "coverage_status": "INCOMPLETE",
+   "policy": "POL-DEV-SYNTHETIC",
+   "result_sha256": "14160e828062b9bc33c83bcf972e5fdfe8f94d6f64b347ebcee065fc874f373d"
+  }
+ ],
+ "assurances": [
+  {
+   "id": "58ba6312-639f-4ab8-9919-02c7a8ba6a51",
+   "created_at": "2026-11-22T17:15:56.276451+08:00",
+   "status": "VERIFIED",
+   "evaluation_id": "cd707ee3-02cf-4815-b3d8-1c68be9a0ae9",
+   "result_sha256": "168a9a807d0e040279f58d31ad04f6bf9f94d716b7626f6b8324e8920d656abc"
+  }
+ ],
+ "dimensions": {
+  "completion": {
+   "status": "ALL_SURVEYS_COMPLETED",
+   "surveys": 2,
+   "surveys_completed": 2,
+   "surveys_started": 2,
+   "complete": true,
+   "stopped_because": null,
+   "note": "Completion says the surveys reached their end. It says nothing about whether any control is satisfied."
+  },
+  "satisfaction": {
+   "status": "EVALUATED",
+   "by_outcome": {
+    "SATISFIED": 1,
+    "UNRESOLVED": 0,
+    "NOT_SATISFIED": 0,
+    "NOT_APPLICABLE": 0,
+    "REQUIRES_REVIEW": 2,
+    "INSUFFICIENT_EVIDENCE": 0
+   },
+   "controls": 3,
+   "findings": 4,
+   "processing_status": "REQUIRES_REVIEW",
+   "note": "Each control obligation has its own outcome. There is no overall 'satisfied' for a journey."
+  },
+  "coverage": {
+   "status": "INCOMPLETE",
+   "reason": "REQUIRED_CONTROLS_NOT_EVIDENCED",
+   "required": 3,
+   "evidenced": 1,
+   "by_instance": {
+    "EVIDENCED": 1,
+    "NOT_MAPPED": 0,
+    "NOT_REQUIRED": 0,
+    "EVIDENCE_MISSING": 0,
+    "INTEGRITY_FAILED": 0,
+    "EVIDENCE_CONFLICTING": 2,
+    "APPLICABILITY_UNKNOWN": 0,
+    "EVALUATION_UNSUPPORTED": 0,
+    "HUMAN_ASSESSMENT_PENDING": 0
+   },
+   "policy_completeness": "DECLARED_COMPLETE",
+   "note": "Coverage is about evidence within the named policy's declared scope, not about results, and not about every control the business may have."
+  },
+  "assurance": {
+   "status": "VERIFIED",
+   "recorded_status": "VERIFIED",
+   "surveys": {
+    "VERIFIED": 2,
+    "INCOMPLETE": 0,
+    "NOT_ASSESSABLE": 0,
+    "INTEGRITY_FAILED": 0,
+    "DEVIATION_DETECTED": 0
+   },
+   "deviations": 0,
+   "note": "Whether the recorded execution followed the survey versions it pinned. It is not a control outcome."
+  },
+  "eligibility": {
+   "status": "NOT_ESTABLISHED",
+   "note": "Nothing in a simulation, an evaluation of one or a verification of one establishes that a real customer may be called."
+  }
+ },
+ "questions": [
+  {
+   "key": "REQUIRED",
+   "question": "What was required?",
+   "links": [
+    "APPLICATION",
+    "ASSIGNMENT_INPUTS",
+    "RULE_VERSIONS",
+    "BINDINGS",
+    "REQUIREMENT_GROUPS"
+   ]
+  },
+  {
+   "key": "SELECTED",
+   "question": "Which surveys were selected?",
+   "links": [
+    "SURVEY_VERSIONS",
+    "COMPOSITE_PLAN"
+   ]
+  },
+  {
+   "key": "HAPPENED",
+   "question": "What happened in each survey?",
+   "links": [
+    "SIMULATIONS",
+    "COORDINATED_SIMULATION"
+   ]
+  },
+  {
+   "key": "ASSESSED",
+   "question": "What controls were assessed?",
+   "links": [
+    "CONTROL_POLICY",
+    "MAPPINGS",
+    "EVALUATION",
+    "CONTROL_RESULTS"
+   ]
+  },
+  {
+   "key": "GAPS",
+   "question": "What evidence was missing or contradictory?",
+   "links": []
+  },
+  {
+   "key": "FINDINGS",
+   "question": "What findings arose?",
+   "links": [
+    "FINDINGS"
+   ]
+  },
+  {
+   "key": "FAITHFUL",
+   "question": "Was execution faithful to its pinned plan?",
+   "links": [
+    "EXECUTION_ASSURANCE"
+   ]
+  }
+ ],
+ "chain": [
+  {
+   "step": 1,
+   "key": "APPLICATION",
+   "title": "Synthetic application",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "SYNTHETIC_APPLICATION",
+     "id": null,
+     "label": "Synthetic application: EVAL-2A development walkthrough: conflict",
+     "version": null,
+     "sha256": "690ad5523f8c002fe747489f6c304b1f7559d9659c0f1597ac9933d407ab6fce",
+     "sha256_of": "the application's facts and assignment inputs",
+     "source": "Entered by a person for a simulation. Synthetic; not a customer application and not read from any business system",
+     "facts": {
+      "facts": {},
+      "record_class": "SIMULATION"
+     }
+    }
+   ],
+   "notes": [
+    "The application has no record of its own: it is stored on the composite plan that was made from it, and identified by its fingerprint."
+   ]
+  },
+  {
+   "step": 2,
+   "key": "ASSIGNMENT_INPUTS",
+   "title": "Assignment inputs",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "ASSIGNMENT_INPUTS",
+     "id": "d8ceed75-fc0a-4348-b4f7-c7fd6840ce26",
+     "label": "Assignment inputs of the application",
+     "version": null,
+     "sha256": "690ad5523f8c002fe747489f6c304b1f7559d9659c0f1597ac9933d407ab6fce",
+     "sha256_of": "assignment inputs and call-plan facts together",
+     "source": "Entered for this simulation (synthetic); stored on the composite plan",
+     "facts": {
+      "inputs": {
+       "is_ilp": true,
+       "market": "SG",
+       "risk_band": "HIGH",
+       "case_purpose": "SALE_VERIFICATION",
+       "contact_role": [
+        "OWNER"
+       ],
+       "product_code": "SYN-ILP-GROWTH",
+       "product_family": "ILP",
+       "selling_channel": "AGENCY",
+       "premium_frequency": "ANNUAL"
+      }
+     }
+    }
+   ],
+   "notes": [
+    "Nothing verifies that the assignment inputs and the call-plan facts describe the same application: input consistency is UNVERIFIED."
+   ]
+  },
+  {
+   "step": 3,
+   "key": "RULE_VERSIONS",
+   "title": "Matching rule versions",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "ASSIGNMENT_RULE_VERSION",
+     "id": "97224fe8-77c4-4b1d-92be-a06a2da8da5f",
+     "label": "SG-ILP-HIGH-RISK v2",
+     "version": 2,
+     "sha256": "a538f0718ef2fd3d9d40bb25bbec9537b5c078952f4b9b925328b91c938472b8",
+     "sha256_of": "the rule version as Script Studio recorded it",
+     "source": "Published assignment rule (Script Studio rule tables; read only)",
+     "facts": {
+      "matched_in_groups": [
+       "DEV-ADD-SYNTHETIC"
+      ],
+      "selected_in_groups": [
+       "DEV-ADD-SYNTHETIC"
+      ],
+      "priority": 4,
+      "is_fallback": false,
+      "conditions": [
+       {
+        "field": "market",
+        "expected": [
+         "SG"
+        ],
+        "actual": "SG",
+        "result": "PASS"
+       },
+       {
+        "field": "is_ilp",
+        "expected": [
+         true
+        ],
+        "actual": true,
+        "result": "PASS"
+       },
+       {
+        "field": "risk_band",
+        "expected": [
+         "HIGH",
+         "MEDIUM"
+        ],
+        "actual": "HIGH",
+        "result": "PASS"
+       }
+      ]
+     }
+    },
+    {
+     "kind": "ASSIGNMENT_RULE_VERSION",
+     "id": "4368aa91-6b6c-585f-9df4-ea3ddca814fa",
+     "label": "SG-SALES-VERIFY v2",
+     "version": 2,
+     "sha256": "f153873cdaa31d97374dd99e1a789aabc43ce4e22b30317507a192c482934acb",
+     "sha256_of": "the rule version as Script Studio recorded it",
+     "source": "Published assignment rule (Script Studio rule tables; read only)",
+     "facts": {
+      "matched_in_groups": [
+       "DEV-PRIMARY"
+      ],
+      "selected_in_groups": [
+       "DEV-PRIMARY"
+      ],
+      "priority": 10,
+      "is_fallback": false,
+      "conditions": [
+       {
+        "field": "market",
+        "expected": [
+         "SG"
+        ],
+        "actual": "SG",
+        "result": "PASS"
+       },
+       {
+        "field": "case_purpose",
+        "expected": [
+         "SALE_VERIFICATION"
+        ],
+        "actual": "SALE_VERIFICATION",
+        "result": "PASS"
+       }
+      ]
+     }
+    }
+   ],
+   "notes": [
+    "1 published rule(s) that select a script and no survey were ignored."
+   ]
+  },
+  {
+   "step": 4,
+   "key": "BINDINGS",
+   "title": "Published bindings",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "SURVEY_BINDING",
+     "id": "325dbc11-e90a-4904-8c50-cc25cc54db6c",
+     "label": "SG-SALES-VERIFY v2 \u2192 survey version",
+     "version": null,
+     "sha256": "26f92eca6d0e38c533e47cbd28b517f9d25e46e729bd8c174853c6f0a5affd26",
+     "sha256_of": "the manifest of the survey version the binding pins",
+     "source": "Published survey binding (three people)",
+     "facts": {
+      "rule": "SG-SALES-VERIFY v2",
+      "survey_version_id": "c909df99-1c53-4381-b9a8-9af44ca5b6cd",
+      "content_sha256": "0417ab1f3725308fe3f5e4790ccbc4988fd4faa80162878eadd00df93159187f"
+     }
+    },
+    {
+     "kind": "SURVEY_BINDING",
+     "id": "2626e064-99d5-410e-937f-284cbea93276",
+     "label": "SG-ILP-HIGH-RISK v2 \u2192 survey version",
+     "version": null,
+     "sha256": "9d8d9960c8eff02d733e0f6e920f55d8b2c4a8173e7fd5193040625d60ba7207",
+     "sha256_of": "the manifest of the survey version the binding pins",
+     "source": "Published survey binding (three people)",
+     "facts": {
+      "rule": "SG-ILP-HIGH-RISK v2",
+      "survey_version_id": "90019dc7-488d-4309-bfd9-62b20224197a",
+      "content_sha256": "35bc78f9b8781c06ce2ae49fe420fd90be270e2ecdca43a914492b027629c72d"
+     }
+    }
+   ],
+   "notes": []
+  },
+  {
+   "step": 5,
+   "key": "REQUIREMENT_GROUPS",
+   "title": "Requirement group versions",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "REQUIREMENT_GROUP",
+     "id": "485fb593-9b85-4879-90fb-897f84f5a6e5",
+     "label": "DEV-PRIMARY (PRIMARY)",
+     "version": 1,
+     "sha256": null,
+     "sha256_of": null,
+     "source": "Published requirement group (three people)",
+     "facts": {
+      "sequence": 1,
+      "state": "SELECTED",
+      "outcome": "SELECTED",
+      "selection": "MATCHED",
+      "reason": "SG-SALES-VERIFY v2 is the highest-precedence matching rule (priority 10, specificity 2)",
+      "winning_rules": [
+       "SG-SALES-VERIFY v2"
+      ]
+     }
+    },
+    {
+     "kind": "REQUIREMENT_GROUP",
+     "id": "0866102a-0c5d-4ad9-bb09-63fba6484485",
+     "label": "DEV-ADD-SYNTHETIC (ADD_REQUIRED)",
+     "version": 1,
+     "sha256": null,
+     "sha256_of": null,
+     "source": "Published requirement group (three people)",
+     "facts": {
+      "sequence": 2,
+      "state": "SELECTED",
+      "outcome": "SELECTED",
+      "selection": "MATCHED",
+      "reason": "SG-ILP-HIGH-RISK v2 is the highest-precedence matching rule (priority 4, specificity 3)",
+      "winning_rules": [
+       "SG-ILP-HIGH-RISK v2"
+      ]
+     }
+    }
+   ],
+   "notes": [
+    "No fingerprint is recorded for a group revision on its own; it is identified by id and version and is covered by the composite plan's fingerprint."
+   ]
+  },
+  {
+   "step": 6,
+   "key": "SURVEY_VERSIONS",
+   "title": "Published survey versions",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "SURVEY_VERSION",
+     "id": "c909df99-1c53-4381-b9a8-9af44ca5b6cd",
+     "label": "Development enablement check (synthetic) (DEV-CHECK-AD5AEA8F)",
+     "version": "1.0",
+     "sha256": "26f92eca6d0e38c533e47cbd28b517f9d25e46e729bd8c174853c6f0a5affd26",
+     "sha256_of": "the version's manifest: every pinned module, item and wording",
+     "source": "Published survey version (three people)",
+     "facts": {
+      "survey_code": "DEV-CHECK-AD5AEA8F",
+      "content_sha256": "0417ab1f3725308fe3f5e4790ccbc4988fd4faa80162878eadd00df93159187f",
+      "selected_by": "SG-SALES-VERIFY v2",
+      "group": "DEV-PRIMARY",
+      "requirement_kind": "PRIMARY",
+      "reason": "SG-SALES-VERIFY v2 is the highest-precedence matching rule (priority 10, specificity 2)",
+      "by_fallback": false
+     }
+    },
+    {
+     "kind": "SURVEY_VERSION",
+     "id": "90019dc7-488d-4309-bfd9-62b20224197a",
+     "label": "EVAL-2A development walkthrough: shared question (synthetic) (S-DEV-EVAL-SHARED)",
+     "version": "1.0",
+     "sha256": "9d8d9960c8eff02d733e0f6e920f55d8b2c4a8173e7fd5193040625d60ba7207",
+     "sha256_of": "the version's manifest: every pinned module, item and wording",
+     "source": "Published survey version (three people)",
+     "facts": {
+      "survey_code": "S-DEV-EVAL-SHARED",
+      "content_sha256": "35bc78f9b8781c06ce2ae49fe420fd90be270e2ecdca43a914492b027629c72d",
+      "selected_by": "SG-ILP-HIGH-RISK v2",
+      "group": "DEV-ADD-SYNTHETIC",
+      "requirement_kind": "ADD_REQUIRED",
+      "reason": "SG-ILP-HIGH-RISK v2 is the highest-precedence matching rule (priority 4, specificity 3)",
+      "by_fallback": false
+     }
+    }
+   ],
+   "notes": []
+  },
+  {
+   "step": 7,
+   "key": "COMPOSITE_PLAN",
+   "title": "Composite plan",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "COMPOSITE_PLAN",
+     "id": "d8ceed75-fc0a-4348-b4f7-c7fd6840ce26",
+     "label": "Composite call plan",
+     "version": "call360.survey.composite-plan/1",
+     "sha256": "d68407e31d98b4e9c0c835a3397bf9a6dda9a423373c0ee7296566914dc70e86",
+     "sha256_of": "the whole composite: selection, order, each survey's plan",
+     "source": "Composed by the assignment engine from published rules, bindings and groups",
+     "facts": {
+      "selection_status": "RESOLVED",
+      "ordering_status": "GOVERNED",
+      "plan_status": "READY",
+      "recomputes_to_its_record": true,
+      "governed_order": [
+       "DEV-PRIMARY",
+       "DEV-ADD-SYNTHETIC"
+      ],
+      "coordinated_simulation": "PERMITTED",
+      "cross_survey_policy": "UNRESOLVED"
+     }
+    },
+    {
+     "kind": "CALL_PLAN",
+     "id": "a954ab17-fcc7-492a-9a22-da2f37a6cf3e",
+     "label": "Call plan for DEV-PRIMARY",
+     "version": null,
+     "sha256": "79de73ecbbb01d8cfdc48927f067311102a1ceabc73dd3c53ebde31da3845968",
+     "sha256_of": "the survey's call plan: modules, items, exact wording",
+     "source": "Assembled from the published survey version",
+     "facts": {
+      "intact": true
+     }
+    },
+    {
+     "kind": "CALL_PLAN",
+     "id": "8ba48e3a-8325-4f90-a8ca-b9934012d068",
+     "label": "Call plan for DEV-ADD-SYNTHETIC",
+     "version": null,
+     "sha256": "037629b875fbb0fa75eebe846b0c29a69f46cc6b2f683d89a12bffea64432a33",
+     "sha256_of": "the survey's call plan: modules, items, exact wording",
+     "source": "Assembled from the published survey version",
+     "facts": {
+      "intact": true
+     }
+    }
+   ],
+   "notes": []
+  },
+  {
+   "step": 8,
+   "key": "SIMULATIONS",
+   "title": "Individual simulation records",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "SIMULATION",
+     "id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "label": "1. Development enablement check (synthetic)",
+     "version": "call360.survey.execution/1",
+     "sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646",
+     "sha256_of": "the run after the last recorded input",
+     "source": "Recorded inputs, replayed by the authoritative execution engine",
+     "facts": {
+      "survey_code": "DEV-CHECK-AD5AEA8F",
+      "position": 1,
+      "state": "COMPLETED",
+      "ending": "COMPLETED",
+      "survey_outcome": "COMPLETED",
+      "recomputes_to_its_record": true,
+      "inputs": 4,
+      "accepted": 4,
+      "delivered": 6,
+      "facts_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "initial_run_sha256": "fe4f842bf5cdd426b1666cb03ff6ca0c1625cc6f4ed8f9c8d74b26f59b758e0b"
+     }
+    },
+    {
+     "kind": "SIMULATION",
+     "id": "0b7c7a04-daf9-4e0b-b421-2a2d3ea4334d",
+     "label": "2. EVAL-2A development walkthrough: shared question (synthetic)",
+     "version": "call360.survey.execution/1",
+     "sha256": "315843307ca86b7f27dfbd0015625b7b429bc5e7e6bcd2263ca987b9df6ea3e4",
+     "sha256_of": "the run after the last recorded input",
+     "source": "Recorded inputs, replayed by the authoritative execution engine",
+     "facts": {
+      "survey_code": "S-DEV-EVAL-SHARED",
+      "position": 2,
+      "state": "COMPLETED",
+      "ending": "COMPLETED",
+      "survey_outcome": "COMPLETED",
+      "recomputes_to_its_record": true,
+      "inputs": 1,
+      "accepted": 1,
+      "delivered": 1,
+      "facts_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "initial_run_sha256": "a371e2cfd1b80cf8c119b2e440027aeda01b438d9cbbd4e0af863ca229f0d606"
+     }
+    }
+   ],
+   "notes": [
+    "The event trace is not stored: it is recomputed from the recorded inputs by the authoritative engine and compared with the fingerprint recorded after every input."
+   ]
+  },
+  {
+   "step": 9,
+   "key": "COORDINATED_SIMULATION",
+   "title": "Coordinated simulation",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "COORDINATED_SIMULATION",
+     "id": "1f0cda30-f449-4beb-bba3-c45cca9a58a4",
+     "label": "Coordinated simulation: EVAL-2A development walkthrough: conflict",
+     "version": "call360.survey.coordinated-simulation/1",
+     "sha256": "58a9e42c4795a30d4b615943e1462f05c3f60e0afaedaed404a3d3ee9330abf3",
+     "sha256_of": "the coordinated run: every step and every survey's run",
+     "source": "The coordinator's recorded steps over the individual simulations",
+     "facts": {
+      "status": "ALL_SURVEYS_COMPLETED",
+      "composite_plan_id": "d8ceed75-fc0a-4348-b4f7-c7fd6840ce26",
+      "composite_fingerprint": "d68407e31d98b4e9c0c835a3397bf9a6dda9a423373c0ee7296566914dc70e86",
+      "composite_intact": true,
+      "governed_order": [
+       "DEV-PRIMARY",
+       "DEV-ADD-SYNTHETIC"
+      ],
+      "decisions": [
+       {
+        "after": "DEV-PRIMARY",
+        "ending": "COMPLETED",
+        "decision": "PROCEED",
+        "rule": "SIMULATION_ONLY_COMPLETED_PROCEEDS",
+        "to": "DEV-ADD-SYNTHETIC"
+       }
+      ],
+      "progress": {
+       "surveys_total": 2,
+       "surveys_completed": 2,
+       "surveys_started": 2,
+       "inputs": 5,
+       "refused_inputs": 0,
+       "items_delivered": 7
+      }
+     }
+    }
+   ],
+   "notes": [
+    "A survey after the first starts only when the one before it is completed; that is a rule of the simulation, not an approved rule for live calls."
+   ]
+  },
+  {
+   "step": 10,
+   "key": "CONTROL_POLICY",
+   "title": "Control policy revision",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "CONTROL_POLICY_REVISION",
+     "id": "8d5819c7-6cf8-4a76-8bc1-e44b4f9547d0",
+     "label": "Development synthetic control policy (POL-DEV-SYNTHETIC)",
+     "version": 1,
+     "sha256": "580db1934a89516d85f25330a8963aafac73206f77832381aa02bc0b175a5a34",
+     "sha256_of": "the whole policy revision",
+     "source": "Published control policy (three people)",
+     "facts": {
+      "completeness": "DECLARED_COMPLETE",
+      "scope": "IN_SCOPE",
+      "applicability_fingerprint": "68858796b8e2babf428dc5365e1fb10db034890b63391ba22f9846384c1c29bd",
+      "applicability_counts": {
+       "UNKNOWN": 0,
+       "APPLICABLE": 3,
+       "NOT_APPLICABLE": 0
+      },
+      "input_lineage": "UNVERIFIED",
+      "selected_by": "NAMED_EXPLICITLY"
+     }
+    }
+   ],
+   "notes": [
+    "The policy was named explicitly by the person who ran the evaluation. Nothing selects a control policy for an application.",
+    "Every control, obligation and condition in it is synthetic."
+   ]
+  },
+  {
+   "step": 11,
+   "key": "MAPPINGS",
+   "title": "Mapping revisions",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "CONTROL_MAPPING_REVISION",
+     "id": "5d5d33cd-62aa-4077-9787-ed07975a900c",
+     "label": "Mapping of SYN-CTRL-01",
+     "version": 2,
+     "sha256": "7a28c447a944f93903cf68b6f85bfb6532a678e446985047e01d8700fcfa99c3",
+     "sha256_of": "the whole mapping revision",
+     "source": "Published control mapping (three people)",
+     "facts": {
+      "control_code": "SYN-CTRL-01"
+     }
+    },
+    {
+     "kind": "CONTROL_MAPPING_REVISION",
+     "id": "ccf6eace-35a4-4de1-b44c-aca5336f9a48",
+     "label": "Mapping of SYN-CTRL-04",
+     "version": 2,
+     "sha256": "377b0e946bd81efb2ef759a401a3a94e771f2ca726e80654f51c7c240fe0fa99",
+     "sha256_of": "the whole mapping revision",
+     "source": "Published control mapping (three people)",
+     "facts": {
+      "control_code": "SYN-CTRL-04"
+     }
+    }
+   ],
+   "notes": []
+  },
+  {
+   "step": 12,
+   "key": "EVALUATION",
+   "title": "Evaluation run",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "JOURNEY_EVALUATION",
+     "id": "cd707ee3-02cf-4815-b3d8-1c68be9a0ae9",
+     "label": "Evaluation of the journey",
+     "version": "call360.survey.control-evaluation/2 (policy-scoped)",
+     "sha256": "14160e828062b9bc33c83bcf972e5fdfe8f94d6f64b347ebcee065fc874f373d",
+     "sha256_of": "the whole result: every control result, observation and finding",
+     "source": "Computed by the existing deterministic evaluation engines from the pinned records",
+     "facts": {
+      "input_sha256": "8b3876a065a9700adf295f4f8de816e065ba2a8331c374af6b5575e0024ebfa6",
+      "processing_status": "REQUIRES_REVIEW",
+      "recomputes_to_its_record": true,
+      "engines": {
+       "findings": "call360.finding-engine/1 (S3-B deterministic)",
+       "answer_evaluation": "call360.answer-evaluation/1 (S3-A deterministic)",
+       "control_evaluation": "call360.survey.control-evaluation/2 (policy-scoped)"
+      },
+      "created_at": "2026-11-22 16:14:00.394161+08:00"
+     }
+    },
+    {
+     "kind": "FINDING_RULE_SET",
+     "id": "591a6036-f37e-43ec-8984-625dc89bfe4f",
+     "label": "SG finding rules v1",
+     "version": null,
+     "sha256": "197712a71da713219a001ea088da152489c0beb5cb27c6aee3c102a7c343757e",
+     "sha256_of": "the finding rule set version",
+     "source": "Published finding rule set (existing findings engine)",
+     "facts": {
+      "status": "PUBLISHED"
+     }
+    },
+    {
+     "kind": "CONTROL_REGISTER_ROW",
+     "id": "f85f40ec-7eba-537e-bbe5-1379578d7e4f",
+     "label": "SYN-CTRL-01",
+     "version": null,
+     "sha256": "1cc4490c0d3fb3ca90a6bf540c35785e897f05dda848d540afe7220c7d07bc95",
+     "sha256_of": "the control register row as it was read",
+     "source": "Control register (read only)",
+     "facts": {}
+    },
+    {
+     "kind": "CONTROL_REGISTER_ROW",
+     "id": "c3125afd-b7de-533c-a3ad-d13a49c8599d",
+     "label": "SYN-CTRL-02",
+     "version": null,
+     "sha256": "df2c6f7394bf01fb6266d4246e1c6f5f7c5269cb738184540e67d44e90e5e9f2",
+     "sha256_of": "the control register row as it was read",
+     "source": "Control register (read only)",
+     "facts": {}
+    },
+    {
+     "kind": "CONTROL_REGISTER_ROW",
+     "id": "9f320bc8-21ea-5c7d-ac7e-48e717334fd9",
+     "label": "SYN-CTRL-03",
+     "version": null,
+     "sha256": "76b35f266562fe0261d18289fb9266d8a8e0ac0ebc3673237d709e6f9851474f",
+     "sha256_of": "the control register row as it was read",
+     "source": "Control register (read only)",
+     "facts": {}
+    },
+    {
+     "kind": "CONTROL_REGISTER_ROW",
+     "id": "433c2bf5-e034-5c11-96a0-8c78b314f28a",
+     "label": "SYN-CTRL-04",
+     "version": null,
+     "sha256": "95bb70d95721fd7bcd11b1b739d8b4ed217011eb54ecc56e059f9feee707f8c8",
+     "sha256_of": "the control register row as it was read",
+     "source": "Control register (read only)",
+     "facts": {}
+    },
+    {
+     "kind": "CONTROL_REGISTER_ROW",
+     "id": "6592fef3-df57-5d40-90ea-6b3337fc855e",
+     "label": "SYN-CTRL-05",
+     "version": null,
+     "sha256": "dca03cc64a7b009ba201d75fa0fd7d750ba4b097612910f7e6e4e89b149f575b",
+     "sha256_of": "the control register row as it was read",
+     "source": "Control register (read only)",
+     "facts": {}
+    }
+   ],
+   "notes": []
+  },
+  {
+   "step": 13,
+   "key": "CONTROL_RESULTS",
+   "title": "Control-obligation results",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "CONTROL_OBLIGATION_RESULT",
+     "id": null,
+     "label": "SYN-CTRL-01 / CLARITY",
+     "version": null,
+     "sha256": null,
+     "sha256_of": null,
+     "source": "Part of the evaluation record; covered by its result fingerprint",
+     "facts": {
+      "control_code": "SYN-CTRL-01",
+      "obligation": "CLARITY",
+      "outcome": "REQUIRES_REVIEW",
+      "coverage": "EVIDENCE_CONFLICTING",
+      "applicability": "APPLICABLE",
+      "mapping_revision": 2,
+      "reasons": [
+       "EVIDENCE_CONFLICT",
+       "EVIDENCE_MISMATCH"
+      ],
+      "evidence": [
+       {
+        "seq": 1,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-topics/n2",
+        "result": "MATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 2,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-topics/n4",
+        "result": "MATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 3,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-recap/n1",
+        "result": "MATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 4,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-recap-2/n1",
+        "result": "MATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 5,
+        "simulation_id": "0b7c7a04-daf9-4e0b-b421-2a2d3ea4334d",
+        "survey": "S-DEV-EVAL-SHARED",
+        "placement": "mi-shared/n1",
+        "result": "MISMATCH",
+        "gap": null,
+        "run_sha256": "315843307ca86b7f27dfbd0015625b7b429bc5e7e6bcd2263ca987b9df6ea3e4"
+       }
+      ]
+     }
+    },
+    {
+     "kind": "CONTROL_OBLIGATION_RESULT",
+     "id": null,
+     "label": "SYN-CTRL-01 / OPENING",
+     "version": null,
+     "sha256": null,
+     "sha256_of": null,
+     "source": "Part of the evaluation record; covered by its result fingerprint",
+     "facts": {
+      "control_code": "SYN-CTRL-01",
+      "obligation": "OPENING",
+      "outcome": "SATISFIED",
+      "coverage": "EVIDENCED",
+      "applicability": "APPLICABLE",
+      "mapping_revision": 2,
+      "evidence": [
+       {
+        "seq": 6,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-topics/n1",
+        "result": "DELIVERED",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       }
+      ]
+     }
+    },
+    {
+     "kind": "CONTROL_OBLIGATION_RESULT",
+     "id": null,
+     "label": "SYN-CTRL-04 / EXPECT-NO",
+     "version": null,
+     "sha256": null,
+     "sha256_of": null,
+     "source": "Part of the evaluation record; covered by its result fingerprint",
+     "facts": {
+      "control_code": "SYN-CTRL-04",
+      "obligation": "EXPECT-NO",
+      "outcome": "REQUIRES_REVIEW",
+      "coverage": "EVIDENCE_CONFLICTING",
+      "applicability": "APPLICABLE",
+      "mapping_revision": 2,
+      "reasons": [
+       "EVIDENCE_CONFLICT",
+       "EVIDENCE_MISMATCH",
+       "EVIDENCE_MISMATCH",
+       "EVIDENCE_MISMATCH",
+       "EVIDENCE_MISMATCH"
+      ],
+      "evidence": [
+       {
+        "seq": 7,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-topics/n2",
+        "result": "MISMATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 8,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-topics/n4",
+        "result": "MISMATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 9,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-recap/n1",
+        "result": "MISMATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 10,
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "survey": "DEV-CHECK-AD5AEA8F",
+        "placement": "mi-recap-2/n1",
+        "result": "MISMATCH",
+        "gap": null,
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "seq": 11,
+        "simulation_id": "0b7c7a04-daf9-4e0b-b421-2a2d3ea4334d",
+        "survey": "S-DEV-EVAL-SHARED",
+        "placement": "mi-shared/n1",
+        "result": "MATCH",
+        "gap": null,
+        "run_sha256": "315843307ca86b7f27dfbd0015625b7b429bc5e7e6bcd2263ca987b9df6ea3e4"
+       }
+      ]
+     }
+    }
+   ],
+   "notes": []
+  },
+  {
+   "step": 14,
+   "key": "FINDINGS",
+   "title": "Findings",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "FINDING",
+     "id": null,
+     "label": "SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH",
+     "version": null,
+     "sha256": "02e485ee7b8951c1658ec6849afe944420c173f2236265f352a54bb83cf0c8b0",
+     "sha256_of": "the finding's identity: rule, item and evidence",
+     "source": "Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one",
+     "facts": {
+      "control_code": "SYN-CTRL-04",
+      "obligation": "EXPECT-NO",
+      "rule": "FR-CTRL04-MISMATCH",
+      "trigger": "MISMATCH",
+      "severity": "HIGH",
+      "severity_source": "Finding rule FR-CTRL04-MISMATCH in rule set SG finding rules v1",
+      "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+      "observation_seq": 7,
+      "placement": "mi-topics/n2",
+      "question": "Q-CLEAR-AD5AEA8F@1"
+     }
+    },
+    {
+     "kind": "FINDING",
+     "id": null,
+     "label": "SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH",
+     "version": null,
+     "sha256": "082e74d138f8583fd7d7904935c2426ebc65d4a7f1a525bb6aff5e3053cc55bc",
+     "sha256_of": "the finding's identity: rule, item and evidence",
+     "source": "Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one",
+     "facts": {
+      "control_code": "SYN-CTRL-04",
+      "obligation": "EXPECT-NO",
+      "rule": "FR-CTRL04-MISMATCH",
+      "trigger": "MISMATCH",
+      "severity": "HIGH",
+      "severity_source": "Finding rule FR-CTRL04-MISMATCH in rule set SG finding rules v1",
+      "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+      "observation_seq": 8,
+      "placement": "mi-topics/n4",
+      "question": "Q-CLEAR-AD5AEA8F@1"
+     }
+    },
+    {
+     "kind": "FINDING",
+     "id": null,
+     "label": "SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH",
+     "version": null,
+     "sha256": "d410c07ed571aaccd11568d54af70ac1a21acffe9e254f5590a8720e077b838d",
+     "sha256_of": "the finding's identity: rule, item and evidence",
+     "source": "Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one",
+     "facts": {
+      "control_code": "SYN-CTRL-04",
+      "obligation": "EXPECT-NO",
+      "rule": "FR-CTRL04-MISMATCH",
+      "trigger": "MISMATCH",
+      "severity": "HIGH",
+      "severity_source": "Finding rule FR-CTRL04-MISMATCH in rule set SG finding rules v1",
+      "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+      "observation_seq": 9,
+      "placement": "mi-recap/n1",
+      "question": "Q-CLEAR-AD5AEA8F@1"
+     }
+    },
+    {
+     "kind": "FINDING",
+     "id": null,
+     "label": "SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH",
+     "version": null,
+     "sha256": "824e3c5b583c857ff5ae703d576030031207caf24817273f6982f7c44a77a137",
+     "sha256_of": "the finding's identity: rule, item and evidence",
+     "source": "Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one",
+     "facts": {
+      "control_code": "SYN-CTRL-04",
+      "obligation": "EXPECT-NO",
+      "rule": "FR-CTRL04-MISMATCH",
+      "trigger": "MISMATCH",
+      "severity": "HIGH",
+      "severity_source": "Finding rule FR-CTRL04-MISMATCH in rule set SG finding rules v1",
+      "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+      "observation_seq": 10,
+      "placement": "mi-recap-2/n1",
+      "question": "Q-CLEAR-AD5AEA8F@1"
+     }
+    }
+   ],
+   "notes": [
+    "Severities come from the synthetic finding rule set as published; none is an approved compliance severity.",
+    "1 evaluated discrepancy(ies) matched no rule of the pinned rule set and produced no finding.",
+    "No operational finding, case or disposition is created."
+   ]
+  },
+  {
+   "step": 15,
+   "key": "EXECUTION_ASSURANCE",
+   "title": "Execution assurance",
+   "status": "RECORDED",
+   "records": [
+    {
+     "kind": "EXECUTION_ASSURANCE",
+     "id": "58ba6312-639f-4ab8-9919-02c7a8ba6a51",
+     "label": "Execution assurance of the journey",
+     "version": "call360.survey.execution-assurance/1",
+     "sha256": "168a9a807d0e040279f58d31ad04f6bf9f94d716b7626f6b8324e8920d656abc",
+     "sha256_of": "the whole assurance result: every check of every survey",
+     "source": "Verified from the recorded executions by the assurance verifier; executes nothing",
+     "facts": {
+      "input_sha256": "451f5563611eabb9618de0527443023818f21ec98152b0cf3c497b3e1f8dcc5c",
+      "status": "VERIFIED",
+      "current_status": "VERIFIED",
+      "recomputes_to_its_record": true,
+      "beside_evaluation": "cd707ee3-02cf-4815-b3d8-1c68be9a0ae9",
+      "surveys": [
+       {
+        "position": 1,
+        "status": "VERIFIED",
+        "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+        "run_sha256": "577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646"
+       },
+       {
+        "position": 2,
+        "status": "VERIFIED",
+        "simulation_id": "0b7c7a04-daf9-4e0b-b421-2a2d3ea4334d",
+        "run_sha256": "315843307ca86b7f27dfbd0015625b7b429bc5e7e6bcd2263ca987b9df6ea3e4"
+       }
+      ],
+      "journey_checks": [
+       {
+        "check": "SELECTION_RECORDED",
+        "status": "PASSED"
+       },
+       {
+        "check": "GOVERNED_ORDER",
+        "status": "PASSED"
+       },
+       {
+        "check": "NO_BYPASS",
+        "status": "PASSED"
+       },
+       {
+        "check": "OWN_EVIDENCE",
+        "status": "PASSED"
+       },
+       {
+        "check": "NO_DEDUPLICATION",
+        "status": "PASSED"
+       }
+      ],
+      "summary": {
+       "surveys": 2,
+       "findings": 0,
+       "by_status": {
+        "VERIFIED": 2,
+        "INCOMPLETE": 0,
+        "NOT_ASSESSABLE": 0,
+        "INTEGRITY_FAILED": 0,
+        "DEVIATION_DETECTED": 0
+       },
+       "deliveries": 7,
+       "wording_exact": 7,
+       "refused_inputs": 0,
+       "surveys_completed": 2,
+       "surveys_ended_without_completed": 0
+      },
+      "created_at": "2026-11-22 17:15:56.276451+08:00"
+     }
+    }
+   ],
+   "notes": [
+    "Verified against the recording only. A simulation does not show that a person heard any wording.",
+    "A deviation creates no finding, severity or disposition."
+   ]
+  }
+ ],
+ "evidence_gaps": [
+  {
+   "control_code": "SYN-CTRL-01",
+   "obligation": "CLARITY",
+   "outcome": "REQUIRES_REVIEW",
+   "coverage": "EVIDENCE_CONFLICTING",
+   "why": [
+    "Q-CLEAR-AD5AEA8F v1 was answered differently in different places. Nothing governs which answer stands, so none is chosen",
+    "Q-CLEAR-AD5AEA8F v1 (S-DEV-EVAL-SHARED mi-shared/n1): Answered no; expected yes. A mismatch is a discrepancy for review, not a breach finding"
+   ],
+   "evidence": [
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-topics/n2",
+     "result": "MATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected yes"
+    },
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-topics/n4",
+     "result": "MATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected yes"
+    },
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-recap/n1",
+     "result": "MATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected yes"
+    },
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-recap-2/n1",
+     "result": "MATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected yes"
+    },
+    {
+     "survey": "S-DEV-EVAL-SHARED",
+     "simulation_id": "0b7c7a04-daf9-4e0b-b421-2a2d3ea4334d",
+     "placement": "mi-shared/n1",
+     "result": "MISMATCH",
+     "gap": null,
+     "explanation": "Answered no; expected yes. A mismatch is a discrepancy for review, not a breach finding"
+    }
+   ]
+  },
+  {
+   "control_code": "SYN-CTRL-04",
+   "obligation": "EXPECT-NO",
+   "outcome": "REQUIRES_REVIEW",
+   "coverage": "EVIDENCE_CONFLICTING",
+   "why": [
+    "Q-CLEAR-AD5AEA8F v1 was answered differently in different places. Nothing governs which answer stands, so none is chosen",
+    "Q-CLEAR-AD5AEA8F v1 (DEV-CHECK-AD5AEA8F mi-topics/n2): Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding",
+    "Q-CLEAR-AD5AEA8F v1 (DEV-CHECK-AD5AEA8F mi-topics/n4): Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding",
+    "Q-CLEAR-AD5AEA8F v1 (DEV-CHECK-AD5AEA8F mi-recap/n1): Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding",
+    "Q-CLEAR-AD5AEA8F v1 (DEV-CHECK-AD5AEA8F mi-recap-2/n1): Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding"
+   ],
+   "evidence": [
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-topics/n2",
+     "result": "MISMATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding"
+    },
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-topics/n4",
+     "result": "MISMATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding"
+    },
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-recap/n1",
+     "result": "MISMATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding"
+    },
+    {
+     "survey": "DEV-CHECK-AD5AEA8F",
+     "simulation_id": "16feec50-fc63-468a-b2e7-09c7d4893c39",
+     "placement": "mi-recap-2/n1",
+     "result": "MISMATCH",
+     "gap": null,
+     "explanation": "Answered yes; expected no. A mismatch is a discrepancy for review, not a breach finding"
+    },
+    {
+     "survey": "S-DEV-EVAL-SHARED",
+     "simulation_id": "0b7c7a04-daf9-4e0b-b421-2a2d3ea4334d",
+     "placement": "mi-shared/n1",
+     "result": "MATCH",
+     "gap": null,
+     "explanation": "Answered no; expected no"
+    }
+   ]
+  }
+ ],
+ "integrity": {
+  "all_records_recompute": true,
+  "checks": [
+   {
+    "record": "COMPOSITE_PLAN",
+    "check": "recomputes to its recorded fingerprint",
+    "ok": true
+   },
+   {
+    "record": "COORDINATED_SIMULATION",
+    "check": "the composite it was started from is intact",
+    "ok": true
+   },
+   {
+    "record": "SIMULATION 1",
+    "check": "replays to its recorded fingerprint",
+    "ok": true
+   },
+   {
+    "record": "SIMULATION 2",
+    "check": "replays to its recorded fingerprint",
+    "ok": true
+   },
+   {
+    "record": "JOURNEY_EVALUATION",
+    "check": "recomputes to its recorded result",
+    "ok": true
+   },
+   {
+    "record": "EXECUTION_ASSURANCE",
+    "check": "recomputes to its recorded result",
+    "ok": true
+   }
+  ]
+ },
+ "open_points": [
+  {
+   "code": "SYNTHETIC_CONTENT",
+   "text": "Every application, rule condition, control, obligation, mapping, finding rule and severity here is synthetic. None is approved business or compliance content."
+  },
+  {
+   "code": "INPUT_CONSISTENCY_UNVERIFIED",
+   "text": "Nothing maps the assignment inputs to the facts the surveys and the control policy read: that they describe one application is unverified."
+  },
+  {
+   "code": "CROSS_SURVEY_POLICY_UNRESOLVED",
+   "text": "What should happen between surveys on a live call \u2014 after a refusal, an escalation, an incomplete survey \u2014 is undecided. The simulation proceeds only after a completed survey."
+  },
+  {
+   "code": "POLICY_NAMED_EXPLICITLY",
+   "text": "The control policy was chosen by the person who ran the evaluation. No rule selects the control policy that applies to an application."
+  },
+  {
+   "code": "INPUT_LINEAGE_UNVERIFIED",
+   "text": "The facts the policy's conditions read are those given to the simulation; their lineage to a real application is unverified."
+  },
+  {
+   "code": "NOT_SPOKEN",
+   "text": "No wording was spoken or heard. This is a simulation in a browser."
+  }
+ ],
+ "trace_sha256": "780f8f80e311d0f43c640d665955ae0af054e54cdbd1c58c51b36e6736b28527",
+ "operational_call_eligibility": {
+  "status": "NOT_ESTABLISHED",
+  "note": "Nothing in a simulation, an evaluation of one or a verification of one establishes that a real customer may be called."
+ }
+}

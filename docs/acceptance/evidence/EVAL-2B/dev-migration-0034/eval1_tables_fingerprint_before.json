@@ -1,0 +1,63 @@
+{
+ "survey_journey_evaluation": {
+  "rows": 2,
+  "rows_sha256": "966a29c86387433e4f23577ea13e64bed06cf1443f58892432e5c66b5a81fcbf",
+  "structure_sha256": "c40c71536fb20efe56ffd2df3a471988c802fa3c0474203b78cbfbfa26429c72",
+  "keys": [
+   "FOREIGN KEY (coordinated_id) REFERENCES survey_coordinated_simulation(id)",
+   "PRIMARY KEY (id)",
+   "FOREIGN KEY (simulation_id) REFERENCES survey_simulation(id)"
+  ]
+ },
+ "survey_control_result": {
+  "rows": 10,
+  "rows_sha256": "18b8a439d02198c55fe25580b4e39efbcd6550213cd327ff3bcef475d14d329a",
+  "structure_sha256": "8815ea2483f656b18a1b0a0003a30bb7c6b2fdeaef2997246b4e633443cbf6d9",
+  "keys": [
+   "FOREIGN KEY (control_id) REFERENCES control(id)",
+   "FOREIGN KEY (evaluation_id) REFERENCES survey_journey_evaluation(id)",
+   "FOREIGN KEY (mapping_id) REFERENCES survey_control_mapping(id)",
+   "PRIMARY KEY (evaluation_id, control_code)"
+  ]
+ },
+ "survey_evidence_observation": {
+  "rows": 18,
+  "rows_sha256": "0aa7a0baa429f1a7823e345789e7b1a6f5a1b90929edaa2a234185ba619b957d",
+  "structure_sha256": "d267e18355b43c6ed2abed4949ce9812a90744094c558c07173074f6531de132",
+  "keys": [
+   "FOREIGN KEY (evaluation_id, control_code) REFERENCES survey_control_result(evaluation_id, control_code)",
+   "PRIMARY KEY (evaluation_id, seq)",
+   "FOREIGN KEY (simulation_id) REFERENCES survey_simulation(id)",
+   "FOREIGN KEY (survey_version_id) REFERENCES survey_version(id)"
+  ]
+ },
+ "survey_evaluation_finding": {
+  "rows": 8,
+  "rows_sha256": "a81b9b1ae057acee116c421049e54a7a6b6c605e04e291dafe963d0f00e6c8de",
+  "structure_sha256": "0b446f7d52839ce5cbc955a7d7859356f607e06f7c1b72e330c74e9573570ad7",
+  "keys": [
+   "FOREIGN KEY (evaluation_id, control_code) REFERENCES survey_control_result(evaluation_id, control_code)",
+   "FOREIGN KEY (evaluation_id, observation_seq) REFERENCES survey_evidence_observation(evaluation_id, seq)",
+   "PRIMARY KEY (evaluation_id, finding_key)",
+   "FOREIGN KEY (rule_set_version_id) REFERENCES finding_rule_set_version(id)"
+  ]
+ },
+ "survey_control_mapping": {
+  "rows": 2,
+  "rows_sha256": "5d272ac5e893269e19d42ab00c27bb8e75c4ebbead337ac7eaf71d19f0623856",
+  "structure_sha256": "7b8f66c522c12cd43f73dcd5ea2282849c6dd5ff4357a7ecde188ab2e519f397",
+  "keys": [
+   "FOREIGN KEY (control_id) REFERENCES control(id)",
+   "PRIMARY KEY (id)"
+  ]
+ },
+ "survey_control_mapping_event": {
+  "rows": 6,
+  "rows_sha256": "6038c1c2825b879392ab7d694d20b4b55c5d99b4d13e9509a42a9b5188c4deba",
+  "structure_sha256": "6118b72a3d3f1eb94ab942737f29c57e07b2c157b135cd05620659fe933c05ab",
+  "keys": [
+   "FOREIGN KEY (mapping_id) REFERENCES survey_control_mapping(id)",
+   "PRIMARY KEY (seq)"
+  ]
+ }
+}

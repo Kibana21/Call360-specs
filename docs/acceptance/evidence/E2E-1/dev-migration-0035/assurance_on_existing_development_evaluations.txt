@@ -1,0 +1,34 @@
+ready: 200
+== existing COORDINATED evaluation cd707ee3 (under policy POL-DEV-SYNTHETIC; processing REQUIRES_REVIEW; coverage INCOMPLETE)
+   assurance 58ba6312 created 201, repeated 200 same record True | SIMULATION | STATUS VERIFIED | current VERIFIED | recomputes True | eligibility NOT_ESTABLISHED
+   surveys: [('DEV-CHECK-AD5AEA8F', 'VERIFIED', 'COMPLETED', '6/6 exact'), ('S-DEV-EVAL-SHARED', 'VERIFIED', 'COMPLETED', '1/1 exact')] | journey checks: [('SELECTION_RECORDED', 'PASSED'), ('GOVERNED_ORDER', 'PASSED'), ('NO_BYPASS', 'PASSED'), ('OWN_EVIDENCE', 'PASSED'), ('NO_DEDUPLICATION', 'PASSED')]
+   control results copied, not recomputed: [('SYN-CTRL-01', 'CLARITY', 'REQUIRES_REVIEW', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-01', 'OPENING', 'SATISFIED', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-04', 'EXPECT-NO', 'REQUIRES_REVIEW', 'EXECUTION_VERIFIED', True)]
+   the evaluation is unchanged by assurance: True | findings on the evaluation: 4 | findings created by assurance: 0 | assurance findings (deviations): 0
+== existing SINGLE_SURVEY evaluation 33d34f76 (under policy POL-DEV-SYNTHETIC; processing INCOMPLETE; coverage INCOMPLETE)
+   assurance c0f41083 created 201, repeated 200 same record True | SIMULATION | STATUS INCOMPLETE | current INCOMPLETE | recomputes True | eligibility NOT_ESTABLISHED
+   surveys: [('DEV-CHECK-AD5AEA8F', 'INCOMPLETE', None, '2/2 exact')] | journey checks: []
+   control results copied, not recomputed: [('SYN-CTRL-01', 'CLARITY', 'INSUFFICIENT_EVIDENCE', 'EXECUTION_INCOMPLETE', True), ('SYN-CTRL-01', 'OPENING', 'SATISFIED', 'EXECUTION_INCOMPLETE', True), ('SYN-CTRL-04', 'EXPECT-NO', 'INSUFFICIENT_EVIDENCE', 'EXECUTION_INCOMPLETE', True)]
+   the evaluation is unchanged by assurance: True | findings on the evaluation: 0 | findings created by assurance: 0 | assurance findings (deviations): 0
+== existing SINGLE_SURVEY evaluation 2b73b0a8 (under policy POL-DEV-SYNTHETIC; processing COMPLETED; coverage COMPLETE_WITHIN_POLICY_SCOPE)
+   assurance cd8e70a2 created 201, repeated 200 same record True | SIMULATION | STATUS VERIFIED | current VERIFIED | recomputes True | eligibility NOT_ESTABLISHED
+   surveys: [('DEV-CHECK-AD5AEA8F', 'VERIFIED', 'COMPLETED', '6/6 exact')] | journey checks: []
+   control results copied, not recomputed: [('SYN-CTRL-01', 'CLARITY', 'SATISFIED', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-01', 'OPENING', 'SATISFIED', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-04', 'EXPECT-NO', 'NOT_SATISFIED', 'EXECUTION_VERIFIED', True)]
+   the evaluation is unchanged by assurance: True | findings on the evaluation: 4 | findings created by assurance: 0 | assurance findings (deviations): 0
+== existing COORDINATED evaluation bd2b7884 (EVAL-1, no policy; processing INCOMPLETE; coverage NOT_ASSERTED)
+   assurance 1b02c7e4 created 201, repeated 200 same record True | SIMULATION | STATUS VERIFIED | current VERIFIED | recomputes True | eligibility NOT_ESTABLISHED
+   surveys: [('DEV-CHECK-AD5AEA8F', 'VERIFIED', 'COMPLETED', '6/6 exact'), ('S-DEV-FI2-WALKTHROUGH', 'VERIFIED', 'COMPLETED', '1/1 exact')] | journey checks: [('SELECTION_RECORDED', 'PASSED'), ('GOVERNED_ORDER', 'PASSED'), ('NO_BYPASS', 'PASSED'), ('OWN_EVIDENCE', 'PASSED'), ('NO_DEDUPLICATION', 'PASSED')]
+   control results copied, not recomputed: [('SYN-CTRL-01', None, 'SATISFIED', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-02', None, 'UNRESOLVED', 'NO_EXECUTION_EVIDENCE', True), ('SYN-CTRL-03', None, 'UNRESOLVED', 'NO_EXECUTION_EVIDENCE', True), ('SYN-CTRL-04', None, 'NOT_SATISFIED', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-05', None, 'UNRESOLVED', 'NO_EXECUTION_EVIDENCE', True)]
+   the evaluation is unchanged by assurance: True | findings on the evaluation: 4 | findings created by assurance: 0 | assurance findings (deviations): 0
+== existing SINGLE_SURVEY evaluation 1e7e81e0 (EVAL-1, no policy; processing INCOMPLETE; coverage NOT_ASSERTED)
+   assurance 5e7a1da4 created 201, repeated 200 same record True | SIMULATION | STATUS VERIFIED | current VERIFIED | recomputes True | eligibility NOT_ESTABLISHED
+   surveys: [('DEV-CHECK-AD5AEA8F', 'VERIFIED', 'COMPLETED', '6/6 exact')] | journey checks: []
+   control results copied, not recomputed: [('SYN-CTRL-01', None, 'INSUFFICIENT_EVIDENCE', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-02', None, 'UNRESOLVED', 'NO_EXECUTION_EVIDENCE', True), ('SYN-CTRL-03', None, 'UNRESOLVED', 'NO_EXECUTION_EVIDENCE', True), ('SYN-CTRL-04', None, 'NOT_SATISFIED', 'EXECUTION_VERIFIED', True), ('SYN-CTRL-05', None, 'UNRESOLVED', 'NO_EXECUTION_EVIDENCE', True)]
+   the evaluation is unchanged by assurance: True | findings on the evaluation: 4 | findings created by assurance: 0 | assurance findings (deviations): 0
+assurance runs against existing development evaluations: 5
+== security on development:
+   checker (evaluation.read, no survey.evaluate) reads -> 200 | requests a run -> 403
+   author without a CSRF token -> 403 | no session -> 403 | unknown id -> 404
+   market isolation: the development identities are all SG; another market is exercised in the test suite, not here
+== audit: {'SURVEY.EXECUTION_ASSURED': 5} | records: 5 runs, 7 survey results | record classes: ['SIMULATION']
+guarded downgrade with five assurance records on development: RuntimeError: Refusing to downgrade: recorded execution-assurance results exist; revision stays 0035_survey_execution_assurance
+backup: _db_backups/call360_dev_before_0035_20261122.dump sha256 c69245f900b942e22cac84e14b6458ef2c5b3816ac6cd7a764a76a20b9189524 (138 tables, 15,497 rows; archive rows = inventory rows)

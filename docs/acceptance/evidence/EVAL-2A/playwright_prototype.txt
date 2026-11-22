@@ -1,0 +1,3 @@
+  ✓  13 [prototype] › e2e/prototype/uc02.proto.ts:24:1 › UC-02: a computable plan is never a live-call approval; the plan is compact and opens on demand (6.2s)
+
+  13 passed (4.1m)

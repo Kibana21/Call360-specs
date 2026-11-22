@@ -1,0 +1,120 @@
+CONSOLIDATED PROVENANCE — development database, synthetic journey 'EVAL-2A development walkthrough: conflict' (COORDINATED, 1f0cda30-f449-4beb-bba3-c45cca9a58a4)
+contract call360.survey.journey-trace/1 | record class SIMULATION | chain fingerprint 780f8f80e311d0f43c640d665955ae0af054e54cdbd1c58c51b36e6736b28527
+FIVE SEPARATE DIMENSIONS: completion: ALL_SURVEYS_COMPLETED | satisfaction: EVALUATED | coverage: INCOMPLETE | assurance: VERIFIED | eligibility: NOT_ESTABLISHED
+
+ 1. Synthetic application — RECORDED
+      SYNTHETIC_APPLICATION      Synthetic application: EVAL-2A development walkthrough: confli id —        version —        sha256 690ad5523f8c002fe747489f6c304b1f7559d9659c0f1597ac9933d407ab6fce
+                                 fingerprint of: the application's facts and assignment inputs | source: Entered by a person for a simulation. Synthetic; not a customer application and not read from any business system
+      note: The application has no record of its own: it is stored on the composite plan that was made from it, and identified by its fingerprint.
+ 2. Assignment inputs — RECORDED
+      ASSIGNMENT_INPUTS          Assignment inputs of the application                           id d8ceed75 version —        sha256 690ad5523f8c002fe747489f6c304b1f7559d9659c0f1597ac9933d407ab6fce
+                                 fingerprint of: assignment inputs and call-plan facts together | source: Entered for this simulation (synthetic); stored on the composite plan
+      note: Nothing verifies that the assignment inputs and the call-plan facts describe the same application: input consistency is UNVERIFIED.
+ 3. Matching rule versions — RECORDED
+      ASSIGNMENT_RULE_VERSION    SG-ILP-HIGH-RISK v2                                            id 97224fe8 version 2        sha256 a538f0718ef2fd3d9d40bb25bbec9537b5c078952f4b9b925328b91c938472b8
+                                 fingerprint of: the rule version as Script Studio recorded it | source: Published assignment rule (Script Studio rule tables; read only)
+      ASSIGNMENT_RULE_VERSION    SG-SALES-VERIFY v2                                             id 4368aa91 version 2        sha256 f153873cdaa31d97374dd99e1a789aabc43ce4e22b30317507a192c482934acb
+                                 fingerprint of: the rule version as Script Studio recorded it | source: Published assignment rule (Script Studio rule tables; read only)
+      note: 1 published rule(s) that select a script and no survey were ignored.
+ 4. Published bindings — RECORDED
+      SURVEY_BINDING             SG-SALES-VERIFY v2 → survey version                            id 325dbc11 version —        sha256 26f92eca6d0e38c533e47cbd28b517f9d25e46e729bd8c174853c6f0a5affd26
+                                 fingerprint of: the manifest of the survey version the binding pins | source: Published survey binding (three people)
+      SURVEY_BINDING             SG-ILP-HIGH-RISK v2 → survey version                           id 2626e064 version —        sha256 9d8d9960c8eff02d733e0f6e920f55d8b2c4a8173e7fd5193040625d60ba7207
+                                 fingerprint of: the manifest of the survey version the binding pins | source: Published survey binding (three people)
+ 5. Requirement group versions — RECORDED
+      REQUIREMENT_GROUP          DEV-PRIMARY (PRIMARY)                                          id 485fb593 version 1        sha256 none recorded on its own
+                                 fingerprint of: — | source: Published requirement group (three people)
+      REQUIREMENT_GROUP          DEV-ADD-SYNTHETIC (ADD_REQUIRED)                               id 0866102a version 1        sha256 none recorded on its own
+                                 fingerprint of: — | source: Published requirement group (three people)
+      note: No fingerprint is recorded for a group revision on its own; it is identified by id and version and is covered by the composite plan's fingerprint.
+ 6. Published survey versions — RECORDED
+      SURVEY_VERSION             Development enablement check (synthetic) (DEV-CHECK-AD5AEA8F)  id c909df99 version 1.0      sha256 26f92eca6d0e38c533e47cbd28b517f9d25e46e729bd8c174853c6f0a5affd26
+                                 fingerprint of: the version's manifest: every pinned module, item and wording | source: Published survey version (three people)
+      SURVEY_VERSION             EVAL-2A development walkthrough: shared question (synthetic) ( id 90019dc7 version 1.0      sha256 9d8d9960c8eff02d733e0f6e920f55d8b2c4a8173e7fd5193040625d60ba7207
+                                 fingerprint of: the version's manifest: every pinned module, item and wording | source: Published survey version (three people)
+ 7. Composite plan — RECORDED
+      COMPOSITE_PLAN             Composite call plan                                            id d8ceed75 version call360.survey.composite-plan/1 sha256 d68407e31d98b4e9c0c835a3397bf9a6dda9a423373c0ee7296566914dc70e86
+                                 fingerprint of: the whole composite: selection, order, each survey's plan | source: Composed by the assignment engine from published rules, bindings and groups
+      CALL_PLAN                  Call plan for DEV-PRIMARY                                      id a954ab17 version —        sha256 79de73ecbbb01d8cfdc48927f067311102a1ceabc73dd3c53ebde31da3845968
+                                 fingerprint of: the survey's call plan: modules, items, exact wording | source: Assembled from the published survey version
+      CALL_PLAN                  Call plan for DEV-ADD-SYNTHETIC                                id 8ba48e3a version —        sha256 037629b875fbb0fa75eebe846b0c29a69f46cc6b2f683d89a12bffea64432a33
+                                 fingerprint of: the survey's call plan: modules, items, exact wording | source: Assembled from the published survey version
+ 8. Individual simulation records — RECORDED
+      SIMULATION                 1. Development enablement check (synthetic)                    id 16feec50 version call360.survey.execution/1 sha256 577daba5f74777d0c547f2fadcbb9feb68ce61c0546346cc8e92ec7c1f4af646
+                                 fingerprint of: the run after the last recorded input | source: Recorded inputs, replayed by the authoritative execution engine
+      SIMULATION                 2. EVAL-2A development walkthrough: shared question (synthetic id 0b7c7a04 version call360.survey.execution/1 sha256 315843307ca86b7f27dfbd0015625b7b429bc5e7e6bcd2263ca987b9df6ea3e4
+                                 fingerprint of: the run after the last recorded input | source: Recorded inputs, replayed by the authoritative execution engine
+      note: The event trace is not stored: it is recomputed from the recorded inputs by the authoritative engine and compared with the fingerprint recorded after every input.
+ 9. Coordinated simulation — RECORDED
+      COORDINATED_SIMULATION     Coordinated simulation: EVAL-2A development walkthrough: confl id 1f0cda30 version call360.survey.coordinated-simulation/1 sha256 58a9e42c4795a30d4b615943e1462f05c3f60e0afaedaed404a3d3ee9330abf3
+                                 fingerprint of: the coordinated run: every step and every survey's run | source: The coordinator's recorded steps over the individual simulations
+      note: A survey after the first starts only when the one before it is completed; that is a rule of the simulation, not an approved rule for live calls.
+10. Control policy revision — RECORDED
+      CONTROL_POLICY_REVISION    Development synthetic control policy (POL-DEV-SYNTHETIC)       id 8d5819c7 version 1        sha256 580db1934a89516d85f25330a8963aafac73206f77832381aa02bc0b175a5a34
+                                 fingerprint of: the whole policy revision | source: Published control policy (three people)
+      note: The policy was named explicitly by the person who ran the evaluation. Nothing selects a control policy for an application.
+      note: Every control, obligation and condition in it is synthetic.
+11. Mapping revisions — RECORDED
+      CONTROL_MAPPING_REVISION   Mapping of SYN-CTRL-01                                         id 5d5d33cd version 2        sha256 7a28c447a944f93903cf68b6f85bfb6532a678e446985047e01d8700fcfa99c3
+                                 fingerprint of: the whole mapping revision | source: Published control mapping (three people)
+      CONTROL_MAPPING_REVISION   Mapping of SYN-CTRL-04                                         id ccf6eace version 2        sha256 377b0e946bd81efb2ef759a401a3a94e771f2ca726e80654f51c7c240fe0fa99
+                                 fingerprint of: the whole mapping revision | source: Published control mapping (three people)
+12. Evaluation run — RECORDED
+      JOURNEY_EVALUATION         Evaluation of the journey                                      id cd707ee3 version call360.survey.control-evaluation/2 (policy-scoped) sha256 14160e828062b9bc33c83bcf972e5fdfe8f94d6f64b347ebcee065fc874f373d
+                                 fingerprint of: the whole result: every control result, observation and finding | source: Computed by the existing deterministic evaluation engines from the pinned records
+      FINDING_RULE_SET           SG finding rules v1                                            id 591a6036 version —        sha256 197712a71da713219a001ea088da152489c0beb5cb27c6aee3c102a7c343757e
+                                 fingerprint of: the finding rule set version | source: Published finding rule set (existing findings engine)
+      CONTROL_REGISTER_ROW       SYN-CTRL-01                                                    id f85f40ec version —        sha256 1cc4490c0d3fb3ca90a6bf540c35785e897f05dda848d540afe7220c7d07bc95
+                                 fingerprint of: the control register row as it was read | source: Control register (read only)
+      CONTROL_REGISTER_ROW       SYN-CTRL-02                                                    id c3125afd version —        sha256 df2c6f7394bf01fb6266d4246e1c6f5f7c5269cb738184540e67d44e90e5e9f2
+                                 fingerprint of: the control register row as it was read | source: Control register (read only)
+      CONTROL_REGISTER_ROW       SYN-CTRL-03                                                    id 9f320bc8 version —        sha256 76b35f266562fe0261d18289fb9266d8a8e0ac0ebc3673237d709e6f9851474f
+                                 fingerprint of: the control register row as it was read | source: Control register (read only)
+      CONTROL_REGISTER_ROW       SYN-CTRL-04                                                    id 433c2bf5 version —        sha256 95bb70d95721fd7bcd11b1b739d8b4ed217011eb54ecc56e059f9feee707f8c8
+                                 fingerprint of: the control register row as it was read | source: Control register (read only)
+      CONTROL_REGISTER_ROW       SYN-CTRL-05                                                    id 6592fef3 version —        sha256 dca03cc64a7b009ba201d75fa0fd7d750ba4b097612910f7e6e4e89b149f575b
+                                 fingerprint of: the control register row as it was read | source: Control register (read only)
+13. Control-obligation results — RECORDED
+      CONTROL_OBLIGATION_RESULT  SYN-CTRL-01 / CLARITY                                          id —        version —        sha256 none recorded on its own
+                                 fingerprint of: — | source: Part of the evaluation record; covered by its result fingerprint
+      CONTROL_OBLIGATION_RESULT  SYN-CTRL-01 / OPENING                                          id —        version —        sha256 none recorded on its own
+                                 fingerprint of: — | source: Part of the evaluation record; covered by its result fingerprint
+      CONTROL_OBLIGATION_RESULT  SYN-CTRL-04 / EXPECT-NO                                        id —        version —        sha256 none recorded on its own
+                                 fingerprint of: — | source: Part of the evaluation record; covered by its result fingerprint
+14. Findings — RECORDED
+      FINDING                    SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH                    id —        version —        sha256 02e485ee7b8951c1658ec6849afe944420c173f2236265f352a54bb83cf0c8b0
+                                 fingerprint of: the finding's identity: rule, item and evidence | source: Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one
+      FINDING                    SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH                    id —        version —        sha256 082e74d138f8583fd7d7904935c2426ebc65d4a7f1a525bb6aff5e3053cc55bc
+                                 fingerprint of: the finding's identity: rule, item and evidence | source: Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one
+      FINDING                    SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH                    id —        version —        sha256 d410c07ed571aaccd11568d54af70ac1a21acffe9e254f5590a8720e077b838d
+                                 fingerprint of: the finding's identity: rule, item and evidence | source: Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one
+      FINDING                    SYN-CTRL-04 / EXPECT-NO: FR-CTRL04-MISMATCH                    id —        version —        sha256 824e3c5b583c857ff5ae703d576030031207caf24817273f6982f7c44a77a137
+                                 fingerprint of: the finding's identity: rule, item and evidence | source: Generated by the existing findings engine under the pinned rule set; a simulation finding, not an operational one
+      note: Severities come from the synthetic finding rule set as published; none is an approved compliance severity.
+      note: 1 evaluated discrepancy(ies) matched no rule of the pinned rule set and produced no finding.
+      note: No operational finding, case or disposition is created.
+15. Execution assurance — RECORDED
+      EXECUTION_ASSURANCE        Execution assurance of the journey                             id 58ba6312 version call360.survey.execution-assurance/1 sha256 168a9a807d0e040279f58d31ad04f6bf9f94d716b7626f6b8324e8920d656abc
+                                 fingerprint of: the whole assurance result: every check of every survey | source: Verified from the recorded executions by the assurance verifier; executes nothing
+      note: Verified against the recording only. A simulation does not show that a person heard any wording.
+      note: A deviation creates no finding, severity or disposition.
+
+EVIDENCE MISSING OR CONTRADICTORY (the evaluation's own results):
+   SYN-CTRL-01 / CLARITY: REQUIRES_REVIEW, evidence EVIDENCE_CONFLICTING — DEV-CHECK-AD5AEA8F mi-topics/n2: MATCH; DEV-CHECK-AD5AEA8F mi-topics/n4: MATCH; DEV-CHECK-AD5AEA8F mi-recap/n1: MATCH; DEV-CHECK-AD5AEA8F mi-recap-2/n1: MATCH; S-DEV-EVAL-SHARED mi-shared/n1: MISMATCH
+   SYN-CTRL-04 / EXPECT-NO: REQUIRES_REVIEW, evidence EVIDENCE_CONFLICTING — DEV-CHECK-AD5AEA8F mi-topics/n2: MISMATCH; DEV-CHECK-AD5AEA8F mi-topics/n4: MISMATCH; DEV-CHECK-AD5AEA8F mi-recap/n1: MISMATCH; DEV-CHECK-AD5AEA8F mi-recap-2/n1: MISMATCH; S-DEV-EVAL-SHARED mi-shared/n1: MATCH
+
+INTEGRITY: every record recomputes to itself: True
+   COMPOSITE_PLAN: recomputes to its recorded fingerprint — yes
+   COORDINATED_SIMULATION: the composite it was started from is intact — yes
+   SIMULATION 1: replays to its recorded fingerprint — yes
+   SIMULATION 2: replays to its recorded fingerprint — yes
+   JOURNEY_EVALUATION: recomputes to its recorded result — yes
+   EXECUTION_ASSURANCE: recomputes to its recorded result — yes
+
+NOT SHOWN / NOT VERIFIED:
+   SYNTHETIC_CONTENT: Every application, rule condition, control, obligation, mapping, finding rule and severity here is synthetic. None is approved business or compliance content.
+   INPUT_CONSISTENCY_UNVERIFIED: Nothing maps the assignment inputs to the facts the surveys and the control policy read: that they describe one application is unverified.
+   CROSS_SURVEY_POLICY_UNRESOLVED: What should happen between surveys on a live call — after a refusal, an escalation, an incomplete survey — is undecided. The simulation proceeds only after a completed survey.
+   POLICY_NAMED_EXPLICITLY: The control policy was chosen by the person who ran the evaluation. No rule selects the control policy that applies to an application.
+   INPUT_LINEAGE_UNVERIFIED: The facts the policy's conditions read are those given to the simulation; their lineage to a real application is unverified.
+   NOT_SPOKEN: No wording was spoken or heard. This is a simulation in a browser.

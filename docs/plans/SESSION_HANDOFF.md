@@ -11,25 +11,92 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-22 (EVAL-2A, IN PROGRESS — session stopped at a usage limit) — read this block first.**
-> - **Owner accepted:** EVAL-1 as TECHNICALLY VERIFIED (simulation only); D-287 `ALL_REQUIRED` approved as a declared
->   technical operator (not an insurance policy). NOT YET RECORDED in the decision register — do that first.
-> - **Development database: NOW AT `0033_survey_control_evaluation`** (owner-authorised). Backup
->   `_db_backups/call360_dev_before_0033_20261122.dump` (SHA-256 `349dbbba…98430918`); `RESTORE.md` has "Rolling 0033
->   back"; `SURVEY_EVALUATION_ENABLED=true` in dev `.env`; the three dev identities hold the evaluation permissions;
->   two synthetic mappings and two evaluations exist in dev. Evidence:
->   `docs/acceptance/evidence/EVAL-2A/dev-migration-0033/`. **Dev is NOT at `0034`; that is NOT authorised.**
-> - **0033 downgrade guard added:** refuses while any recorded evaluation exists (tested).
-> - **EVAL-2A BUILT, PARTLY VERIFIED, NOT REPORTED.** Design: `survey-studio/39_…` (written first). Code: migration
->   `0034_survey_control_policy` (MIGRATION_HEAD; test schema only), `control_policy.py`, `policy_evaluation.py`,
->   `app/api/survey_control_policies.py` (10 ops), setting `survey_control_policy_enabled`; frontend
->   `persist/ControlBuilder.tsx` (`/survey-studio/controls`), policy-aware `EvaluationWorkbench.tsx`;
->   tests `tests/test_survey_control_policy.py`, truth-table tests in `tests/test_survey_evaluation.py`;
->   e2e `zz-eval2a.persisted.ts`.
-> - **Verified so far:** the two evaluation test files pass; persisted Playwright 24/24; lint, mypy, tsc, vitest 612.
-> - **STILL TO DO:** full backend suite; prototype and standard Playwright suites; record A–C (EVAL-1 acceptance,
->   D-287, D-288 reconciliation) and EVAL-2A decisions in the register; contract §18; implementation report `40_…`;
->   README index; multi-select operator is PROPOSED only (not built). Nothing committed.
+> **Update 2026-11-22 (E2E-1) — read this block first; it supersedes the blocks below where they differ.**
+> - **Accepted by the owner:** EVAL-2B as TECHNICALLY VERIFIED, simulation only (D-312) — not production, Compliance
+>   or spoken-delivery acceptance. D-311 reconciled (D-313). **Technical gap TG-1 is recorded and open** (D-314):
+>   queued follow-up order from multi-select answers is not verified edge by edge; never claim full branch fidelity.
+> - **Development database: `0035_survey_execution_assurance`** (owner-authorised, D-315) — the head. Backup
+>   `_db_backups/call360_dev_before_0035_20261122.dump` (SHA-256 `c69245f9…9189524`); `RESTORE.md` "Rolling 0035
+>   back". Execution assurance is on in dev; five synthetic assurance results exist, so `0035` cannot be downgraded.
+>   **`SG-ILP-HIGH-RISK v2` is still bound to `S-DEV-EVAL-SHARED`; do not change it back or add a binding unasked.**
+>   Never run `make migrate`, `make seed`, or reset development.
+> - **Commits:** owner's commits are backend `ed3e51b`, frontend `e79c4e0`, specs `c43f4f5`. **EVAL-2B and E2E-1 are
+>   uncommitted on top.** The assistant never commits or pushes without authorisation.
+> - **E2E-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review; NOT accepted.** Documents:
+>   `survey-studio/44_…` (baseline, handoffs, acceptance matrix), `45_…` (report), contract §20, D-312…D-320.
+>   - Added: ONE read-only operation `GET /api/v1/survey-evaluation/journey-trace` (`journey_trace.py`,
+>     `app/api/survey_journey_trace.py`; registered with execution assurance; no table, migration, setting or
+>     permission), the "Application journeys" page (`persist/JourneyPage.tsx`, routes `/survey-studio/journeys…`),
+>     harness `tests/test_zz_e2e1_journey.py`, browser walkthrough `e2e/persisted/zzz-e2e1.persisted.ts`.
+>   - The trace computes nothing; five dimensions are kept apart; eligibility is always NOT_ESTABLISHED; the control
+>     policy is always NAMED EXPLICITLY; input consistency and lineage stay UNVERIFIED.
+>   - Verified: backend 1,008 passed; golden 82 / 14 unchanged; vitest 612; Playwright persisted 26, prototype 13,
+>     standard 33; OpenAPI 270 operations, 511 schemas, SHA-256 `dbc7b00b…cdb4edf01`.
+>   - Open with the owner: `45_…` §11 (TG-1…TG-7, BP-1…BP-11), D-320 (eight choices), commits, and the proposed
+>     next checkpoint (`45_…` §13: DEC-1 decision closure pack recommended; ASSURE-2 as the engineering alternative).
+> - **Nothing is authorised next.**
+>
+> **Update 2026-11-22 (EVAL-2B)**
+> - **Accepted by the owner:** EVAL-2A as TECHNICALLY VERIFIED, simulation only (D-301) — not Compliance approval.
+>   D-300 reconciled one by one (D-302): (a), (c), (d), (e), (h) accepted; (i), (j) technical; **(b), (f), (g) carry
+>   a business or Compliance question and are NOT approved in that respect.** D-291 (d), (e) stay open (D-303).
+> - **Development database: `0034_survey_control_policy`** (owner-authorised, D-304). Backup
+>   `_db_backups/call360_dev_before_0034_20261122.dump` (SHA-256 `d7365ca7…958c22be`); `RESTORE.md` "Rolling 0034
+>   back". Control policies are on in dev. Dev now holds synthetic policy `POL-DEV-SYNTHETIC`, survey
+>   `S-DEV-EVAL-SHARED`, mapping revisions 2, and **rule `SG-ILP-HIGH-RISK v2` is re-bound to `S-DEV-EVAL-SHARED`**
+>   (the binding to `S-DEV-FI2-WALKTHROUGH` is superseded). `0034` cannot be downgraded there.
+>   **Dev is NOT at `0035`; NOT authorised. `make migrate` goes to the head — never run it.**
+> - **Commits:** the owner committed and pushed SS-03B … EVAL-2A himself (backend `ed3e51b`, frontend `e79c4e0`,
+>   specs `c43f4f5`). **EVAL-2B is uncommitted on top.** The assistant never commits or pushes without authorisation.
+> - **EVAL-2B — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review; NOT accepted.** Documents:
+>   `survey-studio/42_…` (assessment and design), `43_…` (report, with the proposed E2E-1 boundary in §11),
+>   contract §19, decisions D-301…D-311.
+>   - It VERIFIES the trace the authoritative engine records; it executes nothing and computes no control outcome.
+>     Eight checks per survey, five per coordinated journey; statuses `VERIFIED`, `INCOMPLETE`,
+>     `DEVIATION_DETECTED`, `INTEGRITY_FAILED`, `NOT_ASSESSABLE`; eligibility always `NOT_ESTABLISHED`.
+>   - Code: backend `execution_assurance.py` (pure), `assurance.py`, `app/api/survey_execution_assurance.py` (3 ops),
+>     migration `0035_survey_execution_assurance` (MIGRATION_HEAD; two insert-only tables; test schema only), setting
+>     `survey_execution_assurance_enabled`; frontend `persist/ExecutionAssurance.tsx` inside the Evaluation Workbench;
+>     tests `tests/test_survey_execution_assurance.py`; e2e `zz-eval2b`.
+>   - A deviation cannot occur naturally: negative tests use TAMPERED copies of real runs, named as such. Never
+>     present one as a defect of the executor.
+>   - Verified: backend 1,006 collected, none failed; all 82 golden runs raise no finding; vitest 612; Playwright
+>     persisted 25, prototype 13, standard 33; OpenAPI 269 operations, 509 schemas, SHA-256 `e1b44eb7…b9a762d5`.
+>   - Open with the owner: `43_…` §10 (policy questions), D-311 (eight choices), development migration `0035`,
+>     commits, and whether to authorise E2E-1.
+> - **Nothing is authorised next.** Do not start E2E-1.
+>
+> **Update 2026-11-22 (EVAL-2A)**
+> - **Accepted by the owner:** EVAL-1 as TECHNICALLY VERIFIED, simulation only (D-289). D-287 `ALL_REQUIRED` approved
+>   as a declared technical operator, not an insurance policy (D-290). D-288 reconciled one by one (D-291): (a), (c)
+>   accepted; (f) closed; (b), (g) technical, not separately ruled; **(d), (e) NOT approved** (Compliance).
+>   `SET_MATCH` approved and built (D-299). **The owner committed and pushed everything himself on 2026-11-22 15:52**
+>   (backend `ed3e51b`, frontend `e79c4e0`, specs `c43f4f5`); six specs files changed after that are uncommitted.
+>   The assistant still never commits or pushes without authorisation.
+> - **Development database: `0033_survey_control_evaluation`** (owner-authorised, D-292). Backup
+>   `_db_backups/call360_dev_before_0033_20261122.dump` (SHA-256 `349dbbba…98430918`); `RESTORE.md` "Rolling 0033
+>   back". Evaluation is on in dev; the three dev identities hold the evaluation permissions; two synthetic mappings
+>   and two evaluations exist, so `0033` cannot be downgraded there. **Dev is NOT at `0034`; NOT authorised.
+>   `make migrate` goes to the head — never run it.**
+> - **EVAL-2A — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review; NOT accepted.** Documents:
+>   `survey-studio/39_…` (assessment and design), `40_…` (report), `41_…` (migration `0034`), contract §18,
+>   decisions D-289…D-300, gaps G-E8…G-E10.
+>   - The control register is not altered. A governed **control policy** `(market, code, revision)` lists register
+>     controls with purpose, **obligations**, applicability and required evidence. A control instance is
+>     `(evaluation, control, obligation)`. Mappings (EVAL-1) name the policy requirement each entry supplies.
+>   - **Migration `0034` is PURELY ADDITIVE** (D-298): six new tables, no existing table altered. The first draft
+>     (obligation column and key replacement on the EVAL-1 tables) was withdrawn. Policy-scoped results live in
+>     `survey_obligation_result` / `_observation` / `_finding`, linked by `survey_evaluation_policy`.
+>   - Four statuses kept apart: processing status, control outcome, coverage, operational compliance eligibility
+>     (always `NOT_ESTABLISHED`). `COMPLETE_WITHIN_POLICY_SCOPE` is not `SATISFIED`.
+>   - Code: backend `control_policy.py`, `policy_evaluation.py`, `app/api/survey_control_policies.py` (10 ops),
+>     `SET_MATCH` in `answer_evaluation.py` (`ALL_METHODS`; `METHODS` unchanged for Script Studio), setting
+>     `survey_control_policy_enabled`; frontend `persist/ControlBuilder.tsx` at `/survey-studio/controls`,
+>     policy-aware `EvaluationWorkbench.tsx`; tests `tests/test_survey_control_policy.py`; e2e `zz-eval2a`.
+>   - Verified: backend 917 collected, none failed; golden 82 runs and 14 plans unchanged; vitest 612; Playwright
+>     persisted 24, prototype 13, standard 33; OpenAPI 266 operations, 505 schemas, SHA-256 `91ed256e…7806d62c`.
+>   - Open with the owner: D-291 (d), (e); D-300 (ten choices); development migration `0034`; commits.
+> - **Nothing is authorised next.** Do not start EVAL-2B.
 >
 > **Update 2026-11-22 (EVAL-1)**
 > - **Accepted by the owner:** ASG-2B is TECHNICALLY ACCEPTED for simulation-only coordinated multi-survey execution

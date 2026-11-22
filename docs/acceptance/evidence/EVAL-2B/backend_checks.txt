@@ -1,0 +1,6 @@
+ruff check: All checks passed!
+ruff format: 251 files already formatted
+mypy: Success: no issues found in 123 source files
+pytest (schema call360_test only): 1006 collected; run with -rf printed no FAILED or ERROR line; 917 before EVAL-2B
+  tests/test_survey_execution_assurance.py: 89 (82 golden runs verified one by one + 7)
+golden parity: 82 expected runs and 14 expected plans pass; fixture files modified: 0 (backend), 0 (specs)

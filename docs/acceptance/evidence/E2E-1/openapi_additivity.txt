@@ -1,0 +1,3 @@
+contract SHA-256: dbc7b00bc49ecc38ca9d0a2c297df6deabfbc4c08fa1259deb00194cdb4edf01
+against the contract before this series (182f6e5): operations 221 -> 270, removed none, added 49; schemas 451 -> 511, removed none; pre-existing schemas with a removed, changed or newly required property: none
+against the last committed contract (HEAD ed3e51b): operations 266 -> 270, removed none, added 4; schemas 505 -> 511, removed none; pre-existing schemas with a removed, changed or newly required property: none

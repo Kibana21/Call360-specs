@@ -2132,3 +2132,184 @@ Prefix `/api/v1/survey-evaluation`. Reading needs `survey.evaluation.read`.
 | every row of §17.8 | … or `0034` |
 | `survey_evaluation_enabled` + `survey_control_policy_enabled` | `0034` |
 
+## 19. Amendment of 2026-11-22 (EVAL-2B): execution assurance of simulated journeys
+
+**Simulation only.** Authorised by the owner on 2026-11-22 (D-305…D-310). Assessment and design:
+`42_EVAL-2B_EXECUTION_ASSURANCE_ASSESSMENT_AND_DESIGN.md`. Nothing here executes a survey: the authoritative engine's
+recorded trace is verified. Nothing here computes a control outcome, coverage or a finding. A simulation does not
+show that a person heard any wording.
+
+### 19.1 Contract and grain
+
+`call360.survey.execution-assurance/1`, verifying traces of `call360.survey.execution/1`. The run is of the journey
+(§17.1); each survey execution has its own result.
+
+### 19.2 Survey checks
+
+Each check has `check`, `question`, `status` (`PASSED`, `FAILED`, `INCOMPLETE`), `examined`, `findings[]`
+(`code`, `text`, `evidence` with placement and event numbers) and notes.
+
+| Check | Finding codes |
+|---|---|
+| `INTEGRITY` | `REPLAY_DRIFT`, `STEP_FINGERPRINT_DIFFERS` |
+| `TRACE_WELL_FORMED` | `MISSING_EVENT`, `DUPLICATE_EVENT`, `EVENTS_OUT_OF_ORDER`, `EVENT_AFTER_END` |
+| `DELIVERIES_EXPECTED` | `UNEXPECTED_DELIVERY`, `DELIVERY_ITEM_DIFFERS`, `DUPLICATE_DELIVERY`, `MISSING_RECORDED_DELIVERY`, `DELIVERY_WITHOUT_EVENT` |
+| `WORDING_EXACT` | `WORDING_ALTERED`, `DELIVERY_MODE_DIFFERS`, `WORDING_NOT_PINNED` |
+| `ANSWERS_AND_REJECTIONS` | `ANSWER_WITHOUT_QUESTION`, `INVALID_ANSWER_ACCEPTED`, `DUPLICATE_ANSWER`, `REJECTION_CODE_DIFFERS`, `REJECTION_NOT_RECORDED`, `ANSWER_NOT_AS_RECORDED` |
+| `BRANCHING` | `ROUTE_NOT_IN_VERSION`, `ROUTE_DIFFERS_FROM_VERSION`, `ROUTE_WITHOUT_EVIDENCE`, `ROUTE_NOT_SUPPORTED_BY_ANSWER`, `TRANSITION_UNEXPLAINED`, `EXECUTION_OMISSION` |
+| `MODULE_SEQUENCE` | `MODULE_NOT_IN_VERSION`, `MODULE_ORDER_DIFFERS`, `MODULE_STATUS_UNSUPPORTED`, `MISSING_TRANSITION` |
+| `TERMINATION` | `UNEXPECTED_TERMINATION`, `MISSING_EVENT` |
+
+A survey result also carries `deliveries[]` (placement, event, kind, item, recorded text, expected text, wording
+version, wording fingerprint, delivery mode, `wording` = `EXACT` / `ALTERED` / …, `awaiting_answer`), `exclusions[]`
+(every placement not delivered: `class`, `why`, the explaining event, module status), `branches[]`, `rejections[]`,
+`ending`, `pending` and counts.
+
+Exclusion classes: `VALID_CONDITIONAL_EXCLUSION`, `EXCLUDED_INFORMATION_MISSING`, `VALID_ROUTING_EXCLUSION`,
+`NOT_ON_PATH_TAKEN`, `SURVEY_ENDED_BEFORE`, `NOT_YET_REACHED`, and `OMISSION` — the only one that is a deviation.
+
+### 19.3 Journey checks (coordinated)
+
+| Check | Finding codes |
+|---|---|
+| `SELECTION_RECORDED` | `COMPOSITE_NOT_INTACT`, `SELECTION_DIFFERS` |
+| `GOVERNED_ORDER` | `ORDER_DIFFERS` |
+| `NO_BYPASS` | `SURVEY_BYPASSED`, `START_REASON_DIFFERS` |
+| `OWN_EVIDENCE` | `EVIDENCE_SHARED`, `EVIDENCE_REFERENCE_DIFFERS` |
+| `NO_DEDUPLICATION` | `REQUIREMENT_MISSING`, `DUPLICATE_REQUIREMENT_UNRESOLVED` |
+
+### 19.4 Status
+
+Survey: `INTEGRITY_FAILED` if `INTEGRITY` failed; else `DEVIATION_DETECTED` if any check failed; else `INCOMPLETE` if
+the run has not ended; else `VERIFIED`. `NOT_ASSESSABLE` when recorded under another execution contract. A survey not
+started is `INCOMPLETE`.
+
+Journey, first that holds: `INTEGRITY_FAILED` (any survey, or `COMPOSITE_NOT_INTACT`); `DEVIATION_DETECTED` (any
+survey, or a failed journey check); `NOT_ASSESSABLE`; `INCOMPLETE`; `VERIFIED`.
+
+`operational_call_eligibility.status` is always `NOT_ESTABLISHED`.
+
+### 19.5 Beside a control evaluation
+
+With `evaluation_id` (an evaluation of the same journey, else `409 EVALUATION_OF_ANOTHER_JOURNEY`):
+`control_evaluation` (id, result fingerprint, processing status, coverage status, policy, `of_this_evidence`) and
+`control_evidence[]` — for each control instance its recorded `outcome` and `coverage`, `execution_evidence`
+(`EXECUTION_VERIFIED`, `EXECUTION_INCOMPLETE`, `DEVIATION_IN_EVIDENCE`, `INTEGRITY_FAILED`, `NOT_ASSESSABLE`,
+`NO_EXECUTION_EVIDENCE`), `result_is_trustworthy`, and per observation its delivery, the class and reason when not
+delivered, and any deviation at that placement. `of_this_evidence: false` makes every result not trustworthy.
+
+### 19.6 Records — migration `0035_survey_execution_assurance` (purely additive)
+
+`survey_execution_assurance` (`record_class` fixed to `SIMULATION`; exactly one of `simulation_id` / `coordinated_id`;
+optional `evaluation_id`; `contract`, `pins`, `input_sha256`, `status`, `summary`, `result_sha256`; unique per journey
+and `input_sha256`) and `survey_execution_assurance_survey` (key `assurance_id, position`; version, simulation,
+status, full detail). Insert-only. No permission added. Downgrade refuses while a result exists.
+
+### 19.7 Operations (registered only with `survey_execution_assurance_enabled` and evaluation)
+
+| Operation | Permissions |
+|---|---|
+| `POST /api/v1/survey-evaluation/assurance` (201 new, 200 existing) | `survey.evaluation.read` + `survey.evaluate` |
+| `GET /api/v1/survey-evaluation/assurance?simulation_id=…` or `?coordinated_simulation_id=…` | `survey.evaluation.read` |
+| `GET /api/v1/survey-evaluation/assurance/{id}` | `survey.evaluation.read` |
+
+A read carries `replay` and `current_status` (`ASSURANCE_DRIFT` when it no longer recomputes). Audited as
+`SURVEY.EXECUTION_ASSURED`.
+
+### 19.8 Settings and migrations (adds to §18.9)
+
+| Setting on | Schema must be at |
+|---|---|
+| every row of §18.9 | … or `0035` |
+| `survey_evaluation_enabled` + `survey_execution_assurance_enabled` | `0035` |
+
+## 20. Amendment of 2026-11-22 (E2E-1): the provenance of one simulated journey
+
+**Simulation only. Read only.** Authorised by the owner on 2026-11-22 (D-316…D-319). Baseline and acceptance matrix:
+`44_E2E-1_BASELINE_INTEGRATION_AND_ACCEPTANCE_MATRIX.md`. This section adds **one read operation and nothing else**:
+no table, no migration, no setting, no permission, no engine. It computes no control outcome, coverage, finding or
+assurance result; every value it returns is read from the record that owns it (§§12–19).
+
+### 20.1 Contract and operation
+
+`call360.survey.journey-trace/1`.
+
+`GET /api/v1/survey-evaluation/journey-trace` — registered only with execution assurance (§19.7). Needs
+`survey.evaluation.read`. Exactly one of `simulation_id`, `coordinated_simulation_id`, `composite_plan_id` (else
+`422 JOURNEY_REQUIRED`); optionally `evaluation_id` (default: the journey's latest evaluation) and `assurance_id`
+(default: the latest assurance result beside that evaluation). An evaluation or assurance of another journey:
+`409 EVALUATION_OF_ANOTHER_JOURNEY` / `ASSURANCE_OF_ANOTHER_JOURNEY`. Market-scoped through the services it reads.
+
+`composite_plan_id` traces an application whose journey never started (`journey.kind` `APPLICATION_ONLY`); it needs
+`survey.assignment.read`. Without that permission the five assignment links of any journey are `WITHHELD` and carry
+no record.
+
+### 20.2 The chain — fifteen links, in this order
+
+| Step | `key` | Authoritative record | Version | Fingerprint (`sha256`) is of |
+|---|---|---|---|---|
+| 1 | `APPLICATION` | none of its own: stored on the composite plan or simulation | — | the application's facts (and assignment inputs) |
+| 2 | `ASSIGNMENT_INPUTS` | composite plan | — | assignment inputs and call-plan facts together |
+| 3 | `RULE_VERSIONS` | assignment rule version (Script Studio tables, read only) — every rule that MATCHED | rule version | the rule version's recorded checksum |
+| 4 | `BINDINGS` | survey binding | — | the manifest of the survey version it pins |
+| 5 | `REQUIREMENT_GROUPS` | requirement group revision | group version | **none recorded on its own**; covered by the composite fingerprint |
+| 6 | `SURVEY_VERSIONS` | published survey version | version label | the version's manifest |
+| 7 | `COMPOSITE_PLAN` | composite plan; each survey's call plan | contract | the whole composite; each call plan |
+| 8 | `SIMULATIONS` | simulation, one per survey | execution contract | the run after the last recorded input |
+| 9 | `COORDINATED_SIMULATION` | coordinated simulation | contract | the coordinated run |
+| 10 | `CONTROL_POLICY` | control policy revision | revision | the policy revision |
+| 11 | `MAPPINGS` | control mapping revisions pinned by the evaluation | revision | each mapping revision |
+| 12 | `EVALUATION` | journey evaluation; finding rule set; control register rows | contract | the evaluation's result; the rule set; each register row as read |
+| 13 | `CONTROL_RESULTS` | inside the evaluation record | — | none of their own; covered by the evaluation's result fingerprint |
+| 14 | `FINDINGS` | inside the evaluation record | — | each finding's key |
+| 15 | `EXECUTION_ASSURANCE` | assurance result | contract | the assurance result |
+
+A link has `step`, `key`, `title`, `status`, `records[]`, `notes[]`. `status`: `RECORDED`, `NOT_RECORDED_YET`,
+`NOT_PART_OF_THIS_JOURNEY` (a single survey simulated directly has no assignment), `NONE`, `NONE_SELECTED`,
+`WITHHELD`, `NOT_AVAILABLE`. A record has `kind`, `id`, `label`, `version`, `sha256`, `sha256_of`, `source`, `facts`.
+
+### 20.3 Five separate dimensions
+
+`dimensions.completion` (journey status, surveys completed / started, why it stopped), `.satisfaction` (the
+evaluation's own counts by outcome; never one overall value), `.coverage` (the evaluation's coverage status and
+reason), `.assurance` (the assurance result's current status), `.eligibility` (always `NOT_ESTABLISHED`). None is
+derived from another.
+
+### 20.4 Also returned
+
+`questions[]` — the reviewer's seven questions and the links that answer each; `evidence_gaps[]` — the shown
+evaluation's own results whose coverage is not `EVIDENCED` / `NOT_REQUIRED` (without a policy: outcome
+`INSUFFICIENT_EVIDENCE`, `REQUIRES_REVIEW` or `UNRESOLVED`), with their reasons and observations; `integrity` — for
+each record, whether it recomputes to itself now; `open_points[]` — `SYNTHETIC_CONTENT`,
+`INPUT_CONSISTENCY_UNVERIFIED`, `CROSS_SURVEY_POLICY_UNRESOLVED`, `POLICY_NAMED_EXPLICITLY`,
+`INPUT_LINEAGE_UNVERIFIED`, `NOT_SPOKEN`; `evaluations[]`, `assurances[]` — every one of the journey;
+`trace_sha256` — over the kind, id and fingerprint of every record of the chain, in order (computed, not stored).
+
+### 20.5 What it never does
+
+It writes nothing and audits nothing of its own. It does not select a control policy, re-evaluate, re-verify or
+re-compose. A changed record is reported under `integrity`, never corrected.
+
+## 21. Amendment of 2026-11-22 (UX-HOME-1): the workspace summary
+
+**Read only.** Authorised by the owner on 2026-11-22 (D-321…D-324). Report: `46_UX-HOME-1_WORKSPACE_REPORT.md`.
+This section adds **one read operation and nothing else**: no table, no migration, no setting, no permission. No
+evaluation or business-rule meaning is added or changed.
+
+`GET /api/v1/survey-definitions/workspace` — registered with survey definitions (§12). Needs `survey.read`.
+Market-scoped: everything is counted in the reader's markets only. It writes nothing, not an audit event.
+
+| Field | Meaning |
+|---|---|
+| `markets` | the reader's markets |
+| `library_enabled` | whether the component library is on; when off, `inventory.components` is `null` and `reused_modules` empty |
+| `inventory.surveys` | `total`, `with_a_published_version`, `never_published`, `in_review`, `approved_awaiting_publication` — from the surveys and their derived candidate status |
+| `inventory.components` | per kind (`MODULE`, `ITEM`, `CONDITION`, `OPTION_SET`): `components` (distinct codes), `published_revisions`, `pinned_by_more_than_one_survey`; `ITEM` also `questions` and `statements`. Counted from the library's own list (§13): only what a published version pins |
+| `recent_drafts[]` | up to six drafts by `saved_at`, newest first; `saved_by_you`, `ever_published` |
+| `recent_published[]` | up to six published versions by `published_at`, newest first |
+| `awaiting_you[]` | open survey candidates the reader may act on **now**: `action` `DECIDE` when the candidate's own restrictions allow a decision and the reader holds `survey.approve`; `PUBLISH` when they allow publication and the reader holds `survey.publish`. The restrictions are the ones the operations enforce (§12: not the maker; not the approver) |
+| `waiting_on_others[]` | open candidates the reader submitted, with `waiting_for` `A_REVIEWER` or `A_PUBLISHER` |
+| `reused_modules[]` | latest published revisions of modules pinned by more than one survey, most widely pinned first, at most six. **A count of published pins — not a usage or frequency statistic.** Empty when none is reused |
+
+Nothing here is estimated, scored or ranked by anything but those counts and times.
+

@@ -1,0 +1,14 @@
+Alembic revision: ['0034_survey_control_policy'] -> ['0035_survey_execution_assurance']
+tables: 138 -> 140 | removed: none | added: ['survey_execution_assurance', 'survey_execution_assurance_survey']
+pre-existing tables changed in row count or content: ['alembic_version']
+pre-existing tables byte-identical in content: 137 of 138
+pre-existing tables whose columns, constraints, indexes or triggers changed: none
+empty round trip 0034 -> 0035 -> 0034 -> 0035 on development (no assurance record): done; structure after the downgrade identical to before
+triggers added: ['survey_execution_assurance_immutable@survey_execution_assurance', 'survey_execution_assurance_survey_immutable@survey_execution_assurance_survey'] | removed: none
+functions added: none | permissions added: none
+   evaluation: 8 tables, 90 rows | content identical: True | structure identical: True
+   policy and mapping: 4 tables, 22 rows | content identical: True | structure identical: True
+   assignment: 12 tables, 88 rows | content identical: True | structure identical: True
+   Script Studio and operational: 100 tables, 15011 rows | content identical: True | structure identical: True
+after five assurance runs and the security checks on development — tables whose content changed (rows before, after): {'audit_event': (3272, 3282), 'auth_session': (149, 153), 'login_attempt': (149, 153), 'refresh_token': (213, 217), 'refresh_token_family': (149, 153), 'survey_execution_assurance': (0, 5), 'survey_execution_assurance_survey': (0, 7)}
+all other tables byte-identical: 133 of 140

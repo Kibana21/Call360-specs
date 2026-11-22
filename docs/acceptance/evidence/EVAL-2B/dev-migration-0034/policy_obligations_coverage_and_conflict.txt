@@ -1,0 +1,33 @@
+ready: 200
+== existing EVAL-1 evaluations after the migration
+   SINGLE_SURVEY | recomputes to its record: True | result 7091899fbdcf5a79 | policy: None | obligation keys: False
+   COORDINATED | recomputes to its record: True | result 810715421b7c545d | policy: None | obligation keys: False
+== shared survey: author approving own candidate -> 403 | checker approves -> 200 | publisher publishes -> 201
+== the clarity question is pinned by 2 published surveys: ['DEV-CHECK-AD5AEA8F', 'S-DEV-EVAL-SHARED']
+== binding re-proposed (the assignment RULE is untouched): checker -> 200 | publisher -> 200
+== policy proposed by the author; author approving -> 403 | checker approves -> 200 | checker publishing -> 403 | publisher publishes -> PUBLISHED
+== policy POL-DEV-SYNTHETIC revision 1 PUBLISHED | DECLARED_COMPLETE | obligations: [('SYN-CTRL-01', ['CLARITY', 'OPENING']), ('SYN-CTRL-04', ['EXPECT-NO'])] | three people: True
+== mappings re-proposed with the policy requirement each entry supplies:
+   mapping SYN-CTRL-01 revision 2 re-proposed and PUBLISHED (the EVAL-1 revision is superseded, not edited)
+   mapping SYN-CTRL-04 revision 2 re-proposed and PUBLISHED (the EVAL-1 revision is superseded, not edited)
+== single-survey journey, every answer 'yes' (survey COMPLETED): | processing COMPLETED | COVERAGE COMPLETE_WITHIN_POLICY_SCOPE (ALL_REQUIRED_EVIDENCED; 3 of 3 required evidenced) | eligibility NOT_ESTABLISHED | recomputes True
+      SYN-CTRL-01 / CLARITY -> SATISFIED | coverage EVIDENCED | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MATCH')] []
+      SYN-CTRL-01 / OPENING -> SATISFIED | coverage EVIDENCED | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n1', 'DELIVERED')] []
+      SYN-CTRL-04 / EXPECT-NO -> NOT_SATISFIED | coverage EVIDENCED | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MISMATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MISMATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MISMATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MISMATCH')] ['EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH']
+   -> one obligation NOT_SATISFIED while coverage is COMPLETE: coverage is about evidence, not results
+== the same survey, nothing answered yet (incomplete coverage): | processing INCOMPLETE | COVERAGE INCOMPLETE (REQUIRED_CONTROLS_NOT_EVIDENCED; 1 of 3 required evidenced) | eligibility NOT_ESTABLISHED | recomputes True
+      SYN-CTRL-01 / CLARITY -> INSUFFICIENT_EVIDENCE | coverage EVIDENCE_MISSING | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'NOT_ASKED'), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'NOT_ASKED'), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'NOT_ASKED'), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'NOT_ASKED')] ['EVIDENCE_NOT_ASKED', 'EVIDENCE_NOT_ASKED', 'EVIDENCE_NOT_ASKED', 'EVIDENCE_NOT_ASKED']
+      SYN-CTRL-01 / OPENING -> SATISFIED | coverage EVIDENCED | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n1', 'DELIVERED')] []
+      SYN-CTRL-04 / EXPECT-NO -> INSUFFICIENT_EVIDENCE | coverage EVIDENCE_MISSING | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'NOT_ASKED'), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'NOT_ASKED'), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'NOT_ASKED'), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'NOT_ASKED')] ['EVIDENCE_NOT_ASKED', 'EVIDENCE_NOT_ASKED', 'EVIDENCE_NOT_ASKED', 'EVIDENCE_NOT_ASKED']
+== coordinated journey ['DEV-CHECK-AD5AEA8F', 'S-DEV-EVAL-SHARED'] (ALL_SURVEYS_COMPLETED); the shared question answered 'yes' in survey 1 and 'no' in survey 2: | processing REQUIRES_REVIEW | COVERAGE INCOMPLETE (REQUIRED_CONTROLS_NOT_EVIDENCED; 1 of 3 required evidenced) | eligibility NOT_ESTABLISHED | recomputes True
+      SYN-CTRL-01 / CLARITY -> REQUIRES_REVIEW | coverage EVIDENCE_CONFLICTING | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MATCH'), ('S-DEV-EVAL-SHARED', 'mi-shared/n1', 'MISMATCH')] ['EVIDENCE_CONFLICT', 'EVIDENCE_MISMATCH']
+      SYN-CTRL-01 / OPENING -> SATISFIED | coverage EVIDENCED | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n1', 'DELIVERED')] []
+      SYN-CTRL-04 / EXPECT-NO -> REQUIRES_REVIEW | coverage EVIDENCE_CONFLICTING | [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MISMATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MISMATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MISMATCH'), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MISMATCH'), ('S-DEV-EVAL-SHARED', 'mi-shared/n1', 'MATCH')] ['EVIDENCE_CONFLICT', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH']
+   -> one obligation, evidence from 2 simulations; Q-CLEAR-AD5AEA8F v1 was answered differently in different places. Nothing governs which answer stands, so none is chosen
+   findings (existing synthetic rule set): [('SYN-CTRL-04', 'EXPECT-NO', 'FR-CTRL04-MISMATCH'), ('SYN-CTRL-04', 'EXPECT-NO', 'FR-CTRL04-MISMATCH'), ('SYN-CTRL-04', 'EXPECT-NO', 'FR-CTRL04-MISMATCH'), ('SYN-CTRL-04', 'EXPECT-NO', 'FR-CTRL04-MISMATCH')] … total 4
+== security: checker (no survey.evaluate) evaluating -> 403 | checker proposing a policy -> 403 | without CSRF -> 403
+== audit: {'SURVEY.CONTROL_POLICY_APPROVED': 1, 'SURVEY.CONTROL_POLICY_PROPOSED': 1, 'SURVEY.CONTROL_POLICY_PUBLISHED': 1}
+== new records: {'policies': 1, 'policy-scoped evaluations': 3, 'obligation results': 9, 'obligation observations': 29, 'obligation findings': 8}
+== EVAL-1 result tables received no row from any of this: True {'survey_control_result': 10, 'survey_evidence_observation': 18, 'survey_evaluation_finding': 8}
+== operational, Script Studio (incl. assignment rules), control register and finding rule tables unchanged: True
+ids for the screen: 2b73b0a8-988b-432e-a101-20db30b3b7cb cd707ee3-02cf-4815-b3d8-1c68be9a0ae9 8d5819c7-6cf8-4a76-8bc1-e44b4f9547d0

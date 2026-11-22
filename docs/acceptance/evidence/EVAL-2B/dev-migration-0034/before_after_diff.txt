@@ -1,0 +1,14 @@
+Alembic revision: ['0033_survey_control_evaluation'] -> ['0034_survey_control_policy']
+tables: 132 -> 138 | removed: none | added: ['survey_control_policy', 'survey_control_policy_event', 'survey_evaluation_policy', 'survey_obligation_finding', 'survey_obligation_observation', 'survey_obligation_result']
+pre-existing tables changed in row count or content: ['alembic_version']
+pre-existing tables byte-identical in content: 131 of 132
+column definitions of pre-existing tables: identical
+triggers added: ['survey_control_policy_event_guard@survey_control_policy_event', 'survey_control_policy_event_immutable@survey_control_policy_event', 'survey_control_policy_immutable@survey_control_policy', 'survey_evaluation_policy_immutable@survey_evaluation_policy', 'survey_obligation_finding_immutable@survey_obligation_finding', 'survey_obligation_observation_immutable@survey_obligation_observation', 'survey_obligation_result_immutable@survey_obligation_result'] | removed: none
+functions added: ['survey_control_policy_event_guard'] | permissions added: none
+EVAL-1 tables — rows, keys, columns, indexes, triggers before and after: IDENTICAL
+   survey_journey_evaluation: 2 rows, rows 966a29c86387433e, structure c40c71536fb20efe | same after: True
+   survey_control_result: 10 rows, rows 18b8a439d02198c5, structure 8815ea2483f656b1 | same after: True
+   survey_evidence_observation: 18 rows, rows 0aa7a0baa429f1a7, structure d267e18355b43c6e | same after: True
+   survey_evaluation_finding: 8 rows, rows a81b9b1ae057acee, structure 0b446f7d52839ce5 | same after: True
+   survey_control_mapping: 2 rows, rows 5d272ac5e893269e, structure 7b8f66c522c12cd4 | same after: True
+   survey_control_mapping_event: 6 rows, rows 6038c1c2825b8793, structure 6118b72a3d3f1eb9 | same after: True

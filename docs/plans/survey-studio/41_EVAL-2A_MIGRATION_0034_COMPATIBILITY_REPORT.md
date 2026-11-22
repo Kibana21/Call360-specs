@@ -1,7 +1,9 @@
 # EVAL-2A — Migration `0034_survey_control_policy`: compatibility and data-preservation report
 
-**Status of the migration: applied to the isolated test schema only. NOT applied to development; not authorised
-there.** Development is at `0033_survey_control_evaluation`.
+**Status of the migration: applied to the isolated test schema, and — on 2026-11-22, under the owner's authorisation
+(D-304) — to the local development database.** Development is at `0034_survey_control_policy`. Evidence of that run:
+`docs/acceptance/evidence/EVAL-2B/dev-migration-0034/`; summary in `43_EVAL-2B_IMPLEMENTATION_REPORT.md` §2.
+The text below is the report as written before that authorisation.
 
 ## 1. What was wrong with the first draft, and what replaced it
 
@@ -86,7 +88,7 @@ and evaluation with control policies switched off on a `0034` schema (it writes 
 
 ## 5. What applying it to development would do
 
-Not done and not authorised. If authorised: six empty tables, one function and seven triggers would be added; the
+(Written before authorisation; since done — see the status line above.) If authorised: six empty tables, one function and seven triggers would be added; the
 two mappings, two evaluations and all other development data would be untouched; control policies would stay off
 until `SURVEY_CONTROL_POLICY_ENABLED` is set. A downgrade would be possible until the first policy is proposed.
 
