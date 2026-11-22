@@ -1,0 +1,133 @@
+ASG-2A — composite plan examples, as returned by POST /api/v1/survey-assignment/composite-plans in the test schema.
+Synthetic data. Stand-ins: 'replacement' = premium_frequency SINGLE, 'CI rider' = selling_channel BANCASSURANCE.
+
+================================================================================================================
+1. A Life application: the primary survey, and the closing alternative that applies to it
+================================================================================================================
+record_class SIMULATION | contract call360.survey.composite-plan/1
+selection_status RESOLVED | ordering_status GOVERNED | plan_status READY
+composite fingerprint ddedead7466f7c2c51d6a5eb420c79c2b903fbbd37d4fc743bd81b6a0446c779 (verified True, recompute consistent True)
+application fingerprint 78f84d006a0187fd0a2a18c15f6454f8799466da8085e7337ca30dfb38f50845
+assignment inputs: {"case_purpose": "SALE_VERIFICATION", "contact_role": ["OWNER"], "is_ilp": false, "market": "SG", "premium_frequency": "ANNUAL", "product_code": "SYN-END-SAVER", "product_family": "PROTECTION", "risk_band": "LOW", "selling_channel": "BROKER"}
+facts: {}
+input_consistency: UNVERIFIED
+policy groups: PRIMARY-SG v1 (PRIMARY, position 1), ADD-CI v1 (ADD_REQUIRED, position None), ADD-REPLACEMENT v1 (ADD_REQUIRED, position 2), ALT-CLOSING v1 (ALTERNATIVE, position 9)
+policy bindings: 6 | rules considered: C-AGENCY v1, C-STD v1, P-ILP v1, P-LIFE v1, R-CI v1, R-REPL v1
+requirements:
+   PRIMARY-SG         PRIMARY       SELECTED        SELECTED               rule P-LIFE v1 -> S-94B79F74AC v1.0 | plan READY 25b6c34b17b4cbf5… | content 450bf9af7b00… manifest 701d42f00c6f…
+                      reason: P-LIFE v1 is the highest-precedence matching rule (priority 1, specificity 2)
+   ADD-CI             ADD_REQUIRED  NOT_APPLICABLE  NO_MATCH              
+                      reason: No published, effective rule matches this case; no survey can be selected
+   ADD-REPLACEMENT    ADD_REQUIRED  NOT_APPLICABLE  NO_MATCH              
+                      reason: No published, effective rule matches this case; no survey can be selected
+   ALT-CLOSING        ALTERNATIVE   SELECTED        SELECTED               rule C-STD v1 -> S-E0E4F56818 v1.0 | plan READY ffc7f26526f61f80… | content 4bd6eb893112… manifest b5e24990882b…
+                      reason: C-STD v1 is the highest-precedence matching rule (priority 5, specificity 1)
+ordering: GOVERNED | order ['PRIMARY-SG', 'ALT-CLOSING'] | listing ['PRIMARY-SG', 'ALT-CLOSING']
+cross_survey_policy: UNRESOLVED — Whether an escalation, a refusal, an incomplete answer or a terminal outcome in one survey allows another survey to proceed has not been decided. No combined run is built.
+missing inputs [] | missing facts []
+members recorded: #1 SELECTED plan 25b6c34b17b4… intact True; #2 NOT_APPLICABLE; #3 NOT_APPLICABLE; #4 SELECTED plan ffc7f26526f6… intact True
+
+================================================================================================================
+2. A Life replacement: the primary PLUS the required replacement survey, in the governed order
+================================================================================================================
+record_class SIMULATION | contract call360.survey.composite-plan/1
+selection_status RESOLVED | ordering_status GOVERNED | plan_status READY
+composite fingerprint f6ee2dcfb32f86611b2b131e999e36c44e9165a926f9fd4258e78a63abd5e16a (verified True, recompute consistent True)
+application fingerprint a745c394814abd0f16583c007688f9a5edf89f6c4a3aacf92aeebec51ffffb27
+assignment inputs: {"case_purpose": "SALE_VERIFICATION", "contact_role": ["OWNER"], "is_ilp": false, "market": "SG", "premium_frequency": "SINGLE", "product_code": "SYN-END-SAVER", "product_family": "PROTECTION", "risk_band": "LOW", "selling_channel": "BROKER"}
+facts: {"customer.age_years": 40, "policy.annual_premium": 3000, "policy.is_replacement": true}
+input_consistency: UNVERIFIED
+policy groups: PRIMARY-SG v1 (PRIMARY, position 1), ADD-CI v1 (ADD_REQUIRED, position None), ADD-REPLACEMENT v1 (ADD_REQUIRED, position 2), ALT-CLOSING v1 (ALTERNATIVE, position 9)
+policy bindings: 6 | rules considered: C-AGENCY v1, C-STD v1, P-ILP v1, P-LIFE v1, R-CI v1, R-REPL v1
+requirements:
+   PRIMARY-SG         PRIMARY       SELECTED        SELECTED               rule P-LIFE v1 -> S-94B79F74AC v1.0 | plan READY 25b6c34b17b4cbf5… | content 450bf9af7b00… manifest 701d42f00c6f…
+                      reason: P-LIFE v1 is the highest-precedence matching rule (priority 1, specificity 2)
+   ADD-CI             ADD_REQUIRED  NOT_APPLICABLE  NO_MATCH              
+                      reason: No published, effective rule matches this case; no survey can be selected
+   ADD-REPLACEMENT    ADD_REQUIRED  SELECTED        SELECTED               rule R-REPL v1 -> S-C7FEE17B0D v1.0 | plan READY 02228067d93b93e3… | content 5cf08cfee8db… manifest eee0379062fe…
+                      reason: R-REPL v1 is the highest-precedence matching rule (priority 2, specificity 2)
+   ALT-CLOSING        ALTERNATIVE   SELECTED        SELECTED               rule C-STD v1 -> S-E0E4F56818 v1.0 | plan READY ffc7f26526f61f80… | content 4bd6eb893112… manifest b5e24990882b…
+                      reason: C-STD v1 is the highest-precedence matching rule (priority 5, specificity 1)
+ordering: GOVERNED | order ['PRIMARY-SG', 'ADD-REPLACEMENT', 'ALT-CLOSING'] | listing ['PRIMARY-SG', 'ADD-REPLACEMENT', 'ALT-CLOSING']
+cross_survey_policy: UNRESOLVED — Whether an escalation, a refusal, an incomplete answer or a terminal outcome in one survey allows another survey to proceed has not been decided. No combined run is built.
+missing inputs [] | missing facts []
+members recorded: #1 SELECTED plan 25b6c34b17b4… intact True; #2 NOT_APPLICABLE; #3 SELECTED plan 02228067d93b… intact True; #4 SELECTED plan ffc7f26526f6… intact True
+
+================================================================================================================
+3. A Life application with a CI rider: the CI survey too — but its group has no governed position
+================================================================================================================
+record_class SIMULATION | contract call360.survey.composite-plan/1
+selection_status RESOLVED | ordering_status UNRESOLVED | plan_status UNRESOLVED
+composite fingerprint 312a0a2bfdd008514d485ebe1f57ad1874c5cfb8a256ccebe1b965f84f539e97 (verified True, recompute consistent True)
+application fingerprint 692a622dd33fec7e302d02ea881485c5a2450d029768a0b80b6e415355a338c2
+assignment inputs: {"case_purpose": "SALE_VERIFICATION", "contact_role": ["OWNER"], "is_ilp": false, "market": "SG", "premium_frequency": "ANNUAL", "product_code": "SYN-END-SAVER", "product_family": "PROTECTION", "risk_band": "LOW", "selling_channel": "BANCASSURANCE"}
+facts: {}
+input_consistency: UNVERIFIED
+policy groups: PRIMARY-SG v1 (PRIMARY, position 1), ADD-CI v1 (ADD_REQUIRED, position None), ADD-REPLACEMENT v1 (ADD_REQUIRED, position 2), ALT-CLOSING v1 (ALTERNATIVE, position 9)
+policy bindings: 6 | rules considered: C-AGENCY v1, C-STD v1, P-ILP v1, P-LIFE v1, R-CI v1, R-REPL v1
+requirements:
+   PRIMARY-SG         PRIMARY       SELECTED        SELECTED               rule P-LIFE v1 -> S-94B79F74AC v1.0 | plan READY 25b6c34b17b4cbf5… | content 450bf9af7b00… manifest 701d42f00c6f…
+                      reason: P-LIFE v1 is the highest-precedence matching rule (priority 1, specificity 2)
+   ADD-CI             ADD_REQUIRED  SELECTED        SELECTED               rule R-CI v1 -> S-85B05B7E5D v1.0 | plan READY db82a5fc93495aa4… | content 08f2800b32c6… manifest 2084a76490a7…
+                      reason: R-CI v1 is the highest-precedence matching rule (priority 3, specificity 3)
+   ADD-REPLACEMENT    ADD_REQUIRED  NOT_APPLICABLE  NO_MATCH              
+                      reason: No published, effective rule matches this case; no survey can be selected
+   ALT-CLOSING        ALTERNATIVE   SELECTED        SELECTED               rule C-STD v1 -> S-E0E4F56818 v1.0 | plan READY ffc7f26526f61f80… | content 4bd6eb893112… manifest b5e24990882b…
+                      reason: C-STD v1 is the highest-precedence matching rule (priority 5, specificity 1)
+ordering: UNRESOLVED (PARTIAL) | order None | listing ['PRIMARY-SG', 'ADD-CI', 'ALT-CLOSING']
+cross_survey_policy: UNRESOLVED — Whether an escalation, a refusal, an incomplete answer or a terminal outcome in one survey allows another survey to proceed has not been decided. No combined run is built.
+missing inputs [] | missing facts []
+members recorded: #1 SELECTED plan 25b6c34b17b4… intact True; #2 SELECTED plan db82a5fc9349… intact True; #3 NOT_APPLICABLE; #4 SELECTED plan ffc7f26526f6… intact True
+
+================================================================================================================
+4. An input is not known: the requirement that reads it is UNRESOLVED, not 'does not apply'
+================================================================================================================
+record_class SIMULATION | contract call360.survey.composite-plan/1
+selection_status UNRESOLVED_REQUIREMENT | ordering_status GOVERNED | plan_status UNRESOLVED
+composite fingerprint 3aa78894e18b8be4d74f28e9c282132245989a64c3fcc9498b7d4cd47b9dccda (verified True, recompute consistent True)
+application fingerprint 3f6673a5cb98c309c052aba48a00e35552742eac0c73059468108e4d9437f224
+assignment inputs: {"case_purpose": "SALE_VERIFICATION", "contact_role": ["OWNER"], "is_ilp": false, "market": "SG", "product_code": "SYN-END-SAVER", "product_family": "PROTECTION", "risk_band": "LOW", "selling_channel": "BROKER"}
+facts: {}
+input_consistency: UNVERIFIED
+policy groups: PRIMARY-SG v1 (PRIMARY, position 1), ADD-CI v2 (ADD_REQUIRED, position 3), ADD-REPLACEMENT v3 (ADD_REQUIRED, position 2), ALT-CLOSING v1 (ALTERNATIVE, position 9)
+policy bindings: 6 | rules considered: C-AGENCY v1, C-STD v1, P-ILP v1, P-LIFE v1, R-CI v1, R-REPL v1
+requirements:
+   PRIMARY-SG         PRIMARY       SELECTED        SELECTED               rule P-LIFE v1 -> S-94B79F74AC v1.0 | plan READY 25b6c34b17b4cbf5… | content 450bf9af7b00… manifest 701d42f00c6f…
+                      reason: P-LIFE v1 is the highest-precedence matching rule (priority 1, specificity 2)
+   ADD-CI             ADD_REQUIRED  NOT_APPLICABLE  NO_MATCH              
+                      reason: No published, effective rule matches this case; no survey can be selected
+   ADD-REPLACEMENT    ADD_REQUIRED  UNRESOLVED      INPUT_MISSING          not known: premium_frequency
+                      reason: Required case input missing (Premium frequency); assignment needs triage, no rule is selected
+   ALT-CLOSING        ALTERNATIVE   SELECTED        SELECTED               rule C-STD v1 -> S-E0E4F56818 v1.0 | plan READY ffc7f26526f61f80… | content 4bd6eb893112… manifest b5e24990882b…
+                      reason: C-STD v1 is the highest-precedence matching rule (priority 5, specificity 1)
+ordering: GOVERNED | order ['PRIMARY-SG', 'ALT-CLOSING'] | listing ['PRIMARY-SG', 'ALT-CLOSING']
+cross_survey_policy: UNRESOLVED — Whether an escalation, a refusal, an incomplete answer or a terminal outcome in one survey allows another survey to proceed has not been decided. No combined run is built.
+missing inputs ['premium_frequency'] | missing facts []
+members recorded: #1 SELECTED plan 25b6c34b17b4… intact True; #2 NOT_APPLICABLE; #3 UNRESOLVED; #4 SELECTED plan ffc7f26526f6… intact True
+
+================================================================================================================
+5. The winning rule of a requirement has no published binding: the requirement does not disappear
+================================================================================================================
+record_class SIMULATION | contract call360.survey.composite-plan/1
+selection_status UNRESOLVED_REQUIREMENT | ordering_status GOVERNED | plan_status UNRESOLVED
+composite fingerprint e3f041ba37eafd2fb424557079e015ef21720478e7fc9b1e77a807578cdcb25a (verified True, recompute consistent True)
+application fingerprint 086f33d1cab9b88613bd94c06d95f848d7d6cdbfba2ae431a2979b52cf1de138
+assignment inputs: {"case_purpose": "SALE_VERIFICATION", "contact_role": ["OWNER"], "is_ilp": false, "market": "SG", "premium_frequency": "SINGLE", "product_code": "SYN-END-SAVER", "product_family": "PROTECTION", "risk_band": "LOW", "selling_channel": "BROKER"}
+facts: {}
+input_consistency: UNVERIFIED
+policy groups: PRIMARY-SG v1 (PRIMARY, position 1), ADD-CI v2 (ADD_REQUIRED, position 3), ADD-REPLACEMENT v3 (ADD_REQUIRED, position 2), ALT-CLOSING v1 (ALTERNATIVE, position 9)
+policy bindings: 5 | rules considered: C-AGENCY v1, C-STD v1, P-ILP v1, P-LIFE v1, R-CI v1, R-REPL v1
+requirements:
+   PRIMARY-SG         PRIMARY       SELECTED        SELECTED               rule P-LIFE v1 -> S-94B79F74AC v1.0 | plan READY 25b6c34b17b4cbf5… | content 450bf9af7b00… manifest 701d42f00c6f…
+                      reason: P-LIFE v1 is the highest-precedence matching rule (priority 1, specificity 2)
+   ADD-CI             ADD_REQUIRED  NOT_APPLICABLE  NO_MATCH              
+                      reason: No published, effective rule matches this case; no survey can be selected
+   ADD-REPLACEMENT    ADD_REQUIRED  UNRESOLVED      SURVEY_NOT_BOUND      
+                      reason: R-REPL v1 wins, but no survey version is bound to it by a published binding; fails closed (no lower-precedence rule is used, and no fallback survey is chosen)
+   ALT-CLOSING        ALTERNATIVE   SELECTED        SELECTED               rule C-STD v1 -> S-E0E4F56818 v1.0 | plan READY ffc7f26526f61f80… | content 4bd6eb893112… manifest b5e24990882b…
+                      reason: C-STD v1 is the highest-precedence matching rule (priority 5, specificity 1)
+ordering: GOVERNED | order ['PRIMARY-SG', 'ALT-CLOSING'] | listing ['PRIMARY-SG', 'ALT-CLOSING']
+cross_survey_policy: UNRESOLVED — Whether an escalation, a refusal, an incomplete answer or a terminal outcome in one survey allows another survey to proceed has not been decided. No combined run is built.
+missing inputs [] | missing facts []
+members recorded: #1 SELECTED plan 25b6c34b17b4… intact True; #2 NOT_APPLICABLE; #3 UNRESOLVED; #4 SELECTED plan ffc7f26526f6… intact True
+

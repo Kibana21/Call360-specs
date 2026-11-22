@@ -1,0 +1,13 @@
+Alembic revision: ['0031_survey_assignment_groups'] -> ['0032_survey_coordinated_sim']
+tables: 124 -> 126 | removed: none | added: ['survey_coordinated_simulation', 'survey_coordinated_simulation_step']
+pre-existing tables changed in row count or content: ['alembic_version 1->1']
+pre-existing tables byte-identical in content: 123 of 124
+column definitions of pre-existing tables: identical
+triggers added: ['survey_coordinated_simulation_immutable@survey_coordinated_simulation', 'survey_coordinated_simulation_step_immutable@survey_coordinated_simulation_step'] | removed: none
+functions added: none | permissions added: none
+survey_coordinated_simulation : rows 0 | columns 11
+survey_coordinated_simulation_step : rows 0 | columns 9
+foreign keys of the new tables -> ['survey_assignment_group', 'survey_composite_plan', 'survey_coordinated_simulation', 'survey_simulation', 'survey_version']
+foreign keys INTO the new tables from other tables: 0
+later tables (0033) present: none
+protected synthetic records: {'surveys': 4, 'survey versions': 2, 'simulations': 7, 'bindings': 2, 'groups': 2, 'composites': 3, 'callback cases': 258, 'script versions': 11, 'assignment rule versions': 8, 'script assignments': 251, 'findings': 26, 'voice lab sessions': 24}

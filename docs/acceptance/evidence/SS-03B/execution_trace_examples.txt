@@ -1,0 +1,60 @@
+==============================================================================================================
+K8 · Missing data: the call runs as far as the module that cannot be decided, and halts there, as the plan said it would
+facts: {"policy.annual_premium": 3000, "policy.is_replacement": null, "customer.age_years": null}
+==============================================================================================================
+status: TERMINAL | terminal: {"state": "MISSING_INFORMATION_HALT", "reason": "ELIGIBILITY_UNKNOWN", "at": "mi-senior"} | policy_unresolved: null
+  0 ENTRY         {"instance": "mi-opening", "status": "ACTIVATED", "mode": "ALWAYS", "arrival": "SEQUENCE"}
+  1 SAY           {"key": "mi-opening/n1", "instance": "mi-opening", "node": "n1", "text": "Good day. This is a service call about your policy.", "role": "OPENING", "delivery_mode": "CONTROLLED_TTS"}
+  2 ROUTE         {"key": "mi-opening/n1", "instance": "mi-opening", "node": "n1", "via": "AFTER_CAPTURE", "edge": "e1", "to": {"node": "n2"}, "specific": true, "mandatory": false}
+  3 ASK           {"key": "mi-opening/n2", "instance": "mi-opening", "node": "n2", "text": "Can you confirm that you are the policyholder?", "followup": false, "answer_type": "YES_NO"}
+  4 ANSWER        {"key": "mi-opening/n2", "instance": "mi-opening", "node": "n2", "text": "Can you confirm that you are the policyholder?", "answer": {"choice": "YES"}, "state": "ANSWERED"}
+  5 ROUTE         {"key": "mi-opening/n2", "instance": "mi-opening", "node": "n2", "via": "YES", "edge": "e2", "to": {"outcome": "COMPLETED"}, "specific": true, "mandatory": false}
+  6 MODULE_END    {"instance": "mi-opening", "outcome": "COMPLETED"}
+  7 SURVEY_ROUTE  {"instance": "mi-opening", "outcome": "COMPLETED", "to": "@CONTINUE", "skipped": []}
+  8 ENTRY         {"instance": "mi-high-value", "status": "SKIPPED_FALSE", "mode": "RULE", "arrival": "SEQUENCE", "unknown_policy": "BLOCK", "result": "FALSE", "reads": [{"what": "FACT", "name": "policy.annual_premium", "state": "KNOWN", "value": 3
+  9 ENTRY         {"instance": "mi-replacement", "status": "SKIPPED_UNKNOWN", "mode": "RULE", "arrival": "SEQUENCE", "unknown_policy": "SKIP_WITH_REASON", "result": "UNKNOWN", "reads": [{"what": "FACT", "name": "policy.is_replacement", "state": "MI
+ 10 ENTRY         {"instance": "mi-senior", "status": "HALTED_MISSING_INFORMATION", "mode": "RULE", "arrival": "SEQUENCE", "unknown_policy": "BLOCK", "result": "UNKNOWN", "reads": [{"what": "FACT", "name": "customer.age_years", "state": "MISSING", 
+ 11 END           {"instance": "mi-senior", "status": "MISSING_INFORMATION_HALT", "reason": "ELIGIBILITY_UNKNOWN", "where": "mi-senior"}
+modules: [{"instance": "mi-opening", "status": "ACTIVATED", "outcome": "COMPLETED"}, {"instance": "mi-high-value", "status": "SKIPPED_FALSE"}, {"instance": "mi-replacement", "status": "SKIPPED_UNKNOWN"}, {"instance": "mi-senior", "status": "HALTED_MISSING_INFORMATION"}, {"instance": "mi-closing", "status": "NOT_REACHED"}]
+delivered:
+    mi-opening/n1 (wording 1, CONTROLLED_TTS): Good day. This is a service call about your policy.
+    mi-opening/n2 (wording 1, CONTROLLED_TTS): Can you confirm that you are the policyholder?
+==============================================================================================================
+K3 · an invalid number is refused and the same question stays current
+==============================================================================================================
+status: PENDING | terminal: null | policy_unresolved: null
+  0 ENTRY         {"instance": "mi-numbers", "status": "ACTIVATED", "mode": "ALWAYS", "arrival": "SEQUENCE"}
+  1 ASK           {"key": "mi-numbers/n1", "instance": "mi-numbers", "node": "n1", "text": "For how many years did your representative say you would pay premiums?", "followup": false, "answer_type": "NUMERIC"}
+  2 REJECT        {"key": "mi-numbers/n1", "instance": "mi-numbers", "node": "n1", "code": "NUMBER_REQUIRED", "answer": {}, "attempt": 0}
+modules: [{"instance": "mi-numbers", "status": "RUNNING"}]
+delivered:
+==============================================================================================================
+K4 · the customer does not acknowledge: POLICY_UNRESOLVED (not an outcome)
+==============================================================================================================
+status: POLICY_UNRESOLVED | terminal: null | policy_unresolved: {"key": "mi-ack/n2", "code": "POLICY_UNRESOLVED", "reason": "NON_ANSWER_POLICY_UNRESOLVED"}
+  0 ENTRY         {"instance": "mi-ack", "status": "ACTIVATED", "mode": "ALWAYS", "arrival": "SEQUENCE"}
+  1 SAY           {"key": "mi-ack/n1", "instance": "mi-ack", "node": "n1", "text": "Your policy has a fourteen-day free-look period.", "role": "DISCLOSURE", "delivery_mode": "CONTROLLED_TTS"}
+  2 ROUTE         {"key": "mi-ack/n1", "instance": "mi-ack", "node": "n1", "via": "AFTER_CAPTURE", "edge": "e1", "to": {"node": "n2"}, "specific": true, "mandatory": false}
+  3 ASK           {"key": "mi-ack/n2", "instance": "mi-ack", "node": "n2", "text": "Please confirm that you have heard this.", "followup": false, "answer_type": "ACKNOWLEDGEMENT"}
+  4 REJECT        {"key": "mi-ack/n2", "instance": "mi-ack", "node": "n2", "code": "NON_ANSWER_POLICY_UNRESOLVED", "answer": {"acknowledged": false}, "attempt": 0}
+modules: [{"instance": "mi-ack", "status": "RUNNING"}]
+delivered:
+    mi-ack/n1 (wording 1, CONTROLLED_TTS): Your policy has a fourteen-day free-look period.
+==============================================================================================================
+CALL PLAN · K8 · The premium is missing: whether the high-value review applies cannot be decided, and its own wording cannot be built either
+facts: {"policy.annual_premium": null, "policy.is_replacement": false, "customer.age_years": 40}
+==============================================================================================================
+status: BLOCKED | fingerprint: 3921172d20f69ab53d91b27508663840ad3eb619f52b6170d685f7b7e035784b
+issues: [{"code": "ELIGIBILITY_UNKNOWN", "at": "mi-high-value"}, {"code": "WORDING_VALUE_MISSING", "at": "mi-high-value/n1"}]
+inputs: [{"field": "policy.annual_premium", "state": "MISSING", "value": null}, {"field": "policy.is_replacement", "state": "PRESENT", "value": false}, {"field": "customer.age_years", "state": "PRESENT", "value": "40"}]
+  mi-opening         IN           NO_CONDITION     eligibility: None
+        mi-opening/n1 -> Good day. This is a service call about your policy.
+        mi-opening/n2 -> Can you confirm that you are the policyholder?
+  mi-high-value      HALTS        UNKNOWN_HALTS    eligibility: UNKNOWN
+        mi-high-value/n1 -> CANNOT BE DELIVERED [{"code": "MISSING", "variable": "policy.annual_premium"}]
+        mi-high-value/n2 -> Can you confirm that the funds for this policy are your own?
+  mi-replacement     OUT          NOT_ELIGIBLE     eligibility: FALSE
+  mi-senior          OUT          NOT_ELIGIBLE     eligibility: FALSE
+  mi-closing         IN           NO_CONDITION     eligibility: None
+        mi-closing/n1 -> Thank you. This call is now complete.
+counts: {"modules_in": 2, "modules_out": 2, "modules_conditional": 0, "modules_halt": 1, "items": 5, "items_always": 5, "open_points": 4}

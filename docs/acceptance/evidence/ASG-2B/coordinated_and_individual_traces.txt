@@ -1,0 +1,146 @@
+ASG-2B — coordinated simulations, as returned by the server in the test schema. Synthetic data; stand-in conditions.
+Each survey's trace is its own SS-03B run. The coordinator only starts surveys and stops.
+
+================================================================================================================
+1. Two surveys in a governed order: A completed, then B completed (one refused answer in each kept as refused)
+================================================================================================================
+record_class SIMULATION | contract call360.survey.coordinated-simulation/1 | status ALL_SURVEYS_COMPLETED
+governed order ['PRIMARY-SG', 'ADD-B'] | composite dea3648154f4d2a761949028333b98e85d6b7d862ecf72c016e88712cf65258c (intact True) | application 5d8c360efa66cc50dac9b2a1c09cf19fb6e7ed9e385143b0be6e40f6e17610af
+coordinated result (replay) fingerprint d68d3d3100c5bb92b541f833728414b944ed6748d8a21ab9dc34442aea7db470 | execution contracts ['call360.survey.execution/1']
+progress {"surveys_total": 2, "surveys_completed": 2, "surveys_started": 2, "inputs": 8, "refused_inputs": 3, "items_delivered": 9} | operational call eligibility NOT_ESTABLISHED
+decision after PRIMARY-SG: ending COMPLETED -> PROCEED (SIMULATION_ONLY_COMPLETED_PROCEEDS) -> ADD-B
+----------------------------------------------------------------------------------------------------------------
+survey 1: PRIMARY-SG (PRIMARY) -> S-E0DDDFC959 v1.0 | state COMPLETED | started FIRST_IN_ORDER
+   version df00ace8-ba01-4088-83eb-dcc2ed66a62e | content daa80ad13c4a6e68… | rule P-A v1 | plan dce50a578fbbc963…
+   simulation 7983f485-9ab0-418b-abd2-2048c37eb20e | run fingerprint 5364770a22955f4313ed4cd29ffbffda2eab77b648d38b708b73851fa7bcd7a7 | contract call360.survey.execution/1 | replay consistent True
+   terminal {"state": "COMPLETED", "survey_outcome": "COMPLETED"} | inputs 3 (1 refused)
+      input 1: mi-call/n2 {} -> REFUSED CHOICE_REQUIRED
+      input 2: mi-call/n2 {"choice": "YES"} -> accepted
+      input 3: mi-call/n5 {"choice": "YES"} -> accepted
+        0 ENTRY         {"instance": "mi-call", "status": "ACTIVATED"}
+        1 SAY           {"key": "mi-call/n1", "instance": "mi-call", "text": "Good day. This is a service call about your policy."}
+        2 ROUTE         {"key": "mi-call/n1", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"node": "n2"}}
+        3 ASK           {"key": "mi-call/n2", "instance": "mi-call", "text": "Can you confirm that you are the policyholder?"}
+        4 REJECT        {"key": "mi-call/n2", "instance": "mi-call", "code": "CHOICE_REQUIRED"}
+        5 ANSWER        {"key": "mi-call/n2", "instance": "mi-call", "text": "Can you confirm that you are the policyholder?"}
+        6 ROUTE         {"key": "mi-call/n2", "instance": "mi-call", "via": "YES", "to": {"node": "n3"}}
+        7 SAY           {"key": "mi-call/n3", "instance": "mi-call", "text": "This call is to verify how your policy was sold to you."}
+        8 ROUTE         {"key": "mi-call/n3", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"node": "n4"}}
+        9 SAY           {"key": "mi-call/n4", "instance": "mi-call", "text": "I will now ask two short questions."}
+       10 ROUTE         {"key": "mi-call/n4", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"node": "n5"}}
+       11 ASK           {"key": "mi-call/n5", "instance": "mi-call", "text": "Did your representative explain how the plan works?"}
+       12 ANSWER        {"key": "mi-call/n5", "instance": "mi-call", "text": "Did your representative explain how the plan works?"}
+       13 ROUTE         {"key": "mi-call/n5", "instance": "mi-call", "via": "YES", "to": {"node": "n6"}}
+       14 SAY           {"key": "mi-call/n6", "instance": "mi-call", "text": "Thank you. This call is now complete."}
+       15 ROUTE         {"key": "mi-call/n6", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"outcome": "COMPLETED"}}
+       16 MODULE_END    {"instance": "mi-call", "outcome": "COMPLETED"}
+       17 SURVEY_ROUTE  {"instance": "mi-call", "outcome": "COMPLETED", "to": "@CONTINUE"}
+       18 END           {"instance": "mi-call", "status": "COMPLETED", "survey_outcome": "COMPLETED"}
+----------------------------------------------------------------------------------------------------------------
+survey 2: ADD-B (ADD_REQUIRED) -> S-449A0011FB v1.0 | state COMPLETED | started PREVIOUS_COMPLETED
+   version d33af2dc-4ab6-43b9-8a0a-f6cda7f3f7a9 | content d0c4e9de1a2ef720… | rule R-B v1 | plan 37de9b3450dc1ce5…
+   simulation 03d50fbe-f17d-46fa-93de-ea31667c040c | run fingerprint 914e3c05be287cbb6a495b895f23bb7d4cd85394233c8c5765f601989881bfd0 | contract call360.survey.execution/1 | replay consistent True
+   terminal {"state": "COMPLETED", "survey_outcome": "COMPLETED"} | inputs 5 (2 refused)
+      input 1: mi-numbers/n1 {"number": 100} -> REFUSED NUMBER_TOO_HIGH
+      input 2: mi-numbers/n1 {"number": 20} -> accepted
+      input 3: mi-numbers/n2 {"number": 100.5} -> REFUSED NUMBER_TOO_HIGH
+      input 4: mi-numbers/n2 {"number": 30} -> accepted
+      input 5: mi-numbers/n3 {"number": 2} -> accepted
+        0 ENTRY         {"instance": "mi-numbers", "status": "ACTIVATED"}
+        1 ASK           {"key": "mi-numbers/n1", "instance": "mi-numbers", "text": "For how many years did your representative say you would pay premiums?"}
+        2 REJECT        {"key": "mi-numbers/n1", "instance": "mi-numbers", "code": "NUMBER_TOO_HIGH"}
+        3 ANSWER        {"key": "mi-numbers/n1", "instance": "mi-numbers", "text": "For how many years did your representative say you would pay premiums?"}
+        4 ROUTE         {"key": "mi-numbers/n1", "instance": "mi-numbers", "via": "AFTER_CAPTURE", "to": {"node": "n2"}}
+        5 ASK           {"key": "mi-numbers/n2", "instance": "mi-numbers", "text": "Roughly what share of your income goes to this premium, in percent?"}
+        6 REJECT        {"key": "mi-numbers/n2", "instance": "mi-numbers", "code": "NUMBER_TOO_HIGH"}
+        7 ANSWER        {"key": "mi-numbers/n2", "instance": "mi-numbers", "text": "Roughly what share of your income goes to this premium, in percent?"}
+        8 ROUTE         {"key": "mi-numbers/n2", "instance": "mi-numbers", "via": "AFTER_CAPTURE", "to": {"node": "n3"}}
+        9 ASK           {"key": "mi-numbers/n3", "instance": "mi-numbers", "text": "How many other policies do you hold?"}
+       10 ANSWER        {"key": "mi-numbers/n3", "instance": "mi-numbers", "text": "How many other policies do you hold?"}
+       11 ROUTE         {"key": "mi-numbers/n3", "instance": "mi-numbers", "via": "AFTER_CAPTURE", "to": {"outcome": "COMPLETED"}}
+       12 MODULE_END    {"instance": "mi-numbers", "outcome": "COMPLETED"}
+       13 SURVEY_ROUTE  {"instance": "mi-numbers", "outcome": "COMPLETED", "to": "@CONTINUE"}
+       14 END           {"instance": "mi-numbers", "status": "COMPLETED", "survey_outcome": "COMPLETED"}
+
+================================================================================================================
+2. A non-answer in the second survey: POLICY_UNRESOLVED stops the coordinator; the question stays current
+================================================================================================================
+record_class SIMULATION | contract call360.survey.coordinated-simulation/1 | status POLICY_UNRESOLVED
+governed order ['PRIMARY-SG', 'ADD-C'] | composite 20d15c8b6662d67a234dc1ca6f6323657f636adbe0eac91d1285003e89449a2e (intact True) | application 692a622dd33fec7e302d02ea881485c5a2450d029768a0b80b6e415355a338c2
+coordinated result (replay) fingerprint 766dd6cef53acf59ca623b2da00e5b3afc33b1b1c9654da91c60db8ba4882d74 | execution contracts ['call360.survey.execution/1']
+progress {"surveys_total": 2, "surveys_completed": 1, "surveys_started": 2, "inputs": 3, "refused_inputs": 1, "items_delivered": 7} | operational call eligibility NOT_ESTABLISHED
+STOP POLICY_UNRESOLVED at ADD-C: A non-answer whose handling is an open business decision. The question stays current.
+decision after PRIMARY-SG: ending COMPLETED -> PROCEED (SIMULATION_ONLY_COMPLETED_PROCEEDS) -> ADD-C
+----------------------------------------------------------------------------------------------------------------
+survey 1: PRIMARY-SG (PRIMARY) -> S-E0DDDFC959 v1.0 | state COMPLETED | started FIRST_IN_ORDER
+   version df00ace8-ba01-4088-83eb-dcc2ed66a62e | content daa80ad13c4a6e68… | rule P-A v1 | plan dce50a578fbbc963…
+   simulation 735e4342-f2b1-44a2-a028-7d43d65a2c43 | run fingerprint 0a94482d7977f745b06eaf4f3030da3647d69f716d9ea0f79ec5ebf021de116e | contract call360.survey.execution/1 | replay consistent True
+   terminal {"state": "COMPLETED", "survey_outcome": "COMPLETED"} | inputs 2 (0 refused)
+      input 1: mi-call/n2 {"choice": "YES"} -> accepted
+      input 2: mi-call/n5 {"choice": "YES"} -> accepted
+        0 ENTRY         {"instance": "mi-call", "status": "ACTIVATED"}
+        1 SAY           {"key": "mi-call/n1", "instance": "mi-call", "text": "Good day. This is a service call about your policy."}
+        2 ROUTE         {"key": "mi-call/n1", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"node": "n2"}}
+        3 ASK           {"key": "mi-call/n2", "instance": "mi-call", "text": "Can you confirm that you are the policyholder?"}
+        4 ANSWER        {"key": "mi-call/n2", "instance": "mi-call", "text": "Can you confirm that you are the policyholder?"}
+        5 ROUTE         {"key": "mi-call/n2", "instance": "mi-call", "via": "YES", "to": {"node": "n3"}}
+        6 SAY           {"key": "mi-call/n3", "instance": "mi-call", "text": "This call is to verify how your policy was sold to you."}
+        7 ROUTE         {"key": "mi-call/n3", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"node": "n4"}}
+        8 SAY           {"key": "mi-call/n4", "instance": "mi-call", "text": "I will now ask two short questions."}
+        9 ROUTE         {"key": "mi-call/n4", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"node": "n5"}}
+       10 ASK           {"key": "mi-call/n5", "instance": "mi-call", "text": "Did your representative explain how the plan works?"}
+       11 ANSWER        {"key": "mi-call/n5", "instance": "mi-call", "text": "Did your representative explain how the plan works?"}
+       12 ROUTE         {"key": "mi-call/n5", "instance": "mi-call", "via": "YES", "to": {"node": "n6"}}
+       13 SAY           {"key": "mi-call/n6", "instance": "mi-call", "text": "Thank you. This call is now complete."}
+       14 ROUTE         {"key": "mi-call/n6", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"outcome": "COMPLETED"}}
+       15 MODULE_END    {"instance": "mi-call", "outcome": "COMPLETED"}
+       16 SURVEY_ROUTE  {"instance": "mi-call", "outcome": "COMPLETED", "to": "@CONTINUE"}
+       17 END           {"instance": "mi-call", "status": "COMPLETED", "survey_outcome": "COMPLETED"}
+----------------------------------------------------------------------------------------------------------------
+survey 2: ADD-C (ADD_REQUIRED) -> S-5ED7D6A3D3 v1.0 | state CURRENT | started PREVIOUS_COMPLETED
+   version 4ce07d9c-839f-43f2-ad1b-d3aa83cd6321 | content 6efed6207e47aac2… | rule R-C v1 | plan 6c03c26d44e14bf9…
+   simulation 06fe33d0-3285-4e72-b9bf-9c37d6d5d554 | run fingerprint 341e28d8fb1bf3519774b89bde19b4b44a8ef37e9647a930b45acc11c88101e5 | contract call360.survey.execution/1 | replay consistent True
+   terminal null | inputs 1 (1 refused)
+      input 1: mi-ack/n2 {"acknowledged": false} -> REFUSED NON_ANSWER_POLICY_UNRESOLVED
+        0 ENTRY         {"instance": "mi-ack", "status": "ACTIVATED"}
+        1 SAY           {"key": "mi-ack/n1", "instance": "mi-ack", "text": "Your policy has a fourteen-day free-look period."}
+        2 ROUTE         {"key": "mi-ack/n1", "instance": "mi-ack", "via": "AFTER_CAPTURE", "to": {"node": "n2"}}
+        3 ASK           {"key": "mi-ack/n2", "instance": "mi-ack", "text": "Please confirm that you have heard this."}
+        4 REJECT        {"key": "mi-ack/n2", "instance": "mi-ack", "code": "NON_ANSWER_POLICY_UNRESOLVED"}
+
+================================================================================================================
+3. The first survey ends without COMPLETED: CROSS_SURVEY_POLICY_UNRESOLVED; the second is never started
+================================================================================================================
+record_class SIMULATION | contract call360.survey.coordinated-simulation/1 | status CROSS_SURVEY_POLICY_UNRESOLVED
+governed order ['PRIMARY-SG', 'ADD-B'] | composite dea3648154f4d2a761949028333b98e85d6b7d862ecf72c016e88712cf65258c (intact True) | application 5d8c360efa66cc50dac9b2a1c09cf19fb6e7ed9e385143b0be6e40f6e17610af
+coordinated result (replay) fingerprint 0fe07e31dbb987de5ab7ca6996e6c0cd6938ef8e050493cba98327a776fa69a4 | execution contracts ['call360.survey.execution/1']
+progress {"surveys_total": 2, "surveys_completed": 0, "surveys_started": 1, "inputs": 1, "refused_inputs": 0, "items_delivered": 2} | operational call eligibility NOT_ESTABLISHED
+STOP CROSS_SURVEY_POLICY_UNRESOLVED at PRIMARY-SG: This survey ended without COMPLETED. Whether another survey may then proceed has not been decided, so none is started. No outcome is given to the composite.
+decision after PRIMARY-SG: ending ENDED_WITH_OUTCOME -> STOP (CROSS_SURVEY_POLICY_UNRESOLVED)
+----------------------------------------------------------------------------------------------------------------
+survey 1: PRIMARY-SG (PRIMARY) -> S-E0DDDFC959 v1.0 | state STOPPED | started FIRST_IN_ORDER
+   version df00ace8-ba01-4088-83eb-dcc2ed66a62e | content daa80ad13c4a6e68… | rule P-A v1 | plan dce50a578fbbc963…
+   simulation fbafb327-49eb-4a9b-bce8-48bdb2faf9bf | run fingerprint 727c8e6a4ecd2b086085a8eaf6b124e75cacdb3686795d2b150e0ab1651e1ffc | contract call360.survey.execution/1 | replay consistent True
+   terminal {"state": "ENDED_WITH_OUTCOME", "survey_outcome": "UNABLE_TO_VERIFY"} | inputs 1 (0 refused)
+      input 1: mi-call/n2 {"choice": "NO"} -> accepted
+        0 ENTRY         {"instance": "mi-call", "status": "ACTIVATED"}
+        1 SAY           {"key": "mi-call/n1", "instance": "mi-call", "text": "Good day. This is a service call about your policy."}
+        2 ROUTE         {"key": "mi-call/n1", "instance": "mi-call", "via": "AFTER_CAPTURE", "to": {"node": "n2"}}
+        3 ASK           {"key": "mi-call/n2", "instance": "mi-call", "text": "Can you confirm that you are the policyholder?"}
+        4 ANSWER        {"key": "mi-call/n2", "instance": "mi-call", "text": "Can you confirm that you are the policyholder?"}
+        5 ROUTE         {"key": "mi-call/n2", "instance": "mi-call", "via": "NO", "to": {"outcome": "UNABLE_TO_VERIFY"}}
+        6 MODULE_END    {"instance": "mi-call", "outcome": "UNABLE_TO_VERIFY"}
+        7 SURVEY_ROUTE  {"instance": "mi-call", "outcome": "UNABLE_TO_VERIFY", "to": {"survey_outcome": "UNABLE_TO_VERIFY"}}
+        8 END           {"instance": "mi-call", "status": "ENDED_WITH_OUTCOME", "survey_outcome": "UNABLE_TO_VERIFY"}
+----------------------------------------------------------------------------------------------------------------
+survey 2: ADD-B (ADD_REQUIRED) -> S-449A0011FB v1.0 | state NOT_STARTED | started None
+   version d33af2dc-4ab6-43b9-8a0a-f6cda7f3f7a9 | content d0c4e9de1a2ef720… | rule R-B v1 | plan 37de9b3450dc1ce5…
+   not started: no simulation exists for it
+
+================================================================================================================
+4. Composites for which a coordinated simulation is refused — the three states of each
+================================================================================================================
+duplicate     call plan COMPUTABLE      coordinated simulation BLOCKED ['DUPLICATE_SURVEY_REQUIREMENT_UNRESOLVED'] | operational call eligibility NOT_ESTABLISHED
+no_order      call plan UNRESOLVED      coordinated simulation BLOCKED ['ORDER_UNRESOLVED'] | operational call eligibility NOT_ESTABLISHED
+unsettled     call plan UNRESOLVED      coordinated simulation BLOCKED ['SELECTION_UNRESOLVED'] | operational call eligibility NOT_ESTABLISHED
+plan_blocked  call plan NOT_COMPUTABLE  coordinated simulation BLOCKED ['PLAN_BLOCKED'] | operational call eligibility NOT_ESTABLISHED

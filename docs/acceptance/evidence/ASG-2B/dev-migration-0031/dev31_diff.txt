@@ -1,0 +1,17 @@
+Alembic revision: ['0030_survey_assignment'] -> ['0031_survey_assignment_groups']
+tables: 119 -> 124 | removed: none | added: ['survey_assignment_group', 'survey_assignment_group_event', 'survey_assignment_group_member', 'survey_composite_plan', 'survey_composite_plan_member']
+pre-existing tables changed in row count or content: ['alembic_version 1->1']
+pre-existing tables byte-identical in content: 118 of 119
+column definitions of pre-existing tables: identical
+triggers added: ['survey_assignment_group_event_guard@survey_assignment_group_event', 'survey_assignment_group_event_immutable@survey_assignment_group_event', 'survey_assignment_group_immutable@survey_assignment_group', 'survey_assignment_group_member_immutable@survey_assignment_group_member', 'survey_composite_plan_immutable@survey_composite_plan', 'survey_composite_plan_member_immutable@survey_composite_plan_member'] | removed: none
+functions added: ['survey_assignment_group_event_guard'] | permissions added: none
+survey_assignment_group : rows 0 | columns 11
+survey_assignment_group_member : rows 0 | columns 4
+survey_assignment_group_event : rows 0 | columns 6
+survey_composite_plan : rows 0 | columns 15
+survey_composite_plan_member : rows 0 | columns 11
+foreign keys of the new tables -> ['script_assignment_rule_version', 'survey_assignment_binding', 'survey_assignment_group', 'survey_call_plan', 'survey_composite_plan', 'survey_version']
+foreign keys INTO the new tables from other tables: 0
+survey.assignment.read held by roles (unchanged by this migration): ['DEV_SURVEY_AUTHOR', 'DEV_SURVEY_CHECKER', 'DEV_SURVEY_PUBLISHER']
+ASG-2B tables (0032) present: none
+protected synthetic records: {'surveys': 4, 'survey versions': 2, 'simulations': 5, 'callback cases': 258, 'script versions': 11, 'assignment rule versions': 8, 'assignment rule drafts': 4, 'script assignments': 251, 'voice lab sessions': 24, 'audit events': 3107}

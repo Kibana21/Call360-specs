@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/private/tmp/claude-501/-Users-kartik-Documents-Work-Projects-Call360-Call360/6de5ba3e-b30a-4bfb-93cb-a08e4de8fd43/scratchpad/dev33_recheck.py", line 9, in <module>
+    print(e["journey_kind"], "| status", e["status"], "| recomputes to its record:", e["replay"]["consistent"], "| result", e["result_sha256"][:16], "| policy:", e["control_policy_id"], "| obligation keys on controls:", any("obligation" in x for x in e["controls"]), "| outcomes", {x["control_code"]: x["outcome"] for x in e["controls"]}, "| findings", len(e["findings"]), "| eligibility", e["operational_compliance_eligibility"]["status"])
+          ~^^^^^^^^^^^^^^^^
+KeyError: 'journey_kind'

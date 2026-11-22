@@ -1,0 +1,5 @@
+schema: call360 (development) | read-only transaction
+Alembic revision: 0030_survey_assignment
+ASG-2A tables (0031) present: 0
+settings: assignment True | requirement groups False
+bindings: 1 | selections: 4 | callback cases: 258 | script assignments: 251 | assignment rule versions: 8

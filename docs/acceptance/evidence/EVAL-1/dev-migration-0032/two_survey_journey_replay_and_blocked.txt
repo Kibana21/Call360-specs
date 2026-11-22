@@ -1,0 +1,28 @@
+ready: 200
+composite: ['DEV-PRIMARY -> DEV-CHECK-AD5AEA8F', 'DEV-ADD-SYNTHETIC -> S-DEV-FI2-WALKTHROUGH'] | order ['DEV-PRIMARY', 'DEV-ADD-SYNTHETIC']
+   three states: call plan COMPUTABLE | coordinated simulation PERMITTED (available on this server: True ) | operational call eligibility NOT_ESTABLISHED
+synthetic two-survey journey:
+   started: SIMULATION | status RUNNING | survey states ['CURRENT', 'NOT_STARTED'] | first question: 'Is that clear to you?'
+   an empty answer: CHOICE_REQUIRED | still survey 1: True | survey 2 not started: True
+   survey 1 completed -> survey 2 started (PREVIOUS_COMPLETED)
+   ended: ALL_SURVEYS_COMPLETED | decisions [('DEV-PRIMARY', 'PROCEED', 'SIMULATION_ONLY_COMPLETED_PROCEEDS')] | progress {'surveys_total': 2, 'surveys_completed': 2, 'surveys_started': 2, 'inputs': 6, 'refused_inputs': 1, 'items_delivered': 7}
+   survey 1 DEV-CHECK-AD5AEA8F: its own simulation SIMULATION, ended COMPLETED, run fingerprint matches True, replay consistent True
+   survey 2 S-DEV-FI2-WALKTHROUGH: its own simulation SIMULATION, ended COMPLETED, run fingerprint matches True, replay consistent True
+replay with the same inputs in a new coordinated simulation:
+   identical coordinated result: True | different record: True | fingerprint d9e625c818d74bdb…
+blocked scenario (the SBQ risk band is not known, so the additional requirement cannot be decided):
+   three states: call plan COMPUTABLE | coordinated simulation PERMITTED [] | operational call eligibility NOT_ESTABLISHED
+   starting it: 201 None
+read-only checker (no survey.simulate): start -> 403 | read -> 200
+market isolation: composing for another market -> 404
+Script Studio and operational tables unchanged: True | {'callback_case': 258, 'contact_attempt': 415, 'conversation_session': 95, 'survey_run': 82, 'answer_observation': 555, 'script_assignment': 251, 'script_assignment_rule_version': 8, 'finding': 26, 'media_asset': 18, 'transcript_run': 18, 'transcript_segment': 47}
+coordinated records now: {'survey_coordinated_simulation': 3, 'survey_coordinated_simulation_step': 5}
+coordinated simulation id for the screen: 684f71ec-677a-48bb-8ecc-727235c849e2
+CORRECTION. In the first walkthrough the scenario labelled 'blocked' left out the SBQ risk band. The existing rule engine
+reads a missing risk band as the governed value UNASSESSED (D-59), not as a missing input, so that composite resolved
+to the primary survey alone and its coordinated simulation was legitimately PERMITTED and started (one survey).
+A genuinely blocked scenario: the ILP indicator, which the stand-in rule reads, is not known.
+   requirements: [('DEV-PRIMARY', 'SELECTED', 'SELECTED', []), ('DEV-ADD-SYNTHETIC', 'UNRESOLVED', 'INPUT_MISSING', ['is_ilp'])]
+   three states: call plan UNRESOLVED | coordinated simulation BLOCKED ['SELECTION_UNRESOLVED'] | operational call eligibility NOT_ESTABLISHED
+   starting it: 409 SELECTION_UNRESOLVED | coordinated records created by the refusal: 0
+blocked composite id for the screen: 3361ad37-08c9-4180-bae1-851ba41d74f3

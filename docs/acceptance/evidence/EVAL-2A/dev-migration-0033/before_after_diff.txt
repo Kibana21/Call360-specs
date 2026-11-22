@@ -1,0 +1,12 @@
+Alembic revision: ['0032_survey_coordinated_sim'] -> ['0033_survey_control_evaluation']
+tables: 126 -> 132 | removed: none | added: ['survey_control_mapping', 'survey_control_mapping_event', 'survey_control_result', 'survey_evaluation_finding', 'survey_evidence_observation', 'survey_journey_evaluation']
+pre-existing tables changed in row count or content: ['alembic_version 1->1', 'permission 43->45']
+pre-existing tables byte-identical in content: 124 of 126 (the permission table gains the two new permissions)
+column definitions of pre-existing tables: identical
+triggers added: ['survey_control_mapping_event_guard@survey_control_mapping_event', 'survey_control_mapping_event_immutable@survey_control_mapping_event', 'survey_control_mapping_immutable@survey_control_mapping', 'survey_control_result_immutable@survey_control_result', 'survey_evaluation_finding_immutable@survey_evaluation_finding', 'survey_evidence_observation_immutable@survey_evidence_observation', 'survey_journey_evaluation_immutable@survey_journey_evaluation'] | removed: none
+functions added: ['survey_control_mapping_event_guard'] | permissions added: ['survey.evaluate', 'survey.evaluation.read']
+new tables, rows: {'survey_control_mapping': 0, 'survey_control_mapping_event': 0, 'survey_journey_evaluation': 0, 'survey_control_result': 0, 'survey_evidence_observation': 0, 'survey_evaluation_finding': 0}
+the new tables refer to: ['control', 'finding_rule_set_version', 'survey_coordinated_simulation', 'survey_simulation', 'survey_version']
+tables that refer to the new tables: none
+new permissions held by any role: 0
+protected records: {'controls': 5, 'finding rule sets': 1, 'surveys': 4, 'simulations': 16, 'coordinated simulations': 4, 'callback cases': 258, 'script versions': 11, 'script assignments': 251, 'findings': 26, 'voice lab sessions': 24}

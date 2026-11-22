@@ -1,0 +1,27 @@
+ready: 200
+existing Assignment Rules API for a survey identity (needs script.read): 403
+published rules: [('S2D1-LIFECYCLE-DEMO v1', 'no survey'), ('SG-ILP-HIGH-RISK v2', 'no survey'), ('SG-SALES-VERIFY v2', 'bound')]
+published surveys: ['DEV-CHECK-AD5AEA8F', 'S-DEV-FI2-WALKTHROUGH']
+binding published by three identities: SG-ILP-HIGH-RISK v2 -> S-DEV-FI2-WALKTHROUGH | PUBLISHED
+groups published by three identities: [('DEV-PRIMARY', 'PRIMARY', 1, 'PUBLISHED'), ('DEV-ADD-SYNTHETIC', 'ADD_REQUIRED', 2, 'PUBLISHED')]
+  the proposer approving their own group: 403 (no permission to approve)
+synthetic application 1 (ILP, HIGH risk band — the stand-in condition matches): two surveys
+   selection RESOLVED | ordering GOVERNED ['DEV-PRIMARY', 'DEV-ADD-SYNTHETIC'] | plan_status READY | fingerprint e6164fd840d28a96…
+   three states: call plan COMPUTABLE | coordinated simulation PERMITTED [] | operational call eligibility NOT_ESTABLISHED
+   DEV-PRIMARY        PRIMARY       SELECTED        SELECTED         rule SG-SALES-VERIFY v2 -> DEV-CHECK-AD5AEA8F v1.0 | own plan READY 79de73ecbbb0…
+   DEV-ADD-SYNTHETIC  ADD_REQUIRED  SELECTED        SELECTED         rule SG-ILP-HIGH-RISK v2 -> S-DEV-FI2-WALKTHROUGH v1.0 | own plan READY 6221c11b7b05…
+   cross-survey policy: UNRESOLVED | input consistency: UNVERIFIED | issues: []
+synthetic application 2 (ILP, LOW risk band): the primary survey only
+   selection RESOLVED | ordering NOT_APPLICABLE ['DEV-PRIMARY'] | plan_status READY | fingerprint 47675936502bf6c6…
+   three states: call plan COMPUTABLE | coordinated simulation PERMITTED [] | operational call eligibility NOT_ESTABLISHED
+   DEV-PRIMARY        PRIMARY       SELECTED        SELECTED         rule SG-SALES-VERIFY v2 -> DEV-CHECK-AD5AEA8F v1.0 | own plan READY 79de73ecbbb0…
+   DEV-ADD-SYNTHETIC  ADD_REQUIRED  NOT_APPLICABLE  NO_MATCH         
+   cross-survey policy: NOT_APPLICABLE | input consistency: UNVERIFIED | issues: []
+application 1 again: same composite fingerprint True | new record True
+each selected survey's plan is its own SS-03B plan: True
+coordinated simulation (ASG-2B, not enabled in development): start -> 404
+market isolation: an application for another market -> 404
+read-only checker (no survey.simulate) composing -> 403
+Script Studio and operational tables unchanged: True | {'callback_case': 258, 'contact_attempt': 415, 'conversation_session': 95, 'survey_run': 82, 'answer_observation': 555, 'script_assignment': 251, 'script_assignment_rule_version': 8, 'assignment_rule_draft': 4, 'finding': 26, 'media_asset': 18, 'transcript_run': 18, 'transcript_segment': 47}
+assignment records now: {'survey_assignment_binding': 2, 'survey_assignment_group': 2, 'survey_assignment_group_member': 2, 'survey_composite_plan': 3, 'survey_composite_plan_member': 6}
+composite id for the screen: 56ce87f4-4044-4146-8737-561f29a6fac0

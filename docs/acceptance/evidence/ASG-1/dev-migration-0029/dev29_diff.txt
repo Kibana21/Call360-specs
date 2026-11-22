@@ -1,0 +1,14 @@
+Alembic revision: ['0028_survey_library'] -> ['0029_survey_simulation']
+tables: 112 -> 115 | removed: none | added: ['survey_call_plan', 'survey_simulation', 'survey_simulation_input']
+pre-existing tables changed in row count or content: ['alembic_version 1->1', 'permission 41->42']
+pre-existing tables byte-identical in content: 110 of 112
+column definitions of pre-existing tables: identical
+triggers added: ['survey_call_plan_immutable@survey_call_plan', 'survey_simulation_immutable@survey_simulation', 'survey_simulation_input_immutable@survey_simulation_input'] | removed: none
+functions added: none | permissions added: ['survey.simulate']
+survey_simulation : rows 0 | columns ['id', 'record_class', 'survey_version_id', 'survey_definition_id', 'content_sha256', 'manifest_sha256', 'facts', 'facts_sha256', 'engine_contract', 'initial_run_sha256', 'label', 'created_by', 'created_at']
+survey_simulation_input : rows 0 | columns ['id', 'record_class', 'simulation_id', 'seq', 'item_key', 'answer', 'accepted', 'rejection_code', 'run_status', 'run_sha256', 'created_by', 'created_at']
+survey_call_plan : rows 0 | columns ['id', 'record_class', 'survey_version_id', 'survey_definition_id', 'content_sha256', 'manifest_sha256', 'facts', 'facts_sha256', 'plan', 'plan_status', 'plan_contract', 'fingerprint', 'created_by', 'created_at']
+record_class CHECK constraints: 3
+survey.simulate held by roles: none (granted to no role by the migration)
+ASG-1 tables (0030) present: none
+protected synthetic records: {'surveys': 4, 'survey versions': 2, 'candidates': 3, 'issued codes': 6, 'callback cases': 258, 'script versions': 11, 'assignment rule versions': 8, 'script assignments': 251, 'voice lab sessions': 24, 'audit events': 3051}

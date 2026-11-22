@@ -1,0 +1,34 @@
+ready: 200
+existing published finding rule set used as it is: SG v1 (PUBLISHED, SYNTHETIC_UNAPPROVED)
+control register: [('SYN-CTRL-01', 'SYNTHETIC_UNAPPROVED', 0), ('SYN-CTRL-02', 'SYNTHETIC_UNAPPROVED', 0), ('SYN-CTRL-03', 'SYNTHETIC_UNAPPROVED', 0), ('SYN-CTRL-04', 'SYNTHETIC_UNAPPROVED', 0), ('SYN-CTRL-05', 'SYNTHETIC_UNAPPROVED', 0)]
+governed synthetic mappings (three people each):
+    SYN-CTRL-01 proposed by the author; the author approving it -> 403 | checker approves -> 200 | checker publishing -> 403 | publisher publishes -> PUBLISHED
+    SYN-CTRL-04 proposed by the author; the author approving it -> 403 | checker approves -> 200 | checker publishing -> 403 | publisher publishes -> PUBLISHED
+single-survey evaluation (201) -> SIMULATION | SINGLE_SURVEY | surveys [('DEV-CHECK-AD5AEA8F', 'COMPLETED')] | processing INCOMPLETE | coverage NOT_ASSERTED | recomputes True
+      SYN-CTRL-01 INSUFFICIENT_EVIDENCE ['EVIDENCE_NOT_ASKED'] [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MATCH', None), (None, None, 'NOT_ASKED', 'ITEM_NOT_IN_JOURNEY')]
+      SYN-CTRL-02 UNRESOLVED ['MAPPING_MISSING'] []
+      SYN-CTRL-03 UNRESOLVED ['MAPPING_MISSING'] []
+      SYN-CTRL-04 NOT_SATISFIED ['EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH'] [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MISMATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MISMATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MISMATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MISMATCH', None)]
+      SYN-CTRL-05 UNRESOLVED ['MAPPING_MISSING'] []
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-topics/n2
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-topics/n4
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-recap/n1
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-recap-2/n1
+      not converted: [('SYN-CTRL-01', 'NOT_ASKED')]
+   evaluated again, nothing changed: 200 same record: True
+coordinated journey ALL_SURVEYS_COMPLETED, evaluation (201) -> SIMULATION | COORDINATED | surveys [('DEV-CHECK-AD5AEA8F', 'COMPLETED'), ('S-DEV-FI2-WALKTHROUGH', 'COMPLETED')] | processing INCOMPLETE | coverage NOT_ASSERTED | recomputes True
+      SYN-CTRL-01 SATISFIED [] [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MATCH', None), ('S-DEV-FI2-WALKTHROUGH', 'mi-purchase-confirmation/n1', 'MATCH', None)]
+      SYN-CTRL-02 UNRESOLVED ['MAPPING_MISSING'] []
+      SYN-CTRL-03 UNRESOLVED ['MAPPING_MISSING'] []
+      SYN-CTRL-04 NOT_SATISFIED ['EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH', 'EVIDENCE_MISMATCH'] [('DEV-CHECK-AD5AEA8F', 'mi-topics/n2', 'MISMATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-topics/n4', 'MISMATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap/n1', 'MISMATCH', None), ('DEV-CHECK-AD5AEA8F', 'mi-recap-2/n1', 'MISMATCH', None)]
+      SYN-CTRL-05 UNRESOLVED ['MAPPING_MISSING'] []
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-topics/n2
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-topics/n4
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-recap/n1
+      FINDING FR-CTRL04-MISMATCH in SG finding rules v1 | control SYN-CTRL-04 | CUSTOMER_DISCREPANCY FACT_MISMATCH severity HIGH (from the existing rule set) | mi-recap-2/n1
+      not converted: []
+permissions: checker (read only) evaluating -> 403 | checker reading -> 200 | without CSRF -> 403 | unknown journey -> 404
+audit: {'SURVEY.CONTROL_MAPPING_APPROVED': 2, 'SURVEY.CONTROL_MAPPING_PROPOSED': 2, 'SURVEY.CONTROL_MAPPING_PUBLISHED': 2, 'SURVEY.JOURNEY_EVALUATED': 2}
+evaluation records: {'mappings': 2, 'evaluations': 2, 'control results': 10, 'observations': 18, 'simulation findings': 8} | record classes: ['SIMULATION']
+operational, Script Studio, control register and finding rule tables unchanged: True | {'callback_case': 258, 'contact_attempt': 415, 'conversation_session': 95, 'survey_run': 82, 'answer_observation': 555, 'script_assignment': 251, 'script_assignment_rule_version': 8, 'finding': 26, 'media_asset': 18, 'transcript_run': 18, 'control': 5, 'control_mapping': 12, 'finding_rule_set_version': 1, 'script_version': 11, 'simulation_finding_set': 3, 'simulation_answer_evaluation': 5}
+ids for the screen: 1e7e81e0-6fd9-4e2a-aaa0-e6baa3e80e27 bd2b7884-4cdd-46e0-95e9-3971d1a6b1d9

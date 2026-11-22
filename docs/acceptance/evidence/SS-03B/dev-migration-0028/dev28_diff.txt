@@ -1,0 +1,10 @@
+Alembic revision: ['0027_survey_definitions'] -> ['0028_survey_library']
+tables: 111 -> 112 | removed: none | added: ['survey_issued_code']
+pre-existing tables changed in row count or content: ['alembic_version 1->1']
+pre-existing tables byte-identical in content: 110 of 111
+column definitions of pre-existing tables: identical
+triggers added: ['survey_issued_code_immutable@survey_issued_code'] | removed: none
+functions added: none | permissions added: none
+sequence: [('survey_lifecycle_event_seq_seq', 1, 1, False, 15), ('feature_flag_change_id_seq', 1, 1, False, None), ('login_attempt_id_seq', 1, 1, False, 117), ('audit_event_seq_seq', 1, 1, False, 3035), ('lab_control_id_seq', 1, 1, False, None), ('survey_code_seq', 100001, 1, False, None)]
+survey_issued_code: rows 0 | columns ['code', 'kind', 'survey_definition_id', 'issued_by', 'issued_at'] | insert-only trigger True
+protected synthetic records: {'surveys': 2, 'survey versions': 2, 'candidates': 3, 'frozen assets': 13, 'callback cases': 258, 'script versions': 11, 'voice lab sessions': 24, 'audit events': 3035}

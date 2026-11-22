@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-22, FI-2 accepted; LIB-1 (reusable component library) built and technically verified, awaiting the owner's review; LIB-1 uncommitted (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-22, ASG-2A accepted as technically verified (simulation-only mechanics); development database migrated to `0031`; ASG-2B (coordinated multi-survey simulation — SIMULATION ONLY) built and technically verified, awaiting the owner's review; SS-03B, ASG-1, ASG-2A and ASG-2B all UNCOMMITTED; nothing authorised next.
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -11,7 +11,256 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-22 (LIB-1) — read this block first; it supersedes the blocks below where they differ.**
+> **Update 2026-11-22 (EVAL-2A, IN PROGRESS — session stopped at a usage limit) — read this block first.**
+> - **Owner accepted:** EVAL-1 as TECHNICALLY VERIFIED (simulation only); D-287 `ALL_REQUIRED` approved as a declared
+>   technical operator (not an insurance policy). NOT YET RECORDED in the decision register — do that first.
+> - **Development database: NOW AT `0033_survey_control_evaluation`** (owner-authorised). Backup
+>   `_db_backups/call360_dev_before_0033_20261122.dump` (SHA-256 `349dbbba…98430918`); `RESTORE.md` has "Rolling 0033
+>   back"; `SURVEY_EVALUATION_ENABLED=true` in dev `.env`; the three dev identities hold the evaluation permissions;
+>   two synthetic mappings and two evaluations exist in dev. Evidence:
+>   `docs/acceptance/evidence/EVAL-2A/dev-migration-0033/`. **Dev is NOT at `0034`; that is NOT authorised.**
+> - **0033 downgrade guard added:** refuses while any recorded evaluation exists (tested).
+> - **EVAL-2A BUILT, PARTLY VERIFIED, NOT REPORTED.** Design: `survey-studio/39_…` (written first). Code: migration
+>   `0034_survey_control_policy` (MIGRATION_HEAD; test schema only), `control_policy.py`, `policy_evaluation.py`,
+>   `app/api/survey_control_policies.py` (10 ops), setting `survey_control_policy_enabled`; frontend
+>   `persist/ControlBuilder.tsx` (`/survey-studio/controls`), policy-aware `EvaluationWorkbench.tsx`;
+>   tests `tests/test_survey_control_policy.py`, truth-table tests in `tests/test_survey_evaluation.py`;
+>   e2e `zz-eval2a.persisted.ts`.
+> - **Verified so far:** the two evaluation test files pass; persisted Playwright 24/24; lint, mypy, tsc, vitest 612.
+> - **STILL TO DO:** full backend suite; prototype and standard Playwright suites; record A–C (EVAL-1 acceptance,
+>   D-287, D-288 reconciliation) and EVAL-2A decisions in the register; contract §18; implementation report `40_…`;
+>   README index; multi-select operator is PROPOSED only (not built). Nothing committed.
+>
+> **Update 2026-11-22 (EVAL-1)**
+> - **Accepted by the owner:** ASG-2B is TECHNICALLY ACCEPTED for simulation-only coordinated multi-survey execution
+>   (D-271); D-270 choices confirmed (D-272). **Everything since LIB-1 is STILL UNCOMMITTED** — SS-03B, its closure,
+>   ASG-1, ASG-2A, ASG-2B, EVAL-1 — and no commit authorisation has been given. Never push.
+> - **Development database: NOW AT `0032_survey_coordinated_sim`** (D-273). Backup
+>   `_db_backups/call360_dev_before_0032_20261122.dump` (SHA-256 `b4b87cd9…47d18b7e`); `RESTORE.md` has "Rolling 0032
+>   back". `SURVEY_COORDINATED_SIMULATION_ENABLED=true` is in the gitignored dev `.env`. Dev holds four coordinated
+>   simulations (all SIMULATION records). **Development is NOT at `0033` and that is NOT authorised**: EVAL-1 is off
+>   there (operations → 404; the simulators say "not switched on"). **`make migrate` goes to the head — never run it.**
+> - **D-274 done:** a composite carries `states.coordinated_simulation.available`; the start control is offered only
+>   when the composite is PERMITTED and the server has the feature on.
+> - **EVAL-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review; NOT accepted.** Reports
+>   `survey-studio/37_…` (assessment and design, written first) and `38_…` (implementation); contract §17;
+>   decisions D-271…D-288, gaps G-E1…G-E7.
+>   - Grain: journey → survey execution → **control instance** → evidence observation. Survey is never the grain.
+>   - Reused unchanged: `answer_evaluation.evaluate_one` / `configure`, `finding_engine.generate`, the finding rule
+>     set lifecycle, Survey Studio conditions, the simulation and coordination services. No existing engine or
+>     Script Studio file was modified.
+>   - New: `control_evaluation.py` (pure), `control_mapping.py`, `journey_evaluation.py`,
+>     `app/api/survey_evaluations.py` (10 operations, `/api/v1/survey-evaluation`), migration
+>     `0033_survey_control_evaluation` (six insert-only tables; permissions `survey.evaluation.read`,
+>     `survey.evaluate`, granted to nobody), setting `survey_evaluation_enabled` (off; needs simulation).
+>     Frontend: `persist/evalApi.ts`, `persist/EvaluationWorkbench.tsx`, route
+>     `/survey-studio/evaluations/:evaluationId`, entry "Control evaluation" on both simulators.
+>   - **D-287 is PROPOSED and needs the owner's ruling:** the control outcome is a new semantic. One combination
+>     exists, `ALL_REQUIRED`, and only because each governed mapping declares it. Do not present it as approved.
+>   - Coverage is always `NOT_ASSERTED`; mapping authoring has an API and no screen; contradictory evidence is
+>     demonstrated at engine level only; all mappings, rules and severities in tests are synthetic fixtures.
+>   - Verified: backend 831 collected, 0 failed; 82 golden runs and 14 plans unchanged; vitest 612; Playwright
+>     persisted 23, prototype 13, standard 33; OpenAPI 256 operations, 490 schemas, SHA-256 `97a911a9…ed9b5ce5`.
+>   - `MIGRATION_HEAD` is `0033_survey_control_evaluation`; the test schema is at head.
+> - **Nothing is authorised next.** Open with the owner: D-287, D-288, development migration `0033`, commits.
+>
+> **Update 2026-11-22 (ASG-2B)**
+> - **Accepted by the owner as TECHNICALLY VERIFIED:** ASG-2A — multi-survey assignment and composite call-plan
+>   assembly, simulation-only mechanics (D-259); D-258.1/.2/.3 confirmed (D-260). The stand-in "replacement" and "CI
+>   rider" conditions are NOT proof of real requirements. **Everything since LIB-1 is STILL UNCOMMITTED** — SS-03B,
+>   its closure, ASG-1, ASG-2A, ASG-2B — and no commit authorisation has been given.
+> - **Three separate states (D-261, done):** every composite carries `states` — `call_plan`
+>   (`COMPUTABLE` / `NOT_COMPUTABLE` / `UNRESOLVED`), `coordinated_simulation` (`PERMITTED` / `BLOCKED` + codes),
+>   `operational_call_eligibility` (always `NOT_ESTABLISHED`) — and the screen shows them as three lines. Never
+>   present a READY plan as implying either of the other two.
+> - **Development database: NOW AT `0031_survey_assignment_groups`** (D-262). Backup
+>   `_db_backups/call360_dev_before_0031_20261122.dump` (SHA-256 `53e2de71…eefa29ac6`); `RESTORE.md` extended.
+>   `SURVEY_ASSIGNMENT_GROUPS_ENABLED=true` is in the gitignored dev `.env`. In dev: two bindings
+>   (`SG-SALES-VERIFY v2` → `DEV-CHECK-AD5AEA8F`; `SG-ILP-HIGH-RISK v2` → `S-DEV-FI2-WALKTHROUGH`) and two groups
+>   (`DEV-PRIMARY` position 1; `DEV-ADD-SYNTHETIC` position 2, named as a synthetic stand-in). **`0031` and `0030`
+>   can no longer be downgraded. Withdrawing a binding or group does NOT enable a downgrade (tested):** the row
+>   stays and the migration refuses. Ways back: switch the setting off, or a full restore.
+>   **Development is NOT at `0032`**: ASG-2B is off there (start → 404). **`make migrate` upgrades to the head —
+>   never run it without approval;** use `uv run alembic upgrade <revision>`.
+> - **ASG-2B — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT accepted. SIMULATION ONLY.
+>   UNCOMMITTED.** Report `docs/plans/survey-studio/36_ASG-2B_IMPLEMENTATION_REPORT.md`; contract `04_…` §16;
+>   decisions D-259…D-270; evidence `docs/acceptance/evidence/ASG-2B/`.
+>   - **Design:** `app/domain/survey/coordination.py` is a thin layer over `simulation.create/advance/state`. Each
+>     survey of the composite has its own SS-03B simulation; the coordinator stores only which survey it started
+>     and why (`survey_coordinated_simulation`, `…_step`), and computes everything else on reading.
+>   - **Rules (simulation only):** start refused with a code unless selection `RESOLVED`, order governed, every
+>     plan computable, no survey version twice, composite unchanged (`SELECTION_UNRESOLVED`, `ORDER_UNRESOLVED`,
+>     `PLAN_BLOCKED`, `DUPLICATE_SURVEY_REQUIREMENT_UNRESOLVED`, `COMPOSITE_STALE`). `COMPLETED` starts the next
+>     survey; `PENDING` stays; `POLICY_UNRESOLVED` stops; any other ending → `CROSS_SURVEY_POLICY_UNRESOLVED`.
+>     `ALL_SURVEYS_COMPLETED` is progress, not an outcome. Nothing is de-duplicated.
+>   - Backend: `app/api/survey_coordinated_simulations.py` (three operations under `/api/v1/survey-assignment`),
+>     migration **`0032_survey_coordinated_sim`**, setting **`survey_coordinated_simulation_enabled`** (off by
+>     default). OpenAPI `e0add7fc…` (246 operations, 477 schemas; additive). Head rule: `OPTIONAL_REVISIONS` in
+>     `app/main.py`, now six optional revisions.
+>   - Frontend: `persist/CoordinatedSimulation.tsx` at `/survey-studio/coordinated-simulations/:id`, started from
+>     the composite on the Survey assignment page; `AnswerForm` exported from `ServerSimulation.tsx`.
+>   - Tests: `tests/test_survey_coordination.py` (resets the schema before and after itself); the browser journey is
+>     the SECOND test in `e2e/persisted/zz-asg2a.persisted.ts` and relies on the first one's data.
+>   - Verified: backend **825**; frontend **612** unit; persisted journeys **22/22**; prototype **13/13**;
+>     standard **33/33**; 82/82 golden runs and 14/14 golden plans; lint, types, OpenAPI, build clean.
+> - **Proposed next, NOT authorised:** EVAL-1 — evaluation and findings integration, simulation only; its boundary
+>   is `36_…` §15. The existing evaluation and finding code has NOT been assessed yet.
+> - **Open items:** OR-1 (retention), OR-2, OR-3, the input mapping, and the policy gaps in `36_…` §14.
+> - **Not mine, left alone:** in specs, `docs/acceptance/evidence/LIB-1/screens.zip` deleted and a `.DS_Store`
+>   modified in the working tree.
+> - **Not authorised:** committing or pushing anything; migrating development to `0032`; EVAL-1; any operational
+>   assignment, call, voice provider, consent, cross-survey or non-answer behaviour; Script Studio changes.
+>
+> **Update 2026-11-22 (ASG-2A) — superseded by the block above where they differ** (in particular: development is at
+> `0031`; the migration head is `0032`; composites carry three separate states).
+> - **Accepted by the owner as TECHNICALLY VERIFIED:** the SS-03B security closure, development migration `0029`,
+>   and **ASG-1 for SINGLE-SURVEY assignment** (D-246). The binding is an interim adapter. **Everything since LIB-1
+>   is STILL UNCOMMITTED** — SS-03B, its closure, ASG-1, ASG-2A — and no commit authorisation has been given.
+> - **ASG-1 read access (D-247, done):** permission **`survey.assignment.read`** (migration `0030`, granted to no
+>   role) is required by EVERY `/api/v1/survey-assignment/*` operation, writes included. `survey.read` opens none of
+>   it. The policy no longer returns a rule's script target. In development the three `dev.survey.*` identities
+>   hold it; in browser tests author, checker, publisher and simulator do, the reader does not.
+> - **Development database: NOW AT `0030_survey_assignment`** (D-248). Backup
+>   `_db_backups/call360_dev_before_0030_20261122.dump` (SHA-256 `0ab7b34e…9c3aaa5e`); `RESTORE.md` extended.
+>   `SURVEY_ASSIGNMENT_ENABLED=true` is in the gitignored dev `.env`. One synthetic binding is published in dev
+>   (`SG-SALES-VERIFY v2` → `DEV-CHECK-AD5AEA8F` v1.0), so **`0030` can no longer be downgraded** (switch the
+>   setting off, withdraw the binding, or full restore). The page works at `/survey-studio/assignment` as
+>   `dev.survey.author`. **Development is NOT at `0031`**: ASG-2A is off there (`…/groups` → 404).
+>   **`make migrate` upgrades to the head — never run it without approval;** use
+>   `uv run alembic upgrade <revision>`.
+> - **ASG-2A — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT accepted. SIMULATION ONLY.
+>   UNCOMMITTED.** Semantics (written first) `34_ASG-2A_GROUPING_AND_MATCHING_SEMANTICS.md`; report
+>   `35_ASG-2A_IMPLEMENTATION_REPORT.md`; contract `04_…` §15; decisions D-249…D-258, OR-2, OR-3; evidence
+>   `docs/acceptance/evidence/ASG-2A/`.
+>   - **Design:** a **requirement group** is a governed, versioned set of rule versions that compete for ONE
+>     requirement — `PRIMARY`, `ADD_REQUIRED` or `ALTERNATIVE` — with a purpose and an optional governed
+>     `sequence`. The existing engine runs once PER GROUP over that group's rules (re-targeted through ASG-1
+>     bindings). Each selected survey gets its own SS-03B plan; the composite refers to them. Nothing is merged.
+>   - **Never invented, always reported:** ordering (`UNRESOLVED` unless every selected group has a distinct
+>     position), cross-survey continuation (`cross_survey_policy: UNRESOLVED` with more than one survey), input
+>     consistency (`UNVERIFIED`). `plan_status` is `READY` only when selection is `RESOLVED`, ordering governed and
+>     every plan `READY`; the database CHECKs it.
+>   - Backend: `app/domain/survey/assignment_groups.py`, `app/api/survey_assignment_groups.py` (seven operations),
+>     migration **`0031_survey_assignment_groups`**, setting **`survey_assignment_groups_enabled`** (off by
+>     default). `assignment.decide_candidates` is the shared decision step. OpenAPI `2b3b0c8e…` (243 operations,
+>     475 schemas; additive). Head rule: `OPTIONAL_REVISIONS` in `app/main.py`, now five optional revisions.
+>   - Frontend: `persist/AssignmentGroups.tsx` (groups section, composite result) in the same Survey assignment
+>     page; `?composite=<id>` opens a recorded composite.
+>   - **Stand-ins (OR-3):** the rule language has no "replacement" or "CI rider" field; tests use premium frequency
+>     Single and sales channel Bancassurance. **OR-2:** the existing rule validation refuses equally ranked rules
+>     that can both match, so complementary rules need different priorities.
+>   - Tests: `tests/test_survey_assignment_groups.py` (resets the schema before and after itself, as the ASG-1 test
+>     does); `e2e/persisted/zz-asg2a.persisted.ts` runs after `zz-asg1`.
+>   - Verified: backend **822**; frontend **612** unit; persisted journeys **21/21**; prototype **13/13**;
+>     standard **33/33**; 82/82 golden runs and 14/14 golden plans; lint, types, OpenAPI, build clean.
+> - **Proposed next, NOT authorised:** ASG-2B — coordinated simulation; its boundary is `35_…` §15. EVAL-1 remains
+>   proposed in `33_…` §11.
+> - **Open items:** OR-1 (retention), OR-2, OR-3, and the unresolved policy register in `35_…` §14.
+> - **Lesson for this workspace:** do not change `MIGRATION_HEAD` or add a module that `app/main.py` imports while
+>   a test run or the dev server depends on the old state; and never put backticks in an unquoted shell heredoc.
+> - **Not mine, left alone:** in specs, `docs/acceptance/evidence/LIB-1/screens.zip` deleted and a `.DS_Store`
+>   modified in the working tree.
+> - **Not authorised:** committing or pushing anything; migrating development to `0031`; ASG-2B; EVAL-1; any
+>   operational assignment, call, voice provider, consent, cross-survey or non-answer behaviour; Script Studio
+>   changes.
+>
+> **Update 2026-11-22 (ASG-1) — superseded by the block above where they differ** (in particular: assignment reads
+> need `survey.assignment.read`, not `survey.read`; development is at `0030`; the migration head is `0031`).
+> - **SS-03B: ACCEPTED as TECHNICALLY VERIFIED** (D-234; decisions confirmed D-237). Not production readiness.
+>   **Still UNCOMMITTED** — the owner has not committed it and has given no commit authorisation.
+> - **SS-03B closure (done, uncommitted):**
+>   - **`survey.simulate`** — created by migration `0029`, granted to no role. Creating a simulation, giving an input
+>     and generating a call plan need it; reading a simulation or plan needs `survey.read`. In development only
+>     `DEV_SURVEY_AUTHOR` (`dev.survey.author`) holds it. Browser tests use `e2e.survey.simulator`.
+>   - **Execution contract and drift** — `execution.CONTRACT = "call360.survey.execution/1"`; a simulation records
+>     its contract and `initial_run_sha256`; on read the run is recomputed, and a difference (or another contract)
+>     gives status `REPLAY_DRIFT` and refuses further inputs (`409`). **Change `CONTRACT` whenever the engine's
+>     results can change.** Call plans record `plan_contract` and report `recompute_consistent`.
+>   - **OR-1 (open):** no retention or clean-up of simulation, plan or selection records. No period was invented.
+> - **Development database: NOW AT `0029_survey_simulation`** (D-236, owner-authorised). Backup
+>   `_db_backups/call360_dev_before_0029_20261122.dump` (SHA-256 `eb725102…f373350d`); `RESTORE.md` extended.
+>   `SURVEY_SIMULATION_ENABLED=true` is in the gitignored dev `.env`. Simulation works on the dev server
+>   (`/survey-studio/surveys/DEV-CHECK-AD5AEA8F/simulate` as `dev.survey.author`). `0029` can be downgraded (drops
+>   the three tables and the permission); `0028` cannot. **Development is NOT at `0030`**: ASG-1 is off there
+>   (`/api/v1/survey-assignment/*` → 404). **`make migrate` upgrades to the head — do not run it without approval;**
+>   use `uv run alembic upgrade <revision>` for one revision.
+> - **ASG-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT accepted. SIMULATION ONLY.
+>   UNCOMMITTED.** Report `docs/plans/survey-studio/33_ASG-1_IMPLEMENTATION_REPORT.md`; contract `04_…` §14;
+>   decisions D-238…D-245; evidence `docs/acceptance/evidence/ASG-1/`.
+>   - **Design:** the existing rule loader (`rule_inputs.published_candidates`) and engine (`rule_engine.evaluate`)
+>     are reused unchanged. A rule cannot target a survey version without altering Script Studio tables, so one new
+>     governed artifact, the **binding** (published rule version → published survey version), re-targets each
+>     candidate before the engine decides. A winning rule with no binding fails closed as `SURVEY_NOT_BOUND`.
+>   - Backend: `app/domain/survey/assignment.py`, `app/api/survey_assignments.py` (ten operations under
+>     `/api/v1/survey-assignment`), migration **`0030_survey_assignment`** (`survey_assignment_binding`,
+>     `…_binding_event` with an identity guard trigger, `…_evaluation` with `record_class = 'SIMULATION'`,
+>     `…_simulation`), setting **`survey_assignment_enabled`** (off by default; needs simulation). Head rule:
+>     `OPTIONAL_REVISIONS` in `app/main.py`. OpenAPI `38f2034b…` (236 operations, 467 schemas; additive).
+>   - Governance of a binding: propose `survey.edit`, approve `survey.approve`, publish `survey.publish` — three
+>     different people, enforced by service and database trigger. Select and simulate: `survey.simulate`.
+>   - Frontend: `persist/AssignmentPage.tsx` at `/survey-studio/assignment` (linked from the Surveys list);
+>     the Simulator opens an existing simulation with `?simulation=<id>&assignment=<evaluation id>`.
+>   - Tests: `tests/test_survey_assignment.py` **resets the test schema before and after itself** (it publishes
+>     priority-1 rules); `e2e/persisted/zz-asg1.persisted.ts` is named to run **last** (FI-1 expects no surveys).
+>   - Verified: backend **818**; frontend **612** unit; persisted journeys **20/20**; prototype **13/13**;
+>     standard **33/33**; 82/82 golden runs and 14/14 golden plans; lint, types, OpenAPI, build clean.
+> - **Proposed next, NOT authorised:** EVAL-1 — evaluation and findings integration, simulation only (`33_…` §11).
+> - **Undecided and untouched:** D-NA-1…17; spoken-field permissions; wording approval; native survey targets for
+>   rules; the mapping between assignment inputs and call-plan facts; live-call eligibility (G-1…G-8); assignment of
+>   surveys to real cases; OR-1.
+> - **Not mine, left alone:** in specs, `docs/acceptance/evidence/LIB-1/screens.zip` deleted and a `.DS_Store`
+>   modified in the working tree.
+> - **Not authorised:** committing or pushing anything; migrating development to `0030`; any operational
+>   assignment, call, voice provider, consent or non-answer behaviour; Script Studio changes; anything after ASG-1.
+>
+> **Update 2026-11-22 (SS-03B) — superseded by the block above where they differ** (in particular: simulation now
+> needs `survey.simulate`, not `survey.read`; development is at `0029`; the migration head is `0030`).
+> - **LIB-1: TECHNICALLY ACCEPTED** (D-222), subject to the legacy library-discovery correction — **closed**:
+>   `GET /survey-library/{kind}` now lists only versions pinned by a published version in the reader's markets, with
+>   the library setting on or off (D-223; contract `04_…` §13.1). LIB-1 was committed and pushed by the owner at 09:02
+>   (backend `182f6e5`, frontend `9f497d5`, specs `755bf00`). LIB-1 UX limitations are carried in `32_…` §11.
+> - **Development database: NOW AT `0028_survey_library`** (D-224, owner-authorised). Backup
+>   `_db_backups/call360_dev_before_0028_20261122.dump` (SHA-256 `d46e74d9…4f0017`), restore steps in
+>   `_db_backups/RESTORE.md`. `SURVEY_LIBRARY_ENABLED=true` is in the gitignored dev `.env`. The walkthrough added two
+>   synthetic drafts (`S-DEV-LIB-PIN`, `S-DEV-LIB-COPY`) and six issued codes, so **`0028` can no longer be downgraded**;
+>   the way back is a full restore, or switching the library off. **Development is NOT at `0029`**; do not run
+>   `make migrate` without the owner's approval.
+> - **SS-03B — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT accepted. SIMULATION ONLY.
+>   UNCOMMITTED in all three repositories (no commit authorisation).** Report
+>   `docs/plans/survey-studio/32_SS-03B_IMPLEMENTATION_REPORT.md`; contract `04_…` §13; decisions D-222…D-233;
+>   evidence `docs/acceptance/evidence/SS-03B/`.
+>   - Backend, pure: `app/domain/survey/execution.py` (`execute`, `execute_inputs`; statuses `PENDING`,
+>     `POLICY_UNRESOLVED`, `TERMINAL`), `wording.py` (`render`, `format_value`), `callplan.py` (`assemble`; schema
+>     `call360.survey.call-plan/1`; fingerprint). **82/82 golden runs, 14/14 golden plans; no fixture changed.**
+>   - Backend, records and API: migration **`0029_survey_simulation`** (insert-only `survey_simulation`,
+>     `survey_simulation_input`, `survey_call_plan`, each `record_class = 'SIMULATION'` by CHECK; no link to anything
+>     operational); `simulation.py` (a run is never stored — inputs are replayed); `app/api/survey_simulations.py`,
+>     five operations, `survey.read`, market-scoped, CSRF, rate-limited, audited; setting
+>     **`survey_simulation_enabled`** (off by default; needs `survey_definitions_enabled`). Head rule in `app/main.py`
+>     `acceptable_migration_heads`: simulation on → `0029`; library on → `0028`/`0029`; survey definitions on →
+>     `0027`…`0029`; none → `0026`…`0029`. OpenAPI `5799e44f…` (226 operations, 457 schemas; additive).
+>   - Frontend: in persisted mode the Simulator and Call plan screens have a switch — **Published version · Call360
+>     server** (default) or **Draft · browser preview**. `persist/simApi.ts`, `serverRun.ts` (comparison and trace
+>     wording), `ServerSimulation.tsx`, `ServerCallPlan.tsx`. The browser engine is compared with the server in view.
+>     `policyOf` in `model/types.ts`: an interrupt with no policy means `STOP_ESCALATE` (a real difference found by
+>     the cross-engine test on F4, corrected).
+>   - Generated: `docs/plans/survey-studio/python-results/` by
+>     `Call360-backend/scripts/export_survey_python_results.py` (`--check`); read by
+>     `persist/serverRun.test.ts`. Regenerate it whenever the engine's output changes.
+>   - Verified: backend **814**; frontend **612** unit; persisted journeys **19/19** (14 earlier + 5 SS-03B;
+>     simulation ON in that config); prototype **13/13**; standard **33/33**; lint, types, OpenAPI, build clean.
+> - **Simulation is OFF on the development server** (dev is at `0028`): the five routes return 404 there and the
+>   server panels say so. To enable later, with approval: back up, apply `0029` only, add
+>   `SURVEY_SIMULATION_ENABLED=true` to the gitignored `.env`.
+> - **Undecided and untouched:** D-NA-1…17 (no-answer, refusal, repeats, timeouts, consent), spoken-field
+>   permissions, wording approval, live-call eligibility (G-1…G-8), assignment of surveys to cases.
+> - **Not mine, left alone:** in specs, `docs/acceptance/evidence/LIB-1/screens.zip` shows as deleted and a
+>   `.DS_Store` as modified in the working tree.
+> - **Not authorised:** committing or pushing SS-03B or the LIB-1 correction; migrating development to `0029`; any
+>   non-answer or consent behaviour; live eligibility; real calls; Genesys / GPT Live / Azure Speech; Script Studio
+>   changes; anything after SS-03B.
+>
+> **Update 2026-11-22 (LIB-1) — superseded by the block above where they differ.**
 > - **FI-2: ACCEPTED as TECHNICALLY VERIFIED — REAL REVIEW AND PUBLICATION** (D-213); limitation D-214 (checker sees
 >   frozen content as a table). FI-2 was committed and pushed by the owner at 05:38 (backend `29fec70`, frontend
 >   `7570972`, specs `e8920b0`).
@@ -882,6 +1131,10 @@ run the verification commands in §4 (backend tests and Playwright **never at th
 
 | Checkpoint | Backend | Frontend unit | Playwright | OpenAPI SHA-256 | Migration head | Evidence |
 |---|---|---|---|---|---|---|
+| ASG-2B (+ ASG-2A acceptance, three states) | 825 | 612 | 33 standard · 13 prototype · 22 persisted | `e0add7fcd59e3070c1494209fe1769905b3dbff735f069824fc984bbe2fc3624` | `0032_survey_coordinated_sim` (dev at `0031`) | `evidence/ASG-2B/` |
+| ASG-2A (+ ASG-1 read closure) | 822 | 612 | 33 standard · 13 prototype · 21 persisted | `2b3b0c8e86163df84aa516a1029aed7b4aae64a72ab6eba62cc89f621473e94c` | `0031_survey_assignment_groups` (dev at `0030`) | `evidence/ASG-2A/` |
+| ASG-1 (+ SS-03B closure) | 818 | 612 | 33 standard · 13 prototype · 20 persisted | `38f2034b65bf520e0e4b32b8f413bf9c0789b6fac314f7abc8d451ffbf64c74b` | `0030_survey_assignment` (dev at `0029`) | `evidence/ASG-1/` |
+| SS-03B (+ LIB-1 security closure) | 814 | 612 | 33 standard · 13 prototype · 19 persisted | `5799e44faef0bc510a506a8f6033194fe6e84b8e72f08b1f2b533e59baf1bd1f` | `0029_survey_simulation` (dev at `0028`) | `evidence/SS-03B/` |
 | S1-E.2A | 503 | 116 | 33 | `550e742339df5297c946b7add019de5dd67ac028c9fc51609d9e7492b92c972d` | `0026_gpt_live_provider` | `evidence/S1-E.2A/` |
 | S1-E.2 preflight | 498 | 116 | 33 | `c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9` | `0026_gpt_live_provider` | `evidence/S1-E.2/preflight.txt` |
 | S1-E.2 | 494 | 115 | 33 | `c8b2b05778751be98ecb09ff48a977e64a972136c2d53f1e72d4e5f14bdb18e9` | `0026_gpt_live_provider` | `evidence/S1-E.2/` |

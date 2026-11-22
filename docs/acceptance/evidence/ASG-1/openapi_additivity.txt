@@ -1,0 +1,24 @@
+OpenAPI committed (182f6e5, LIB-1): 88baaf2ce9545a7dbd80cd12c4741f9750a0407baa4af962a24aa7b5465f25af
+OpenAPI at SS-03B report         : 5799e44faef0bc510a506a8f6033194fe6e84b8e72f08b1f2b533e59baf1bd1f
+OpenAPI now (SS-03B closure+ASG-1): 38f2034b65bf520e0e4b32b8f413bf9c0789b6fac314f7abc8d451ffbf64c74b
+operations: 221 -> 236 | removed: []
+added operations:
+   POST /api/v1/survey-assignment/bindings -> survey_assignment_binding_propose
+   GET /api/v1/survey-assignment/bindings/{binding_id} -> survey_assignment_binding_get
+   POST /api/v1/survey-assignment/bindings/{binding_id}/decision -> survey_assignment_binding_decide
+   POST /api/v1/survey-assignment/bindings/{binding_id}/publish -> survey_assignment_binding_publish
+   POST /api/v1/survey-assignment/bindings/{binding_id}/withdraw -> survey_assignment_binding_withdraw
+   POST /api/v1/survey-assignment/evaluations -> survey_assignment_evaluate
+   GET /api/v1/survey-assignment/evaluations/{evaluation_id} -> survey_assignment_evaluation_get
+   POST /api/v1/survey-assignment/evaluations/{evaluation_id}/simulations -> survey_assignment_simulate
+   GET /api/v1/survey-assignment/options -> survey_assignment_options
+   GET /api/v1/survey-assignment/policy -> survey_assignment_policy
+   GET /api/v1/survey-call-plans/{plan_id} -> survey_call_plan_get
+   GET /api/v1/survey-simulations/{simulation_id} -> survey_simulation_get
+   POST /api/v1/survey-simulations/{simulation_id}/inputs -> survey_simulation_input
+   POST /api/v1/survey-versions/{version_id}/call-plans -> survey_call_plan_create
+   POST /api/v1/survey-versions/{version_id}/simulations -> survey_simulation_create
+schemas: 451 -> 467 | removed: []
+added schemas: ['SurveyAssignmentBinding', 'SurveyAssignmentBindingEvent', 'SurveyAssignmentBindingIn', 'SurveyAssignmentDecisionIn', 'SurveyAssignmentEvaluationIn', 'SurveyAssignmentEvaluationOut', 'SurveyAssignmentOptions', 'SurveyAssignmentPolicy', 'SurveyAssignmentRule', 'SurveyAssignmentWithdrawIn', 'SurveyCallPlanCreateIn', 'SurveyCallPlanOut', 'SurveySimulationCreateIn', 'SurveySimulationInput', 'SurveySimulationInputIn', 'SurveySimulationOut']
+existing operation changed: ('GET', '/api/v1/survey-library/{kind}') | fields: ['description']
+existing schemas changed: []

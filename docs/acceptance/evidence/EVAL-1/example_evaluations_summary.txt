@@ -1,0 +1,35 @@
+== SINGLE-SURVEY JOURNEY (K8, identity not confirmed) ==
+record_class SIMULATION | journey complete False | processing INCOMPLETE | coverage NOT_ASSERTED | findings GENERATED (2)
+surveys: 1. S-1572A1FB38 1.0 ended ENDED_WITH_OUTCOME run 7035253c2753
+  SYN-CTRL-01  NOT_SATISFIED          applies: APPLICABLE      mapping: rev 1  reasons: ['EVIDENCE_MISMATCH']
+      - survey 1 mi-opening/n2 | Q-100003 v1 | ANSWER | MISMATCH | Answered no; expected yes. A mismatch is a discrepancy for review, not a breach finding
+      - survey 1 mi-opening/n1 | Q-100007 v1 | DELIVERY | DELIVERED | The exact pinned wording was delivered in this simulation
+  SYN-CTRL-02  NOT_APPLICABLE         applies: NOT_APPLICABLE  mapping: rev 1  reasons: ['APPLICABILITY_FALSE']
+  SYN-CTRL-03  NOT_APPLICABLE         applies: NOT_APPLICABLE  mapping: rev 1  reasons: ['APPLICABILITY_FALSE']
+  SYN-CTRL-04  INSUFFICIENT_EVIDENCE  applies: APPLICABLE      mapping: rev 1  reasons: ['EVIDENCE_NOT_ASKED']
+      - survey 1 mi-replacement/n1 | Q-100004 v1 | ANSWER | NOT_ASKED (NOT_REACHED) | Applicable but never presented to the customer, so there is no answer to evaluate
+  SYN-CTRL-05  UNRESOLVED             applies: NOT_DETERMINED  mapping: none  reasons: ['MAPPING_MISSING']
+  FINDING 82001474a3ef control SYN-CTRL-01 rule FR-EVAL-MISMATCH in SG finding rules v1 (2a18dec97114) | CUSTOMER_DISCREPANCY / FACT_MISMATCH / severity MEDIUM (Finding rule FR-EVAL-MISMATCH in rule set SG finding rules v1)
+      evidence: simulation 8e72de06 mi-opening/n2 item Q-100003 v1 | answer {'kind': 'ANSWER', 'state': 'ANSWERED', 'value': False, 'verbatim': None} | Q-100003 was evaluated mismatch (Answered no; expected yes. A mismatch is a discrepancy for review, not a breach finding); rule FR-EVAL-MISMATCH applies because Q-100003 is linked to control SYN-CTRL-01. Customer discrepancy, not a breach determination.
+  FINDING 28afe05d3bcd control SYN-CTRL-04 rule FR-EVAL-NOT-ASKED in SG finding rules v1 (2a18dec97114) | MISSING_EVIDENCE / MISSING_MANDATORY_ANSWER / severity LOW (Finding rule FR-EVAL-NOT-ASKED in rule set SG finding rules v1)
+      evidence: simulation 8e72de06 mi-replacement/n1 item Q-100004 v1 | answer None | Q-100004 was evaluated not asked (Applicable but never presented to the customer, so there is no answer to evaluate); rule FR-EVAL-NOT-ASKED applies because its rule covers any mandatory question. Missing evidence, not a breach determination.
+  input 55db233b734bfcbf result c9e23d51dd8abd73 recomputes True
+
+== COORDINATED JOURNEY (two surveys, both completed) ==
+record_class SIMULATION | journey complete True | processing INCOMPLETE | coverage NOT_ASSERTED | findings GENERATED (2)
+surveys: 1. S-C69DD0B142 1.0 ended COMPLETED run 520cbf389ec4; 2. S-A1B3F1B990 1.0 ended COMPLETED run 8be4d6a01ee2
+  SYN-CTRL-01  NOT_SATISFIED          applies: APPLICABLE      mapping: rev 2  reasons: ['EVIDENCE_MISMATCH']
+      - survey 1 mi-call/n2 | Q-100019 v1 | ANSWER | MATCH | Answered yes; expected yes
+      - survey 2 mi-numbers/n1 | Q-100027 v1 | ANSWER | MISMATCH | Answered 1 count; expected at least 18 count from the approved value. A mismatch is a discrepancy for review, not a breach finding
+  SYN-CTRL-02  UNRESOLVED             applies: UNKNOWN         mapping: rev 1  reasons: ['APPLICABILITY_UNKNOWN']
+      - no survey of the journey | Q-100002 v1 | ANSWER | NOT_ASKED (ITEM_NOT_IN_JOURNEY) | Applicable but never presented to the customer, so there is no answer to evaluate (no survey of this journey contains this exact item revision)
+  SYN-CTRL-03  UNRESOLVED             applies: UNKNOWN         mapping: rev 1  reasons: ['APPLICABILITY_UNKNOWN']
+      - no survey of the journey | Q-100005 v1 | ANSWER | NOT_ASKED (ITEM_NOT_IN_JOURNEY) | Applicable but never presented to the customer, so there is no answer to evaluate (no survey of this journey contains this exact item revision)
+  SYN-CTRL-04  INSUFFICIENT_EVIDENCE  applies: APPLICABLE      mapping: rev 1  reasons: ['EVIDENCE_NOT_ASKED']
+      - no survey of the journey | Q-100004 v1 | ANSWER | NOT_ASKED (ITEM_NOT_IN_JOURNEY) | Applicable but never presented to the customer, so there is no answer to evaluate (no survey of this journey contains this exact item revision)
+  SYN-CTRL-05  UNRESOLVED             applies: NOT_DETERMINED  mapping: none  reasons: ['MAPPING_MISSING']
+  FINDING 84148c418bc9 control SYN-CTRL-01 rule FR-EVAL-MISMATCH in SG finding rules v1 (2a18dec97114) | CUSTOMER_DISCREPANCY / FACT_MISMATCH / severity MEDIUM (Finding rule FR-EVAL-MISMATCH in rule set SG finding rules v1)
+      evidence: simulation b420f31b mi-numbers/n1 item Q-100027 v1 | answer {'kind': 'ANSWER', 'state': 'ANSWERED', 'value': 1, 'verbatim': None} | Q-100027 was evaluated mismatch (Answered 1 count; expected at least 18 count from the approved value. A mismatch is a discrepancy for review, not a breach finding); rule FR-EVAL-MISMATCH applies because Q-100027 is linked to control SYN-CTRL-01. Customer discrepancy, not a breach determination.
+  FINDING 85e6c5e4f600 control SYN-CTRL-04 rule FR-EVAL-NOT-ASKED in SG finding rules v1 (2a18dec97114) | MISSING_EVIDENCE / MISSING_MANDATORY_ANSWER / severity LOW (Finding rule FR-EVAL-NOT-ASKED in rule set SG finding rules v1)
+      evidence: simulation None None item Q-100004 v1 | answer None | Q-100004 was evaluated not asked (Applicable but never presented to the customer, so there is no answer to evaluate); rule FR-EVAL-NOT-ASKED applies because its rule covers any mandatory question. Missing evidence, not a breach determination.
+  input 677d345021bb1a2b result 05530ab5fa1b4925 recomputes True

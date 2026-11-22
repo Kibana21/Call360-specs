@@ -1,0 +1,12 @@
+schema: call360 (development) | read-only transaction
+Alembic revision: 0028_survey_library | expected 0028_survey_library: True
+tables: 112 | SS-03B simulation tables present: none
+survey_definitions_enabled: True | survey_library_enabled: True | survey_simulation_enabled: False
+total rows: 14856
+  survey_definition: 4
+  survey_version: 2
+  survey_candidate: 3
+  survey_issued_code: 6
+  callback_case: 258
+  script_version: 11
+  audit_event: 3051

@@ -1405,3 +1405,730 @@ wording text, answer type, condition name). No catalog value or status is invent
 Migration `0028_survey_library` adds one sequence and one insert-only table and changes nothing else. Its downgrade
 refuses while any issued code is recorded.
 
+
+---
+
+## 13. Amendment of 2026-11-22 (SS-03B): Python execution, call-plan assembly and simulation
+
+Authorised by the owner on 2026-11-22 ("Accept LIB-1, Close Security Gap and Authorize SS-03B"), decisions D-222…D-232.
+**Simulation only.** Nothing in this section starts, schedules, authorises or makes anything eligible for a customer
+call. No operational record is read or written. Additive: nothing in §1–§12 changes, except the behaviour of one
+read operation, stated in §13.1.
+
+### 13.1 Correction to `GET /survey-library/{kind}` (LIB-1 security closure) — an intentional behaviour change
+
+| | Before | Now |
+|---|---|---|
+| What it lists | every frozen version of the kind, in every market, whoever made it | only versions **pinned by a published survey version in the reader's markets** |
+| A draft's, an in-review, a rejected or a withdrawn candidate's assets | listed | **never listed** |
+| A reader in another market | saw every market's assets | sees nothing of another market |
+| Depends on `survey_library_enabled` | no | no — the rule holds with the library setting on or off |
+
+The operation, its path, its permission (`survey.read`) and its response shape are unchanged. `candidates` and
+`versions` in each row now both count the published versions that pin the row. The component-library operations of
+§12.6 are unchanged. No published asset and no version reference was changed.
+
+### 13.2 The execution engine
+
+`app/domain/survey/execution.py` is the one authoritative execution of a survey definition. It is a pure function of
+the resolved documents (`Bundle`), an immutable fact snapshot and the ordered answers supplied so far:
+
+    execute(bundle, facts, supplier) -> run          execute_inputs(bundle, facts, inputs) -> run
+
+It imports no database, clock, network, model or random source. It reuses the existing condition evaluator
+(`conditions.evaluate`, three-valued) and document model; it does not replace or extend the operational script runtime
+(`app/domain/lifecycle.py` and the script engine), which is untouched. It never writes, completes or rephrases
+wording.
+
+A run is `{status, terminal, pending, policy_unresolved, undeliverable, asked, delivered, modules, evidence,
+evidence_states, edges, trace, events, rejections}`.
+
+| `status` | Meaning |
+|---|---|
+| `PENDING` | A question needs an answer. `pending` names it, with its exact sentence and what an answer may be |
+| `POLICY_UNRESOLVED` | The last input to the pending question was a non-answer whose handling is an open business decision (D-NA-1…17). **A simulation status, not an outcome.** `terminal` is null; the question is still current |
+| `TERMINAL` | The run ended. `terminal.state` is one of `COMPLETED`, `ENDED_WITH_OUTCOME`, `MANDATORY_ESCALATION`, `REVIEW_REQUIRED`, `MISSING_INFORMATION_HALT`, `DRAFT_INVALID` |
+
+Rules, each fixed by the golden fixtures:
+
+* An answer is validated before it is accepted. A rejected answer is recorded as a `REJECT` event with its stable code
+  (§3.7) and the same question is asked again; nothing advances.
+* A statement is delivered and takes no answer.
+* A missing fact makes a condition `UNKNOWN`. `UNKNOWN` is never `FALSE`; a decision without an `UNKNOWN` route, or an
+  eligibility without an unknown-policy, stops the run as `DRAFT_INVALID` — it is never treated as "otherwise".
+* An item is delivered only as its pinned wording version renders for these facts (§13.3). If it cannot be rendered
+  the run halts with `WORDING_VALUE_MISSING` before anything is delivered at that item.
+* A "not acknowledged" is refused with `NON_ANSWER_POLICY_UNRESOLVED` and reported as `POLICY_UNRESOLVED`. No repeat
+  limit, silence window, timeout or refusal behaviour exists in the engine.
+* Event `at` is the position of the event in the run. The location of a stop is `where` on the `END` event and `at`
+  inside `terminal`.
+
+### 13.3 Controlled wording values
+
+`app/domain/survey/wording.py`: `render(text, fields, facts) -> {text, values, errors}`. `text` is the exact sentence
+or null. Value states: `PRESENT`, `MISSING`, `INVALID`, `UNKNOWN_VARIABLE`, `MALFORMED`, `NOT_PERMITTED` (the catalog
+marks the field `speakable: false`). An amount has at most two decimals and a whole-number field holds a whole number:
+a value that does not is `INVALID` — never rounded or truncated. Output never depends on locale.
+
+### 13.4 The call plan — schema `call360.survey.call-plan/1`
+
+`app/domain/survey/callplan.py`: `assemble(bundle, facts) -> plan`, pure.
+
+| Field | Content |
+|---|---|
+| `status` | `READY` or `BLOCKED` — **only** whether a technical plan can be computed from these facts |
+| `issues[]` | `{code, at}`; codes `WORDING_VALUE_MISSING`, `ELIGIBILITY_UNKNOWN`, `MODULE_MISSING`, `CONDITION_INVALID`; sorted |
+| `inputs[]` | every fact the plan read: `{field, type, state: PRESENT\|MISSING\|INVALID, value, used_by[]}` |
+| `modules[]` | `{instance, module, name, status: IN\|OUT\|CONDITIONAL\|HALTS, reason, eligibility, activation, items[], open[]}` |
+| `modules[].items[]` | `{key, node, item, statement, answer_type, role, mandatory, delivery_mode, wording_version, source, text, values[], errors[], certainty: ALWAYS\|SOME}` — `text` is the exact deliverable sentence, or null |
+| `modules[].open[]` | points still decided during the call: `{key, kind: ANSWER\|CONDITION\|OUTCOME, alternatives[{on, to}]}` |
+| `counts` | totals |
+| `fingerprint` | SHA-256 of the canonical JSON of the plan without this field |
+
+Module reasons: `NO_CONDITION`, `ELIGIBLE`, `NOT_ELIGIBLE`, `UNKNOWN_SKIPPED`, `UNKNOWN_HALTS`, `ON_OUTCOME`,
+`MODULE_MISSING`. The same documents and facts always give the same plan and fingerprint; the order of fact keys is
+irrelevant; an empty string is a missing value.
+
+**Plan computability and operational eligibility are separate concerns.** The plan has no field for, and computes
+nothing about, whether a call may be made.
+
+### 13.5 Records — migration `0029_survey_simulation`
+
+Three insert-only tables, additive. Each row carries `record_class`, fixed to `SIMULATION` by a CHECK constraint.
+
+| Table | Holds |
+|---|---|
+| `survey_simulation` | the published version, its content and manifest fingerprints, the immutable facts and their fingerprint, who and when |
+| `survey_simulation_input` | every input in order (`seq`), the question it was for, the answer, accepted or refused with the code, the run status and run fingerprint after it |
+| `survey_call_plan` | the published version, the facts, the plan document, its status and fingerprint |
+
+They reference only `survey_version`, `survey_definition` and each other. No operational table references them and
+they have no column naming a case, attempt, session, recording, transcript, finding, customer or policy. A run is
+never stored: it is the deterministic replay of the recorded inputs on the version's own pinned documents, so a
+simulation can always be reproduced exactly. Before any execution the version's manifest is verified against the
+stored documents; a mismatch is `409 MANIFEST_MISMATCH` and nothing runs.
+
+### 13.6 Five operations (registered only when `survey_simulation_enabled` and `survey_definitions_enabled` are on)
+
+| Operation | Permission | Notes |
+|---|---|---|
+| `POST /survey-versions/{version_id}/simulations` | **`survey.simulate`** | body `{facts, label}`; `201` with the simulation at its first pending question |
+| `POST /survey-simulations/{simulation_id}/inputs` | **`survey.simulate`** | body `{expected_inputs, key, answer}`; one typed input for the current question |
+| `GET /survey-simulations/{simulation_id}` | `survey.read` | state and full trace, replayed now; `replay_consistent`, `drift` |
+| `POST /survey-versions/{version_id}/call-plans` | **`survey.simulate`** | body `{facts}`; `201` with the recorded plan |
+| `GET /survey-call-plans/{plan_id}` | `survey.read` | the recorded plan; `fingerprint_verified`, `recompute_consistent` |
+
+All are market-scoped (outside the caller's markets: `404`). The three `POST`s need the CSRF token, are rate-limited
+(`survey_simulation_inputs_per_minute`) and write an audit event (`SURVEY.SIMULATION_CREATED`,
+`SURVEY.SIMULATION_INPUT`, `SURVEY.CALL_PLAN_GENERATED`, each naming `record_class: SIMULATION`).
+
+| Error | When |
+|---|---|
+| `409 VERSION_NOT_PUBLISHED` | the version is not published |
+| `409 MANIFEST_MISMATCH` | the version does not match the documents it pins |
+| `422 FACT_UNKNOWN` / `FACTS_INVALID` | a fact names a field outside the governed catalog, or is not a scalar |
+| `422 ANSWER_INVALID` | an answer has a field the contract does not define, or a value of the wrong shape. Whether a well-formed answer is *valid* is decided by the engine and recorded as a refusal, not as this error |
+| `409 STALE_SIMULATION` | `expected_inputs` is not the number of inputs the simulation holds |
+| `409 INPUT_NOT_CURRENT` | the input is not for the current question |
+| `409 SIMULATION_ENDED` / `SIMULATION_FULL` | the run has ended / holds the maximum of 400 inputs |
+
+**Permission (owner decision D-234, replacing the SS-03B choice of `survey.read`).** The three state-changing
+operations need **`survey.simulate`**, a permission of its own created by migration `0029` and granted to no role.
+`survey.read` reads survey definitions, and reads a simulation or plan of a version in the reader's markets; it
+creates nothing. `survey.read`, `survey.edit`, `survey.approve` and `survey.publish` together do not imply
+`survey.simulate`.
+
+| Error | When |
+|---|---|
+| `409 REPLAY_DRIFT` | an input is given to a simulation that no longer recomputes to its recorded result (§13.9) |
+
+### 13.7 Settings and migrations (replaces the table of §12.7)
+
+| Setting on | Schema must be at |
+|---|---|
+| none | `0026`, `0027`, `0028` or `0029` |
+| `survey_definitions_enabled` | `0027`, `0028` or `0029` |
+| + `survey_library_enabled` | `0028` or `0029` |
+| + `survey_simulation_enabled` | `0029` |
+
+`0029` downgrades by dropping its three tables: simulation records are not evidence of anything operational.
+
+### 13.8 The editor's engine
+
+The browser engine (`model/sim.ts`, `model/plan.ts`) remains for the in-memory prototype and as a preview of an
+unsaved draft. For a saved survey the server is authoritative and is the default on the Simulator and Call plan
+screens. The browser engine is run on the same published documents and inputs only to show whether it agrees; a
+difference is displayed in full. `Call360-backend/scripts/export_survey_python_results.py` writes what the Python
+engine produces for every golden run and plan to `python-results/`, and the frontend test
+`persist/serverRun.test.ts` requires the browser engine to agree on all of them.
+
+An interrupt whose `policy` is absent means `STOP_ESCALATE`. The server always read it so; the browser engine now
+does too (`policyOf`).
+
+### 13.9 Execution-contract version and replay drift (owner decision D-235)
+
+A run is not stored; it is recomputed from the recorded inputs. So that a historical simulation can never silently
+appear unchanged after the engine changes:
+
+* `execution.CONTRACT` (`call360.survey.execution/1`) names the execution contract. It is changed whenever the engine
+  may give a different result for the same documents, facts and inputs.
+* `survey_simulation.engine_contract` records the contract a simulation was created under, and
+  `initial_run_sha256` the fingerprint of its run before any input. Each `survey_simulation_input.run_sha256` is the
+  fingerprint of the run after that input.
+* On every read the run is recomputed and its fingerprint compared with the recorded one (the last input's, or the
+  initial one). If they differ, **or** the recorded contract is not the current one, the simulation's `status` is
+  `REPLAY_DRIFT`, `replay_consistent` is false and `drift` states the recorded and current contract, both
+  fingerprints and whether the result differs. `run_status` still gives what the engine computes now, labelled as such.
+* A drifted simulation takes no further input (`409 REPLAY_DRIFT`). A new simulation is recorded under the current
+  contract.
+* A call plan is stored in full with `plan_contract` (`call360.survey.call-plan/1`). On reading it is assembled
+  again; `recompute_consistent` is false when the result or the contract differs. The recorded plan is what is
+  returned.
+
+**Retention.** There is no retention period, expiry or clean-up for simulation, call-plan or assignment-selection
+records. This is recorded as an operational-readiness item (OR-1 in the decision register); no period is assumed.
+
+---
+
+## 14. Amendment of 2026-11-22 (ASG-1): survey selection by the existing assignment rules
+
+Authorised by the owner on 2026-11-22 ("SS-03B Acceptance, Simulation Security Closure and ASG-1 Authorization"),
+decisions D-236…D-244. **Simulation only.** Nothing in this section assigns a survey to a customer case, and nothing
+changes Script Studio. Additive.
+
+### 14.1 What is reused, and the one thing added
+
+| Reused unchanged | From |
+|---|---|
+| The rule language (`{"all": [{"fact", "equals" \| "in"}, …]}`), its nine fields and their governed values | `rule_engine.FIELDS`, `rule_inputs.options` |
+| Rule authoring, validation, maker-checker approval, publication, versioning, supersession, history | `rule_authoring.py`, `/assignment-rules…` |
+| Loading published rules as candidates | `rule_inputs.published_candidates` |
+| The decision: precedence (priority, then specificity), explicit fallback, fail-closed outcomes, full trace | `rule_engine.evaluate` |
+
+**Contract mismatch (documented before the adapter was written).** A published rule version is bound by a NOT NULL
+foreign key to a *script* version, its market is derived through the script family, and database triggers guard that
+link. Letting a rule target a survey version *instead* would mean altering Script Studio tables, constraints and
+triggers and every query that joins through the script — which the standing boundary "do not modify Script Studio"
+forbids. A second mismatch: the rules read nine *assignment inputs*; the survey call plan reads *catalog facts*
+(`policy.annual_premium`, …). The two vocabularies overlap in meaning but not in codes or values, and no mapping
+between them is approved.
+
+**The adapter.** One new governed artifact, the **survey binding**: *"when this exact published rule version wins,
+the survey is this exact published survey version."* Before the engine decides, each candidate is copied with only
+its target replaced by its bound survey version (`dataclasses.replace` of `target_id`, `target_label`,
+`target_effective`). Conditions, priority, specificity, fallback flag and effective window are the rule's own.
+A synthetic application supplies the assignment inputs and the catalog facts side by side; nothing is derived from one
+to the other.
+
+### 14.2 The binding
+
+`survey_assignment_binding` (insert-only): the rule version (by id, code and number), the market, the survey version
+and definition, the content and manifest fingerprints of that version, a note, who proposed it and when.
+`survey_assignment_binding_event` (append-only): `PROPOSED → APPROVED | REJECTED | WITHDRAWN → PUBLISHED →
+SUPERSEDED | WITHDRAWN`.
+
+| Rule | Enforced |
+|---|---|
+| Only a PUBLISHED rule version and the currently PUBLISHED survey version of the same market can be bound; the version's manifest is verified | service, at proposal and again at publication |
+| The approver is not the proposer; the publisher is neither the proposer nor the approver | service (`SELF_REVIEW_DENIED`, `SELF_PUBLISH_DENIED`, `APPROVER_PUBLISH_DENIED`, each audited) **and** a database trigger |
+| One open binding per rule version | service (`BINDING_OPEN`) |
+| Publishing a binding supersedes the earlier published binding of the same rule version, with an event | service |
+| A binding is never edited; a different version needs a new binding through all three steps | insert-only triggers |
+| A binding is to one rule *version*. A new version of the rule has no binding until one is published for it | by construction |
+
+### 14.3 Selection
+
+`assignment.select(db, market, inputs, at)`:
+
+| Engine outcome | `selection` | Meaning |
+|---|---|---|
+| `SELECTED` | `MATCHED` | the highest-precedence matching rule; its bound version is selected |
+| `SELECTED_BY_FALLBACK` | `MATCHED` | no other rule matched and an explicitly governed fallback rule did; `by_fallback: true` |
+| `NO_MATCH` | `NO_MATCH` | nothing matched; nothing selected |
+| `AMBIGUOUS`, `AMBIGUOUS_SAME_TARGET` | `AMBIGUOUS` | rules of equal precedence match; held, never chosen arbitrarily |
+| `INPUT_MISSING` | `UNKNOWN_INPUT` | an input a rule reads is not known; `missing_inputs` names it. Never read as "does not match" |
+| `TARGET_NOT_EFFECTIVE` | `TARGET_UNAVAILABLE` | the winning rule's survey version is not the published one (superseded, withdrawn) or is of another market |
+| **`SURVEY_NOT_BOUND`** (added by the adapter) | `TARGET_UNAVAILABLE` | the winning rule has no published binding |
+
+A rule without a binding keeps its full precedence: if it wins, the result is `SURVEY_NOT_BOUND`. It is never skipped
+in favour of a lower rule, and no fallback survey is used in its place. A pinned version is never replaced by a newer
+one. Assignment inputs must be fields of the rule language with values from their governed lists; `market` is
+required and must be one of the caller's; an absent or null input is unknown.
+
+### 14.4 Records and operations (registered only with `survey_assignment_enabled`, simulation and survey definitions on)
+
+`survey_assignment_evaluation` (insert-only, `record_class = 'SIMULATION'` by CHECK): the inputs and facts with their
+fingerprint, the time decided for, the engine, the outcome and selection, the whole decision with its trace and its
+fingerprint, the rule version, binding and survey version selected, and the call plan. A CHECK ensures a survey
+version is recorded exactly when the selection is `MATCHED`. `survey_assignment_simulation` links a selection to the
+simulations started from it. Migration `0030_survey_assignment`; its downgrade refuses while a binding exists.
+
+| Operation under `/api/v1/survey-assignment` | Permission |
+|---|---|
+| `GET /options` — the governed assignment inputs | **`survey.assignment.read`** |
+| `GET /policy` — published rules in precedence order with their bindings | **`survey.assignment.read`** |
+| `GET /bindings/{id}` | **`survey.assignment.read`** |
+| `POST /bindings` — propose | `survey.edit` |
+| `POST /bindings/{id}/decision` — approve or reject | `survey.approve` |
+| `POST /bindings/{id}/publish` | `survey.publish` |
+| `POST /bindings/{id}/withdraw` — an open proposal by its proposer; a published binding by a person who may publish | `survey.assignment.read` + the rule stated |
+| `POST /evaluations` — select, verify the manifest, assemble the SS-03B plan, record | `survey.simulate` |
+| `GET /evaluations/{id}` — the recorded selection, its plan and simulations; `recompute_consistent` | **`survey.assignment.read`** |
+| `POST /evaluations/{id}/simulations` — an SS-03B simulation of the selected version with the same facts | `survey.simulate` |
+
+All market-scoped (`404` outside the caller's markets); every `POST` needs the CSRF token, is rate-limited and
+audited (`SURVEY.ASSIGNMENT_BINDING_*`, `SURVEY.ASSIGNMENT_EVALUATED`).
+
+**Reading assignment data is a permission of its own (owner decision D-247, replacing the ASG-1 choice of
+`survey.read`).** The policy shows the conditions and precedence of published assignment rules — Script Studio's
+data. `survey.assignment.read` (created by migration `0030`, granted to no role) is required by **every** operation
+in this section, the state-changing ones included, in addition to the permission shown. `survey.read`, with or without
+`survey.edit`, `survey.approve`, `survey.publish` and `survey.simulate`, opens none of it. What is returned is limited
+to what the survey assignment experience needs: for a rule, its reference, name, market, conditions in words,
+priority, specificity, fallback flag and effective window — **not** its script target, author, checker, checksum,
+drafts or history. The Assignment Rules API and the `script.*` permissions are unchanged.
+
+The response of `POST /evaluations` carries the selected version, the matching rule and the full trace, the plan
+with its fingerprint, modules, facts read and their states, and open points. **A selection and a plan are not an
+assignment of a survey to a case and not eligibility for a call**; the response says so.
+
+### 14.5 Settings and migrations (replaces §13.7)
+
+| Setting on | Schema must be at |
+|---|---|
+| none | `0026` … `0030` |
+| `survey_definitions_enabled` | `0027` … `0030` |
+| + `survey_library_enabled` | `0028` … `0030` |
+| + `survey_simulation_enabled` | `0029` or `0030` |
+| + `survey_assignment_enabled` | `0030` |
+
+---
+
+## 15. Amendment of 2026-11-22 (ASG-2A): several surveys for one application
+
+Authorised by the owner on 2026-11-22 ("Accept ASG-1 and Implement ASG-2A Multi-Survey Assignment"), decisions
+D-246…D-257. **Simulation only.** Additive. The semantics were written before implementation in
+`34_ASG-2A_GROUPING_AND_MATCHING_SEMANTICS.md`, which is part of this contract; this section is its summary and the
+data and API contract.
+
+### 15.1 The model
+
+| Artifact | What it says | Governed by |
+|---|---|---|
+| Assignment rule version (existing, unchanged) | *when* — conditions, priority, specificity | Assignment Rules: maker, checker |
+| Survey binding (ASG-1) | *which survey version* a rule version stands for | three people |
+| **Requirement group** (new) | *which requirement* a set of rule versions competes for: `PRIMARY`, `ADD_REQUIRED` or `ALTERNATIVE`, with a stated purpose and an optional governed position | three people |
+
+The engine is called once per published group, over that group's member rules only. Nothing of the engine or the rule
+language is changed or copied.
+
+### 15.2 A requirement and the selection
+
+| Group outcome (the engine's) | `state` of the requirement |
+|---|---|
+| `SELECTED`, `SELECTED_BY_FALLBACK` | `SELECTED` |
+| `NO_MATCH` in `ADD_REQUIRED` / `ALTERNATIVE` | `NOT_APPLICABLE` |
+| `NO_MATCH` in `PRIMARY`; `AMBIGUOUS`; `AMBIGUOUS_SAME_TARGET`; `INPUT_MISSING`; `TARGET_NOT_EFFECTIVE`; `SURVEY_NOT_BOUND`; or a group whose structure is invalid | `UNRESOLVED` |
+
+Configuration issues (each makes `selection_status = UNRESOLVED_CONFIGURATION`): `PRIMARY_GROUP_MISSING`,
+`PRIMARY_GROUP_CONFLICT`, `RULE_IN_SEVERAL_GROUPS`, `GROUP_STRUCTURE_INVALID`, `MEMBER_NOT_PUBLISHED`,
+`BOUND_RULE_UNGROUPED` (a rule with a published binding, in no group, that matches or may match the application).
+A rule with no binding and no group is a script rule and takes no part.
+
+`selection_status`: `RESOLVED` · `UNRESOLVED_REQUIREMENT` · `UNRESOLVED_CONFIGURATION`.
+
+### 15.3 The composite plan — schema `call360.survey.composite-plan/1`
+
+| Field | Content |
+|---|---|
+| `application` | `{assignment_inputs, facts, sha256}` — one snapshot, one fingerprint |
+| `input_consistency` | always `{status: UNVERIFIED, reason}` until a mapping is approved |
+| `policy` | the group versions, rule versions and bindings the result was computed from |
+| `configuration_issues[]` | `{code, at, detail}` |
+| `requirements[]` | per group: `group{id, code, version, kind, name, purpose, sequence}`, `state`, the engine's `outcome`, `reason`, `winning_rules`, `missing_inputs`, `by_fallback`, the full `trace`, and when selected `selected{rule, rule_version_id, binding_id, survey_version_id, survey_code, version_label, content_sha256, manifest_sha256}` and `plan{status, fingerprint, issues, missing_facts, open_points, modules, items}` |
+| `selected[]` | the selected surveys with their reasons and individual plan fingerprints |
+| `ordering` | `{status: NOT_APPLICABLE \| GOVERNED \| UNRESOLVED, reason: ABSENT \| PARTIAL \| CONFLICTING, order, listing}` — `order` is null unless governed |
+| `cross_survey_policy` | `{status: UNRESOLVED}` whenever more than one survey is selected; `NOT_APPLICABLE` for one |
+| `missing_inputs`, `missing_facts` | unions |
+| `selection_status`, `plan_status` | `plan_status`: `READY` (selection resolved, ordering governed or not applicable, every individual plan `READY`) · `BLOCKED` (settled, an individual plan blocked) · `UNRESOLVED` |
+| `fingerprint` | SHA-256 of the canonical composite without this field |
+
+**Three separate states (owner decision D-261).** Beside the composite, and not part of its fingerprint, every
+response carries `states`: `call_plan` (`COMPUTABLE` when `plan_status` is `READY`, `NOT_COMPUTABLE` when `BLOCKED`,
+`UNRESOLVED` otherwise); `coordinated_simulation` (`PERMITTED`, or `BLOCKED` with the blocker codes of §16.2);
+`operational_call_eligibility` (always `NOT_ESTABLISHED`). None implies another: a computable plan may have a
+blocked coordinated simulation, and neither says anything about a real call.
+
+Each selected survey's plan is the SS-03B plan of that version, recorded as its own `survey_call_plan` with its own
+fingerprint; the composite refers to it. Nothing is merged, de-duplicated or re-routed. `READY` says nothing about
+whether a call may be made or about what happens between surveys.
+
+### 15.4 Records — migration `0031_survey_assignment_groups`
+
+`survey_assignment_group` (code, version, market, kind, name, purpose ≥ 10 characters, sequence),
+`survey_assignment_group_member` (exact rule versions), `survey_assignment_group_event` (lifecycle; a trigger refuses
+an approver who proposed and a publisher who proposed or approved), `survey_composite_plan`
+(`record_class = 'SIMULATION'`; a CHECK refuses `READY` or `BLOCKED` unless the selection is `RESOLVED` and the
+ordering `GOVERNED` or `NOT_APPLICABLE`), `survey_composite_plan_member` (a CHECK requires a selected requirement to
+name its version, rule, binding and plan, and any other to name none). All insert-only. The downgrade refuses while a
+group exists.
+
+### 15.5 Operations (registered only with `survey_assignment_groups_enabled` and everything it needs)
+
+| Operation under `/api/v1/survey-assignment` | Permission (each also needs `survey.assignment.read`) |
+|---|---|
+| `GET /groups` | — |
+| `POST /groups` — propose a version of a group | `survey.edit` |
+| `POST /groups/{id}/decision` | `survey.approve` |
+| `POST /groups/{id}/publish` — refused if it would give a market a second primary group or put a rule in two groups | `survey.publish` |
+| `POST /groups/{id}/withdraw` | proposer, or `survey.publish` for a published group |
+| `POST /composite-plans` — select every requirement, plan each selected survey, record | `survey.simulate` |
+| `GET /composite-plans/{id}` — as recorded; `recompute_consistent`, and `plan_intact` per member | — |
+
+The ASG-1 operations of §14.4 are unchanged and answer as before.
+
+### 15.6 Settings and migrations (replaces §14.5)
+
+| Setting on | Schema must be at |
+|---|---|
+| none | `0026` … `0031` |
+| `survey_definitions_enabled` | `0027` … `0031` |
+| + `survey_library_enabled` | `0028` … `0031` |
+| + `survey_simulation_enabled` | `0029` … `0031` |
+| + `survey_assignment_enabled` | `0030` or `0031` |
+| + `survey_assignment_groups_enabled` | `0031` |
+
+---
+
+## 16. Amendment of 2026-11-22 (ASG-2B): coordinated simulation of the surveys of one composite
+
+Authorised by the owner on 2026-11-22 ("Accept ASG-2A and Authorize ASG-2B Coordinated Simulation"), decisions
+D-259…D-269. **Simulation only.** Additive. The continuation rules of §16.3 are authorised **solely for technical
+simulation**; they approve nothing about what a real customer call does.
+
+### 16.1 A thin coordinating layer
+
+`app/domain/survey/coordination.py` executes nothing. Each survey of the composite is run by its own SS-03B
+simulation (§13), created, advanced and read through the same functions as a single-survey simulation, on its own
+published version, with its own inputs, rejected inputs, trace, status, drift detection and run fingerprint. The
+coordinator refuses to start, starts a survey, routes an input to the current survey, starts the next survey, and
+computes the coordinated state. It merges no graph and removes, shortens or skips no statement or question.
+
+### 16.2 When a coordinated simulation may start
+
+Refused with `409` and the first of these codes; every one that applies is listed in the error details and in the
+composite's `states.coordinated_simulation.blockers`. Nothing is recorded.
+
+| Code | When |
+|---|---|
+| `SELECTION_UNRESOLVED` | the composite's `selection_status` is not `RESOLVED` |
+| `NOTHING_SELECTED` | no survey is selected |
+| `ORDER_UNRESOLVED` | no complete, unambiguous governed order |
+| `PLAN_BLOCKED` | a selected survey's own call plan is `BLOCKED` |
+| `DUPLICATE_SURVEY_REQUIREMENT_UNRESOLVED` | two requirements select the same survey version. It is run neither once nor twice (D-258.3) |
+| `COMPOSITE_STALE` | the composite would no longer be computed the same |
+
+### 16.3 Continuation — for technical simulation only
+
+| Situation of the current survey | Coordinated `status` | What happens |
+|---|---|---|
+| `PENDING` | `RUNNING` | the coordinator stays; the next survey has no simulation |
+| an invalid answer | `RUNNING` | refused by the survey's own run; the same question stays current |
+| `POLICY_UNRESOLVED` | `POLICY_UNRESOLVED` | stops with the survey's own reason; the question stays current |
+| `TERMINAL`, state `COMPLETED`, another survey follows | `RUNNING` | the next survey is started; decision `PROCEED`, rule `SIMULATION_ONLY_COMPLETED_PROCEEDS` |
+| `TERMINAL`, state `COMPLETED`, the last survey | `ALL_SURVEYS_COMPLETED` | progress only — **not a business outcome** |
+| `TERMINAL`, any other state (an escalation, another named outcome, review required, a halt) | `CROSS_SURVEY_POLICY_UNRESOLVED` | stops; no survey is started; decision `STOP` |
+| `REPLAY_DRIFT` | `REPLAY_DRIFT` | stops; no input is taken |
+
+The coordinated record has no outcome and no terminal state of its own: none is synthesised.
+
+### 16.4 Records — migration `0032_survey_coordinated_sim`
+
+`survey_coordinated_simulation` (`record_class = 'SIMULATION'` by CHECK): the composite plan, the application and
+composite fingerprints, the contract `call360.survey.coordinated-simulation/1`, the governed order.
+`survey_coordinated_simulation_step`: each survey that was started — position, group, survey version, individual
+simulation (unique), and `started_because` (`FIRST_IN_ORDER` for position 1, `PREVIOUS_COMPLETED` otherwise, by
+CHECK). Both insert-only. They reference only the composite plan, the group, the survey version and the individual
+simulation; nothing references them. The downgrade drops them.
+
+The state is computed on reading from the steps and the replay of each individual simulation; it is never stored.
+`replay_sha256` is the SHA-256 of `{contract, composite_fingerprint, application_sha256, order, status, decisions,
+surveys[{group, survey_version_id, state, run_sha256, engine_contract}]}` — no identifier and no time, so the same
+composite and the same inputs always give the same value.
+
+### 16.5 Operations (registered only with `survey_coordinated_simulation_enabled` and everything it needs)
+
+| Operation under `/api/v1/survey-assignment` | Permission (each also needs `survey.assignment.read`) |
+|---|---|
+| `POST /composite-plans/{id}/coordinated-simulations` — start; `201`, or `409` with a code of §16.2 | `survey.simulate` |
+| `POST /coordinated-simulations/{id}/inputs` — body `{expected_inputs, key, answer}`: one typed input for the current question of the current survey; `expected_inputs` is the total across the surveys | `survey.simulate` |
+| `GET /coordinated-simulations/{id}` | — |
+
+Market-scoped; the two `POST`s need the CSRF token, are rate-limited and audited
+(`SURVEY.COORDINATED_SIMULATION_CREATED`, `SURVEY.COORDINATED_SIMULATION_SURVEY_STARTED`, beside the individual
+simulations' own events). Errors on input: `409 STALE_SIMULATION`; `409 CROSS_SURVEY_POLICY_UNRESOLVED`,
+`ALL_SURVEYS_COMPLETED` or `REPLAY_DRIFT` when the coordinated simulation takes no further input; and the individual
+simulation's own errors (`INPUT_NOT_CURRENT`, `ANSWER_INVALID`, …).
+
+The response: `status`, `stop {code, at, reason}`, `decisions[]`, `governed_order`, `surveys[]` (each with its pinned
+version and fingerprints, `state` — `COMPLETED`, `CURRENT`, `NOT_STARTED`, `STOPPED`, `DRIFTED` — `started_because`,
+`simulation_id`, the individual simulation in full, `run_sha256`, `engine_contract`), `current`, `progress`,
+`execution_contracts`, `composite_fingerprint`, `composite_intact`, `application_sha256`, `input_consistency`,
+`replay_sha256`, `operational_call_eligibility` (always `NOT_ESTABLISHED`).
+
+The single-survey simulation operations of §13.6 are unchanged.
+
+### 16.6 Settings and migrations (replaces §15.6)
+
+| Setting on | Schema must be at |
+|---|---|
+| none | `0026` … `0032` |
+| `survey_definitions_enabled` | `0027` … `0032` |
+| + `survey_library_enabled` | `0028` … `0032` |
+| + `survey_simulation_enabled` | `0029` … `0032` |
+| + `survey_assignment_enabled` | `0030` … `0032` |
+| + `survey_assignment_groups_enabled` | `0031` or `0032` |
+| + `survey_coordinated_simulation_enabled` | `0032` |
+
+## 17. Amendment of 2026-11-22 (EVAL-1): journey-level control evaluation of simulations
+
+**Simulation only.** Authorised by the owner on 2026-11-22 (D-275…D-286). Nothing here evaluates a real call, writes
+an operational finding, routes a review or gives a case a disposition. The assessment of the existing engines and the
+design decisions are in `37_EVAL-1_EXISTING_ENGINE_ASSESSMENT_AND_DESIGN.md`; this section is the contract.
+
+### 17.1 Grain
+
+| Level | Is |
+|---|---|
+| Application | the synthetic application snapshot of the journey |
+| Callback journey | the evaluation-run context: ONE single-survey simulation, or ONE coordinated simulation |
+| Survey execution | one SS-03B simulation — an evidence-producing sub-context |
+| **Control instance** | **the atomic result: one control of the register in one evaluation** |
+| Evidence observation | one placement of one mapped item in one survey execution |
+
+Survey is never the evaluation grain. A single-survey simulation is a journey with one survey execution.
+
+### 17.2 Governed control mapping
+
+One immutable revision per control and market. Lifecycle `PROPOSED → APPROVED | REJECTED | WITHDRAWN → PUBLISHED →
+SUPERSEDED | WITHDRAWN`; proposer, approver and publisher are three different people (service and database trigger).
+
+| Field | Rule |
+|---|---|
+| control | a control of the existing register; the mapping pins a fingerprint of the control row |
+| `combination` | `ALL_REQUIRED` — the only value (D-287). Declared by the mapping, not assumed by the engine |
+| `applicability` | none (declared for every journey of the market), or a published condition that reads application facts only, with exactly its parameters |
+| `entries[]` | exact item `code` and `version` pinned by a published survey version of the market; `evidence_type` `ANSWER` or `DELIVERY`; `required`; optional `survey_code` context; for `ANSWER`, a rule of the existing S3-A language validated by `answer_evaluation.configure` |
+| `source` | provenance, at least 10 characters |
+
+Refused: an item or condition that is not published in the market; a statement as answer evidence; a multiple-choice
+answer; a rule the existing validator refuses; required evidence that is collect-only; no required evidence; a second
+open proposal for the same control. Nothing is inferred from a label.
+
+### 17.3 Evidence adapter (SS-03B evidence → the existing evaluator's inputs)
+
+| Survey evidence | Existing result |
+|---|---|
+| an accepted answer | by the rule: `MATCH`, `MISMATCH`, `HUMAN_ASSESSMENT_REQUIRED`, `MISSING_EXPECTED_FACT`, `NOT_EVALUATED` |
+| asked; an input was refused, or the non-answer policy is unresolved | `UNRESOLVED` (no refusal reason is claimed) |
+| waiting for an answer; not reached; not on the path taken; module skipped for missing information; survey not started; the exact revision is in no survey of the journey | `NOT_ASKED` |
+| module left out by the survey's own FALSE condition | `NOT_APPLICABLE` |
+| multiple-choice answer | `UNSUPPORTED_EVIDENCE` (not passed to the evaluator) |
+| delivery evidence | `DELIVERED` / `NOT_DELIVERED` (recorded by the adapter) |
+
+Each observation carries: survey code, version, manifest fingerprint and position; simulation id and run fingerprint;
+placement; item code, version and type; the wording as delivered (version, mode, exact text); the evaluator's own
+record (rule, answer, expected, explanation); refused inputs; trace event numbers; and a `gap` code when there is no
+accepted answer.
+
+### 17.4 Control outcome and processing status
+
+Control outcome, first rule that holds: applicability false → `NOT_APPLICABLE`; no published mapping, changed
+control, unsupported combination, unknown applicability or untrusted evidence → `UNRESOLVED`; the same item answered
+differently in different places → `REQUIRES_REVIEW`; a required `MISMATCH` → `NOT_SATISFIED`; required evidence
+missing → `INSUFFICIENT_EVIDENCE`; required human assessment → `REQUIRES_REVIEW`; every placement of every required
+entry `MATCH` or `DELIVERED` → `SATISFIED`.
+
+Processing status of the evaluation: `FAILED_TECHNICALLY` (a survey's simulation no longer recomputes to its record,
+or the composite is not intact — no outcome is asserted and no finding generated); `REQUIRES_REVIEW`; `INCOMPLETE`
+(the journey did not complete every survey, or a control is `INSUFFICIENT_EVIDENCE` or `UNRESOLVED`); `COMPLETED`.
+`COMPLETED` does not mean compliant. `coverage.status` is always `NOT_ASSERTED`.
+
+### 17.5 Findings
+
+`finding_engine.generate`, unchanged, with the market's PUBLISHED finding rule set, once per answer observation of an
+`APPLICABLE` control. Category, severity, justification and review flag are the rule set's. A triggering result no
+rule covers is listed as not converted. No published rule set → `findings_status: FINDING_RULES_MISSING`. Nothing is
+de-duplicated. The operational `finding` table, materiality policy and review routing are not used.
+
+### 17.6 Records — migration `0033_survey_control_evaluation`
+
+Additive: `survey_control_mapping`, `survey_control_mapping_event` (guard trigger), `survey_journey_evaluation`
+(`record_class` fixed to `SIMULATION`; exactly one of `simulation_id` / `coordinated_id`; unique per journey and
+`input_sha256`), `survey_control_result`, `survey_evidence_observation`, `survey_evaluation_finding`. All insert-only.
+References out of the survey tables: `control` and `finding_rule_set_version` only. Permissions
+`survey.evaluation.read` and `survey.evaluate`, granted to no role. Downgrade refuses while a mapping exists.
+
+`pins` holds: journey and its replay and application fingerprints; each execution's version, manifest, simulation, run
+fingerprint and execution contract; each control's fingerprint; each mapping revision and fingerprint; the finding
+rule set version and checksum; the engines. `input_sha256` is its fingerprint: the same journey and the same pins are
+the same evaluation (the existing record is returned). Anything changed gives a new record. On reading, an evaluation
+is computed again from its pins; a difference is reported as `EVALUATION_DRIFT` with reasons, and what is published
+now but was not used is listed. No retention period is set (OR-1).
+
+### 17.7 Operations (registered only with `survey_evaluation_enabled` and simulation)
+
+Prefix `/api/v1/survey-evaluation`.
+
+| Operation | Permissions |
+|---|---|
+| `GET /controls` | `survey.evaluation.read` |
+| `GET /mappings`, `GET /mappings/{id}` | `survey.evaluation.read` |
+| `POST /mappings` | + `survey.edit` |
+| `POST /mappings/{id}/decision` | + `survey.approve` |
+| `POST /mappings/{id}/publish` | + `survey.publish` |
+| `POST /mappings/{id}/withdraw` | proposer (open) or `survey.publish` (published) |
+| `POST /evaluations` (201 new, 200 existing) | + `survey.evaluate` |
+| `GET /evaluations?simulation_id=…` or `?coordinated_simulation_id=…`, `GET /evaluations/{id}` | `survey.evaluation.read` |
+
+Market-scoped; state-changing operations are CSRF-protected, rate-limited and audited
+(`SURVEY.CONTROL_MAPPING_*`, `SURVEY.JOURNEY_EVALUATED`).
+
+### 17.8 Settings and migrations (replaces §16.6)
+
+| Setting on | Schema must be at |
+|---|---|
+| none | `0026` … `0033` |
+| `survey_definitions_enabled` | `0027` … `0033` |
+| + `survey_library_enabled` | `0028` … `0033` |
+| + `survey_simulation_enabled` | `0029` … `0033` |
+| + `survey_assignment_enabled` | `0030` … `0033` |
+| + `survey_assignment_groups_enabled` | `0031` … `0033` |
+| + `survey_coordinated_simulation_enabled` | `0032` or `0033` |
+| `survey_simulation_enabled` + `survey_evaluation_enabled` | `0033` |
+
+§16.2 gains one field: `states.coordinated_simulation.available` — whether this server has coordinated simulation
+switched on. A start control is offered only when the composite is `PERMITTED` and the server says `available`.
+
+## 18. Amendment of 2026-11-22 (EVAL-2A): governed control policies, applicability and coverage
+
+**Simulation only.** Authorised by the owner on 2026-11-22 (D-293…D-299). The registry assessment and the design are
+in `39_EVAL-2A_CONTROL_REGISTRY_ASSESSMENT_AND_POLICY_DESIGN.md`; the migration report in `41_…`. Nothing here decides
+what a real application needs, and no insurance obligation is created: a policy is a governed container.
+
+### 18.1 What is added, and what is not touched
+
+The control register (`control`) is not altered. Script Studio, the finding engine and the finding rule sets are not
+altered. The EVAL-1 tables are not altered. An evaluation that names no policy is the EVAL-1 evaluation of §17,
+written and read exactly as before.
+
+| Artifact | Identity | Says |
+|---|---|---|
+| Control (existing) | register code and id; pinned by a fingerprint of its row | that a control exists |
+| **Control policy** (new) | `(market, code, revision)` | which controls must be assessed, what each is for, when each obligation applies, what evidence each requires |
+| Control mapping (§17.2) | `(market, control, revision)` | which exact published survey items supply that evidence, under which rule |
+| **Control instance** | `(evaluation, control, obligation)` | the result |
+
+### 18.2 Control policy
+
+Lifecycle and three-person rule as §17.2 (service and database trigger). Immutable once proposed; publishing
+supersedes the published revision of the same code; a revision is never deleted.
+
+| Field | Rule |
+|---|---|
+| `code`, `name`, `market_code`, `owner`, `source` | required |
+| `scope_statement` | required, in words |
+| `scope` | optional published condition on application facts |
+| `completeness` | `DECLARED_COMPLETE` or `PARTIAL` |
+| `empty_set_is_complete` | false unless the policy sets it |
+| `controls[]` | a control of the register (a policy does not create controls), once; `purpose`; 1–10 obligations |
+| obligation | `key`, `title`, `applicability` (none, or a published condition reading application facts only, with exactly its parameters), `combination` = `ALL_REQUIRED`, 1–20 evidence requirements of which at least one is required |
+| evidence requirement | `key`, `description`, `evidence_type` `ANSWER` / `DELIVERY`, `required` |
+
+A mapping entry may carry `requirement` (and `obligation`, needed when the control has several): the policy
+requirement it supplies.
+
+### 18.3 Applicability
+
+`scope`: `IN_SCOPE`, `OUT_OF_SCOPE`, `UNKNOWN`. Each obligation: `APPLICABLE` (required), `NOT_APPLICABLE`,
+`UNKNOWN`, with the facts read and the facts missing. `fingerprint` = SHA-256 over the policy fingerprint, the facts
+fingerprint, the scope and every obligation's status. `input_lineage.status` is always `UNVERIFIED`.
+
+### 18.4 Evaluation under a policy
+
+The control instances are the policy's obligations. For each:
+
+| Condition | Outcome | Instance coverage |
+|---|---|---|
+| evidence not trusted | `UNRESOLVED` | `INTEGRITY_FAILED` |
+| the control changed in the register since the policy; combination unsupported | `UNRESOLVED` | `EVALUATION_UNSUPPORTED` |
+| applicability false | `NOT_APPLICABLE` | `NOT_REQUIRED` |
+| applicability unknown | `UNRESOLVED` | `APPLICABILITY_UNKNOWN` |
+| no published mapping; a required requirement with no bound entry; a mapping entry that names no requirement, a requirement the policy does not have, or another evidence type | `UNRESOLVED` | `NOT_MAPPED` |
+| otherwise | by §17.4 (D-290) | conflict → `EVIDENCE_CONFLICTING`; no required observation, or one unsupported or not evaluated → `EVALUATION_UNSUPPORTED`; a required gap → `EVIDENCE_MISSING`; required human assessment → `HUMAN_ASSESSMENT_PENDING`; else `EVIDENCED` |
+
+`required` is the policy's. Mapped evidence is always observed and shown, whatever is decided. Findings: §17.5,
+for `APPLICABLE`, fully mapped instances.
+
+### 18.5 Coverage of the journey
+
+| Status | When |
+|---|---|
+| `NOT_ASSERTED` | no policy (`NO_POLICY`, the §17 form); evidence not trusted; policy `PARTIAL`; application out of scope or scope unknown; no obligation applies and the policy does not declare that complete |
+| `INCOMPLETE` | otherwise, when an applicability is unknown or a required instance is not `EVIDENCED` |
+| `COMPLETE_WITHIN_POLICY_SCOPE` | otherwise |
+
+Complete coverage is a statement about evidence within one policy's declared scope. An `EVIDENCED` instance may be
+`NOT_SATISFIED`. `operational_compliance_eligibility.status` is always `NOT_ESTABLISHED`.
+
+### 18.6 `SET_MATCH` (existing answer-evaluation engine, D-299)
+
+For a `MULTI_SELECT` answer. Rule: `mode` ∈ `INCLUDES_ALL`, `INCLUDES_ANY`, `INCLUDES_NONE`, `EQUALS`; `options`: one
+or more of the question's published option codes, each once. Refused at configuration: unknown mode, empty expected
+set, a duplicate, an option that is not the question's, a question that is not multiple choice.
+
+| Selection as accepted by the survey | Result |
+|---|---|
+| a list of the question's option codes, each once (any order; may be empty) | `MATCH` or `MISMATCH` by the mode, as sets |
+| contains a duplicate, an unknown code, or is not a list of codes | `UNRESOLVED` — not evaluated, never collapsed or repaired |
+| rule malformed when it reaches the evaluator | `NOT_EVALUATED` |
+| no accepted answer (waiting, refused, not reached) | as §17.3 — never an empty selection |
+
+`normalized_answer` is the selection in the question's own option order. Two selections are the same answer when
+equal as sets. `SET_MATCH` is in `ALL_METHODS`; `METHODS` (what Script Studio offers) is unchanged.
+
+### 18.7 Records — migration `0034_survey_control_policy` (purely additive)
+
+New, insert-only: `survey_control_policy`, `survey_control_policy_event` (guard trigger), `survey_evaluation_policy`
+(evaluation → policy revision and its fingerprint), `survey_obligation_result` (key `evaluation_id, control_code,
+obligation`; outcome, applicability, coverage), `survey_obligation_observation`, `survey_obligation_finding`. No
+existing table, column, key, index or trigger is changed. An evaluation under a policy writes its results to the
+obligation tables and nothing to the EVAL-1 result tables; which tables an evaluation is read from is said by its own
+pins. `pins.policy` holds the policy id, code, revision and fingerprint. Downgrade refuses while a policy or a
+policy-scoped evaluation exists.
+
+### 18.8 Operations (registered only with `survey_control_policy_enabled` and evaluation)
+
+Prefix `/api/v1/survey-evaluation`. Reading needs `survey.evaluation.read`.
+
+| Operation | Further permission |
+|---|---|
+| `GET /builder-options`, `GET /journeys`, `GET /control-policies`, `GET /control-policies/{id}` | — |
+| `POST /control-policies` | `survey.edit` |
+| `POST /control-policies/{id}/decision` | `survey.approve` |
+| `POST /control-policies/{id}/publish` | `survey.publish` |
+| `POST /control-policies/{id}/withdraw` | proposer (open) or `survey.publish` (published) |
+| `POST /applicability` (nothing recorded) | `survey.evaluate` |
+| `POST /evaluations/preview` (nothing recorded) | `survey.evaluate` |
+
+`POST /evaluations` (§17.7) accepts `control_policy_id`: a PUBLISHED revision of the journey's market; refused with
+404 when policies are not switched on. Evaluation responses gain `control_policy_id`, `policy`, `applicability` and
+`operational_compliance_eligibility`; list entries gain `policy` and `coverage_status`. All additive.
+
+### 18.9 Settings and migrations (adds to §17.8)
+
+| Setting on | Schema must be at |
+|---|---|
+| every row of §17.8 | … or `0034` |
+| `survey_evaluation_enabled` + `survey_control_policy_enabled` | `0034` |
+

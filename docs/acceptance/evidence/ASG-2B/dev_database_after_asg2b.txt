@@ -1,0 +1,5 @@
+schema: call360 (development) | read-only transaction
+Alembic revision: 0031_survey_assignment_groups
+ASG-2B tables (0032) present: 0
+settings: requirement groups True | coordinated simulation False
+bindings: 2 | groups: 2 | composites: 3 | callback cases: 258 | script assignments: 251 | survey runs: 82 | findings: 26

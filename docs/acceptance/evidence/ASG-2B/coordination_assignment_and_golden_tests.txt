@@ -1,0 +1,143 @@
+tests/test_survey_coordination.py::test_two_surveys_are_simulated_in_their_governed_order_each_by_its_own_engine_run PASSED
+tests/test_survey_coordination.py::test_with_the_setting_off_there_is_no_coordinated_simulation PASSED
+tests/test_survey_coordination.py::test_zz_migration_0032_goes_down_and_up_and_changes_nothing_else PASSED
+tests/test_survey_assignment_groups.py::test_one_application_selects_a_primary_additional_and_alternative_surveys PASSED
+tests/test_survey_assignment_groups.py::test_with_the_setting_off_there_are_no_groups_and_single_survey_assignment_is_as_it_was PASSED
+tests/test_survey_assignment_groups.py::test_zz_migration_0031_goes_down_and_up_empty_and_refuses_while_a_governed_group_exists PASSED
+tests/test_survey_assignment.py::test_synthetic_applications_are_selected_planned_and_simulated_by_the_existing_rules PASSED
+tests/test_survey_assignment.py::test_matched_no_match_ambiguous_unknown_and_fallback_are_told_apart PASSED
+tests/test_survey_assignment.py::test_with_the_setting_off_there_is_no_survey_assignment PASSED
+tests/test_survey_assignment.py::test_zz_migration_0030_goes_down_and_up_empty_and_refuses_while_a_governed_binding_exists PASSED
+tests/test_survey_simulation.py::test_a_published_version_simulated_through_the_api_gives_the_golden_runs[K1] PASSED
+tests/test_survey_simulation.py::test_a_published_version_simulated_through_the_api_gives_the_golden_runs[K3] PASSED
+tests/test_survey_simulation.py::test_a_published_version_simulated_through_the_api_gives_the_golden_runs[K4] PASSED
+tests/test_survey_simulation.py::test_a_published_version_simulated_through_the_api_gives_the_golden_runs[K7] PASSED
+tests/test_survey_simulation.py::test_a_published_version_simulated_through_the_api_gives_the_golden_runs[K8] PASSED
+tests/test_survey_simulation.py::test_an_invalid_or_misplaced_input_never_advances_a_simulation PASSED
+tests/test_survey_simulation.py::test_a_non_answer_fails_closed_as_policy_unresolved PASSED
+tests/test_survey_simulation.py::test_a_call_plan_is_deterministic_recorded_and_says_nothing_about_calling PASSED
+tests/test_survey_simulation.py::test_simulation_is_denied_without_permission_market_session_or_csrf PASSED
+tests/test_survey_simulation.py::test_a_version_that_does_not_match_its_manifest_is_never_executed PASSED
+tests/test_survey_simulation.py::test_simulation_records_are_isolated_append_only_audited_and_never_operational PASSED
+tests/test_survey_simulation.py::test_with_the_setting_off_there_is_no_simulation_at_all PASSED
+tests/test_survey_simulation.py::test_a_simulation_records_its_execution_contract_and_never_hides_replay_drift PASSED
+tests/test_assignment_rules.py::test_create_configure_simulate_submit_approve_publish PASSED
+tests/test_assignment_rules.py::test_versioning_copy_supersede_history_and_diff PASSED
+tests/test_assignment_rules.py::test_conflicts_target_eligibility_dates_fallback_and_no_match PASSED
+tests/test_assignment_rules.py::test_permissions_abandon_and_scope PASSED
+tests/test_script_assignment.py::test_preview_apply_pin_release_idempotent_and_never_reassign PASSED
+tests/test_script_assignment.py::test_precedence_contact_roles_ambiguity_and_unrelated_holds PASSED
+tests/test_script_assignment.py::test_superseded_target_fallback_no_match_batch_and_scope PASSED
+tests/test_survey_execution.py::test_the_82_expected_runs_of_27_fixtures_are_all_here PASSED
+tests/test_survey_execution.py::test_golden_run[F1 \xb7 Every answer continues to the next question] PASSED
+tests/test_survey_execution.py::test_golden_run[F2 \xb7 Yes path goes straight to the shared question] PASSED
+tests/test_survey_execution.py::test_golden_run[F2 \xb7 No path detours through clarification and rejoins the same node (asked] PASSED
+tests/test_survey_execution.py::test_golden_run[F3 \xb7 BENEFITS takes its own route, then merges] PASSED
+tests/test_survey_execution.py::test_golden_run[F3 \xb7 NONE goes directly to the merge point] PASSED
+tests/test_survey_execution.py::test_golden_run[F4 \xb7 BENEFITS then PREMIUM ticked: follow-ups run in configured order, not ] PASSED
+tests/test_survey_execution.py::test_golden_run[F4 \xb7 BENEFITS and CLAIMS share one follow-up: asked once] PASSED
+tests/test_survey_execution.py::test_golden_run[F4 \xb7 CRITICAL_RISK interrupts: queue is not run, skipped items are traced] PASSED
+tests/test_survey_execution.py::test_golden_run[F4 \xb7 NONE: empty queue takes the mandatory fallback; invalid sets are rejec] PASSED
+tests/test_survey_execution.py::test_golden_run[F5 \xb7 OTHER with valid text: code and text stored, Other-specific route take] PASSED
+tests/test_survey_execution.py::test_golden_run[F5 \xb7 SAVINGS: default route; no phantom Other text may be submitted] PASSED
+tests/test_survey_execution.py::test_golden_run[F6 \xb7 Age 65, premium 15,000: TRUE AND (TRUE OR FALSE) = MATCH] PASSED
+tests/test_survey_execution.py::test_golden_run[F6 \xb7 Premium exactly 12,000 with '>': FALSE, not an accidental '>='] PASSED
+tests/test_survey_execution.py::test_golden_run[F6 \xb7 Age 45, premium missing: FALSE AND UNKNOWN = FALSE (a known FALSE deci] PASSED
+tests/test_survey_execution.py::test_golden_run[F6 \xb7 Age 65, premium missing, risks understood: TRUE AND (UNKNOWN OR FALSE)] PASSED
+tests/test_survey_execution.py::test_golden_run[F6 \xb7 Age 65, premium missing, risks NOT understood: TRUE AND (UNKNOWN OR TR] PASSED
+tests/test_survey_execution.py::test_golden_run[F6 \xb7 Age missing, premium 15,000: UNKNOWN AND TRUE = UNKNOWN (never treated] PASSED
+tests/test_survey_execution.py::test_golden_run[F7 \xb7 The same Question Definition is answered twice, once per placement, wi] PASSED
+tests/test_survey_execution.py::test_golden_run[F8 \xb7 Term life, low premium: only General and Closing run] PASSED
+tests/test_survey_execution.py::test_golden_run[F8 \xb7 ILP, high premium, replacement: every conditional module runs] PASSED
+tests/test_survey_execution.py::test_golden_run[F8 \xb7 Low premium but sum assured 600,000: either side of the OR activates H] PASSED
+tests/test_survey_execution.py::test_golden_run[F8 \xb7 ILP customer does not understand the risk: Suitability emits CLARIFICA] PASSED
+tests/test_survey_execution.py::test_golden_run[F8 \xb7 Premium missing and sum assured low: UNKNOWN blocks; it is never read ] PASSED
+tests/test_survey_execution.py::test_golden_run[F8 \xb7 Premium missing but sum assured 600,000: UNKNOWN OR TRUE = TRUE; repla] PASSED
+tests/test_survey_execution.py::test_golden_run[F8 \xb7 Identity not confirmed: General ends the survey; later modules are not] PASSED
+tests/test_survey_execution.py::test_golden_run[G1 \xb7 Jump to an ELIGIBLE module: age 67 \u2014 the jump selects it, its conditio] PASSED
+tests/test_survey_execution.py::test_golden_run[G1 \xb7 Jump to an INELIGIBLE module: age 40 \u2014 the jump does not bypass its co] PASSED
+tests/test_survey_execution.py::test_golden_run[G1 \xb7 Jump to a module with UNKNOWN eligibility: age missing, policy BLOCK \u2014] PASSED
+tests/test_survey_execution.py::test_golden_run[G1 \xb7 No jump: in sequence the same module is skipped and the next one is co] PASSED
+tests/test_survey_execution.py::test_golden_run[G2 \xb7 Ineligible after a jump, disposition CONTINUE: the next module in sequ] PASSED
+tests/test_survey_execution.py::test_golden_run[G2 \xb7 UNKNOWN after a jump, policy SKIP_WITH_REASON: skipped as 'information] PASSED
+tests/test_survey_execution.py::test_golden_run[G3 \xb7 A structurally invalid draft cannot run: ineligible after a jump with ] PASSED
+tests/test_survey_execution.py::test_golden_run[G3 \xb7 The same draft still runs for a customer who is eligible: the gap is a] PASSED
+tests/test_survey_execution.py::test_golden_run[G4 \xb7 PRICE and COVER: rule 1 is the first that fits; rule 2 also fits and i] PASSED
+tests/test_survey_execution.py::test_golden_run[G4 \xb7 CLAIMS only: rule 1 does not fit, rule 2 decides] PASSED
+tests/test_survey_execution.py::test_golden_run[G4 \xb7 COVER only: no rule fits, the required fallback decides] PASSED
+tests/test_survey_execution.py::test_golden_run[G4 \xb7 The exclusive answer on its own: fallback] PASSED
+tests/test_survey_execution.py::test_golden_run[G5 \xb7 Answered: the policy contract was received \u2014 the condition is FALSE] PASSED
+tests/test_survey_execution.py::test_golden_run[G5 \xb7 A VALID EMPTY selection is known: 'none of' is TRUE. The optional rema] PASSED
+tests/test_survey_execution.py::test_golden_run[G5 \xb7 A question NOT ASKED on this route is UNKNOWN \u2014 not an empty selection] PASSED
+tests/test_survey_execution.py::test_golden_run[G6 \xb7 Mandatory escalation takes precedence over an interruption configured ] PASSED
+tests/test_survey_execution.py::test_golden_run[G6 \xb7 An optional interruption ends the call with its outcome \u2014 an ordinary ] PASSED
+tests/test_survey_execution.py::test_golden_run[G6 \xb7 No interruption: the follow-up queue runs and the module completes] PASSED
+tests/test_survey_execution.py::test_golden_run[H1 \xb7 Trigger fired AND eligible: selected by the named outcome, eligibility] PASSED
+tests/test_survey_execution.py::test_golden_run[H1 \xb7 Trigger fired but NOT eligible: being selected is not enough \u2014 it is s] PASSED
+tests/test_survey_execution.py::test_golden_run[H1 \xb7 Trigger fired, eligibility UNKNOWN with 'skip and record why': skipped] PASSED
+tests/test_survey_execution.py::test_golden_run[H1 \xb7 Trigger NOT fired: the module is not selected, so its eligibility is n] PASSED
+tests/test_survey_execution.py::test_golden_run[H2 \xb7 An explicit jump SELECTS a module whose trigger did not fire; eligibil] PASSED
+tests/test_survey_execution.py::test_golden_run[H2 \xb7 The jump selects it but never bypasses eligibility: not eligible, so t] PASSED
+tests/test_survey_execution.py::test_golden_run[H2 \xb7 No jump: in sequence the trigger fires (Benefits completed) and the cu] PASSED
+tests/test_survey_execution.py::test_golden_run[H2 \xb7 No jump, not eligible: in sequence the normal default applies \u2014 the ne] PASSED
+tests/test_survey_execution.py::test_golden_run[H3 \xb7 Both eligible: nothing is skipped and no disposition is used] PASSED
+tests/test_survey_execution.py::test_golden_run[H3 \xb7 The later module is not eligible in sequence: its disposition ends the] PASSED
+tests/test_survey_execution.py::test_golden_run[H3 \xb7 The earlier module is not eligible in sequence: its disposition goes f] PASSED
+tests/test_survey_execution.py::test_golden_run[H3 \xb7 Eligibility UNKNOWN with 'skip and record why': the same disposition, ] PASSED
+tests/test_survey_execution.py::test_golden_run[H4 \xb7 Single-choice mandatory answer: the call ends with Escalate although t] PASSED
+tests/test_survey_execution.py::test_golden_run[H4 \xb7 Multi-select mandatory answer, selected with others: it leads, and the] PASSED
+tests/test_survey_execution.py::test_golden_run[H4 \xb7 An optional interruption is ordinary routing: it follows the survey's ] PASSED
+tests/test_survey_execution.py::test_golden_run[H4 \xb7 No escalation: the follow-up runs and the call completes] PASSED
+tests/test_survey_execution.py::test_golden_run[J1 \xb7 Single choice, ordinary route to Escalate: the call ends with Escalate] PASSED
+tests/test_survey_execution.py::test_golden_run[J1 \xb7 First-matching rule to Escalate: the call ends with Escalate although ] PASSED
+tests/test_survey_execution.py::test_golden_run[J1 \xb7 Optional interruption set to escalate: the call ends with Escalate alt] PASSED
+tests/test_survey_execution.py::test_golden_run[J1 \xb7 No escalation anywhere: every module completes and the call completes] PASSED
+tests/test_survey_execution.py::test_golden_run[K1 \xb7 Every statement is delivered in its place; only the two questions are ] PASSED
+tests/test_survey_execution.py::test_golden_run[K1 \xb7 The module ends early: the statements after that point are not deliver] PASSED
+tests/test_survey_execution.py::test_golden_run[K1 \xb7 A statement needs no answer: with no answers supplied, the opening is ] PASSED
+tests/test_survey_execution.py::test_golden_run[K3 \xb7 Valid numbers are accepted: a whole number, a decimal where decimals a] PASSED
+tests/test_survey_execution.py::test_golden_run[K3 \xb7 The limits themselves are accepted: lowest and highest are inclusive] PASSED
+tests/test_survey_execution.py::test_golden_run[K3 \xb7 Each invalid number is refused with its own code, and the same questio] PASSED
+tests/test_survey_execution.py::test_golden_run[K4 \xb7 Acknowledged: the call continues] PASSED
+tests/test_survey_execution.py::test_golden_run[K4 \xb7 NOT acknowledged: blocked as unresolved policy. Nothing is recorded, n] PASSED
+tests/test_survey_execution.py::test_golden_run[K4 \xb7 No answer at all, or an answer of another kind, is refused; it is neve] PASSED
+tests/test_survey_execution.py::test_golden_run[K5 \xb7 The same wording and the same facts give the same sentences, and the e] PASSED
+tests/test_survey_execution.py::test_golden_run[K5 \xb7 The same survey, another application: different sentences from the sam] PASSED
+tests/test_survey_execution.py::test_golden_run[K5 \xb7 A missing value: the opening is delivered, then the call HALTS before ] PASSED
+tests/test_survey_execution.py::test_golden_run[K5 \xb7 An unusable value halts in the same way: it is not rounded to make it ] PASSED
+tests/test_survey_execution.py::test_golden_run[K6 \xb7 If such a draft were run, it halts at the first sentence that cannot b] PASSED
+tests/test_survey_execution.py::test_golden_run[K7 \xb7 One question, four placements, four different answers kept apart: twic] PASSED
+tests/test_survey_execution.py::test_golden_run[K8 \xb7 The ordinary application, identity confirmed: exactly the two modules ] PASSED
+tests/test_survey_execution.py::test_golden_run[K8 \xb7 The same plan, the other answer at the open point: the call ends there] PASSED
+tests/test_survey_execution.py::test_golden_run[K8 \xb7 The high-premium application: every module runs, and the disclosure ca] PASSED
+tests/test_survey_execution.py::test_golden_run[K8 \xb7 Missing data: the call runs as far as the module that cannot be decide] PASSED
+tests/test_survey_execution.py::test_the_same_inputs_always_give_the_same_run_and_the_engine_changes_nothing_it_is_given PASSED
+tests/test_survey_execution.py::test_a_run_replayed_from_its_recorded_inputs_is_identical PASSED
+tests/test_survey_execution.py::test_an_input_for_any_question_but_the_current_one_is_refused_and_nothing_after_it_is_applied PASSED
+tests/test_survey_execution.py::test_an_invalid_answer_never_advances_the_run PASSED
+tests/test_survey_execution.py::test_a_statement_is_delivered_and_takes_no_answer PASSED
+tests/test_survey_execution.py::test_wording_is_delivered_exactly_as_pinned_and_never_written_by_the_engine PASSED
+tests/test_survey_execution.py::test_a_non_answer_is_reported_as_unresolved_policy_and_is_never_turned_into_an_outcome PASSED
+tests/test_survey_execution.py::test_a_missing_fact_is_unknown_never_false PASSED
+tests/test_survey_execution.py::test_the_engine_is_pure_and_offers_no_way_to_speak_or_dial PASSED
+tests/test_survey_callplan.py::test_the_14_expected_plans_are_all_here PASSED
+tests/test_survey_callplan.py::test_golden_plan[K1 \xb7 No application data is needed: every customer gets the same plan] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K3 \xb7 A number question is planned like any other: its wording is settled, i] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K4 \xb7 The acknowledgement is planned; what happens if it is not given is not] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K5 \xb7 Every value present: every sentence is settled, with the values that w] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K5 \xb7 Other values, other sentences: cents are shown only when there are any] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K5 \xb7 A missing value: the plan is BLOCKED at that item; the other items are] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K5 \xb7 An amount with more than two decimals is not rounded: it is unusable] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K5 \xb7 A value outside the field's list is unusable] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K6 \xb7 An unknown variable can never be rendered, whatever the customer's dat] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K7 \xb7 Four placements of one question are four planned items] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K8 \xb7 An ordinary application: two modules are in, three are out. The identi] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K8 \xb7 A high-premium replacement sale to an older customer: every module is ] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K8 \xb7 Missing data, two policies: the replacement module is skipped with the] PASSED
+tests/test_survey_callplan.py::test_golden_plan[K8 \xb7 The premium is missing: whether the high-value review applies cannot b] PASSED
+tests/test_survey_callplan.py::test_the_same_inputs_give_the_same_plan_and_fingerprint_and_different_facts_a_different_one PASSED
+tests/test_survey_callplan.py::test_a_plan_and_a_run_agree_on_the_exact_wording_of_everything_delivered PASSED
+tests/test_survey_callplan.py::test_missing_is_missing_unknown_is_not_false_and_an_undeliverable_item_blocks_the_plan PASSED
+tests/test_survey_callplan.py::test_numbers_are_never_rounded_or_truncated PASSED
+tests/test_survey_callplan.py::test_a_plan_never_claims_a_call_may_be_made PASSED
+================== 142 passed, 2 warnings in 65.92s (0:01:05) ==================

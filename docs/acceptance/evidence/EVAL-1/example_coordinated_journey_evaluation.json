@@ -1,0 +1,922 @@
+{
+ "id": "804c3051-a2aa-4c12-9303-e2423e93a376",
+ "record_class": "SIMULATION",
+ "note": "EVALUATION OF A SIMULATION, for a synthetic application. Answers are judged by the existing deterministic evaluator and findings come from the published finding rules; a match is not a compliance pass, a satisfied control is not a compliance verdict, and nothing here is an operational finding or a case disposition.",
+ "contract": "call360.survey.control-evaluation/1",
+ "market_code": "SG",
+ "created_at": "2026-11-22T14:20:05.358405+08:00",
+ "created_by": "8b88e8fa-f507-442b-8f30-5560091c23fe",
+ "journey_kind": "COORDINATED",
+ "simulation_id": null,
+ "coordinated_id": "1fa595d8-efe7-4062-a88e-4cdffe0fb3ea",
+ "journey": {
+  "id": "1fa595d8-efe7-4062-a88e-4cdffe0fb3ea",
+  "kind": "COORDINATED",
+  "status": "ALL_SURVEYS_COMPLETED",
+  "trusted": true,
+  "complete": true,
+  "problems": [],
+  "executions": [
+   {
+    "state": "COMPLETED",
+    "ending": "COMPLETED",
+    "position": 1,
+    "run_sha256": "520cbf389ec4cb06dac9b15edc057b098dcae1d229fca81f9d3a188c85d9e9ea",
+    "survey_code": "S-C69DD0B142",
+    "survey_name": "Survey A",
+    "simulation_id": "07930cec-ea63-487d-b9a3-06de6fe00aca",
+    "version_label": "1.0",
+    "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+    "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+   },
+   {
+    "state": "COMPLETED",
+    "ending": "COMPLETED",
+    "position": 2,
+    "run_sha256": "8be4d6a01ee2c369a640cca55ad72bc02a68f49691f176638411bf0ee2c8122d",
+    "survey_code": "S-A1B3F1B990",
+    "survey_name": "Survey B",
+    "simulation_id": "b420f31b-bf47-474e-850b-c548c6c4856d",
+    "version_label": "1.0",
+    "manifest_sha256": "0924cebdfd4f0104af118f750b170bf3966a1b8acdea6fafc138f193925c5c4b",
+    "survey_version_id": "4f00c1c3-dd22-4c97-94fb-f9cda974a797"
+   }
+  ]
+ },
+ "processing_status": "INCOMPLETE",
+ "status": "INCOMPLETE",
+ "summary": {
+  "surveys": 2,
+  "controls": 5,
+  "findings": 2,
+  "applicable": 2,
+  "by_outcome": {
+   "SATISFIED": 0,
+   "UNRESOLVED": 3,
+   "NOT_SATISFIED": 1,
+   "NOT_APPLICABLE": 0,
+   "REQUIRES_REVIEW": 0,
+   "INSUFFICIENT_EVIDENCE": 1
+  },
+  "not_converted": 0,
+  "surveys_completed": 2,
+  "human_assessment_items": 0
+ },
+ "coverage": {
+  "note": "Complete compliance coverage is NOT asserted: no authoritative policy says which controls apply to an application. Every control of the register is reported, and a control without a published mapping is unresolved.",
+  "status": "NOT_ASSERTED",
+  "items_without_mapping": [
+   {
+    "item": {
+     "code": "Q-100022",
+     "name": "Q-100022",
+     "version": 1,
+     "answer_type": "STATEMENT"
+    },
+    "survey": {
+     "state": "COMPLETED",
+     "position": 1,
+     "survey_code": "S-C69DD0B142",
+     "version_label": "1.0",
+     "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+     "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+    },
+    "placement": "mi-call/n1"
+   },
+   {
+    "item": {
+     "code": "Q-100021",
+     "name": "Q-100021",
+     "version": 1,
+     "answer_type": "STATEMENT"
+    },
+    "survey": {
+     "state": "COMPLETED",
+     "position": 1,
+     "survey_code": "S-C69DD0B142",
+     "version_label": "1.0",
+     "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+     "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+    },
+    "placement": "mi-call/n3"
+   },
+   {
+    "item": {
+     "code": "Q-100023",
+     "name": "Q-100023",
+     "version": 1,
+     "answer_type": "STATEMENT"
+    },
+    "survey": {
+     "state": "COMPLETED",
+     "position": 1,
+     "survey_code": "S-C69DD0B142",
+     "version_label": "1.0",
+     "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+     "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+    },
+    "placement": "mi-call/n4"
+   },
+   {
+    "item": {
+     "code": "Q-100018",
+     "name": "Q-100018",
+     "version": 1,
+     "answer_type": "YES_NO"
+    },
+    "survey": {
+     "state": "COMPLETED",
+     "position": 1,
+     "survey_code": "S-C69DD0B142",
+     "version_label": "1.0",
+     "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+     "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+    },
+    "placement": "mi-call/n5"
+   },
+   {
+    "item": {
+     "code": "Q-100020",
+     "name": "Q-100020",
+     "version": 1,
+     "answer_type": "STATEMENT"
+    },
+    "survey": {
+     "state": "COMPLETED",
+     "position": 1,
+     "survey_code": "S-C69DD0B142",
+     "version_label": "1.0",
+     "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+     "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+    },
+    "placement": "mi-call/n6"
+   },
+   {
+    "item": {
+     "code": "Q-100026",
+     "name": "Q-100026",
+     "version": 1,
+     "answer_type": "NUMERIC"
+    },
+    "survey": {
+     "state": "COMPLETED",
+     "position": 2,
+     "survey_code": "S-A1B3F1B990",
+     "version_label": "1.0",
+     "manifest_sha256": "0924cebdfd4f0104af118f750b170bf3966a1b8acdea6fafc138f193925c5c4b",
+     "survey_version_id": "4f00c1c3-dd22-4c97-94fb-f9cda974a797"
+    },
+    "placement": "mi-numbers/n2"
+   },
+   {
+    "item": {
+     "code": "Q-100025",
+     "name": "Q-100025",
+     "version": 1,
+     "answer_type": "NUMERIC"
+    },
+    "survey": {
+     "state": "COMPLETED",
+     "position": 2,
+     "survey_code": "S-A1B3F1B990",
+     "version_label": "1.0",
+     "manifest_sha256": "0924cebdfd4f0104af118f750b170bf3966a1b8acdea6fafc138f193925c5c4b",
+     "survey_version_id": "4f00c1c3-dd22-4c97-94fb-f9cda974a797"
+    },
+    "placement": "mi-numbers/n3"
+   }
+  ],
+  "controls_without_mapping": [
+   "SYN-CTRL-05"
+  ],
+  "controls_with_unknown_applicability": [
+   "SYN-CTRL-02",
+   "SYN-CTRL-03"
+  ]
+ },
+ "finding_rules": {
+  "label": "SG finding rules v1",
+  "sha256": "2a18dec97114ba20369b839c5205450fa5654239632d372b665ab2c28d089194",
+  "status": "PUBLISHED",
+  "version_id": "978b7ad0-7061-4925-ac7a-a7ab7b8a2f29"
+ },
+ "findings_status": "GENERATED",
+ "engines": {
+  "findings": "call360.finding-engine/1 (S3-B deterministic)",
+  "answer_evaluation": "call360.answer-evaluation/1 (S3-A deterministic)",
+  "control_evaluation": "call360.survey.control-evaluation/1"
+ },
+ "controls": [
+  {
+   "mapping": {
+    "id": "3ec48eb1-9607-4b6f-95bb-55eb8ba138d1",
+    "sha256": "04f8f3dfcf998fd05c743cfb41055b801d562abc0f856815c2692b2e1588b0b4",
+    "source": "Synthetic test mapping; not a business mapping",
+    "revision": 2,
+    "combination": "ALL_REQUIRED"
+   },
+   "outcome": "NOT_SATISFIED",
+   "reasons": [
+    {
+     "gap": null,
+     "code": "EVIDENCE_MISMATCH",
+     "item": "Q-100027@1",
+     "text": "Q-100027 v1 (S-A1B3F1B990 mi-numbers/n1): Answered 1 count; expected at least 18 count from the approved value. A mismatch is a discrepancy for review, not a breach finding"
+    }
+   ],
+   "findings": 1,
+   "control_id": "f85f40ec-7eba-537e-bbe5-1379578d7e4f",
+   "owner_role": "S&C (proposed)",
+   "control_code": "SYN-CTRL-01",
+   "control_name": "Representative disclosure (synthetic control)",
+   "applicability": {
+    "basis": "DECLARED_FOR_EVERY_JOURNEY",
+    "status": "APPLICABLE",
+    "explanation": "The governed mapping declares this control for every journey of its market"
+   },
+   "control_sha256": "1cc4490c0d3fb3ca90a6bf540c35785e897f05dda848d540afe7220c7d07bc95",
+   "content_approval_status": "SYNTHETIC_UNAPPROVED",
+   "observations": [
+    {
+     "gap": null,
+     "seq": 1,
+     "item": {
+      "code": "Q-100019",
+      "name": "Q-100019",
+      "version": 1,
+      "answer_type": "YES_NO"
+     },
+     "entry": 0,
+     "trace": [
+      3,
+      4,
+      5
+     ],
+     "result": "MATCH",
+     "survey": {
+      "state": "COMPLETED",
+      "position": 1,
+      "survey_code": "S-C69DD0B142",
+      "version_label": "1.0",
+      "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+      "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+     },
+     "context": null,
+     "wording": {
+      "text": "Can you confirm that you are the policyholder?",
+      "delivery_mode": "CONTROLLED_TTS",
+      "wording_version": 1
+     },
+     "required": true,
+     "placement": "mi-call/n2",
+     "evaluation": {
+      "rule": {
+       "method": "EXACT_BOOLEAN",
+       "options": [],
+       "expected": {
+        "value": true
+       },
+       "fact_key": null,
+       "answer_type": "YES_NO"
+      },
+      "answer": {
+       "kind": "ANSWER",
+       "state": "ANSWERED",
+       "value": true,
+       "verbatim": null
+      },
+      "method": "EXACT_BOOLEAN",
+      "result": "MATCH",
+      "expected": {
+       "value": "YES",
+       "source": "RULE"
+      },
+      "revision": 1,
+      "rule_text": "Expected answer: yes",
+      "explanation": "Answered yes; expected yes",
+      "question_code": "Q-100019",
+      "normalized_answer": "YES",
+      "question_revision_id": "Q-100019@1",
+      "rule_evaluation_equivalent": "MATCH"
+     },
+     "run_sha256": "520cbf389ec4cb06dac9b15edc057b098dcae1d229fca81f9d3a188c85d9e9ea",
+     "explanation": "Answered yes; expected yes",
+     "evidence_type": "ANSWER",
+     "simulation_id": "07930cec-ea63-487d-b9a3-06de6fe00aca",
+     "refused_inputs": []
+    },
+    {
+     "gap": null,
+     "seq": 2,
+     "item": {
+      "code": "Q-100027",
+      "name": "Q-100027",
+      "version": 1,
+      "answer_type": "NUMERIC"
+     },
+     "entry": 1,
+     "trace": [
+      1,
+      2,
+      3
+     ],
+     "result": "MISMATCH",
+     "survey": {
+      "state": "COMPLETED",
+      "position": 2,
+      "survey_code": "S-A1B3F1B990",
+      "version_label": "1.0",
+      "manifest_sha256": "0924cebdfd4f0104af118f750b170bf3966a1b8acdea6fafc138f193925c5c4b",
+      "survey_version_id": "4f00c1c3-dd22-4c97-94fb-f9cda974a797"
+     },
+     "context": null,
+     "wording": {
+      "text": "For how many years did your representative say you would pay premiums?",
+      "delivery_mode": "CONTROLLED_TTS",
+      "wording_version": 1
+     },
+     "required": true,
+     "placement": "mi-numbers/n1",
+     "evaluation": {
+      "rule": {
+       "method": "NUMERIC_COMPARE",
+       "options": [],
+       "expected": {
+        "unit": "COUNT",
+        "value": "18",
+        "operator": "GTE",
+        "tolerance": "0",
+        "tolerance_reference": null
+       },
+       "fact_key": null,
+       "answer_type": "NUMERIC"
+      },
+      "answer": {
+       "kind": "ANSWER",
+       "state": "ANSWERED",
+       "value": 1,
+       "verbatim": null
+      },
+      "method": "NUMERIC_COMPARE",
+      "result": "MISMATCH",
+      "expected": {
+       "unit": "COUNT",
+       "value": "18",
+       "source": "RULE",
+       "operator": "GTE",
+       "tolerance": "0",
+       "tolerance_reference": null
+      },
+      "revision": 1,
+      "rule_text": "Expected: at least 18 count",
+      "explanation": "Answered 1 count; expected at least 18 count from the approved value. A mismatch is a discrepancy for review, not a breach finding",
+      "question_code": "Q-100027",
+      "normalized_answer": "1",
+      "question_revision_id": "Q-100027@1",
+      "rule_evaluation_equivalent": "MISMATCH"
+     },
+     "run_sha256": "8be4d6a01ee2c369a640cca55ad72bc02a68f49691f176638411bf0ee2c8122d",
+     "explanation": "Answered 1 count; expected at least 18 count from the approved value. A mismatch is a discrepancy for review, not a breach finding",
+     "evidence_type": "ANSWER",
+     "simulation_id": "b420f31b-bf47-474e-850b-c548c6c4856d",
+     "refused_inputs": []
+    }
+   ]
+  },
+  {
+   "mapping": {
+    "id": "d46a327b-4f4b-47ab-ba09-88da6ed84e10",
+    "sha256": "7aaa385f08d499a2811c94b0f65a73f633d81598621e92cde59bfd3755ef66b5",
+    "source": "Synthetic test mapping; not a business mapping",
+    "revision": 1,
+    "combination": "ALL_REQUIRED"
+   },
+   "outcome": "UNRESOLVED",
+   "reasons": [
+    {
+     "code": "APPLICABILITY_UNKNOWN",
+     "text": "Condition C-100009 v1 is unknown for this application. Unknown is not 'does not apply'",
+     "missing": [
+      "policy.annual_premium"
+     ]
+    }
+   ],
+   "findings": 0,
+   "control_id": "c3125afd-b7de-533c-a3ad-d13a49c8599d",
+   "owner_role": "S&C (proposed)",
+   "control_code": "SYN-CTRL-02",
+   "control_name": "Needs discussed before recommendation (synthetic control)",
+   "applicability": {
+    "basis": "CONDITION",
+    "reads": [
+     "policy.annual_premium"
+    ],
+    "status": "UNKNOWN",
+    "missing": [
+     "policy.annual_premium"
+    ],
+    "condition": {
+     "code": "C-100009",
+     "sha256": "5eee8d64c2729f769bb84a4792f807fffa994421d6882a2d1d419a8d8fa61a91",
+     "version": 1
+    },
+    "explanation": "Condition C-100009 v1 is unknown for this application"
+   },
+   "control_sha256": "df2c6f7394bf01fb6266d4246e1c6f5f7c5269cb738184540e67d44e90e5e9f2",
+   "content_approval_status": "SYNTHETIC_UNAPPROVED",
+   "observations": [
+    {
+     "gap": "ITEM_NOT_IN_JOURNEY",
+     "seq": 3,
+     "item": {
+      "code": "Q-100002",
+      "name": "Q-100002",
+      "version": 1,
+      "answer_type": "YES_NO"
+     },
+     "entry": 0,
+     "trace": [],
+     "result": "NOT_ASKED",
+     "survey": null,
+     "context": null,
+     "wording": null,
+     "required": true,
+     "placement": null,
+     "evaluation": {
+      "rule": {
+       "method": "EXACT_BOOLEAN",
+       "options": [],
+       "expected": {
+        "value": true
+       },
+       "fact_key": null,
+       "answer_type": "YES_NO"
+      },
+      "answer": null,
+      "method": "EXACT_BOOLEAN",
+      "result": "NOT_ASKED",
+      "expected": null,
+      "revision": 1,
+      "rule_text": "Expected answer: yes",
+      "explanation": "Applicable but never presented to the customer, so there is no answer to evaluate",
+      "question_code": "Q-100002",
+      "normalized_answer": null,
+      "question_revision_id": "Q-100002@1",
+      "rule_evaluation_equivalent": "INDETERMINATE"
+     },
+     "run_sha256": null,
+     "explanation": "Applicable but never presented to the customer, so there is no answer to evaluate (no survey of this journey contains this exact item revision)",
+     "evidence_type": "ANSWER",
+     "simulation_id": null,
+     "refused_inputs": [],
+     "versions_in_journey": []
+    }
+   ]
+  },
+  {
+   "mapping": {
+    "id": "5fe1ea91-e5f5-480d-b282-9c4566ae8bc7",
+    "sha256": "e30c97f747bbf65933f21a49bb10b4a2d7b69fa1fe13a0c0926dbcdeb307188a",
+    "source": "Synthetic test mapping; not a business mapping",
+    "revision": 1,
+    "combination": "ALL_REQUIRED"
+   },
+   "outcome": "UNRESOLVED",
+   "reasons": [
+    {
+     "code": "APPLICABILITY_UNKNOWN",
+     "text": "Condition C-100010 v1 is unknown for this application. Unknown is not 'does not apply'",
+     "missing": [
+      "customer.age_years"
+     ]
+    }
+   ],
+   "findings": 0,
+   "control_id": "9f320bc8-21ea-5c7d-ac7e-48e717334fd9",
+   "owner_role": "S&C (proposed)",
+   "control_code": "SYN-CTRL-03",
+   "control_name": "Product understanding (synthetic control)",
+   "applicability": {
+    "basis": "CONDITION",
+    "reads": [
+     "customer.age_years"
+    ],
+    "status": "UNKNOWN",
+    "missing": [
+     "customer.age_years"
+    ],
+    "condition": {
+     "code": "C-100010",
+     "sha256": "14dce175acd412efc6855f19a1b52158c81bda4f72de3f946897d7efd9e464ac",
+     "version": 1
+    },
+    "explanation": "Condition C-100010 v1 is unknown for this application"
+   },
+   "control_sha256": "76b35f266562fe0261d18289fb9266d8a8e0ac0ebc3673237d709e6f9851474f",
+   "content_approval_status": "SYNTHETIC_UNAPPROVED",
+   "observations": [
+    {
+     "gap": "ITEM_NOT_IN_JOURNEY",
+     "seq": 4,
+     "item": {
+      "code": "Q-100005",
+      "name": "Q-100005",
+      "version": 1,
+      "answer_type": "ACKNOWLEDGEMENT"
+     },
+     "entry": 0,
+     "trace": [],
+     "result": "NOT_ASKED",
+     "survey": null,
+     "context": null,
+     "wording": null,
+     "required": true,
+     "placement": null,
+     "evaluation": {
+      "rule": {
+       "method": "ACKNOWLEDGEMENT",
+       "options": [],
+       "expected": null,
+       "fact_key": null,
+       "answer_type": "ACKNOWLEDGEMENT"
+      },
+      "answer": null,
+      "method": "ACKNOWLEDGEMENT",
+      "result": "NOT_ASKED",
+      "expected": null,
+      "revision": 1,
+      "rule_text": "Expected: the customer acknowledges",
+      "explanation": "Applicable but never presented to the customer, so there is no answer to evaluate",
+      "question_code": "Q-100005",
+      "normalized_answer": null,
+      "question_revision_id": "Q-100005@1",
+      "rule_evaluation_equivalent": "INDETERMINATE"
+     },
+     "run_sha256": null,
+     "explanation": "Applicable but never presented to the customer, so there is no answer to evaluate (no survey of this journey contains this exact item revision)",
+     "evidence_type": "ANSWER",
+     "simulation_id": null,
+     "refused_inputs": [],
+     "versions_in_journey": []
+    }
+   ]
+  },
+  {
+   "mapping": {
+    "id": "6f2838a5-be27-4d85-8844-6d2f579ee0b2",
+    "sha256": "a62ddbab121ca42998a34bf7154110ba05fa038cea0d5de84c38974414c2d6a0",
+    "source": "Synthetic test mapping; not a business mapping",
+    "revision": 1,
+    "combination": "ALL_REQUIRED"
+   },
+   "outcome": "INSUFFICIENT_EVIDENCE",
+   "reasons": [
+    {
+     "gap": "ITEM_NOT_IN_JOURNEY",
+     "code": "EVIDENCE_NOT_ASKED",
+     "item": "Q-100004@1",
+     "text": "Q-100004 v1 (no survey of this journey): Applicable but never presented to the customer, so there is no answer to evaluate (no survey of this journey contains this exact item revision)"
+    }
+   ],
+   "findings": 1,
+   "control_id": "433c2bf5-e034-5c11-96a0-8c78b314f28a",
+   "owner_role": "S&C (proposed)",
+   "control_code": "SYN-CTRL-04",
+   "control_name": "Premium term and affordability (synthetic control)",
+   "applicability": {
+    "basis": "DECLARED_FOR_EVERY_JOURNEY",
+    "status": "APPLICABLE",
+    "explanation": "The governed mapping declares this control for every journey of its market"
+   },
+   "control_sha256": "95bb70d95721fd7bcd11b1b739d8b4ed217011eb54ecc56e059f9feee707f8c8",
+   "content_approval_status": "SYNTHETIC_UNAPPROVED",
+   "observations": [
+    {
+     "gap": "ITEM_NOT_IN_JOURNEY",
+     "seq": 5,
+     "item": {
+      "code": "Q-100004",
+      "name": "Q-100004",
+      "version": 1,
+      "answer_type": "YES_NO"
+     },
+     "entry": 0,
+     "trace": [],
+     "result": "NOT_ASKED",
+     "survey": null,
+     "context": null,
+     "wording": null,
+     "required": true,
+     "placement": null,
+     "evaluation": {
+      "rule": {
+       "method": "EXACT_BOOLEAN",
+       "options": [],
+       "expected": {
+        "value": true
+       },
+       "fact_key": null,
+       "answer_type": "YES_NO"
+      },
+      "answer": null,
+      "method": "EXACT_BOOLEAN",
+      "result": "NOT_ASKED",
+      "expected": null,
+      "revision": 1,
+      "rule_text": "Expected answer: yes",
+      "explanation": "Applicable but never presented to the customer, so there is no answer to evaluate",
+      "question_code": "Q-100004",
+      "normalized_answer": null,
+      "question_revision_id": "Q-100004@1",
+      "rule_evaluation_equivalent": "INDETERMINATE"
+     },
+     "run_sha256": null,
+     "explanation": "Applicable but never presented to the customer, so there is no answer to evaluate (no survey of this journey contains this exact item revision)",
+     "evidence_type": "ANSWER",
+     "simulation_id": null,
+     "refused_inputs": [],
+     "versions_in_journey": []
+    }
+   ]
+  },
+  {
+   "mapping": null,
+   "outcome": "UNRESOLVED",
+   "reasons": [
+    {
+     "code": "MAPPING_MISSING",
+     "text": "No published mapping connects this control to survey evidence in this market. It is not treated as satisfied, and not as unnecessary"
+    }
+   ],
+   "findings": 0,
+   "control_id": "6592fef3-df57-5d40-90ea-6b3337fc855e",
+   "owner_role": "S&C (proposed)",
+   "control_code": "SYN-CTRL-05",
+   "control_name": "Elevated-risk review (synthetic control)",
+   "applicability": {
+    "status": "NOT_DETERMINED",
+    "explanation": "Without a published mapping nothing says when this control applies"
+   },
+   "control_sha256": "dca03cc64a7b009ba201d75fa0fd7d750ba4b097612910f7e6e4e89b149f575b",
+   "content_approval_status": "SYNTHETIC_UNAPPROVED",
+   "observations": []
+  }
+ ],
+ "findings": [
+  {
+   "item": {
+    "code": "Q-100027",
+    "name": "Q-100027",
+    "version": 1,
+    "answer_type": "NUMERIC"
+   },
+   "rule": {
+    "text": "FR-EVAL-MISMATCH: when questions linked to control SYN-CTRL-01 is mismatch \u2192 fact mismatch finding, severity MEDIUM, human review required",
+    "rule_set": {
+     "label": "SG finding rules v1",
+     "sha256": "2a18dec97114ba20369b839c5205450fa5654239632d372b665ab2c28d089194",
+     "status": "PUBLISHED",
+     "version_id": "978b7ad0-7061-4925-ac7a-a7ab7b8a2f29"
+    },
+    "rule_code": "FR-EVAL-MISMATCH"
+   },
+   "engine": "call360.finding-engine/1 (S3-B deterministic)",
+   "survey": {
+    "state": "COMPLETED",
+    "position": 2,
+    "survey_code": "S-A1B3F1B990",
+    "version_label": "1.0",
+    "manifest_sha256": "0924cebdfd4f0104af118f750b170bf3966a1b8acdea6fafc138f193925c5c4b",
+    "survey_version_id": "4f00c1c3-dd22-4c97-94fb-f9cda974a797"
+   },
+   "trigger": "MISMATCH",
+   "category": "FACT_MISMATCH",
+   "controls": [
+    {
+     "control_code": "SYN-CTRL-01",
+     "control_name": "Representative disclosure (synthetic control)",
+     "mapping_status": "PUBLISHED",
+     "regulatory_reference": null
+    }
+   ],
+   "evidence": {
+    "answer": {
+     "kind": "ANSWER",
+     "state": "ANSWERED",
+     "value": 1,
+     "verbatim": null
+    },
+    "case_ref": null,
+    "expected": {
+     "unit": "COUNT",
+     "value": "18",
+     "source": "RULE",
+     "operator": "GTE",
+     "tolerance": "0",
+     "tolerance_reference": null
+    },
+    "fact_source": {
+     "ref": null,
+     "kind": "SYNTHETIC_APPLICATION_NO_POLICY_FACTS",
+     "sha256": null
+    },
+    "script_label": "S-A1B3F1B990 1.0",
+    "execution_ref": "b420f31b-bf47-474e-850b-c548c6c4856d#mi-numbers/n1#SYN-CTRL-01#1",
+    "content_sha256": "0924cebdfd4f0104af118f750b170bf3966a1b8acdea6fafc138f193925c5c4b",
+    "evaluation_ref": null,
+    "evaluation_rule": "Expected: at least 18 count",
+    "evaluation_engine": "call360.answer-evaluation/1 (S3-A deterministic)",
+    "evaluation_result": "MISMATCH",
+    "normalized_answer": "1",
+    "script_version_id": "4f00c1c3-dd22-4c97-94fb-f9cda974a797",
+    "evaluation_explanation": "Answered 1 count; expected at least 18 count from the approved value. A mismatch is a discrepancy for review, not a breach finding"
+   },
+   "revision": 1,
+   "severity": "MEDIUM",
+   "mandatory": true,
+   "placement": "mi-numbers/n1",
+   "description": "Synthetic test rule for mismatch",
+   "explanation": "Q-100027 was evaluated mismatch (Answered 1 count; expected at least 18 count from the approved value. A mismatch is a discrepancy for review, not a breach finding); rule FR-EVAL-MISMATCH applies because Q-100027 is linked to control SYN-CTRL-01. Customer discrepancy, not a breach determination.",
+   "finding_key": "84148c418bc92a223d57682e72ed7de6d05db7fcc7f826dc0535e9e5e530da8c",
+   "control_code": "SYN-CTRL-01",
+   "finding_class": "CUSTOMER_DISCREPANCY",
+   "question_code": "Q-100027",
+   "simulation_id": "b420f31b-bf47-474e-850b-c548c6c4856d",
+   "observation_seq": 2,
+   "review_required": true,
+   "severity_source": "Finding rule FR-EVAL-MISMATCH in rule set SG finding rules v1",
+   "control_unmapped": false,
+   "question_revision_id": "Q-100027@1",
+   "severity_justification": "Synthetic severity for the tests only"
+  },
+  {
+   "item": {
+    "code": "Q-100004",
+    "name": "Q-100004",
+    "version": 1,
+    "answer_type": "YES_NO"
+   },
+   "rule": {
+    "text": "FR-EVAL-NOT-ASKED: when any mandatory question is not asked \u2192 missing mandatory answer finding, severity LOW, human review required",
+    "rule_set": {
+     "label": "SG finding rules v1",
+     "sha256": "2a18dec97114ba20369b839c5205450fa5654239632d372b665ab2c28d089194",
+     "status": "PUBLISHED",
+     "version_id": "978b7ad0-7061-4925-ac7a-a7ab7b8a2f29"
+    },
+    "rule_code": "FR-EVAL-NOT-ASKED"
+   },
+   "engine": "call360.finding-engine/1 (S3-B deterministic)",
+   "survey": null,
+   "trigger": "NOT_ASKED",
+   "category": "MISSING_MANDATORY_ANSWER",
+   "controls": [
+    {
+     "control_code": "SYN-CTRL-04",
+     "control_name": "Premium term and affordability (synthetic control)",
+     "mapping_status": "PUBLISHED",
+     "regulatory_reference": null
+    }
+   ],
+   "evidence": {
+    "answer": null,
+    "case_ref": null,
+    "expected": null,
+    "fact_source": {
+     "ref": null,
+     "kind": "SYNTHETIC_APPLICATION_NO_POLICY_FACTS",
+     "sha256": null
+    },
+    "script_label": null,
+    "execution_ref": "no-execution#absent#SYN-CTRL-04#0",
+    "content_sha256": null,
+    "evaluation_ref": null,
+    "evaluation_rule": "Expected answer: yes",
+    "evaluation_engine": "call360.answer-evaluation/1 (S3-A deterministic)",
+    "evaluation_result": "NOT_ASKED",
+    "normalized_answer": null,
+    "script_version_id": null,
+    "evaluation_explanation": "Applicable but never presented to the customer, so there is no answer to evaluate"
+   },
+   "revision": 1,
+   "severity": "LOW",
+   "mandatory": true,
+   "placement": null,
+   "description": "Synthetic test rule for not_asked",
+   "explanation": "Q-100004 was evaluated not asked (Applicable but never presented to the customer, so there is no answer to evaluate); rule FR-EVAL-NOT-ASKED applies because its rule covers any mandatory question. Missing evidence, not a breach determination.",
+   "finding_key": "85e6c5e4f600287823983077ee2b6ba5b17f78e21a42c909519600030a90f11d",
+   "control_code": "SYN-CTRL-04",
+   "finding_class": "MISSING_EVIDENCE",
+   "question_code": "Q-100004",
+   "simulation_id": null,
+   "observation_seq": 5,
+   "review_required": true,
+   "severity_source": "Finding rule FR-EVAL-NOT-ASKED in rule set SG finding rules v1",
+   "control_unmapped": false,
+   "question_revision_id": "Q-100004@1",
+   "severity_justification": "Synthetic severity for the tests only"
+  }
+ ],
+ "not_converted": [],
+ "human_assessment": [],
+ "pins": {
+  "engines": {
+   "findings": "call360.finding-engine/1 (S3-B deterministic)",
+   "answer_evaluation": "call360.answer-evaluation/1 (S3-A deterministic)"
+  },
+  "journey": {
+   "id": "1fa595d8-efe7-4062-a88e-4cdffe0fb3ea",
+   "kind": "COORDINATED",
+   "trusted": true,
+   "replay_sha256": "29914fb492e4d880acd4ed2e91f486bf118c99054c153989cc5fbe74949e2190",
+   "application_sha256": "5d8c360efa66cc50dac9b2a1c09cf19fb6e7ed9e385143b0be6e40f6e17610af"
+  },
+  "contract": "call360.survey.control-evaluation/1",
+  "controls": [
+   {
+    "id": "f85f40ec-7eba-537e-bbe5-1379578d7e4f",
+    "sha256": "1cc4490c0d3fb3ca90a6bf540c35785e897f05dda848d540afe7220c7d07bc95",
+    "control_code": "SYN-CTRL-01"
+   },
+   {
+    "id": "c3125afd-b7de-533c-a3ad-d13a49c8599d",
+    "sha256": "df2c6f7394bf01fb6266d4246e1c6f5f7c5269cb738184540e67d44e90e5e9f2",
+    "control_code": "SYN-CTRL-02"
+   },
+   {
+    "id": "9f320bc8-21ea-5c7d-ac7e-48e717334fd9",
+    "sha256": "76b35f266562fe0261d18289fb9266d8a8e0ac0ebc3673237d709e6f9851474f",
+    "control_code": "SYN-CTRL-03"
+   },
+   {
+    "id": "433c2bf5-e034-5c11-96a0-8c78b314f28a",
+    "sha256": "95bb70d95721fd7bcd11b1b739d8b4ed217011eb54ecc56e059f9feee707f8c8",
+    "control_code": "SYN-CTRL-04"
+   },
+   {
+    "id": "6592fef3-df57-5d40-90ea-6b3337fc855e",
+    "sha256": "dca03cc64a7b009ba201d75fa0fd7d750ba4b097612910f7e6e4e89b149f575b",
+    "control_code": "SYN-CTRL-05"
+   }
+  ],
+  "mappings": [
+   {
+    "id": "3ec48eb1-9607-4b6f-95bb-55eb8ba138d1",
+    "sha256": "04f8f3dfcf998fd05c743cfb41055b801d562abc0f856815c2692b2e1588b0b4",
+    "revision": 2,
+    "control_code": "SYN-CTRL-01"
+   },
+   {
+    "id": "d46a327b-4f4b-47ab-ba09-88da6ed84e10",
+    "sha256": "7aaa385f08d499a2811c94b0f65a73f633d81598621e92cde59bfd3755ef66b5",
+    "revision": 1,
+    "control_code": "SYN-CTRL-02"
+   },
+   {
+    "id": "5fe1ea91-e5f5-480d-b282-9c4566ae8bc7",
+    "sha256": "e30c97f747bbf65933f21a49bb10b4a2d7b69fa1fe13a0c0926dbcdeb307188a",
+    "revision": 1,
+    "control_code": "SYN-CTRL-03"
+   },
+   {
+    "id": "6f2838a5-be27-4d85-8844-6d2f579ee0b2",
+    "sha256": "a62ddbab121ca42998a34bf7154110ba05fa038cea0d5de84c38974414c2d6a0",
+    "revision": 1,
+    "control_code": "SYN-CTRL-04"
+   }
+  ],
+  "executions": [
+   {
+    "position": 1,
+    "run_sha256": "520cbf389ec4cb06dac9b15edc057b098dcae1d229fca81f9d3a188c85d9e9ea",
+    "simulation_id": "07930cec-ea63-487d-b9a3-06de6fe00aca",
+    "engine_contract": "call360.survey.execution/1",
+    "manifest_sha256": "4166e831a044602e5a9f9b79ccb7d172599c6308136360d791df5a252c3cd242",
+    "survey_version_id": "7dbb9b50-9771-483e-99a9-c0ad9231a06e"
+   },
+   {
+    "position": 2,
+    "run_sha256": "8be4d6a01ee2c369a640cca55ad72bc02a68f49691f176638411bf0ee2c8122d",
+    "simulation_id": "b420f31b-bf47-474e-850b-c548c6c4856d",
+    "engine_contract": "call360.survey.execution/1",
+    "manifest_sha256": "0924cebdfd4f0104af118f750b170bf3966a1b8acdea6fafc138f193925c5c4b",
+    "survey_version_id": "4f00c1c3-dd22-4c97-94fb-f9cda974a797"
+   }
+  ],
+  "finding_rule_set": {
+   "label": "SG finding rules v1",
+   "sha256": "2a18dec97114ba20369b839c5205450fa5654239632d372b665ab2c28d089194",
+   "version_id": "978b7ad0-7061-4925-ac7a-a7ab7b8a2f29"
+  }
+ },
+ "input_sha256": "677d345021bb1a2bfdf880c5a48fe9a0897998357dfb3d784a48d3b1eabf05df",
+ "result_sha256": "05530ab5fa1b492511a916eba32c24d4ac55275bf506745d58cadb41acd386b6",
+ "replay": {
+  "consistent": true,
+  "code": null,
+  "reasons": [],
+  "recorded_result_sha256": "05530ab5fa1b492511a916eba32c24d4ac55275bf506745d58cadb41acd386b6",
+  "recomputed_result_sha256": "05530ab5fa1b492511a916eba32c24d4ac55275bf506745d58cadb41acd386b6"
+ },
+ "superseded_by_current_governance": []
+}

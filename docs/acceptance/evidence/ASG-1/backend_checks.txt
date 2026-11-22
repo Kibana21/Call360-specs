@@ -1,0 +1,11 @@
+All checks passed!
+ruff exit=0
+226 files already formatted
+ruff format exit=0
+Success: no issues found in 109 source files
+mypy exit=0
+OpenAPI matches (38f2034b65bf520e0e4b32b8f413bf9c0789b6fac314f7abc8d451ffbf64c74b)
+openapi check exit=0
+Canonical fixture documents match (27 files)
+Python engine results match (27 files, 82 runs, 14 plans)
+python results check exit=0

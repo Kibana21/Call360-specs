@@ -1,0 +1,17 @@
+ready: 200
+dev.survey.author survey permissions: ['survey.edit', 'survey.read', 'survey.simulate']
+dev.survey.checker survey permissions: ['survey.approve', 'survey.read']
+surveys still listed: [('DEV-CHECK-AD5AEA8F', 10, '1.0'), ('S-DEV-FI2-WALKTHROUGH', 1, '1.0'), ('S-DEV-LIB-COPY', 1, None), ('S-DEV-LIB-PIN', 4, None)]
+simulating published version: DEV-CHECK-AD5AEA8F v1.0
+simulation created: SIMULATION | status PENDING | contract call360.survey.execution/1 | consistent True
+  first question (exact wording): 'Is that clear to you?' | type YES_NO
+  empty answer: 200 | accepted False | code CHOICE_REQUIRED | same question current True
+  answers submitted: 5 | status TERMINAL | terminal {"state": "COMPLETED", "survey_outcome": "COMPLETED"} | delivered items 6 | trace events 27
+replay in a new simulation: identical run fingerprint True | different record True
+read again by another person (survey.read): 200 | consistent True | same fingerprint True
+call plan: SIMULATION | status READY | fingerprint verified True | recompute consistent True | same fingerprint twice True | modules [('mi-topics', 'IN'), ('mi-recap', 'IN'), ('mi-recap-2', 'IN')]
+read-only person (survey.read, no survey.simulate): create simulation -> 403 | advance -> 403 | create plan -> 403
+survey assignment (ASG-1, not enabled in development): 404
+existing screens still answer: survey components 200 | candidate history 200
+simulation records: {'survey_simulation': 0, 'survey_simulation_input': 0, 'survey_call_plan': 0} -> {'survey_simulation': 2, 'survey_simulation_input': 10, 'survey_call_plan': 2}
+operational tables unchanged: True | {'callback_case': 258, 'contact_attempt': 415, 'conversation_session': 95, 'survey_run': 82, 'answer_observation': 555, 'script_assignment': 251, 'finding': 26, 'media_asset': 18, 'transcript_run': 18, 'transcript_segment': 47}

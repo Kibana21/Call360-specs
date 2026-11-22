@@ -1,0 +1,4 @@
+  ✓  12 [prototype] › e2e/prototype/uc01.proto.ts:25:1 › UC-01: statements, typed answers, wording with variables, delivery and the call plan, on one model (9.4s)
+  ✓  13 [prototype] › e2e/prototype/uc02.proto.ts:24:1 › UC-02: a computable plan is never a live-call approval; the plan is compact and opens on demand (6.1s)
+
+  13 passed (4.1m)

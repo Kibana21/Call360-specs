@@ -1,0 +1,7 @@
+ruff check: All checks passed!
+ruff format: 241 files already formatted
+mypy: Success: no issues found in 117 source files
+openapi: Wrote contracts/generated/openapi.json (97a911a983cf045c1bb68e9541822e0889f1de47e9babbe791976bf5ed9b5ce5)
+operations 256 (246 before + 10) | schemas 490 (477 before + 13)
+pytest (schema call360_test only): 831 collected, exit code 0, 0 failed, 0 errors (825 before EVAL-1 + 6 in tests/test_survey_evaluation.py)
+golden parity: tests/test_survey_execution.py (82 expected runs of 27 fixtures) and tests/test_survey_callplan.py (14 expected plans) pass unchanged; fixture files not modified: 0 changed

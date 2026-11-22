@@ -1,0 +1,626 @@
+{
+ "id": "6f2ad6fb-db57-45b7-b8ec-5e015071349e",
+ "record_class": "SIMULATION",
+ "note": "SIMULATION ONLY, for a synthetic application. A set of selected surveys and a composite plan are not an assignment of any survey to any customer case, and not an authorisation or eligibility for any call.",
+ "market_code": "SG",
+ "contract": "call360.survey.composite-plan/1",
+ "evaluated_at": "2026-11-22T12:13:26.392659+08:00",
+ "created_at": "2026-11-22T12:13:26.388968+08:00",
+ "application_sha256": "a745c394814abd0f16583c007688f9a5edf89f6c4a3aacf92aeebec51ffffb27",
+ "selection_status": "RESOLVED",
+ "ordering_status": "GOVERNED",
+ "plan_status": "READY",
+ "fingerprint": "f6ee2dcfb32f86611b2b131e999e36c44e9165a926f9fd4258e78a63abd5e16a",
+ "fingerprint_verified": true,
+ "recomputed_fingerprint": "f6ee2dcfb32f86611b2b131e999e36c44e9165a926f9fd4258e78a63abd5e16a",
+ "recompute_consistent": true,
+ "composite": {
+  "engine": "call360.assignment-engine/1 + survey-binding/1",
+  "market": "SG",
+  "policy": {
+   "rules": [
+    "C-AGENCY v1",
+    "C-STD v1",
+    "P-ILP v1",
+    "P-LIFE v1",
+    "R-CI v1",
+    "R-REPL v1"
+   ],
+   "groups": [
+    {
+     "id": "6cbc9e64-8f36-45eb-b05b-029273f2c39b",
+     "code": "PRIMARY-SG",
+     "kind": "PRIMARY",
+     "version": 1,
+     "sequence": 1
+    },
+    {
+     "id": "5d142bd5-ee86-48b8-ad35-37c4728bda5b",
+     "code": "ADD-CI",
+     "kind": "ADD_REQUIRED",
+     "version": 1,
+     "sequence": null
+    },
+    {
+     "id": "630fe73e-9a01-4346-903d-f11627e438a1",
+     "code": "ADD-REPLACEMENT",
+     "kind": "ADD_REQUIRED",
+     "version": 1,
+     "sequence": 2
+    },
+    {
+     "id": "d4f96288-377c-48f1-bdf8-c7d13862cec3",
+     "code": "ALT-CLOSING",
+     "kind": "ALTERNATIVE",
+     "version": 1,
+     "sequence": 9
+    }
+   ],
+   "bindings": [
+    "191920d5-4a09-47e4-a640-bf398491d2e0",
+    "1e4ad88c-3b0f-4ab8-9035-dc9c825c08a1",
+    "3833e36d-9861-40c0-be1e-b7f18cf6a031",
+    "5489d8b0-5890-49c2-9cd1-0a579f74d582",
+    "8442df94-c061-4ec0-a649-0268c70053b1",
+    "bbe159e3-5c58-49d2-a338-783aaf3a4e16"
+   ]
+  },
+  "schema": "call360.survey.composite-plan/1",
+  "ordering": {
+   "order": [
+    "PRIMARY-SG",
+    "ADD-REPLACEMENT",
+    "ALT-CLOSING"
+   ],
+   "reason": null,
+   "status": "GOVERNED",
+   "listing": [
+    "PRIMARY-SG",
+    "ADD-REPLACEMENT",
+    "ALT-CLOSING"
+   ]
+  },
+  "selected": [
+   {
+    "kind": "PRIMARY",
+    "rule": "P-LIFE v1",
+    "group": "PRIMARY-SG",
+    "reason": "P-LIFE v1 is the highest-precedence matching rule (priority 1, specificity 2)",
+    "binding_id": "bbe159e3-5c58-49d2-a338-783aaf3a4e16",
+    "by_fallback": false,
+    "plan_status": "READY",
+    "survey_code": "S-94B79F74AC",
+    "survey_name": "Survey LIFE",
+    "version_label": "1.0",
+    "content_sha256": "450bf9af7b002693ab71fa4becc3c8c6eef6b9eeac825765075cb7b5ce0cb83b",
+    "manifest_sha256": "701d42f00c6f5d3727d5235c8ec0817c73e80a8b8f1316656c6b1e371bf51f1d",
+    "plan_fingerprint": "25b6c34b17b4cbf53e8c24ffbc301eb28f9085c83f1fe9be063bdc1eac494eeb",
+    "survey_version_id": "e10ade1f-2a77-4e10-91aa-7502fd5cd88b"
+   },
+   {
+    "kind": "ADD_REQUIRED",
+    "rule": "R-REPL v1",
+    "group": "ADD-REPLACEMENT",
+    "reason": "R-REPL v1 is the highest-precedence matching rule (priority 2, specificity 2)",
+    "binding_id": "5489d8b0-5890-49c2-9cd1-0a579f74d582",
+    "by_fallback": false,
+    "plan_status": "READY",
+    "survey_code": "S-C7FEE17B0D",
+    "survey_name": "Survey REPLACEMENT",
+    "version_label": "1.0",
+    "content_sha256": "5cf08cfee8db0805aef48b85a36495c13a4aec3f75c3fbc4cc93e1dbd2f58bd9",
+    "manifest_sha256": "eee0379062fe0e01b7192931a5416d61d6208e7848cd72e1bc6c2942d52e8160",
+    "plan_fingerprint": "02228067d93b93e34dcfb04e6b01c663241992178f13e3862c3927ba80060a1d",
+    "survey_version_id": "b74c09d2-f7df-4868-95fa-c9898c5f7a85"
+   },
+   {
+    "kind": "ALTERNATIVE",
+    "rule": "C-STD v1",
+    "group": "ALT-CLOSING",
+    "reason": "C-STD v1 is the highest-precedence matching rule (priority 5, specificity 1)",
+    "binding_id": "191920d5-4a09-47e4-a640-bf398491d2e0",
+    "by_fallback": false,
+    "plan_status": "READY",
+    "survey_code": "S-E0E4F56818",
+    "survey_name": "Survey CLOSING-STD",
+    "version_label": "1.0",
+    "content_sha256": "4bd6eb893112d1001a36f5f55b4e18dc5ae23cfb88a8223810b2c4a006c0fdc5",
+    "manifest_sha256": "b5e24990882b0de2fc805ca13433077790609b6575536915bdd389e476920b6c",
+    "plan_fingerprint": "ffc7f26526f61f80df7332338e50a299f9b24fbd47e9897090a5ef6e951017b2",
+    "survey_version_id": "9d8c272c-0abf-4064-894d-e5e489a9f91c"
+   }
+  ],
+  "application": {
+   "facts": {
+    "customer.age_years": 40,
+    "policy.annual_premium": 3000,
+    "policy.is_replacement": true
+   },
+   "sha256": "a745c394814abd0f16583c007688f9a5edf89f6c4a3aacf92aeebec51ffffb27",
+   "assignment_inputs": {
+    "is_ilp": false,
+    "market": "SG",
+    "risk_band": "LOW",
+    "case_purpose": "SALE_VERIFICATION",
+    "contact_role": [
+     "OWNER"
+    ],
+    "product_code": "SYN-END-SAVER",
+    "product_family": "PROTECTION",
+    "selling_channel": "BROKER",
+    "premium_frequency": "SINGLE"
+   }
+  },
+  "fingerprint": "f6ee2dcfb32f86611b2b131e999e36c44e9165a926f9fd4258e78a63abd5e16a",
+  "plan_status": "READY",
+  "requirements": [
+   {
+    "plan": {
+     "items": 6,
+     "issues": [],
+     "status": "READY",
+     "modules": [
+      {
+       "name": "Call",
+       "status": "IN",
+       "instance": "mi-call"
+      }
+     ],
+     "fingerprint": "25b6c34b17b4cbf53e8c24ffbc301eb28f9085c83f1fe9be063bdc1eac494eeb",
+     "open_points": 2,
+     "missing_facts": []
+    },
+    "group": {
+     "id": "6cbc9e64-8f36-45eb-b05b-029273f2c39b",
+     "code": "PRIMARY-SG",
+     "kind": "PRIMARY",
+     "name": "Primary survey",
+     "purpose": "The main verification survey of the application",
+     "version": 1,
+     "sequence": 1
+    },
+    "state": "SELECTED",
+    "trace": [
+     {
+      "ref": "P-ILP v1",
+      "tied": false,
+      "match": "NO_MATCH",
+      "origin": "PUBLISHED",
+      "eligible": true,
+      "priority": 1,
+      "selected": false,
+      "rule_code": "P-ILP",
+      "binding_id": "1e4ad88c-3b0f-4ab8-9035-dc9c825c08a1",
+      "conditions": [
+       {
+        "field": "market",
+        "actual": "SG",
+        "result": "PASS",
+        "expected": [
+         "SG"
+        ]
+       },
+       {
+        "field": "product_family",
+        "actual": "PROTECTION",
+        "result": "FAIL",
+        "expected": [
+         "ILP"
+        ]
+       }
+      ],
+      "is_fallback": false,
+      "specificity": 2,
+      "target_label": "S-445F5FEACA v1.0",
+      "excluded_reason": null,
+      "survey_version_id": "f5bd8fab-f39e-424d-b5e9-c55e2cdca9f5",
+      "survey_version_status": "PUBLISHED"
+     },
+     {
+      "ref": "P-LIFE v1",
+      "tied": false,
+      "match": "MATCH",
+      "origin": "PUBLISHED",
+      "eligible": true,
+      "priority": 1,
+      "selected": true,
+      "rule_code": "P-LIFE",
+      "binding_id": "bbe159e3-5c58-49d2-a338-783aaf3a4e16",
+      "conditions": [
+       {
+        "field": "market",
+        "actual": "SG",
+        "result": "PASS",
+        "expected": [
+         "SG"
+        ]
+       },
+       {
+        "field": "product_family",
+        "actual": "PROTECTION",
+        "result": "PASS",
+        "expected": [
+         "PROTECTION"
+        ]
+       }
+      ],
+      "is_fallback": false,
+      "specificity": 2,
+      "target_label": "S-94B79F74AC v1.0",
+      "excluded_reason": null,
+      "survey_version_id": "e10ade1f-2a77-4e10-91aa-7502fd5cd88b",
+      "survey_version_status": "PUBLISHED"
+     }
+    ],
+    "reason": "P-LIFE v1 is the highest-precedence matching rule (priority 1, specificity 2)",
+    "outcome": "SELECTED",
+    "selected": {
+     "rule": "P-LIFE v1",
+     "binding_id": "bbe159e3-5c58-49d2-a338-783aaf3a4e16",
+     "survey_code": "S-94B79F74AC",
+     "survey_name": "Survey LIFE",
+     "version_label": "1.0",
+     "content_sha256": "450bf9af7b002693ab71fa4becc3c8c6eef6b9eeac825765075cb7b5ce0cb83b",
+     "manifest_sha256": "701d42f00c6f5d3727d5235c8ec0817c73e80a8b8f1316656c6b1e371bf51f1d",
+     "rule_version_id": "38eca987-1a81-4a47-a8cf-4e4781bcce94",
+     "survey_version_id": "e10ade1f-2a77-4e10-91aa-7502fd5cd88b"
+    },
+    "selection": "MATCHED",
+    "by_fallback": false,
+    "would_select": null,
+    "winning_rules": [
+     "P-LIFE v1"
+    ],
+    "missing_inputs": []
+   },
+   {
+    "group": {
+     "id": "5d142bd5-ee86-48b8-ad35-37c4728bda5b",
+     "code": "ADD-CI",
+     "kind": "ADD_REQUIRED",
+     "name": "ADD-CI group",
+     "purpose": "The critical-illness survey, required when the policy has a CI rider",
+     "version": 1,
+     "sequence": null
+    },
+    "state": "NOT_APPLICABLE",
+    "trace": [
+     {
+      "ref": "R-CI v1",
+      "tied": false,
+      "match": "NO_MATCH",
+      "origin": "PUBLISHED",
+      "eligible": true,
+      "priority": 3,
+      "selected": false,
+      "rule_code": "R-CI",
+      "binding_id": "8442df94-c061-4ec0-a649-0268c70053b1",
+      "conditions": [
+       {
+        "field": "market",
+        "actual": "SG",
+        "result": "PASS",
+        "expected": [
+         "SG"
+        ]
+       },
+       {
+        "field": "product_family",
+        "actual": "PROTECTION",
+        "result": "PASS",
+        "expected": [
+         "PROTECTION"
+        ]
+       },
+       {
+        "field": "selling_channel",
+        "actual": "BROKER",
+        "result": "FAIL",
+        "expected": [
+         "BANCASSURANCE"
+        ]
+       }
+      ],
+      "is_fallback": false,
+      "specificity": 3,
+      "target_label": "S-85B05B7E5D v1.0",
+      "excluded_reason": null,
+      "survey_version_id": "e1b6993d-d50d-4bf1-bae7-dd2b574bde32",
+      "survey_version_status": "PUBLISHED"
+     }
+    ],
+    "reason": "No published, effective rule matches this case; no survey can be selected",
+    "outcome": "NO_MATCH",
+    "selected": null,
+    "selection": "NO_MATCH",
+    "by_fallback": false,
+    "would_select": null,
+    "winning_rules": [],
+    "missing_inputs": []
+   },
+   {
+    "plan": {
+     "items": 4,
+     "issues": [],
+     "status": "READY",
+     "modules": [
+      {
+       "name": "Opening",
+       "status": "IN",
+       "instance": "mi-opening"
+      },
+      {
+       "name": "High value review",
+       "status": "OUT",
+       "instance": "mi-high-value"
+      },
+      {
+       "name": "Policy replacement",
+       "status": "IN",
+       "instance": "mi-replacement"
+      },
+      {
+       "name": "Senior customer",
+       "status": "OUT",
+       "instance": "mi-senior"
+      },
+      {
+       "name": "Closing",
+       "status": "IN",
+       "instance": "mi-closing"
+      }
+     ],
+     "fingerprint": "02228067d93b93e34dcfb04e6b01c663241992178f13e3862c3927ba80060a1d",
+     "open_points": 2,
+     "missing_facts": []
+    },
+    "group": {
+     "id": "630fe73e-9a01-4346-903d-f11627e438a1",
+     "code": "ADD-REPLACEMENT",
+     "kind": "ADD_REQUIRED",
+     "name": "ADD-REPLACEMENT group",
+     "purpose": "The replacement survey, required when the sale replaces an existing policy",
+     "version": 1,
+     "sequence": 2
+    },
+    "state": "SELECTED",
+    "trace": [
+     {
+      "ref": "R-REPL v1",
+      "tied": false,
+      "match": "MATCH",
+      "origin": "PUBLISHED",
+      "eligible": true,
+      "priority": 2,
+      "selected": true,
+      "rule_code": "R-REPL",
+      "binding_id": "5489d8b0-5890-49c2-9cd1-0a579f74d582",
+      "conditions": [
+       {
+        "field": "market",
+        "actual": "SG",
+        "result": "PASS",
+        "expected": [
+         "SG"
+        ]
+       },
+       {
+        "field": "premium_frequency",
+        "actual": "SINGLE",
+        "result": "PASS",
+        "expected": [
+         "SINGLE"
+        ]
+       }
+      ],
+      "is_fallback": false,
+      "specificity": 2,
+      "target_label": "S-C7FEE17B0D v1.0",
+      "excluded_reason": null,
+      "survey_version_id": "b74c09d2-f7df-4868-95fa-c9898c5f7a85",
+      "survey_version_status": "PUBLISHED"
+     }
+    ],
+    "reason": "R-REPL v1 is the highest-precedence matching rule (priority 2, specificity 2)",
+    "outcome": "SELECTED",
+    "selected": {
+     "rule": "R-REPL v1",
+     "binding_id": "5489d8b0-5890-49c2-9cd1-0a579f74d582",
+     "survey_code": "S-C7FEE17B0D",
+     "survey_name": "Survey REPLACEMENT",
+     "version_label": "1.0",
+     "content_sha256": "5cf08cfee8db0805aef48b85a36495c13a4aec3f75c3fbc4cc93e1dbd2f58bd9",
+     "manifest_sha256": "eee0379062fe0e01b7192931a5416d61d6208e7848cd72e1bc6c2942d52e8160",
+     "rule_version_id": "ba225bfa-589b-4456-b7dc-482f72ce8b58",
+     "survey_version_id": "b74c09d2-f7df-4868-95fa-c9898c5f7a85"
+    },
+    "selection": "MATCHED",
+    "by_fallback": false,
+    "would_select": null,
+    "winning_rules": [
+     "R-REPL v1"
+    ],
+    "missing_inputs": []
+   },
+   {
+    "plan": {
+     "items": 3,
+     "issues": [],
+     "status": "READY",
+     "modules": [
+      {
+       "name": "Acknowledgement",
+       "status": "IN",
+       "instance": "mi-ack"
+      }
+     ],
+     "fingerprint": "ffc7f26526f61f80df7332338e50a299f9b24fbd47e9897090a5ef6e951017b2",
+     "open_points": 0,
+     "missing_facts": []
+    },
+    "group": {
+     "id": "d4f96288-377c-48f1-bdf8-c7d13862cec3",
+     "code": "ALT-CLOSING",
+     "kind": "ALTERNATIVE",
+     "name": "ALT-CLOSING group",
+     "purpose": "The closing survey: one of the competing closing surveys",
+     "version": 1,
+     "sequence": 9
+    },
+    "state": "SELECTED",
+    "trace": [
+     {
+      "ref": "C-AGENCY v1",
+      "tied": false,
+      "match": "NO_MATCH",
+      "origin": "PUBLISHED",
+      "eligible": true,
+      "priority": 5,
+      "selected": false,
+      "rule_code": "C-AGENCY",
+      "binding_id": "3833e36d-9861-40c0-be1e-b7f18cf6a031",
+      "conditions": [
+       {
+        "field": "market",
+        "actual": "SG",
+        "result": "PASS",
+        "expected": [
+         "SG"
+        ]
+       },
+       {
+        "field": "selling_channel",
+        "actual": "BROKER",
+        "result": "FAIL",
+        "expected": [
+         "AGENCY"
+        ]
+       }
+      ],
+      "is_fallback": false,
+      "specificity": 2,
+      "target_label": "S-CC25946B27 v1.0",
+      "excluded_reason": null,
+      "survey_version_id": "34405ad1-048a-43a6-b441-d3656d6ac501",
+      "survey_version_status": "PUBLISHED"
+     },
+     {
+      "ref": "C-STD v1",
+      "tied": false,
+      "match": "MATCH",
+      "origin": "PUBLISHED",
+      "eligible": true,
+      "priority": 5,
+      "selected": true,
+      "rule_code": "C-STD",
+      "binding_id": "191920d5-4a09-47e4-a640-bf398491d2e0",
+      "conditions": [
+       {
+        "field": "market",
+        "actual": "SG",
+        "result": "PASS",
+        "expected": [
+         "SG"
+        ]
+       }
+      ],
+      "is_fallback": false,
+      "specificity": 1,
+      "target_label": "S-E0E4F56818 v1.0",
+      "excluded_reason": null,
+      "survey_version_id": "9d8c272c-0abf-4064-894d-e5e489a9f91c",
+      "survey_version_status": "PUBLISHED"
+     }
+    ],
+    "reason": "C-STD v1 is the highest-precedence matching rule (priority 5, specificity 1)",
+    "outcome": "SELECTED",
+    "selected": {
+     "rule": "C-STD v1",
+     "binding_id": "191920d5-4a09-47e4-a640-bf398491d2e0",
+     "survey_code": "S-E0E4F56818",
+     "survey_name": "Survey CLOSING-STD",
+     "version_label": "1.0",
+     "content_sha256": "4bd6eb893112d1001a36f5f55b4e18dc5ae23cfb88a8223810b2c4a006c0fdc5",
+     "manifest_sha256": "b5e24990882b0de2fc805ca13433077790609b6575536915bdd389e476920b6c",
+     "rule_version_id": "096a05db-3081-45c5-874b-4a14de772eda",
+     "survey_version_id": "9d8c272c-0abf-4064-894d-e5e489a9f91c"
+    },
+    "selection": "MATCHED",
+    "by_fallback": false,
+    "would_select": null,
+    "winning_rules": [
+     "C-STD v1"
+    ],
+    "missing_inputs": []
+   }
+  ],
+  "missing_facts": [],
+  "missing_inputs": [],
+  "selection_status": "RESOLVED",
+  "input_consistency": {
+   "reason": "The assignment inputs and the call-plan facts are two separate parts of the application snapshot. No approved mapping connects them, so nothing checks that they describe the same application.",
+   "status": "UNVERIFIED"
+  },
+  "cross_survey_policy": {
+   "note": "Whether an escalation, a refusal, an incomplete answer or a terminal outcome in one survey allows another survey to proceed has not been decided. No combined run is built.",
+   "status": "UNRESOLVED"
+  },
+  "configuration_issues": [],
+  "ignored_script_rules": 1,
+  "ungrouped_bound_rules": []
+ },
+ "members": [
+  {
+   "position": 1,
+   "group_id": "6cbc9e64-8f36-45eb-b05b-029273f2c39b",
+   "kind": "PRIMARY",
+   "state": "SELECTED",
+   "outcome": "SELECTED",
+   "rule_version_id": "38eca987-1a81-4a47-a8cf-4e4781bcce94",
+   "binding_id": "bbe159e3-5c58-49d2-a338-783aaf3a4e16",
+   "survey_version_id": "e10ade1f-2a77-4e10-91aa-7502fd5cd88b",
+   "call_plan_id": "1782cbaa-8101-4ab2-9567-30e267a49708",
+   "plan_fingerprint": "25b6c34b17b4cbf53e8c24ffbc301eb28f9085c83f1fe9be063bdc1eac494eeb",
+   "plan_intact": true
+  },
+  {
+   "position": 2,
+   "group_id": "5d142bd5-ee86-48b8-ad35-37c4728bda5b",
+   "kind": "ADD_REQUIRED",
+   "state": "NOT_APPLICABLE",
+   "outcome": "NO_MATCH",
+   "rule_version_id": null,
+   "binding_id": null,
+   "survey_version_id": null,
+   "call_plan_id": null,
+   "plan_fingerprint": null,
+   "plan_intact": true
+  },
+  {
+   "position": 3,
+   "group_id": "630fe73e-9a01-4346-903d-f11627e438a1",
+   "kind": "ADD_REQUIRED",
+   "state": "SELECTED",
+   "outcome": "SELECTED",
+   "rule_version_id": "ba225bfa-589b-4456-b7dc-482f72ce8b58",
+   "binding_id": "5489d8b0-5890-49c2-9cd1-0a579f74d582",
+   "survey_version_id": "b74c09d2-f7df-4868-95fa-c9898c5f7a85",
+   "call_plan_id": "04189340-3761-4ba3-a9c5-89eaf0b7c739",
+   "plan_fingerprint": "02228067d93b93e34dcfb04e6b01c663241992178f13e3862c3927ba80060a1d",
+   "plan_intact": true
+  },
+  {
+   "position": 4,
+   "group_id": "d4f96288-377c-48f1-bdf8-c7d13862cec3",
+   "kind": "ALTERNATIVE",
+   "state": "SELECTED",
+   "outcome": "SELECTED",
+   "rule_version_id": "096a05db-3081-45c5-874b-4a14de772eda",
+   "binding_id": "191920d5-4a09-47e4-a640-bf398491d2e0",
+   "survey_version_id": "9d8c272c-0abf-4064-894d-e5e489a9f91c",
+   "call_plan_id": "5e6a3c98-883c-457d-949e-3ee165517d03",
+   "plan_fingerprint": "ffc7f26526f61f80df7332338e50a299f9b24fbd47e9897090a5ef6e951017b2",
+   "plan_intact": true
+  }
+ ]
+}

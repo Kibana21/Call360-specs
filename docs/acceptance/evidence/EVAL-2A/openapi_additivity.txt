@@ -1,0 +1,7 @@
+contract SHA-256: 91ed256edb81ccec6124a5db25bc4223c7da06854e8a4fa5926433847806d62c
+compared with the last committed contract (backend HEAD 182f6e5):
+  operations: 221 -> 266 | removed: none
+  schemas: 451 -> 505 | removed: none
+  pre-existing schemas with a removed property, a changed property or a newly required existing property: none
+  pre-existing operations with changed parameters or a removed response: none
+  survey-evaluation operations: 20 (10 of EVAL-1, 10 of EVAL-2A)

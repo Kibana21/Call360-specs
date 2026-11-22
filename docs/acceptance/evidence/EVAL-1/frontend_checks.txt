@@ -1,0 +1,7 @@
+tsc: 0 errors
+eslint: 
+vitest: Tests  612 passed (612)
+build: [plugin builtin:vite-reporter] 
+✓ built in 183ms
+api types: Pinned backend OpenAPI 97a911a983cf045c1bb68e9541822e0889f1de47e9babbe791976bf5ed9b5ce5 and regenerated src/api/generated/schema.d.ts
+playwright persisted: 23 passed (22 before + EVAL-1 journey) | prototype: 13 passed | standard: 33 passed

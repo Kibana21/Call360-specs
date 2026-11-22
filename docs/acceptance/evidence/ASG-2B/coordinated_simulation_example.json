@@ -1,0 +1,937 @@
+{
+ "id": "e9687a2c-a53e-4a53-9b4c-1d8035c08601",
+ "record_class": "SIMULATION",
+ "note": "COORDINATED SIMULATION ONLY, for a synthetic application. It is not a call and not a record of one. The rule that a completed survey lets the next one start is a technical simulation rule: it approves nothing about real calls.",
+ "contract": "call360.survey.coordinated-simulation/1",
+ "current_contract": "call360.survey.coordinated-simulation/1",
+ "market_code": "SG",
+ "label": "test",
+ "created_at": "2026-11-22T12:59:38.108969+08:00",
+ "composite_plan_id": "06ecdbbe-dc0c-4854-8410-07b4afd6a6c4",
+ "composite_fingerprint": "dea3648154f4d2a761949028333b98e85d6b7d862ecf72c016e88712cf65258c",
+ "composite_intact": true,
+ "application_sha256": "5d8c360efa66cc50dac9b2a1c09cf19fb6e7ed9e385143b0be6e40f6e17610af",
+ "application": {
+  "facts": {},
+  "sha256": "5d8c360efa66cc50dac9b2a1c09cf19fb6e7ed9e385143b0be6e40f6e17610af",
+  "assignment_inputs": {
+   "is_ilp": false,
+   "market": "SG",
+   "risk_band": "LOW",
+   "case_purpose": "SALE_VERIFICATION",
+   "contact_role": [
+    "OWNER"
+   ],
+   "product_code": "SYN-END-SAVER",
+   "product_family": "PROTECTION",
+   "selling_channel": "AGENCY",
+   "premium_frequency": "SINGLE"
+  }
+ },
+ "input_consistency": {
+  "reason": "The assignment inputs and the call-plan facts are two separate parts of the application snapshot. No approved mapping connects them, so nothing checks that they describe the same application.",
+  "status": "UNVERIFIED"
+ },
+ "governed_order": [
+  "PRIMARY-SG",
+  "ADD-B"
+ ],
+ "status": "ALL_SURVEYS_COMPLETED",
+ "stop": null,
+ "decisions": [
+  {
+   "after": "PRIMARY-SG",
+   "ending": "COMPLETED",
+   "decision": "PROCEED",
+   "rule": "SIMULATION_ONLY_COMPLETED_PROCEEDS",
+   "to": "ADD-B"
+  }
+ ],
+ "surveys": [
+  {
+   "position": 1,
+   "group": {
+    "code": "PRIMARY-SG",
+    "kind": "PRIMARY",
+    "name": "PRIMARY-SG group",
+    "purpose": "Synthetic requirement PRIMARY-SG for the tests",
+    "sequence": 1
+   },
+   "survey_code": "S-E0DDDFC959",
+   "survey_name": "Survey A",
+   "version_label": "1.0",
+   "survey_version_id": "df00ace8-ba01-4088-83eb-dcc2ed66a62e",
+   "content_sha256": "daa80ad13c4a6e6857e41999b097b5b02cce1a13be0d9f900fac885d162e8ab1",
+   "manifest_sha256": "701d42f00c6f5d3727d5235c8ec0817c73e80a8b8f1316656c6b1e371bf51f1d",
+   "rule": "P-A v1",
+   "binding_id": "c4efb765-8da5-42a5-84fd-624945a6420b",
+   "plan_fingerprint": "dce50a578fbbc963ab654abe12e2cded7cef132af42c3f614c4fc3fe97bf00d9",
+   "state": "COMPLETED",
+   "simulation_id": "7983f485-9ab0-418b-abd2-2048c37eb20e",
+   "simulation": {
+    "id": "7983f485-9ab0-418b-abd2-2048c37eb20e",
+    "record_class": "SIMULATION",
+    "note": "SIMULATION ONLY. Synthetic facts and unapproved wording. Not operational evidence, and not an authorisation or eligibility for any customer call.",
+    "survey_id": "984f1f3e-54ea-4547-95b3-4886f03c358f",
+    "survey_code": "S-E0DDDFC959",
+    "survey_name": "Survey A",
+    "version_id": "df00ace8-ba01-4088-83eb-dcc2ed66a62e",
+    "version_label": "1.0",
+    "content_sha256": "daa80ad13c4a6e6857e41999b097b5b02cce1a13be0d9f900fac885d162e8ab1",
+    "manifest_sha256": "701d42f00c6f5d3727d5235c8ec0817c73e80a8b8f1316656c6b1e371bf51f1d",
+    "facts": {},
+    "facts_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "label": "Coordinated e9687a2c \u00b7 1. PRIMARY-SG",
+    "created_at": "2026-11-22T12:59:38.108969+08:00",
+    "engine_contract": "call360.survey.execution/1",
+    "current_engine_contract": "call360.survey.execution/1",
+    "initial_run_sha256": "98d79b286226df4990ec0ff5bce31175abe890a90f7497b5836a825558c281d7",
+    "inputs": [
+     {
+      "seq": 1,
+      "key": "mi-call/n2",
+      "answer": {},
+      "accepted": false,
+      "rejection_code": "CHOICE_REQUIRED",
+      "run_status": "PENDING",
+      "run_sha256": "e78c8828cbdd32549b09f748645f02cdd1a968debb5c36ee5e0849df804c07d8"
+     },
+     {
+      "seq": 2,
+      "key": "mi-call/n2",
+      "answer": {
+       "choice": "YES"
+      },
+      "accepted": true,
+      "rejection_code": null,
+      "run_status": "PENDING",
+      "run_sha256": "bf09b8ba0d88b323a3f72454cd4ec3c945e1fe3cc00439d6f178cda7ab652ad3"
+     },
+     {
+      "seq": 3,
+      "key": "mi-call/n5",
+      "answer": {
+       "choice": "YES"
+      },
+      "accepted": true,
+      "rejection_code": null,
+      "run_status": "TERMINAL",
+      "run_sha256": "5364770a22955f4313ed4cd29ffbffda2eab77b648d38b708b73851fa7bcd7a7"
+     }
+    ],
+    "status": "TERMINAL",
+    "run_status": "TERMINAL",
+    "run": {
+     "status": "TERMINAL",
+     "terminal": {
+      "state": "COMPLETED",
+      "survey_outcome": "COMPLETED"
+     },
+     "pending": null,
+     "policy_unresolved": null,
+     "undeliverable": null,
+     "asked": [
+      "mi-call/n2",
+      "mi-call/n5"
+     ],
+     "delivered": [
+      {
+       "key": "mi-call/n1",
+       "item": "Q-100006@1",
+       "statement": true,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "Good day. This is a service call about your policy.",
+       "values": []
+      },
+      {
+       "key": "mi-call/n2",
+       "item": "Q-100003@1",
+       "statement": false,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "Can you confirm that you are the policyholder?",
+       "values": []
+      },
+      {
+       "key": "mi-call/n3",
+       "item": "Q-100005@1",
+       "statement": true,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "This call is to verify how your policy was sold to you.",
+       "values": []
+      },
+      {
+       "key": "mi-call/n4",
+       "item": "Q-100007@1",
+       "statement": true,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "I will now ask two short questions.",
+       "values": []
+      },
+      {
+       "key": "mi-call/n5",
+       "item": "Q-100002@1",
+       "statement": false,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "Did your representative explain how the plan works?",
+       "values": []
+      },
+      {
+       "key": "mi-call/n6",
+       "item": "Q-100004@1",
+       "statement": true,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "Thank you. This call is now complete.",
+       "values": []
+      }
+     ],
+     "modules": [
+      {
+       "instance": "mi-call",
+       "status": "ACTIVATED",
+       "outcome": "COMPLETED",
+       "module": {
+        "code": "M-100008",
+        "revision": 1
+       },
+       "name": "Call"
+      }
+     ],
+     "evidence": [
+      {
+       "question_instance": "mi-call/n2",
+       "question": "Q-100003@1",
+       "wording_version": 1,
+       "answer": {
+        "choice": "YES"
+       }
+      },
+      {
+       "question_instance": "mi-call/n5",
+       "question": "Q-100002@1",
+       "wording_version": 1,
+       "answer": {
+        "choice": "YES"
+       }
+      }
+     ],
+     "evidence_states": {
+      "mi-call/n1": "DELIVERED",
+      "mi-call/n2": "ANSWERED",
+      "mi-call/n3": "DELIVERED",
+      "mi-call/n4": "DELIVERED",
+      "mi-call/n5": "ANSWERED",
+      "mi-call/n6": "DELIVERED"
+     },
+     "edges": [
+      "mi-call/e1",
+      "mi-call/e2",
+      "mi-call/e4",
+      "mi-call/e5",
+      "mi-call/e6",
+      "mi-call/e7"
+     ],
+     "trace": [],
+     "events": [
+      {
+       "at": 0,
+       "kind": "ENTRY",
+       "instance": "mi-call",
+       "status": "ACTIVATED",
+       "mode": "ALWAYS",
+       "arrival": "SEQUENCE"
+      },
+      {
+       "at": 1,
+       "kind": "SAY",
+       "key": "mi-call/n1",
+       "instance": "mi-call",
+       "node": "n1",
+       "item": {
+        "code": "Q-100006",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Good day. This is a service call about your policy.",
+       "role": "OPENING",
+       "delivery_mode": "CONTROLLED_TTS",
+       "values": []
+      },
+      {
+       "at": 2,
+       "kind": "ROUTE",
+       "key": "mi-call/n1",
+       "instance": "mi-call",
+       "node": "n1",
+       "via": "AFTER_CAPTURE",
+       "edge": "e1",
+       "to": {
+        "node": "n2"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 3,
+       "kind": "ASK",
+       "key": "mi-call/n2",
+       "instance": "mi-call",
+       "node": "n2",
+       "item": {
+        "code": "Q-100003",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Can you confirm that you are the policyholder?",
+       "followup": false,
+       "answer_type": "YES_NO"
+      },
+      {
+       "at": 4,
+       "kind": "REJECT",
+       "key": "mi-call/n2",
+       "instance": "mi-call",
+       "node": "n2",
+       "code": "CHOICE_REQUIRED",
+       "answer": {},
+       "attempt": 0
+      },
+      {
+       "at": 5,
+       "kind": "ANSWER",
+       "key": "mi-call/n2",
+       "instance": "mi-call",
+       "node": "n2",
+       "item": {
+        "code": "Q-100003",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Can you confirm that you are the policyholder?",
+       "answer": {
+        "choice": "YES"
+       },
+       "state": "ANSWERED"
+      },
+      {
+       "at": 6,
+       "kind": "ROUTE",
+       "key": "mi-call/n2",
+       "instance": "mi-call",
+       "node": "n2",
+       "via": "YES",
+       "edge": "e2",
+       "to": {
+        "node": "n3"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 7,
+       "kind": "SAY",
+       "key": "mi-call/n3",
+       "instance": "mi-call",
+       "node": "n3",
+       "item": {
+        "code": "Q-100005",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "This call is to verify how your policy was sold to you.",
+       "role": "DISCLOSURE",
+       "delivery_mode": "CONTROLLED_TTS",
+       "values": []
+      },
+      {
+       "at": 8,
+       "kind": "ROUTE",
+       "key": "mi-call/n3",
+       "instance": "mi-call",
+       "node": "n3",
+       "via": "AFTER_CAPTURE",
+       "edge": "e4",
+       "to": {
+        "node": "n4"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 9,
+       "kind": "SAY",
+       "key": "mi-call/n4",
+       "instance": "mi-call",
+       "node": "n4",
+       "item": {
+        "code": "Q-100007",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "I will now ask two short questions.",
+       "role": "TRANSITION",
+       "delivery_mode": "CONTROLLED_TTS",
+       "values": []
+      },
+      {
+       "at": 10,
+       "kind": "ROUTE",
+       "key": "mi-call/n4",
+       "instance": "mi-call",
+       "node": "n4",
+       "via": "AFTER_CAPTURE",
+       "edge": "e5",
+       "to": {
+        "node": "n5"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 11,
+       "kind": "ASK",
+       "key": "mi-call/n5",
+       "instance": "mi-call",
+       "node": "n5",
+       "item": {
+        "code": "Q-100002",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Did your representative explain how the plan works?",
+       "followup": false,
+       "answer_type": "YES_NO"
+      },
+      {
+       "at": 12,
+       "kind": "ANSWER",
+       "key": "mi-call/n5",
+       "instance": "mi-call",
+       "node": "n5",
+       "item": {
+        "code": "Q-100002",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Did your representative explain how the plan works?",
+       "answer": {
+        "choice": "YES"
+       },
+       "state": "ANSWERED"
+      },
+      {
+       "at": 13,
+       "kind": "ROUTE",
+       "key": "mi-call/n5",
+       "instance": "mi-call",
+       "node": "n5",
+       "via": "YES",
+       "edge": "e6",
+       "to": {
+        "node": "n6"
+       },
+       "specific": false,
+       "mandatory": false
+      },
+      {
+       "at": 14,
+       "kind": "SAY",
+       "key": "mi-call/n6",
+       "instance": "mi-call",
+       "node": "n6",
+       "item": {
+        "code": "Q-100004",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Thank you. This call is now complete.",
+       "role": "CLOSING",
+       "delivery_mode": "CONTROLLED_TTS",
+       "values": []
+      },
+      {
+       "at": 15,
+       "kind": "ROUTE",
+       "key": "mi-call/n6",
+       "instance": "mi-call",
+       "node": "n6",
+       "via": "AFTER_CAPTURE",
+       "edge": "e7",
+       "to": {
+        "outcome": "COMPLETED"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 16,
+       "kind": "MODULE_END",
+       "instance": "mi-call",
+       "outcome": "COMPLETED"
+      },
+      {
+       "at": 17,
+       "kind": "SURVEY_ROUTE",
+       "instance": "mi-call",
+       "outcome": "COMPLETED",
+       "to": "@CONTINUE",
+       "skipped": []
+      },
+      {
+       "at": 18,
+       "kind": "END",
+       "instance": "mi-call",
+       "status": "COMPLETED",
+       "survey_outcome": "COMPLETED"
+      }
+     ],
+     "rejections": [
+      {
+       "at": "mi-call/n2",
+       "error": "CHOICE_REQUIRED"
+      }
+     ],
+     "inputs_consumed": 3,
+     "input_mismatch": null
+    },
+    "run_sha256": "5364770a22955f4313ed4cd29ffbffda2eab77b648d38b708b73851fa7bcd7a7",
+    "replay_consistent": true,
+    "drift": null
+   },
+   "run_sha256": "5364770a22955f4313ed4cd29ffbffda2eab77b648d38b708b73851fa7bcd7a7",
+   "engine_contract": "call360.survey.execution/1",
+   "started_because": "FIRST_IN_ORDER",
+   "inputs": 3,
+   "refused_inputs": 1,
+   "delivered": 6
+  },
+  {
+   "position": 2,
+   "group": {
+    "code": "ADD-B",
+    "kind": "ADD_REQUIRED",
+    "name": "ADD-B group",
+    "purpose": "Synthetic requirement ADD-B for the tests",
+    "sequence": 2
+   },
+   "survey_code": "S-449A0011FB",
+   "survey_name": "Survey B",
+   "version_label": "1.0",
+   "survey_version_id": "d33af2dc-4ab6-43b9-8a0a-f6cda7f3f7a9",
+   "content_sha256": "d0c4e9de1a2ef720c4b14fd4cb828485bf60a39e6802999d87b9d52e10a47149",
+   "manifest_sha256": "66f1a955c20ceb8cc09ff7d32270a1866081920fee5ab031cc7e5fcbc6947b0b",
+   "rule": "R-B v1",
+   "binding_id": "d4d0a1eb-1ef8-4c2c-b3c6-bf9570597726",
+   "plan_fingerprint": "37de9b3450dc1ce5a12e72c3f3dd28e6fe1d587b9e7077e9568f960d8eda1e87",
+   "state": "COMPLETED",
+   "simulation_id": "03d50fbe-f17d-46fa-93de-ea31667c040c",
+   "simulation": {
+    "id": "03d50fbe-f17d-46fa-93de-ea31667c040c",
+    "record_class": "SIMULATION",
+    "note": "SIMULATION ONLY. Synthetic facts and unapproved wording. Not operational evidence, and not an authorisation or eligibility for any customer call.",
+    "survey_id": "7c9bc256-bdea-418a-8124-fda5490ccb28",
+    "survey_code": "S-449A0011FB",
+    "survey_name": "Survey B",
+    "version_id": "d33af2dc-4ab6-43b9-8a0a-f6cda7f3f7a9",
+    "version_label": "1.0",
+    "content_sha256": "d0c4e9de1a2ef720c4b14fd4cb828485bf60a39e6802999d87b9d52e10a47149",
+    "manifest_sha256": "66f1a955c20ceb8cc09ff7d32270a1866081920fee5ab031cc7e5fcbc6947b0b",
+    "facts": {},
+    "facts_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "label": "Coordinated e9687a2c \u00b7 2. ADD-B",
+    "created_at": "2026-11-22T12:59:38.553737+08:00",
+    "engine_contract": "call360.survey.execution/1",
+    "current_engine_contract": "call360.survey.execution/1",
+    "initial_run_sha256": "ae7fe5c9d7b08a939570652877cdae431c71a4b53d2e2b22a0dd9220327cdf15",
+    "inputs": [
+     {
+      "seq": 1,
+      "key": "mi-numbers/n1",
+      "answer": {
+       "number": 100
+      },
+      "accepted": false,
+      "rejection_code": "NUMBER_TOO_HIGH",
+      "run_status": "PENDING",
+      "run_sha256": "dba8824d89284d3954136112fe4979c4b19b3ca32a32f306eb185cac88b59b40"
+     },
+     {
+      "seq": 2,
+      "key": "mi-numbers/n1",
+      "answer": {
+       "number": 20
+      },
+      "accepted": true,
+      "rejection_code": null,
+      "run_status": "PENDING",
+      "run_sha256": "79919935ee551c4b2837356675acbadce0df541c8421c8824c973abbaf422bee"
+     },
+     {
+      "seq": 3,
+      "key": "mi-numbers/n2",
+      "answer": {
+       "number": 100.5
+      },
+      "accepted": false,
+      "rejection_code": "NUMBER_TOO_HIGH",
+      "run_status": "PENDING",
+      "run_sha256": "0ea3ed843e6cfd6bb9a36768d4c4f658f5d6c1f71d64ce167c9bba7be07b13bd"
+     },
+     {
+      "seq": 4,
+      "key": "mi-numbers/n2",
+      "answer": {
+       "number": 30
+      },
+      "accepted": true,
+      "rejection_code": null,
+      "run_status": "PENDING",
+      "run_sha256": "fcbd72d05a0fbc39ab86219abd8fce39d5e75bc9eb3fda215063bde688c83c5d"
+     },
+     {
+      "seq": 5,
+      "key": "mi-numbers/n3",
+      "answer": {
+       "number": 2
+      },
+      "accepted": true,
+      "rejection_code": null,
+      "run_status": "TERMINAL",
+      "run_sha256": "914e3c05be287cbb6a495b895f23bb7d4cd85394233c8c5765f601989881bfd0"
+     }
+    ],
+    "status": "TERMINAL",
+    "run_status": "TERMINAL",
+    "run": {
+     "status": "TERMINAL",
+     "terminal": {
+      "state": "COMPLETED",
+      "survey_outcome": "COMPLETED"
+     },
+     "pending": null,
+     "policy_unresolved": null,
+     "undeliverable": null,
+     "asked": [
+      "mi-numbers/n1",
+      "mi-numbers/n2",
+      "mi-numbers/n3"
+     ],
+     "delivered": [
+      {
+       "key": "mi-numbers/n1",
+       "item": "Q-100011@1",
+       "statement": false,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "For how many years did your representative say you would pay premiums?",
+       "values": []
+      },
+      {
+       "key": "mi-numbers/n2",
+       "item": "Q-100010@1",
+       "statement": false,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "Roughly what share of your income goes to this premium, in percent?",
+       "values": []
+      },
+      {
+       "key": "mi-numbers/n3",
+       "item": "Q-100009@1",
+       "statement": false,
+       "wording_version": 1,
+       "delivery_mode": "CONTROLLED_TTS",
+       "text": "How many other policies do you hold?",
+       "values": []
+      }
+     ],
+     "modules": [
+      {
+       "instance": "mi-numbers",
+       "status": "ACTIVATED",
+       "outcome": "COMPLETED",
+       "module": {
+        "code": "M-100012",
+        "revision": 1
+       },
+       "name": "Numbers"
+      }
+     ],
+     "evidence": [
+      {
+       "question_instance": "mi-numbers/n1",
+       "question": "Q-100011@1",
+       "wording_version": 1,
+       "answer": {
+        "number": 20
+       }
+      },
+      {
+       "question_instance": "mi-numbers/n2",
+       "question": "Q-100010@1",
+       "wording_version": 1,
+       "answer": {
+        "number": 30
+       }
+      },
+      {
+       "question_instance": "mi-numbers/n3",
+       "question": "Q-100009@1",
+       "wording_version": 1,
+       "answer": {
+        "number": 2
+       }
+      }
+     ],
+     "evidence_states": {
+      "mi-numbers/n1": "ANSWERED",
+      "mi-numbers/n2": "ANSWERED",
+      "mi-numbers/n3": "ANSWERED"
+     },
+     "edges": [
+      "mi-numbers/e1",
+      "mi-numbers/e2",
+      "mi-numbers/e3"
+     ],
+     "trace": [],
+     "events": [
+      {
+       "at": 0,
+       "kind": "ENTRY",
+       "instance": "mi-numbers",
+       "status": "ACTIVATED",
+       "mode": "ALWAYS",
+       "arrival": "SEQUENCE"
+      },
+      {
+       "at": 1,
+       "kind": "ASK",
+       "key": "mi-numbers/n1",
+       "instance": "mi-numbers",
+       "node": "n1",
+       "item": {
+        "code": "Q-100011",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "For how many years did your representative say you would pay premiums?",
+       "followup": false,
+       "answer_type": "NUMERIC"
+      },
+      {
+       "at": 2,
+       "kind": "REJECT",
+       "key": "mi-numbers/n1",
+       "instance": "mi-numbers",
+       "node": "n1",
+       "code": "NUMBER_TOO_HIGH",
+       "answer": {
+        "number": 100
+       },
+       "attempt": 0
+      },
+      {
+       "at": 3,
+       "kind": "ANSWER",
+       "key": "mi-numbers/n1",
+       "instance": "mi-numbers",
+       "node": "n1",
+       "item": {
+        "code": "Q-100011",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "For how many years did your representative say you would pay premiums?",
+       "answer": {
+        "number": 20
+       },
+       "state": "ANSWERED"
+      },
+      {
+       "at": 4,
+       "kind": "ROUTE",
+       "key": "mi-numbers/n1",
+       "instance": "mi-numbers",
+       "node": "n1",
+       "via": "AFTER_CAPTURE",
+       "edge": "e1",
+       "to": {
+        "node": "n2"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 5,
+       "kind": "ASK",
+       "key": "mi-numbers/n2",
+       "instance": "mi-numbers",
+       "node": "n2",
+       "item": {
+        "code": "Q-100010",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Roughly what share of your income goes to this premium, in percent?",
+       "followup": false,
+       "answer_type": "NUMERIC"
+      },
+      {
+       "at": 6,
+       "kind": "REJECT",
+       "key": "mi-numbers/n2",
+       "instance": "mi-numbers",
+       "node": "n2",
+       "code": "NUMBER_TOO_HIGH",
+       "answer": {
+        "number": 100.5
+       },
+       "attempt": 0
+      },
+      {
+       "at": 7,
+       "kind": "ANSWER",
+       "key": "mi-numbers/n2",
+       "instance": "mi-numbers",
+       "node": "n2",
+       "item": {
+        "code": "Q-100010",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "Roughly what share of your income goes to this premium, in percent?",
+       "answer": {
+        "number": 30
+       },
+       "state": "ANSWERED"
+      },
+      {
+       "at": 8,
+       "kind": "ROUTE",
+       "key": "mi-numbers/n2",
+       "instance": "mi-numbers",
+       "node": "n2",
+       "via": "AFTER_CAPTURE",
+       "edge": "e2",
+       "to": {
+        "node": "n3"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 9,
+       "kind": "ASK",
+       "key": "mi-numbers/n3",
+       "instance": "mi-numbers",
+       "node": "n3",
+       "item": {
+        "code": "Q-100009",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "How many other policies do you hold?",
+       "followup": false,
+       "answer_type": "NUMERIC"
+      },
+      {
+       "at": 10,
+       "kind": "ANSWER",
+       "key": "mi-numbers/n3",
+       "instance": "mi-numbers",
+       "node": "n3",
+       "item": {
+        "code": "Q-100009",
+        "version": 1,
+        "wording_version": 1
+       },
+       "text": "How many other policies do you hold?",
+       "answer": {
+        "number": 2
+       },
+       "state": "ANSWERED"
+      },
+      {
+       "at": 11,
+       "kind": "ROUTE",
+       "key": "mi-numbers/n3",
+       "instance": "mi-numbers",
+       "node": "n3",
+       "via": "AFTER_CAPTURE",
+       "edge": "e3",
+       "to": {
+        "outcome": "COMPLETED"
+       },
+       "specific": true,
+       "mandatory": false
+      },
+      {
+       "at": 12,
+       "kind": "MODULE_END",
+       "instance": "mi-numbers",
+       "outcome": "COMPLETED"
+      },
+      {
+       "at": 13,
+       "kind": "SURVEY_ROUTE",
+       "instance": "mi-numbers",
+       "outcome": "COMPLETED",
+       "to": "@CONTINUE",
+       "skipped": []
+      },
+      {
+       "at": 14,
+       "kind": "END",
+       "instance": "mi-numbers",
+       "status": "COMPLETED",
+       "survey_outcome": "COMPLETED"
+      }
+     ],
+     "rejections": [
+      {
+       "at": "mi-numbers/n1",
+       "error": "NUMBER_TOO_HIGH"
+      },
+      {
+       "at": "mi-numbers/n2",
+       "error": "NUMBER_TOO_HIGH"
+      }
+     ],
+     "inputs_consumed": 5,
+     "input_mismatch": null
+    },
+    "run_sha256": "914e3c05be287cbb6a495b895f23bb7d4cd85394233c8c5765f601989881bfd0",
+    "replay_consistent": true,
+    "drift": null
+   },
+   "run_sha256": "914e3c05be287cbb6a495b895f23bb7d4cd85394233c8c5765f601989881bfd0",
+   "engine_contract": "call360.survey.execution/1",
+   "started_because": "PREVIOUS_COMPLETED",
+   "inputs": 5,
+   "refused_inputs": 2,
+   "delivered": 3
+  }
+ ],
+ "current": null,
+ "progress": {
+  "surveys_total": 2,
+  "surveys_completed": 2,
+  "surveys_started": 2,
+  "inputs": 8,
+  "refused_inputs": 3,
+  "items_delivered": 9
+ },
+ "execution_contracts": [
+  "call360.survey.execution/1"
+ ],
+ "replay_sha256": "d68d3d3100c5bb92b541f833728414b944ed6748d8a21ab9dc34442aea7db470",
+ "operational_call_eligibility": {
+  "status": "NOT_ESTABLISHED",
+  "note": "Whether any of this may be used on a real customer call has not been established, and nothing here establishes it."
+ }
+}

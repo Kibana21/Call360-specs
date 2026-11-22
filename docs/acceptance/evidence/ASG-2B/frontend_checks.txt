@@ -1,0 +1,11 @@
+tsc exit=0
+eslint exit=0
+api:check OK (openapi e0add7fcd59e3070c1494209fe1769905b3dbff735f069824fc984bbe2fc3624)
+api:check exit=0
+
+ Test Files  36 passed (36)
+      Tests  612 passed (612)
+   Start at  13:00:57
+   Duration  4.24s (transform 10.05s, setup 2.95s, import 18.28s, tests 15.38s, environment 16.97s)
+
+build exit=0

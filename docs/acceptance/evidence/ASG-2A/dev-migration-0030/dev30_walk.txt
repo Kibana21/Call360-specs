@@ -1,0 +1,23 @@
+ready: 200
+dev.survey.author survey permissions: ['survey.assignment.read', 'survey.edit', 'survey.read', 'survey.simulate']
+dev.survey.checker survey permissions: ['survey.approve', 'survey.assignment.read', 'survey.read']
+dev.survey.publisher survey permissions: ['survey.assignment.read', 'survey.publish', 'survey.read']
+existing Assignment Rules API for a survey identity (needs script.read): 403
+policy: published rules in SG: [('S2D1-LIFECYCLE-DEMO v1', 3, 4, 'no survey'), ('SG-ILP-HIGH-RISK v2', 4, 3, 'no survey'), ('SG-SALES-VERIFY v2', 10, 2, 'no survey')]
+synthetic application (assignment inputs): {"market": "SG", "case_purpose": "SALE_VERIFICATION", "product_family": "PROTECTION", "product_code": "SYN-END-SAVER", "is_ilp": true, "risk_band": "LOW", "selling_channel": "AGENCY", "premium_frequency": "SINGLE", "contact_role": ["OWNER"]}
+before any binding: SURVEY_NOT_BOUND / TARGET_UNAVAILABLE | winning rule: ['SG-SALES-VERIFY v2'] | survey: None
+binding proposed by the author: SG-SALES-VERIFY v2 -> DEV-CHECK-AD5AEA8F v1.0 | PROPOSED
+  the proposer approving it: 403 (no permission) | the checker publishing before approval: 403
+  approved by the checker: APPROVED | published by the publisher: PUBLISHED
+selection: SELECTED / MATCHED | rule SG-SALES-VERIFY v2 -> DEV-CHECK-AD5AEA8F v1.0 | record SIMULATION
+  reason: SG-SALES-VERIFY v2 is the highest-precedence matching rule (priority 10, specificity 2)
+  call plan: READY | fingerprint 79de73ecbbb01d8c… | modules [('mi-topics', 'IN'), ('mi-recap', 'IN'), ('mi-recap-2', 'IN')]
+  the same application again: same version True | same decision fingerprint True | same plan fingerprint True
+  with the product family not known: SELECTED / MATCHED | missing [] | survey c909df99-1c53-4381-b9a8-9af44ca5b6cd
+simulation started from the selection: SIMULATION | version matches True | status PENDING | first question: 'Is that clear to you?'
+  linked to the selection: True
+market isolation: an application for another market -> 404
+requirement groups (ASG-2A, not enabled in development): 404
+Script Studio and operational tables unchanged: True | {'callback_case': 258, 'contact_attempt': 415, 'conversation_session': 95, 'survey_run': 82, 'answer_observation': 555, 'script_assignment': 251, 'script_assignment_rule_version': 8, 'assignment_rule_draft': 4, 'finding': 26, 'media_asset': 18, 'transcript_run': 18, 'transcript_segment': 47}
+assignment records now: {'survey_assignment_binding': 1, 'survey_assignment_binding_event': 3, 'survey_assignment_evaluation': 4, 'survey_assignment_simulation': 1}
+evaluation id for the screen: 4f59faf5-8e3f-4256-b57a-d9f100e20ecf

@@ -1,0 +1,7 @@
+ruff check: All checks passed!
+ruff format: 246 files already formatted
+mypy: Success: no issues found in 120 source files
+pytest (schema call360_test only): 917 collected; the run printed no FAILED or ERROR line (run with -rf); 831 before EVAL-2A
+  new: tests/test_survey_control_policy.py 57; tests/test_survey_evaluation.py 35 (6 before: +27 truth-table rows, +2)
+golden parity: tests/test_survey_execution.py (82 expected runs of 27 fixtures) and tests/test_survey_callplan.py (14 expected plans) pass; fixture files modified: 0
+migrations: up to 0034 on an empty schema and over a schema populated by EVAL-1; guarded downgrades of 0033 and 0034 (tests)

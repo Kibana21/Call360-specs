@@ -1,0 +1,1 @@
+restore dry run (the whole archive written out as SQL, nothing executed): CREATE TABLE 111 | COPY 111 | CREATE TRIGGER 101 | exit 0

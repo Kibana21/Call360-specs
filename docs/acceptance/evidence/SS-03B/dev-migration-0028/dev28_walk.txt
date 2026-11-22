@@ -1,0 +1,12 @@
+dev.survey.author | permissions ["survey.edit","survey.read"] as before | surveys listed 2 | library read 200
+dev.survey.checker | permissions ["survey.approve","survey.read"] as before | surveys listed 2 | library read 200
+dev.survey.publisher | permissions ["survey.publish","survey.read"] as before | surveys listed 2 | library read 200
+library — published modules: [
+  'Purchase confirmation [M-PURCHASE-CONFIRMATION-770563001 r1] by S-DEV-FI2-WALKTHROUGH 1.0',
+  'Recap [M-RECAP-AD5AEA8F r1] by DEV-CHECK-AD5AEA8F 1.0',
+  'Two topics [M-TWO-TOPICS-AD5AEA8F r1] by DEV-CHECK-AD5AEA8F 1.0'
+]
+insertion: pinned M-PURCHASE-CONFIRMATION-770563001 revision 1 | same fingerprint as the published source true | owned by this survey false | state FROZEN | everything else pinned too true
+copy-on-write: module M-100001 revision 1 server-issued true | derived from {"code":"M-PURCHASE-CONFIRMATION-770563001","version":1} | question Q-100002 server-issued true derived from Q-NEW-770563002
+source after the copy: fingerprint unchanged true | used by {"surveys":1,"versions":1}
+earlier synthetic surveys unchanged: true [["DEV-CHECK-AD5AEA8F",10,"1.0"],["S-DEV-FI2-WALKTHROUGH",1,"1.0"]]

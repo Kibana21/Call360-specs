@@ -1,0 +1,2 @@
+pg_restore to SQL exit=0
+CREATE TABLE: 112 | COPY: 112 | CREATE TRIGGER: 102 | CREATE SEQUENCE: 2 | errors: 0 bytes | SQL bytes: 7420510
