@@ -1260,7 +1260,7 @@ edge, instance and execution identities are unchanged.
 
 ## 11. Amendment of 2026-11-22 (FI-2): review and publication from Survey Studio
 
-**Authority:** owner decisions D-207…D-211. **Implemented in** `Call360-backend` (`app/domain/survey/store.py`,
+**ACCEPTED by the owner on 2026-11-22 (D-213).** **Authority:** owner decisions D-207…D-211, D-213. **Implemented in** `Call360-backend` (`app/domain/survey/store.py`,
 `app/api/survey_definitions.py`) and `Call360-frontend` (`src/features/surveystudio/persist/ReviewPages.tsx`).
 Additive: no table, no migration, no existing operation or document changes. The lifecycle, identity rules and
 manifest verification are those of §9.6 and §9.3, unchanged.
@@ -1313,4 +1313,95 @@ Both are market-scoped. Neither changes anything.
 - A changed draft is a new candidate with its own fingerprint and its own acknowledgements. It is in review: no
   approval is inherited. Submitting it supersedes an open earlier candidate; a published one is unaffected.
 - The manifest is re-verified at approval and at publication; a mismatch refuses both and is audited.
+
+---
+
+## 12. Amendment of 2026-11-22 (LIB-1): the reusable component library
+
+**Authority:** owner decisions D-215…D-220. **Implemented in** `Call360-backend` (`app/domain/survey/store.py`,
+`app/api/survey_definitions.py`, `migrations/versions/0028_survey_library.py`) and `Call360-frontend`
+(`src/features/surveystudio/model/library.ts`, `persist/Library.tsx`). There is one definition store and one
+authoring model; the library is a READ of the published versions already in it. Behind its own server setting,
+`survey_library_enabled` (off by default; needs `survey_definitions_enabled` and migration 0028).
+
+### 12.1 What is reusable (LIB-D-1)
+
+An asset version is **published** when the manifest of a survey version that was published (derived status
+`PUBLISHED` or `SUPERSEDED`) pins it. That, and nothing else, makes it reusable by another survey — in the same
+market only. A draft, an asset frozen in a candidate that is in review, rejected, withdrawn or superseded, and an
+asset of another market are not reusable and are not shown, whoever asks.
+
+The published set is computed from the immutable versions and their candidates' manifests. The derived usage index
+is used only for the "used by" counts.
+
+### 12.2 The reference rule (applies with the library on or off)
+
+A survey's content may pin an asset version only if **this survey owns it** (draft or frozen) **or it is published**
+(§12.1) in the survey's market.
+
+- On saving a draft (single operation or atomic save): refused with `REFERENCE_NOT_PUBLISHED` (422), naming each
+  offending version; nothing is saved.
+- In server validation and at submission: the same code as a `BLOCKER`.
+
+A reference is to the exact `{code, version}`. The server never copies, rewrites or upgrades what is referenced.
+
+### 12.3 Who owns an identity, and who issues one (LIB-D-3)
+
+- **A code belongs to the survey that owns its versions.** Another survey may pin a published version of it and may
+  derive a copy under a code of its own. It may never add a version to that code: `CODE_OWNED_ELSEWHERE` (409). A
+  wording follows its item.
+- **With the library on, a code that does not exist yet must have been issued by the server** to this survey for
+  this kind, or the new asset is refused: `CODE_NOT_ISSUED` (422). This applies to MODULE, ITEM, CONDITION and
+  OPTION_SET, on both save operations.
+- **Issuing.** `POST /survey-definitions/{id}/codes` `{requests: [{kind, count}]}`, kinds `MODULE`, `ITEM`,
+  `STATEMENT` (an ITEM, by convention), `CONDITION`, `OPTION_SET`; at most 60 codes a request. Codes are
+  `M-`, `Q-`, `S-`, `C-`, `OS-` followed by a number from one database sequence starting at 100001.
+  - A sequence never returns a number twice — not to concurrent requests, and not after a request that was rolled
+    back. A failed operation therefore leaves no code that could be issued again.
+  - Every issued code is recorded (`survey_issued_code`: code as primary key, kind, survey, who, when; insert-only).
+  - A number whose code any asset already carries is skipped: a historical code is never issued.
+- **Nothing historical changes.** Existing codes, versions, references and every golden-fixture identity are as they
+  were; the rule only concerns codes that do not exist yet. With the library off, an editor's own codes are accepted
+  as before.
+
+### 12.4 Provenance and makers (LIB-D-4)
+
+- A local copy of a published component records its source in `authoring.derived_from`
+  `{code, version, sha256?}`. `authoring` is now also accepted on OPTION_SET documents. As before it is part of the
+  hash and has no execution meaning.
+- A copy made from another survey's component starts at version 1 under its own code.
+- The makers of a candidate are, unchanged, the people who changed **that survey's** draft. Pinning a published
+  component adds nobody. The people who made the component are not makers of the consuming survey and are not
+  restricted from reviewing it.
+
+### 12.5 Newer revisions (LIB-D-5)
+
+When something a content pins has a newer published version, server validation adds a finding
+`NEWER_REVISION_PUBLISHED`, severity **`INFO`**, at `KIND:code@version`. It is never a warning to acknowledge, never
+a blocker, never changes a candidate's validity, and nothing upgrades a pin.
+
+### 12.6 Reading the library
+
+| Operation | Permission | Returns |
+|---|---|---|
+| `GET /survey-components?kind=&q=` | `survey.read` | Published versions of one kind (`MODULE`, `ITEM`, `CONDITION`, `OPTION_SET`) in the reader's markets: title, description, category, kind-specific facts, the published survey versions that pin it, "used by" counts, whether it is the latest published version. `q` filters by title, description, code or publishing survey. An `ITEM` is listed with the wording version it is published with |
+| `GET /survey-components/{kind}/{code}/{version}` | `survey.read` | One published component complete: its document; every published document it depends on; dependencies that are not published (none, for anything a version pins); its published revisions; usage; `requires.fields`; `derived_from`. 404 when it is not published in the reader's markets |
+| `POST /survey-definitions/{id}/codes` | `survey.edit` | §12.3 |
+
+Titles, descriptions and categories are read from the documents (module name, `authoring.intent`, module `kind`,
+wording text, answer type, condition name). No catalog value or status is invented.
+
+**Twenty-two operations in all.** Codes added by this amendment: `REFERENCE_NOT_PUBLISHED`,
+`CODE_OWNED_ELSEWHERE`, `CODE_NOT_ISSUED`, `NEWER_REVISION_PUBLISHED`.
+
+### 12.7 Settings and migrations
+
+| Setting on | Schema must be at |
+|---|---|
+| neither | `0026`, `0027` or `0028` |
+| `survey_definitions_enabled` | `0027` or `0028` |
+| both, i.e. the library | `0028` |
+
+Migration `0028_survey_library` adds one sequence and one insert-only table and changes nothing else. Its downgrade
+refuses while any issued code is recorded.
 

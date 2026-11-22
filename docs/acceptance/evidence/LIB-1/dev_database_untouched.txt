@@ -1,0 +1,6 @@
+# LIB-1 — the development environment was NOT migrated. 2026-11-22 06:36 +0800
+alembic revision (development): ['0027_survey_definitions'] | test schema: ['0028_survey_library']
+tables: 111 | total rows: 14800 | survey_* tables: ['survey_asset_usage', 'survey_asset_version', 'survey_cand
+dev server (library setting off, schema at 0027): ready=200 GET /survey-components=404 GET /survey-definitions (no session)=401
+tables: before 111 after 111 | survey_issued_code present: False
+survey tables changed since FI-2: none

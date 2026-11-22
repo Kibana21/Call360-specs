@@ -1,0 +1,50 @@
+# LIB-1 — backend checks, isolated test database. 2026-11-22 06:36 +0800
+## whole suite: 688 passed, 0 failed
+........................................................................ [ 10%]
+........................................................................ [ 20%]
+........................................................................ [ 31%]
+........................................................................ [ 41%]
+........................................................................ [ 52%]
+........................................................................ [ 62%]
+........................................................................ [ 73%]
+........................................................................ [ 83%]
+........................................................................ [ 94%]
+........................................                                 [100%]
+=============================== warnings summary ===============================
+tests/test_assignment_rules.py::test_create_configure_simulate_submit_approve_publish
+tests/test_assignment_rules.py::test_permissions_abandon_and_scope
+tests/test_recording.py::test_local_retention_purges_audio_and_keeps_metadata
+tests/test_script_authoring.py::test_create_edit_submit_approve_publish_by_a_different_checker
+tests/test_script_draft_isolation.py::test_control_link_and_question_changes_stay_inside_their_draft
+tests/test_script_draft_isolation.py::test_abandon_draft_is_audited_frozen_and_deletes_nothing
+tests/test_transcript.py::test_both_tracks_transcribed_with_speakers_times_provenance_and_audited_access
+  ~/Documents/Work/Projects/Call360/Call360/Call360-backend/tests/conftest.py:87: SAWarning: transaction already deassociated from connection
+    tx.rollback()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+exit 0
+## LIB-1 tests by name (includes migration 0028 upgrade, downgrade and refusal)
+tests/test_survey_lib1.py::test_only_what_a_published_version_pins_is_in_the_library PASSED
+tests/test_survey_lib1.py::test_a_component_is_previewed_complete_or_not_at_all PASSED
+tests/test_survey_lib1.py::test_another_survey_pins_the_exact_published_revision_and_inherits_no_maker PASSED
+tests/test_survey_lib1.py::test_a_newer_published_revision_changes_nothing_for_the_consumer PASSED
+tests/test_survey_lib1.py::test_a_local_copy_gets_its_own_server_issued_identity_and_leaves_the_source_alone PASSED
+tests/test_survey_lib1.py::test_a_new_identity_must_be_one_the_server_issued_to_that_survey_for_that_kind PASSED
+tests/test_survey_lib1.py::test_a_draft_cannot_acquire_a_reference_to_another_surveys_unpublished_asset PASSED
+tests/test_survey_lib1.py::test_published_questions_conditions_and_option_sets_are_reused_independently PASSED
+tests/test_survey_lib1.py::test_concurrent_requests_never_receive_the_same_code PASSED
+tests/test_survey_lib1.py::test_code_requests_are_validated_and_scoped PASSED
+tests/test_survey_lib1.py::test_the_library_is_scoped_to_permission_and_market PASSED
+tests/test_survey_lib1.py::test_with_the_library_setting_off_its_routes_do_not_exist_and_the_reference_rule_still_holds PASSED
+tests/test_survey_lib1.py::test_each_setting_demands_its_own_migration_and_no_more PASSED
+tests/test_survey_lib1.py::test_zz_migration_0028_downgrades_and_upgrades_and_refuses_to_lose_issued_codes PASSED
+tests/test_survey_store.py::test_the_migration_is_additive_and_points_at_no_script_table PASSED
+tests/test_survey_store.py::test_zz_migration_downgrades_to_the_previous_head_and_upgrades_again PASSED
+tests/test_survey_store.py::test_zz_downgrade_refuses_while_survey_definitions_exist PASSED
+====================== 17 passed, 16 deselected in 12.66s ======================
+## lint / format / types / contract / fixture documents
+All checks passed!
+212 files already formatted
+Success: no issues found in 102 source files
+OpenAPI matches (88baaf2ce9545a7dbd80cd12c4741f9750a0407baa4af962a24aa7b5465f25af)
+Canonical fixture documents match (27 files)

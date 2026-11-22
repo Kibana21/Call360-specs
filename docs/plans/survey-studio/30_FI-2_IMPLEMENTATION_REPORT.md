@@ -2,7 +2,11 @@
 
 **Checkpoint:** FI-2, authorised by the owner on 2026-11-22 ("FI-1 Review, Closure Correction and FI-2
 Authorization"), decision register D-207…D-212.
-**Status: BUILT AND TECHNICALLY VERIFIED — presented for the owner's review. Not accepted.**
+**Status: ACCEPTED 2026-11-22 as TECHNICALLY VERIFIED — REAL REVIEW AND PUBLICATION (owner decision D-213).** The
+warning code, the mandatory acknowledgement, the two read operations and the change to submission behaviour are
+accepted. Recorded limitation (D-214): the checker sees frozen content as a table; a read-only Graph and a more
+intuitive visual comparison are for future business UX acceptance. Not production readiness, business UX acceptance,
+screen-reader sign-off or Compliance approval of any wording.
 **Prepared:** 2026-11-22.
 
 **Scope held.** SS-03B was not started. No live-call execution, no server call-plan assembly, no no-answer or

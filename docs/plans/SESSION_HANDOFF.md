@@ -1,6 +1,6 @@
 # Call360 — Session handoff
 
-**Last updated:** 2026-11-22, FI-1 accepted and closed; FI-2 built and technically verified, awaiting the owner's review; FI-2 uncommitted (Claude Code). **Read §0 first; it is
+**Last updated:** 2026-11-22, FI-2 accepted; LIB-1 (reusable component library) built and technically verified, awaiting the owner's review; LIB-1 uncommitted (Claude Code). **Read §0 first; it is
 the only current-state section.** §1–§7 are current reference material; §8 onward are historical checkpoint records kept
 for traceability.
 **Process:** strict specification-driven development (workspace `CLAUDE.md` §10). Never implement without the owner's
@@ -10,6 +10,34 @@ authorisation; never mark anything accepted without the owner's explicit words.
 (§4).
 
 ## 0. Current state — read this first (2026-11-19)
+
+> **Update 2026-11-22 (LIB-1) — read this block first; it supersedes the blocks below where they differ.**
+> - **FI-2: ACCEPTED as TECHNICALLY VERIFIED — REAL REVIEW AND PUBLICATION** (D-213); limitation D-214 (checker sees
+>   frozen content as a table). FI-2 was committed and pushed by the owner at 05:38 (backend `29fec70`, frontend
+>   `7570972`, specs `e8920b0`).
+> - **Owner decisions LIB-D-1…5 (D-215…D-219)** and **"AUTHORIZE LIB-1"** (D-220).
+> - **LIB-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review. NOT accepted. UNCOMMITTED in all three
+>   repositories (no commit authorisation for LIB-1).** Report
+>   `docs/plans/survey-studio/31_LIB-1_IMPLEMENTATION_REPORT.md`; contract `04_…` §12; evidence
+>   `docs/acceptance/evidence/LIB-1/`.
+>   - Backend: migration **`0028_survey_library`** (sequence `survey_code_seq`, insert-only `survey_issued_code`);
+>     setting **`survey_library_enabled`** (off by default; needs `survey_definitions_enabled`); `library_router`
+>     with `GET /survey-components`, `GET /survey-components/{kind}/{code}/{version}`,
+>     `POST /survey-definitions/{id}/codes`. Always on: a draft may only reference its own or PUBLISHED assets
+>     (`REFERENCE_NOT_PUBLISHED`); a code belongs to its survey (`CODE_OWNED_ELSEWHERE`). With the library on: new
+>     codes must be server-issued (`CODE_NOT_ISSUED`). OpenAPI `88baaf2c…` (221 operations).
+>   - Frontend: `model/library.ts` (bring in; replace editor-made codes before a save), `persist/Library.tsx` (the
+>     drawer, bar button, newer-revision notice). The accepted Composer, Builder and Graph are untouched.
+>   - Verified: backend 688; frontend 513 unit; persisted journeys 14/14 (library ON in that config); prototype
+>     13/13; standard 33/33.
+> - **Development database: STILL AT `0027`, NOT migrated to `0028`.** The library is therefore OFF in development
+>   (`GET /survey-components` → 404) and the dev server stays ready because 0027 is accepted while the library
+>   setting is off. **Do not run `make migrate` without the owner's approval.** To enable later: back up, apply
+>   `0028` only, add `SURVEY_LIBRARY_ENABLED=true` to the gitignored `.env`.
+> - **Test-support change:** `tests/support.py` reset now drops sequences.
+> - **Left alone, flagged:** `GET /survey-library/{kind}` (SS-03A) still lists every frozen version by code.
+> - **Not authorised:** committing LIB-1, pushing, migrating the development database, SS-03B (proposed in `31_…`
+>   §11), any non-answer or consent behaviour, live eligibility, Script Studio changes.
 
 > **Update 2026-11-22 (FI-2) — read this block first; it supersedes the blocks below where they differ.**
 > - **FI-1: TECHNICALLY ACCEPTED — PERSISTED AUTHORING** (D-204), after the Back/Forward correction
