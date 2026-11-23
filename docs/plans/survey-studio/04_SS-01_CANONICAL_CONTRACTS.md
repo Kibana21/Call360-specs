@@ -2410,3 +2410,108 @@ published on its own is pinned by its own publication record.
 `survey_module_authoring_enabled` — off by default; on only with `survey_library_enabled`; needs migration `0036`.
 With it off, a schema at `0035` is accepted and serves everything else unchanged.
 
+## 23. Amendment of 2026-11-23 (SHARED-1): Assignment Rules and Finding Rules on their own
+
+Authorised by the owner on 2026-11-23 (D-360), on the rulings B-1 (D-357) and B-2 (D-358). Design:
+`52_SHARED-1_ASSESSMENT_AND_DESIGN.md`. Report: `53_SHARED-1_IMPLEMENTATION_REPORT.md`. **The rule engine, the
+condition language, the evaluation engine and the finding engine are unchanged.** No survey document changes.
+
+### 23.1 A rule's own market — migration `0037_shared_rule_services`
+
+`script_assignment_rule_version.market_code` (NOT NULL; a governed market; immutable with the published version).
+For a rule written before SHARED-1 it was back-filled from its target script family and verified. For a new rule it
+is the draft's market, which is one of the author's authorised markets, chosen when the rule is created. It is never
+taken from a survey or from a free field. Every reader takes a rule's market from the rule.
+
+### 23.2 What a rule selects
+
+`target_kind` on `assignment_rule_draft` and `script_assignment_rule_version`, fixed when the rule is created and the
+same for every later version:
+
+| `target_kind` | Script target | Assigns a script to a case | Selects a survey |
+|---|---|---|---|
+| `SCRIPT_VERSION` (default; every rule before SHARED-1) | required, published, same market | yes, as before | through a published survey binding, as before |
+| `SURVEY_BINDING` | **absent** — a draft with one is refused (`TARGET_NOT_ALLOWED`) | **never** | through a published survey binding |
+
+`CHECK ((target_kind = 'SCRIPT_VERSION') = (target_script_version_id IS NOT NULL))`.
+
+A `SURVEY_BINDING` rule is excluded from operational script assignment at three levels: the candidate loader returns
+script-backed rules unless both kinds are asked for, and only survey selection asks; the simulation of rules over
+cases refuses a survey-only draft (`SURVEY_ONLY_NOT_SIMULATED_ON_CASES`); and the database refuses a
+`script_assignment` whose matched rule is not script-backed. It is not listed by the script-side
+`GET /script-assignment-rules`.
+
+Validation of a `SURVEY_BINDING` draft: the target checks do not apply; it carries the warning `SURVEY_ONLY`; its
+conflicts are computed against **every** live rule of its market (the set survey selection evaluates). Validation of
+a `SCRIPT_VERSION` draft is unchanged, against script-backed rules only. The manifest and checksum of a script-backed
+rule are exactly what they were; those of a survey-only rule add `target_kind` and state no target.
+
+Lifecycle: the existing one — author, a different reviewer, a publisher who is not a maker. Unchanged.
+
+### 23.3 Market consistency of survey bindings and groups
+
+Refused by the application (`MARKET_MISMATCH`, as before) and now also by the database: a survey binding, its rule and
+its survey belong to one market; a requirement group holds rules of its own market only; a script-backed rule and its
+target script belong to one market.
+
+### 23.4 Operations — no new operation; additive fields
+
+| Field | Where |
+|---|---|
+| `target_kind` | `RuleCreate` (request; `SURVEY_BINDING` needs the setting), `RuleExplainIn`, `RuleDraftOut`, `RuleVersionOut`, `RuleSummary`, and each rule of `GET /survey-assignment/policy` |
+| `market` | `RuleVersionOut` (the rule's own); `RuleSummary.market` is now the rule's own market, not a constant |
+| `survey_only_rules` | `GET /assignment-rules/options` — whether this server can create a survey-only rule |
+
+Errors: `409 SURVEY_ONLY_RULES_UNAVAILABLE`, `422 INVALID_TARGET_KIND`, `422 COPY_KIND_MISMATCH`,
+`422 TARGET_NOT_ALLOWED`, `422 SURVEY_ONLY_NOT_SIMULATED_ON_CASES`.
+
+### 23.5 Permissions
+
+Eight permissions, created and granted to no role. Each operation accepts either the dedicated permission or the
+legacy one:
+
+| Operation | Dedicated | Legacy, still accepted |
+|---|---|---|
+| assignment rules: registry, options, draft, history, diff, explain | `assignment_rule.read` | `script.read` |
+| create, new version, save, validate, submit, abandon | `assignment_rule.edit` | `script.edit` |
+| review | `assignment_rule.approve` | `script.approve` |
+| publish | `assignment_rule.publish` | `script.publish` |
+| finding rule sets: options, list, read | `finding_rule.read` | `script.read` |
+| create, save, submit, abandon | `finding_rule.edit` | `script.edit` |
+| review | `finding_rule.approve` | `script.approve` |
+| publish | `finding_rule.publish` | `script.publish` |
+
+Unchanged and not covered by a dedicated permission: `POST /assignment-rules/simulate` (it reads cases; `script.read`),
+`script.assign` (applying a script to a case, the batch run), and every Script Studio operation. No permission implies
+another: the survey permissions grant nothing on rules, and a rule permission grants nothing in Script Studio, Survey
+Studio or the other rule capability.
+
+### 23.6 Finding rules
+
+No schema change. A rule of scope `QUESTION` still names a script question code; it does not match a survey item, and
+no cross-system question identity is defined here (dependency DEP-FR-1).
+
+### 23.7 Settings and migrations (adds to §22.6)
+
+`shared_rule_services_enabled` — off by default; needs migration `0037`. With it off no survey-only rule can be
+created; a schema at `0036` is accepted, and a rule's market and kind are read as its script family's market and
+`SCRIPT_VERSION`.
+
+### 23.8 Governance as accepted (2026-11-23, D-370, D-372)
+
+SHARED-1 is accepted as technically verified. The lifecycles are retained as they are and differ by capability:
+
+| Capability | People |
+|---|---|
+| Assignment rule; finding rule set | two — an author, and a different checker who may also publish |
+| Survey binding; requirement group; survey, module and library content | three — each step by a different person |
+
+Harmonisation is not decided. A rule's kind is fixed at creation (§23.2); the conflict scope of §23.2 is unchanged
+and its consequences are assessed in `54_…` §3 (CK-1…CK-3).
+
+### 23.9 Development (D-375, D-376)
+
+Migration `0037` is applied to local development and `shared_rule_services_enabled` is on there. The dedicated
+permissions are held only by four development-only roles (`DEV_RULE_AUTHOR`, `DEV_RULE_CHECKER`,
+`DEV_FINDING_AUTHOR`, `DEV_FINDING_CHECKER`). No standing role holds one.
+

@@ -1,0 +1,125 @@
+SHARED-1 — migration 0037_shared_rule_services on LOCAL DEVELOPMENT, 2026-11-23 (owner-authorised). Names, counts and digests only.
+
+== 1. Identity and inventory BEFORE (API server stopped)
+settings: {'app_env': 'local', 'schema': 'call360', 'expected_database': 'Call360_db', 'host': 'localhost', 'port': 5432, 'survey_definitions_enabled': True}
+connection: {'database': 'Call360_db', 'role': 'Call360_db_user', 'schema': 'call360', 'server_addr': '::1/128', 'server_port': 5432, 'pg_version': '15.12', 'read_only': 'on'}
+revision: ['0036_survey_module_authoring'] | tables: 140 | rows: 16202 | triggers: 138 | functions: 53 | permissions: 45
+database: {'database': 'Call360_db', 'schema': 'call360', 'role': 'Call360_db_user'} | revision: 0036_survey_module_authoring | 0037 columns: False | immutability trigger: O
+  assignment rule versions (every pre-0037 column): 8 rows, digest d9f097da290bd9a4
+  rule identity, version, target, checksum: 8 rows, digest 55b0661f0bfe7bf7
+  rule publications: 3 rows, digest 0cb499b6720dc533
+  rule change events: 19 rows, digest ec5f16e9d27ca088
+  rule drafts (every pre-0037 column): 4 rows, digest d47782f65eb36c34
+  script families: 7 rows, digest 9f3d1e115a89fb94
+  script versions: 11 rows, digest b4a6fc85e9a9df94
+  script assignments: 251 rows, digest 8e2ea71f20379060
+  callback cases: 258 rows, digest 724c049b32f95d41
+  survey bindings: 3 rows, digest 8be8660dfffa870e
+  survey binding events: 10 rows, digest cc1d971b97949cd1
+  requirement groups: 2 rows, digest a0de324f74b2e9f9
+  requirement group members: 2 rows, digest 1e6a27559c203d25
+  composite plans: 8 rows, digest 36be8afc545f92d5
+  table conversation_session: 95 rows, digest 9a75b9961e28a8b2
+  table survey_run: 82 rows, digest 810fe749e3661951
+  table finding: 26 rows, digest 2113dad03072b711
+  table finding_rule_set_version: 1 rows, digest 9c158e91953c4ba5
+  table finding_rule_set_event: 10 rows, digest 92054328d0c00b0a
+  table review_approval: 1 rows, digest 355277fe8835162c
+  table review_decision: 5 rows, digest 7df48aa52787ec36
+  table simulation_finding: 4 rows, digest 83f5d66105d4fa25
+  table survey_evaluation_finding: 8 rows, digest 372b161567b9ef16
+  table contact_attempt: 415 rows, digest 0db1b136fa813b8b
+  table audit_event: 3429 rows, digest fe0479957d5413ae
+  table survey_version: 7 rows, digest 2b4655889ee9b8d6
+  table survey_candidate: 8 rows, digest eb4a871b8281c4a4
+  table survey_assignment_evaluation: 4 rows, digest d905fef5241f6e4b
+  table survey_coordinated_simulation: 6 rows, digest 45ef0e33a7c58ff3
+  table survey_journey_evaluation: 5 rows, digest a050af15380c87a5
+  tables not present under these names: []
+  rules (code, version, status, script family market, target, checksum, own market, kind):
+    ['MY-SALES-VERIFY', 1, 'PUBLISHED', 'MY', 'SALES_VERIFICATION_MY v1.0', 'f4910137a92e', None, None]
+    ['S2C-DEMO-LEGACY-CONFLICT', 1, 'WITHDRAWN', 'SG', 'SALES_VERIFICATION_SG_PROTECT v1.0', '68ddf6d830f6', None, None]
+    ['S2D1-LIFECYCLE-DEMO', 1, 'PUBLISHED', 'SG', 'SG_LIFECYCLE_DEMO v1.0', '369cfe09975a', None, None]
+    ['SG-ILP-HIGH-RISK', 1, 'SUPERSEDED', 'SG', 'SALES_VERIFICATION_SG v1.1', '9b350a3e2411', None, None]
+    ['SG-ILP-HIGH-RISK', 2, 'PUBLISHED', 'SG', 'SALES_VERIFICATION_SG v1.1', 'a538f0718ef2', None, None]
+    ['SG-PILOT', 1, 'WITHDRAWN', 'SG', 'SALES_VERIFICATION_SG v0.9', 'bc139b904a91', None, None]
+    ['SG-SALES-VERIFY', 1, 'SUPERSEDED', 'SG', 'SALES_VERIFICATION_SG v1.0', 'dea640efd34d', None, None]
+    ['SG-SALES-VERIFY', 2, 'PUBLISHED', 'SG', 'SALES_VERIFICATION_SG v1.1', 'f153873cdaa3', None, None]
+
+== 2. Backup
+file: _db_backups/call360_dev_before_0037_20261123.dump (outside every repository; mode 600)
+sha256: 2d90aa7d0cfe819585c529f25f88081eebdd694cd5bbf75d3b5cbe590d47861c
+archive: 140 tables, 140 data sets, 16,202 rows — every table's row count equals the live inventory (no mismatch)
+recovery check: the whole archive writes out as SQL without error (pg_restore to SQL, exit 0, 0 bytes of errors). It was not restored into a database.
+
+== 3. Applied: uv run alembic upgrade 0037_shared_rule_services (one revision, one transaction; never 'make migrate')
+revision: ['0036_survey_module_authoring'] -> ['0037_shared_rule_services']
+tables: 140 -> 140 | added: [] | removed: []
+tables whose rows differ: [('alembic_version', 1, 1), ('assignment_rule_draft', 4, 4), ('permission', 45, 53), ('script_assignment_rule_version', 8, 8)]
+unchanged tables (row count and content digest identical): 136
+rows: 16202 -> 16210
+triggers added: ['assignment_rule_draft_kind_guard@assignment_rule_draft', 'assignment_rule_market_check@script_assignment_rule_version', 'script_assignment_rule_kind_check@script_assignment', 'script_assignment_rule_version_market@script_assignment_rule_version', 'survey_binding_market_check@survey_assignment_binding', 'survey_group_member_market_check@survey_assignment_group_member'] | removed: []
+functions added: ['assignment_rule_draft_kind_guard', 'assignment_rule_market_check', 'script_assignment_rule_kind_check', 'survey_binding_market_check', 'survey_group_member_market_check'] | removed: []
+permissions added: ['assignment_rule.approve', 'assignment_rule.edit', 'assignment_rule.publish', 'assignment_rule.read', 'finding_rule.approve', 'finding_rule.edit', 'finding_rule.publish', 'finding_rule.read'] | removed: []
+non-survey columns digest unchanged: False
+
+== 4. Rule, script, survey-assignment and operational records AFTER
+database: {'database': 'Call360_db', 'schema': 'call360', 'role': 'Call360_db_user'} | revision: 0037_shared_rule_services | 0037 columns: True | immutability trigger: O
+  assignment rule versions (every pre-0037 column): 8 rows, digest d9f097da290bd9a4
+  rule identity, version, target, checksum: 8 rows, digest 55b0661f0bfe7bf7
+  rule publications: 3 rows, digest 0cb499b6720dc533
+  rule change events: 19 rows, digest ec5f16e9d27ca088
+  rule drafts (every pre-0037 column): 4 rows, digest d47782f65eb36c34
+  script families: 7 rows, digest 9f3d1e115a89fb94
+  script versions: 11 rows, digest b4a6fc85e9a9df94
+  script assignments: 251 rows, digest 8e2ea71f20379060
+  callback cases: 258 rows, digest 724c049b32f95d41
+  survey bindings: 3 rows, digest 8be8660dfffa870e
+  survey binding events: 10 rows, digest cc1d971b97949cd1
+  requirement groups: 2 rows, digest a0de324f74b2e9f9
+  requirement group members: 2 rows, digest 1e6a27559c203d25
+  composite plans: 8 rows, digest 36be8afc545f92d5
+  table conversation_session: 95 rows, digest 9a75b9961e28a8b2
+  table survey_run: 82 rows, digest 810fe749e3661951
+  table finding: 26 rows, digest 2113dad03072b711
+  table finding_rule_set_version: 1 rows, digest 9c158e91953c4ba5
+  table finding_rule_set_event: 10 rows, digest 92054328d0c00b0a
+  table review_approval: 1 rows, digest 355277fe8835162c
+  table review_decision: 5 rows, digest 7df48aa52787ec36
+  table simulation_finding: 4 rows, digest 83f5d66105d4fa25
+  table survey_evaluation_finding: 8 rows, digest 372b161567b9ef16
+  table contact_attempt: 415 rows, digest 0db1b136fa813b8b
+  table audit_event: 3429 rows, digest fe0479957d5413ae
+  table survey_version: 7 rows, digest 2b4655889ee9b8d6
+  table survey_candidate: 8 rows, digest eb4a871b8281c4a4
+  table survey_assignment_evaluation: 4 rows, digest d905fef5241f6e4b
+  table survey_coordinated_simulation: 6 rows, digest 45ef0e33a7c58ff3
+  table survey_journey_evaluation: 5 rows, digest a050af15380c87a5
+  tables not present under these names: []
+  rules (code, version, status, script family market, target, checksum, own market, kind):
+    ['MY-SALES-VERIFY', 1, 'PUBLISHED', 'MY', 'SALES_VERIFICATION_MY v1.0', 'f4910137a92e', 'MY', 'SCRIPT_VERSION']
+    ['S2C-DEMO-LEGACY-CONFLICT', 1, 'WITHDRAWN', 'SG', 'SALES_VERIFICATION_SG_PROTECT v1.0', '68ddf6d830f6', 'SG', 'SCRIPT_VERSION']
+    ['S2D1-LIFECYCLE-DEMO', 1, 'PUBLISHED', 'SG', 'SG_LIFECYCLE_DEMO v1.0', '369cfe09975a', 'SG', 'SCRIPT_VERSION']
+    ['SG-ILP-HIGH-RISK', 1, 'SUPERSEDED', 'SG', 'SALES_VERIFICATION_SG v1.1', '9b350a3e2411', 'SG', 'SCRIPT_VERSION']
+    ['SG-ILP-HIGH-RISK', 2, 'PUBLISHED', 'SG', 'SALES_VERIFICATION_SG v1.1', 'a538f0718ef2', 'SG', 'SCRIPT_VERSION']
+    ['SG-PILOT', 1, 'WITHDRAWN', 'SG', 'SALES_VERIFICATION_SG v0.9', 'bc139b904a91', 'SG', 'SCRIPT_VERSION']
+    ['SG-SALES-VERIFY', 1, 'SUPERSEDED', 'SG', 'SALES_VERIFICATION_SG v1.0', 'dea640efd34d', 'SG', 'SCRIPT_VERSION']
+    ['SG-SALES-VERIFY', 2, 'PUBLISHED', 'SG', 'SALES_VERIFICATION_SG v1.1', 'f153873cdaa3', 'SG', 'SCRIPT_VERSION']
+before vs after the migration | record sets: 30 | differing: none | rules identical: False | trigger: O
+
+== 5. Empty round trip on development, before any new content: 0037 -> 0036 -> 0037
+after the downgrade vs before the migration | revision ['0036_survey_module_authoring'] vs ['0036_survey_module_authoring'] | tables differing: none | triggers same: True | functions same: True | permissions same: True | columns same: True
+rule and operational records after the downgrade | record sets: 30 | differing: none | rules identical: True | trigger: O
+second upgrade vs first upgrade | revision ['0037_shared_rule_services'] vs ['0037_shared_rule_services'] | tables differing: none | triggers same: True | functions same: True | permissions same: True | columns same: True
+rule and operational records after the round trip | record sets: 30 | differing: none | rules identical: True | trigger: O
+
+== 6. Downgrade guard AFTER the demonstration
+Downgrade guard on DEVELOPMENT after the demonstration (expected: refused, nothing changes)
+    raise RuntimeError("survey-only assignment rules exist; they cannot be expressed without the columns")
+RuntimeError: survey-only assignment rules exist; they cannot be expressed without the columns
+revision after the attempt: 0037_shared_rule_services (head)
+records after the refused downgrade vs before it | record sets: 30 | differing: none | rules identical: True | trigger: O
+server ready: 200
+
+== 7. Setting
+SHARED_RULE_SERVICES_ENABLED=true added to the gitignored Call360-backend/.env; server restarted; GET /health/ready 200; GET /assignment-rules/options reports survey_only_rules: true

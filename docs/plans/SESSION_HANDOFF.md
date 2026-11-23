@@ -11,7 +11,97 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-23 (LIB-2 accepted; development at 0036; MIG-1 assessment) — read this block first.**
+> **Update 2026-11-23, latest (Survey Applicability Studio, APPL-X1) — read this block first; it supersedes the blocks below where they differ.**
+> - **A new programme was started by the owner: Survey Applicability Studio** (D-379). It is a NEW survey-centred
+>   product that must NOT sit on assignment rules, survey bindings or requirement groups, and must not write into
+>   them. Legacy records are preserved untouched. Phases APPL-X1 … X6; **only APPL-X1 was authorised.**
+> - **APPL-X1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's DESIGN ACCEPTANCE; uncommitted. No table, no
+>   migration, nothing stored.** Documents `survey-studio/56_…` (architecture and contracts), `57_…` (experience
+>   specification and evidence), `58_…` (plan X2–X6); decisions D-379…D-385; evidence
+>   `docs/acceptance/evidence/APPL-X1/`.
+>   - Backend: pure evaluator `app/domain/survey/applicability/` (`logic.py` three-valued expression tree with
+>     trace; `evaluator.py` additive selection, explicit `replaces`, `CHOOSE_ONE`, `same_survey`, order, compare;
+>     `analysis.py` validation, enumeration, scenario generation). Four STATELESS operations
+>     `POST /api/v1/survey-applicability/prototype/{evaluate,condition-test,analyse,scenarios}` in
+>     `app/api/survey_applicability.py`, setting `survey_applicability_prototype_enabled`, permission `survey.read`.
+>     Tests `tests/test_survey_applicability.py` (21). Contract identifier `call360.survey-applicability/0`.
+>   - Frontend: `src/features/applicability/` (Shell, Overview, Variables, Profiles, ConditionLab, Designer +
+>     DesignerCards / DesignerCanvas / DesignerMatrix, Scenarios, Governance, editors, drawers, facts, plan, store,
+>     api, usage, model/), `src/styles/applicability.css`, build setting `VITE_SURVEY_APPLICABILITY`. Mounted inside
+>     persisted Survey Studio at `/survey-studio/applicability`. **The browser computes no applicability.** The
+>     workspace is in the tab's memory (never browser storage); governance is simulated; surveys are six synthetic
+>     catalogue entries.
+>   - Browser journey: `e2e/applicability/journey.appl.ts` with its OWN config `playwright.applicability.config.ts`
+>     (same ports 8001 / 5174 as the others: never run two suites at once).
+>   - Enabled in LOCAL DEVELOPMENT for review: `SURVEY_APPLICABILITY_PROTOTYPE_ENABLED=true` in the gitignored
+>     `.env`, and the dev frontend is started with `VITE_SURVEY_STUDIO_PERSISTED=1 VITE_SURVEY_APPLICABILITY=1`.
+>     Development database is still `0037`; nothing was migrated.
+>   - Open with the owner: design acceptance; AP-1…AP-10 (D-382); the choices of D-383; what was NOT demonstrated
+>     (D-384: market isolation, audited history, real governance, persistence, any UX target that needs people).
+> - **Nothing is authorised next.** Do NOT start APPL-X2 (persistence), APP-1a, OPS-1, MIG-2, legacy retirement,
+>   voice or Genesys work.
+>
+> **Update 2026-11-23, later (SHARED-1 accepted; development at 0037; APP-1 / OPS-1 assessed) — superseded by the block above where they differ.**
+> - **SHARED-1 — ACCEPTED as technically verified** (D-370). D-367 reconciled choice by choice (D-371). Governance
+>   retained and documented: assignment rules and finding rule sets are TWO-person; bindings, groups and survey
+>   content are THREE-person; harmonisation is a separate open decision (D-372). Gaps retained (D-373): DEP-FR-1, no
+>   operational case-to-survey path, legacy permission compatibility, control registry maintenance, OR-2 / OR-3.
+> - **Cross-kind conflict checks assessed, semantics NOT changed** (D-374; `survey-studio/54_…` §3): CK-1 (stricter
+>   than grouped selection needs), CK-2 (a script-backed draft is not warned about a tie with a survey-only rule),
+>   CK-3 (unbound rules compete in single-survey selection). Options open for the owner.
+> - **Development is at `0037_shared_rule_services` (head), `SHARED_RULE_SERVICES_ENABLED=true`** (D-375). Backup
+>   `_db_backups/call360_dev_before_0037_20261123.dump`; `_db_backups/RESTORE.md` has "Rolling 0037 back". A downgrade
+>   now refuses by design. Never `make migrate`, never reset or re-seed.
+> - **Four dedicated development identities** (D-376; `Call360-backend/scripts/dev_rule_identities.py`):
+>   `dev.rule.author`, `dev.rule.checker`, `dev.finding.author`, `dev.finding.checker`, each holding only its
+>   `assignment_rule.*` / `finding_rule.*` permissions, market SG. Passwords only in the gitignored
+>   `.secrets/dev_survey_accounts.json`. The passwords of `dev.user`, `dev.checker`, `dev.admin` are NOT kept
+>   anywhere the assistant can read; the owner supplied them once for the legacy check and they were not stored.
+> - **Left in development by the demonstration** (D-377, synthetic): rules `DEV-S1-PRIMARY v1`, `DEV-S1-EXTRA v1`
+>   (survey-only); bindings to `S-DEV-LIB2-ONE` / `-TWO`; `DEV-PRIMARY` v2; `DEV-S1-EXTRA-GROUP`; finding rule set v2
+>   (rules identical to v1). The protected records and the `SG-ILP-HIGH-RISK v2` → `S-DEV-EVAL-SHARED` binding are
+>   untouched.
+> - **APP-1 / OPS-1 — ASSESSMENT ONLY** (D-378; `survey-studio/55_…`). Key facts: no "application" entity (a case
+>   references one sale event); the two vocabularies do not line up; every Survey Studio record is constrained to
+>   SIMULATION; the voice session does not execute a script today. Proposed next boundary **APP-1a** (read-only,
+>   stateless application view and selection preview). Questions Q-1…Q-15 for Business / Compliance.
+> - **Nothing is authorised next.** Do NOT start APP-1a, OPS-1, MIG-2, Script Studio retirement, operational survey
+>   assignment, voice or Genesys work.
+>
+> **Update 2026-11-23 (MIG-1 accepted; SHARED-1 built) — superseded by the block above where they differ.**
+> - **MIG-1 — ACCEPTED as a completed technical assessment** (D-356). **B-1 ruled** (D-357): the migration-and-
+>   preservation strategy supersedes the conflicting parts of D-154 and D-156; historical script content, evidence,
+>   foreign keys and readers are preserved while dependent records exist; a narrow one-time migration adapter is
+>   permissible in MIG-2; no parallel legacy engine; removing legacy tables is NOT authorised. **B-2 ruled** (D-358):
+>   Assignment Rules and Finding Rules are independently governed shared services. M-1…M-5 and B-3…B-7 stay OPEN
+>   (D-359) — do not invent re-prompt limits, delivery rules, failure behaviour, unknown policies, conversion scope,
+>   retention periods or approval equivalence.
+> - **SHARED-1 — BUILT AND TECHNICALLY VERIFIED, awaiting the owner's review; NOT accepted; uncommitted.** Documents:
+>   `survey-studio/52_…` (assessment and design, written before the schema edit), `53_…` (report), contract §23,
+>   D-360…D-369, evidence `docs/acceptance/evidence/SHARED-1/`.
+>   - Migration `0037_shared_rule_services` (TEST SCHEMA ONLY): `script_assignment_rule_version.market_code` (the
+>     rule's own market, back-filled and verified), `target_kind` (`SCRIPT_VERSION` | `SURVEY_BINDING`) on the rule
+>     version and the draft, five guards, eight permissions granted to no role. Setting
+>     `shared_rule_services_enabled`.
+>   - Backend: `rule_inputs.py` (`RULE_MARKET_SQL`, `RULE_KIND_SQL`, `published_candidates(…, kinds)` — DEFAULT
+>     script-backed only; survey selection passes `ALL_KINDS`), `rule_authoring.py`, `api/assignment_rules.py`,
+>     `api/finding_rules.py`, `survey/assignment.py`, `security/authz.py` (`require_any`). `rule_engine.py`,
+>     `answer_evaluation.py`, `finding_engine.py`, `script_assignment.py` are NOT edited. Tests
+>     `tests/test_shared1_rules.py`.
+>   - Frontend: `src/auth/capability.ts`; `RequirePermission` and nav children accept several permissions;
+>     Assignment Rules (`features/scripts/AssignmentRulesPage.tsx`, `features/rules/*`) and Finding Rules changed for
+>     this — Script Studio's library and editor were not. Journey `e2e/persisted/zzzzzz-shared1.persisted.ts`; four
+>     test identities holding only dedicated permissions (`e2e.survey.ruleauthor`, `…rulechecker`,
+>     `…findingauthor`, `…findingchecker`).
+>   - **Development is at `0036`; `0037` is NOT applied; the setting is off.** The new code runs against it unchanged
+>     (read through `to_jsonb`). Enabling needs the owner's separate authorisation (D-369). Never `make migrate`.
+>   - Verified: backend 1,024; vitest 630; Playwright persisted 34, prototype 13, standard 33; golden 82 / 14
+>     unchanged; OpenAPI 275 operations, 521 schemas, SHA-256 `2f98a3f9…6074a4a8`.
+>   - Open: D-367 (ten choices), D-368 (gaps: DEP-FR-1 question-scoped finding rules; no operational path for a
+>     survey — OPS-1), D-369. **Nothing is authorised next.** Do NOT start MIG-2, OPS-1, a converter, any Script
+>     Studio change, VOICE-1 or LIB-3.
+>
+> **Update 2026-11-23 (LIB-2 accepted; development at 0036; MIG-1 assessment) — superseded by the block above where they differ.**
 > - **LIB-2 — ACCEPTED by the owner as technically verified, simulation-only** (D-344). Rulings P-1…P-8 recorded
 >   (D-345); LIB-D-1 now reads "An asset is reusable when its exact revision is pinned by a published survey version
 >   or published independently through the governed module lifecycle" (D-346). Open: a separate library authority

@@ -1,0 +1,8 @@
+SHARED-1 code against DEVELOPMENT, which is NOT migrated (still 0036). Read-only. 2026-11-23.
+ready: 200 | shared_rule_services_enabled: False
+revision: 0036_survey_module_authoring | 0037 columns present: False
+rules of SG: operational ['S2C-DEMO-LEGACY-CONFLICT v1', 'S2D1-LIFECYCLE-DEMO v1', 'SG-ILP-HIGH-RISK v1', 'SG-ILP-HIGH-RISK v2', 'SG-PILOT v1', 'SG-SALES-VERIFY v1', 'SG-SALES-VERIFY v2'] | survey selection sees the same: True
+rules of MY: operational ['MY-SALES-VERIFY v1'] | survey selection sees the same: True
+survey assignment policy: [('S2D1-LIFECYCLE-DEMO v1', 'SG', 'SCRIPT_VERSION', False), ('SG-ILP-HIGH-RISK v2', 'SG', 'SCRIPT_VERSION', True), ('SG-SALES-VERIFY v2', 'SG', 'SCRIPT_VERSION', True)]
+GET /survey-assignment/policy: 200 3 rules, 3 bindings
+GET /assignment-rules as a survey identity (no rule permission): 403

@@ -1,0 +1,32 @@
+SHARED-1 — development identities and grants after enablement, 2026-11-23. Usernames, groups, roles, markets and permission codes. No credential.
+Created by: uv run python scripts/dev_rule_identities.py --confirm-development (audited: ADMIN.ROLE_PERMISSIONS_SET per role)
+Before: holders of any assignment_rule.* / finding_rule.* permission: 0. Six identities: dev.admin, dev.checker, dev.user, dev.survey.author, dev.survey.checker, dev.survey.publisher.
+
+roles and what they hold:
+   ADMIN (23 permissions) script/rule/survey: script.read
+   DEV_FINDING_AUTHOR (2 permissions) script/rule/survey: finding_rule.edit, finding_rule.read
+   DEV_FINDING_CHECKER (3 permissions) script/rule/survey: finding_rule.approve, finding_rule.publish, finding_rule.read
+   DEV_RULE_AUTHOR (2 permissions) script/rule/survey: assignment_rule.edit, assignment_rule.read
+   DEV_RULE_CHECKER (3 permissions) script/rule/survey: assignment_rule.approve, assignment_rule.publish, assignment_rule.read
+   DEV_SURVEY_AUTHOR (6 permissions) script/rule/survey: survey.assignment.read, survey.edit, survey.evaluate, survey.evaluation.read, survey.read, survey.simulate
+   DEV_SURVEY_CHECKER (4 permissions) script/rule/survey: survey.approve, survey.assignment.read, survey.evaluation.read, survey.read
+   DEV_SURVEY_PUBLISHER (4 permissions) script/rule/survey: survey.assignment.read, survey.evaluation.read, survey.publish, survey.read
+   SC_CHECKER (13 permissions) script/rule/survey: script.approve, script.publish, script.read, script.simulate
+   USER (18 permissions) script/rule/survey: script.assign, script.edit, script.read, script.simulate
+holders of any dedicated permission: 10
+identities (username | status | groups | roles | markets):
+   dev.admin | ACTIVE | LOCAL_ADMIN | ADMIN,DEV_SURVEY_AUTHOR | SG
+   dev.checker | ACTIVE | LOCAL_SC_CHECKER_SG | SC_CHECKER | SG
+   dev.finding.author | ACTIVE | LOCAL_DEV_FINDING_AUTHOR_SG | DEV_FINDING_AUTHOR | SG
+   dev.finding.checker | ACTIVE | LOCAL_DEV_FINDING_CHECKER_SG | DEV_FINDING_CHECKER | SG
+   dev.rule.author | ACTIVE | LOCAL_DEV_RULE_AUTHOR_SG | DEV_RULE_AUTHOR | SG
+   dev.rule.checker | ACTIVE | LOCAL_DEV_RULE_CHECKER_SG | DEV_RULE_CHECKER | SG
+   dev.survey.author | ACTIVE | LOCAL_DEV_SURVEY_AUTHOR_SG | DEV_SURVEY_AUTHOR | SG
+   dev.survey.checker | ACTIVE | LOCAL_DEV_SURVEY_CHECKER_SG | DEV_SURVEY_CHECKER | SG
+   dev.survey.publisher | ACTIVE | LOCAL_DEV_SURVEY_PUBLISHER_SG | DEV_SURVEY_PUBLISHER | SG
+   dev.user | ACTIVE | LOCAL_USER_SG | USER | SG
+groups: [('LOCAL_ADMIN', 'ACTIVE', 'SG'), ('LOCAL_DEV_FINDING_AUTHOR_SG', 'ACTIVE', 'SG'), ('LOCAL_DEV_FINDING_CHECKER_SG', 'ACTIVE', 'SG'), ('LOCAL_DEV_RULE_AUTHOR_SG', 'ACTIVE', 'SG'), ('LOCAL_DEV_RULE_CHECKER_SG', 'ACTIVE', 'SG'), ('LOCAL_DEV_SURVEY_AUTHOR_SG', 'ACTIVE', 'SG'), ('LOCAL_DEV_SURVEY_CHECKER_SG', 'ACTIVE', 'SG'),
+
+Unchanged: ADMIN, USER, SC_CHECKER and DEV_SURVEY_* hold exactly what they held (no dedicated permission added, no script.* permission removed).
+Passwords: generated, written only to the gitignored Call360-backend/.secrets/dev_survey_accounts.json, never printed.
+To undo: uv run python scripts/dev_rule_identities.py --confirm-development --remove

@@ -1,0 +1,106 @@
+SHARED-1 — demonstration on LOCAL DEVELOPMENT after migration 0037, 2026-11-23. Real API, dedicated identities, synthetic content.
+
+Operational decisions BEFORE the demonstration (existing service, read-only):
+  cases: 258 | by winning rule: {'SG-ILP-HIGH-RISK v2': 64, 'SG-SALES-VERIFY v2': 136, 'S2D1-LIFECYCLE-DEMO v1': 3, 'MY-SALES-VERIFY v1': 55}
+
+STEPS 1-3. Survey-only rules, created, saved, validated, reviewed and published (two people, the existing rule lifecycle)
+ A.1 created DEV-S1-PRIMARY: kind SURVEY_BINDING, script target None, market SG
+ A.2 saved and validated (200): errors [], warnings []
+ A.3 giving it a script is refused: 422 TARGET_NOT_ALLOWED
+ A.4 submitted; the author's own review: 403; own publish: 403
+ A.5 approved and published by dev.rule.checker: DEV-S1-PRIMARY v1 | kind SURVEY_BINDING | market SG | target {'id': None, 'label': 'no script — a survey, through a survey binding', 'script_family_id': None, 'status': None}
+ B.1 created DEV-S1-EXTRA: kind SURVEY_BINDING, script target None, market SG
+ B.2 saved and validated (200): errors [], warnings []
+ B.3 giving it a script is refused: 422 TARGET_NOT_ALLOWED
+ B.4 submitted; the author's own review: 403; own publish: 403
+ B.5 approved and published by dev.rule.checker: DEV-S1-EXTRA v1 | kind SURVEY_BINDING | market SG | target {'id': None, 'label': 'no script — a survey, through a survey binding', 'script_family_id': None, 'status': None}
+STEP 4. Bound to published surveys (three people: proposer, approver, publisher)
+   DEV-S1-PRIMARY v1 -> S-DEV-LIB2-ONE 1.0: PUBLISHED (proposer's own approval 403; approver's own publication 403)
+   DEV-S1-EXTRA v1 -> S-DEV-LIB2-TWO 1.0: PUBLISHED (proposer's own approval 403; approver's own publication 403)
+STEP 5. Governed requirement groups (three people)
+   DEV-PRIMARY v2 PRIMARY PUBLISHED: members [('DEV-S1-PRIMARY', 1), ('SG-SALES-VERIFY', 2)]
+   DEV-S1-EXTRA-GROUP v1 ADD_REQUIRED PUBLISHED: members [('DEV-S1-EXTRA', 1)]
+STEPS 6-8. A synthetic application: several surveys, a composite call plan, a coordinated simulation
+   single-survey selection: SELECTED / MATCHED by DEV-S1-PRIMARY v1 -> survey version is S-DEV-LIB2-ONE 1.0: True
+   composite plan a19f6e67: selection RESOLVED, ordering GOVERNED, plan READY
+     DEV-PRIMARY: DEV-S1-PRIMARY v1 -> S-DEV-LIB2-ONE
+     DEV-S1-EXTRA-GROUP: DEV-S1-EXTRA v1 -> S-DEV-LIB2-TWO
+     issues: none
+   coordinated simulation c70746f8: status RUNNING, surveys in order ['S-DEV-LIB2-ONE', 'S-DEV-LIB2-TWO']
+
+STEP 9. Operational script assignment ignores the survey-only rules
+   rules the operational loader returns, before == after: True | contains a DEV-S1 rule: False
+   rules survey selection considers now: ['DEV-S1-EXTRA v1 [SURVEY ONLY]', 'DEV-S1-PRIMARY v1 [SURVEY ONLY]']
+   the decision for each of 258 cases (outcome, winning rule, script, decision and input fingerprints): identical for 258
+   REFUSED by the database: a script assignment matched by a survey-only rule: matched rule does not target the assigned version
+   REFUSED by the database: giving the survey-only rule a script: a published assignment rule version is immutable (only explicit retirement is allowed)
+   REFUSED by the database: changing its market: a published assignment rule version is immutable (only explicit retirement is allowed)
+   REFUSED by the database: changing its kind: a published assignment rule version is immutable (only explicit retirement is allowed)
+   REFUSED by the database: changing the market of an existing script-backed rule: a published assignment rule version is immutable (only explicit retirement is allowed)
+   simulation over cases with the dedicated permission only: 403 (it reads cases; stays on script.read)
+STEP 10. Existing script-backed rules continue to work
+   DEV-S1-EXTRA v1 | SURVEY_BINDING | market SG | no script — a survey, through a survey binding
+   DEV-S1-PRIMARY v1 | SURVEY_BINDING | market SG | no script — a survey, through a survey binding
+   S2D1-LIFECYCLE-DEMO v1 | SCRIPT_VERSION | market SG | SG_LIFECYCLE_DEMO v1.0
+   SG-ILP-HIGH-RISK v2 | SCRIPT_VERSION | market SG | SALES_VERIFICATION_SG v1.1
+   SG-SALES-VERIFY v2 | SCRIPT_VERSION | market SG | SALES_VERIFICATION_SG v1.1
+   history of SG-SALES-VERIFY readable: 200 versions 2
+STEP 11. Finding Rules governed with the dedicated permissions
+   dev.finding.author reads the published set: v1 PUBLISHED, 6 rules, fingerprint 197712a71da71321
+   new draft version from the published set: 201
+   draft v2: 6 rules, fingerprint equal to the published one: True
+   submit with the rules unchanged: 200 SUBMITTED_FOR_REVIEW
+STEP 12. Denied access
+   dev.rule.author: assignment rules 200 | finding rules 403 | scripts 403 | surveys 403 | cases 403 | create rule n/a (author)
+   dev.rule.checker: assignment rules 200 | finding rules 403 | scripts 403 | surveys 403 | cases 403 | create rule 403
+   dev.finding.author: assignment rules 403 | finding rules 200 | scripts 403 | surveys 403 | cases 403 | create rule 403
+   dev.finding.checker: assignment rules 403 | finding rules 200 | scripts 403 | surveys 403 | cases 403 | create rule 403
+   dev.survey.author: assignment rules 403 | finding rules 403 | scripts 403 | surveys 200 | cases 403 | create rule 403
+   cross-market (every development identity is scoped to SG; MY-SALES-VERIFY is a rule of MY):
+     the SG rule author sees MY-SALES-VERIFY in the registry: False | reads its history: 404
+     creating a rule in market MY: 403 MARKET_NOT_IN_SCOPE
+     binding the MY rule to an SG survey: 404 RULE_NOT_FOUND
+   REFUSED by the database: a binding row whose rule belongs to another market: a survey binding, its rule and its survey belong to the same market
+   the recorded composite plan reads back with the same fingerprint: True
+STEP 11 (continued). Finding rule set v2: review and publication by a different person holding only finding_rule.*
+   the author's own review: 403 | the author's own publication: 403
+   dev.finding.checker approves: 200 APPROVED
+   dev.finding.checker publishes: 200 PUBLISHED
+   v2 PUBLISHED | v1 SUPERSEDED | rules identical (code, scope, target, trigger, category, severity, review flag, description): True | fingerprint identical: True
+   a checker cannot author: 403
+
+STEP 13. Script Studio history and operational data after the demonstration (compared with the inventory taken right after the migration)
+   UNCHANGED: script families (7); script versions (11); script assignments (251); callback cases (258); table conversation_session (95); table survey_run (82); table finding (26); table review_approval (1); table review_decision (5); table simulation_finding (4); table survey_evaluation_finding (8); table contact_attempt (415); table survey_version (7); table survey_candidate (8); table survey_journey_evaluation (5)
+   GREW (the demonstration's own records): assignment rule versions (every pre-0037 column) 8->10; rule identity, version, target, checksum 8->10; rule publications 3->5; rule change events 19->31; rule drafts (every pre-0037 column) 4->6; survey bindings 3->5; survey binding events 10->16; requirement groups 2->4; requirement group members 2->5; composite plans 8->9; table finding_rule_set_version 1->2; table finding_rule_set_event 10->15; table audit_event 3429->3523; table survey_assignment_evaluation 4->5; table survey_coordinated_simulation 6->7
+   every rule that existed before is identical now (identity, version, status, target, checksum, market, kind): True | new rules: [('DEV-S1-EXTRA', 1), ('DEV-S1-PRIMARY', 1)]
+
+Screens (browser, development frontend):
+  DEV37-01-assignment-rules-as-dev-rule-author.png
+  DEV37-02-published-survey-only-rule.png
+  DEV37-03-rule-author-cannot-open-finding-rules.png
+  DEV37-04-rule-author-cannot-open-script-studio.png
+  DEV37-05-survey-assignment-with-survey-only-rules.png
+  DEV37-06-coordinated-simulation.png
+  DEV37-07-survey-author-cannot-open-assignment-rules.png
+  DEV37-08-finding-rules-as-dev-finding-checker.png
+
+== Added later on 2026-11-23: the LEGACY identities, signed in with credentials the owner supplied for this check (not stored, not printed)
+sign-in as dev.user: 200
+sign-in as dev.checker: 200
+sign-in as dev.admin: 200
+STEP 10 / 14 with the legacy identities
+   dev.user: scripts 200 | assignment rules 200 | finding rules 200 | script-side rule list 200 | rule options 200
+   dev.checker: scripts 200 | assignment rules 200 | finding rules 200 | script-side rule list 200 | rule options 200
+   dev.admin: scripts 200 | assignment rules 200 | finding rules 200 | script-side rule list 200 | rule options 200
+   registry as dev.user: [('DEV-S1-EXTRA', 'SURVEY_BINDING', 'SG'), ('DEV-S1-PRIMARY', 'SURVEY_BINDING', 'SG'), ('S2D1-LIFECYCLE-DEMO', 'SCRIPT_VERSION', 'SG'), ('SG-ILP-HIGH-RISK', 'SCRIPT_VERSION', 'SG'), ('SG-SALES-VERIFY', 'SCRIPT_VERSION', 'SG')]
+   script-side rule list: ['S2C-DEMO-LEGACY-CONFLICT v1', 'S2D1-LIFECYCLE-DEMO v1', 'SG-ILP-HIGH-RISK v1', 'SG-ILP-HIGH-RISK v2', 'SG-PILOT v1', 'SG-SALES-VERIFY v1', 'SG-SALES-VERIFY v2'] | contains a survey-only rule: False
+   scripts in Script Studio: 10 | history of SG-SALES-VERIFY: 200 | history of the survey-only rule: 200
+STEP 9 with the legacy identity: the simulation of the live rules over every case
+   simulate: 200 | keys: ['as_of', 'cases', 'conflicts', 'drafts', 'note', 'rules', 'scope', 'side_effects', 'summary'] | mentions a survey-only rule: False
+   summary: {"cases": 203, "baseline": {"SELECTED": 203}, "proposed": {"SELECTED": 203}, "changed": 0, "differs_from_existing": 31}
+   case preview 200: outcome SELECTED | mentions a survey-only rule: False
+   case preview 200: outcome SELECTED | mentions a survey-only rule: False
+   case preview 200: outcome SELECTED | mentions a survey-only rule: False
+   a legacy checker creating a rule (needs script.edit): 403 | admin (script.read only): 403
+   legacy identities and Survey Studio: dev.user surveys 403 | dev.checker surveys 403
+   note: 'differs_from_existing: 31' compares the live rules with assignments recorded earlier; it is not an effect of SHARED-1 (the decision for each of 258 cases is identical before and after, above).

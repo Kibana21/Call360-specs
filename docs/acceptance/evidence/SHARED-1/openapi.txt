@@ -1,0 +1,4 @@
+OpenAPI contracts/generated/openapi.json
+SHA-256 2f98a3f925131944f78b3fd2d4b8eeeb7fef4bd2ee14fdc14fe911146074a4a8
+275 operations (no operation added or removed); additive fields only: target_kind, market, survey_only_rules.
+export_openapi.py --check: matches. Frontend api:check: OK.
