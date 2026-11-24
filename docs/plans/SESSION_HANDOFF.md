@@ -11,8 +11,38 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-24, newest (APPL-X4a built on the TEST schema) — read this block first; it supersedes the blocks
-> below where they differ.**
+> **Update 2026-11-24, newest (APPL-X4a ACCEPTED, development at 0040) — read this block first; it supersedes the
+> blocks below where they differ.**
+> - **APPL-X4a ACCEPTED as technically verified on the test schema** (D-438). Owner rulings D-439…D-446: the
+>   evaluation model stands, and a variable-version mismatch must NOT pass a gating result when the value is invalid
+>   under the policy's definition (implemented: `VARIABLE_VERSION_INCOMPATIBLE`); limits are validated safety limits;
+>   for X4b — no mismatch-acknowledgement workflow, an all-result-proposed suite BLOCKS publication (independent
+>   authored expectations required), the checker may have authored expectations if not the submitter, a separate
+>   candidate event table, no evidence time-to-live, prototype endpoints retire only after callers migrate.
+> - **DEVELOPMENT IS AT `0040_applicability_scenarios`** (owner-authorised, applied 2026-11-24, D-447). Backup
+>   `_db_backups/call360_dev_before_0040_20261124.dump` (+ manifest); recovery in `_db_backups/RESTORE.md`
+>   "Rolling 0040 back". `.env` has `APPLICABILITY_SCENARIOS_ENABLED=true` (with policies and the library). Start the
+>   dev frontend with `VITE_SURVEY_STUDIO_PERSISTED=1 VITE_SURVEY_APPLICABILITY=1 VITE_APPLICABILITY_LIBRARY=1
+>   VITE_APPLICABILITY_POLICIES=1 VITE_APPLICABILITY_SCENARIOS=1`. NEVER run `make migrate` / `make seed`; a future
+>   `0041` needs its own authorisation and does NOT exist as a file.
+> - Development now holds six synthetic scenarios (`SHOW-*`), one gating suite `SHOWCASE-REGRESSION` and three
+>   recorded runs (passed, failed, passed) for policy `SHOWCASE-ILP-NFTF` (revision 10, same document as revision 8).
+> - **Found at preflight, not changed by me (D-448):** `dev.admin` is a member of `LOCAL_DEV_APPL_AUTHOR_SG` (added
+>   by `dev.admin` at 09:13) and saved `SHOWCASE-DEPENDENCIES` revision 6; a survey draft
+>   `S-SURVEY-FOR-PA-ACCIDENT-CASS` exists. Do not "restore" any of this.
+> - After acceptance (frontend, no API change): Restore controls for archived scenarios and suites; a read-only
+>   "Saved scenarios" picker in the designer (`SavedScenariosInDesigner`); unsaved scenario / suite edits kept across
+>   in-app navigation; journey `X4.11` added (11 journeys in `e2e/scenarios/studio.scn.ts`).
+> - **Open defect, not fixed (D-450):** at ≤760 px the shared shell's navigation links and account button have no
+>   accessible name (`mockup.css` hides their text with `display:none`). Proposed fix: `aria-label`s + a shell scan.
+>   Needs the owner's authorisation (shared shell). Voice Studio reliability defect also still open.
+> - **APPL-X4b: specification only** (`survey-studio/70_…`, revised; D-451). **Nothing is authorised next:** not
+>   APPL-X4b, APPL-X5, APP-1a, OPS-1, VOICE-1, legacy retirement. This session committed nothing.
+> - Report: `survey-studio/71_APPL-X4a_ACCEPTANCE_AND_DEVELOPMENT_ENABLEMENT.md`; evidence
+>   `docs/acceptance/evidence/APPL-X4a/development/`.
+>
+> **Update 2026-11-24 (APPL-X4a built on the TEST schema) — superseded by the block above where they differ; in
+> particular development is NO LONGER at 0039.**
 > - **APPL-X3 development enablement ACCEPTED** (D-427); `0039` is the development baseline. **D-418 CLOSED as fixed
 >   with a regression watch** (D-433): reopen if "the designer did not open after creation" recurs. Voice Studio
 >   reliability defect still open, Voice Studio untouched.

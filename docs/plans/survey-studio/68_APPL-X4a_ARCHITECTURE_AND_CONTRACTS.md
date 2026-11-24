@@ -213,3 +213,37 @@ applications; saved scenarios live in the studio. The "where things are kept" pa
 Policy candidates, approval, published policy versions, supersession, publication blockers (`70_…`); any operational
 reading of a policy; restoring an archived scenario or suite from the screen (the API has it); a second variable
 version inside one evaluation.
+
+## Addendum 2026-11-24 — owner rulings at acceptance (D-438 … D-446) and development enablement
+
+- **Accepted** as technically verified on the test schema (D-438); **applied to local development** (`71_…`).
+- **Evaluation model confirmed (D-439), with one tightening now implemented.** A variable-version difference stays
+  informational **only while the value given is type-valid and value-valid under the policy's pinned definition**.
+  Another type, another currency, or a value the policy's definition does not allow is `VARIABLE_VERSION_INCOMPATIBLE`:
+  shown everywhere, and in a publication-gating run the result is `INVALID_DEFINITION` — never a pass, even when
+  "unresolved" was the expected outcome. Regression test added (`test_what_cannot_be_evaluated_never_passes`).
+- **Limits are safety limits, not capacity guarantees (D-440).** 200 scenarios a suite; 60 scenarios a live
+  evaluation request; 100 items a page; 400 facts and 20 profiles a scenario; 48 MB a run record. They are constants
+  validated on every request (`scenarios.py`), each refused with its own code. They were chosen from the measurements
+  in `69_…` §7 and are **not to be raised without measured evidence**. Making them deployment settings is a small
+  change that has not been asked for.
+- **Carry-forward implemented in the frontend, no API change:**
+  - archived scenarios and suites are listed on request and restored from the screen, with who archived, why, the
+    history and a confirmation (existing restore operations);
+  - the designer has a read-only "Saved scenarios" picker: a saved scenario's facts and the server's result for it,
+    labelled saved or preview; the quick in-tab examples are unchanged;
+  - unsaved edits of a scenario or a suite are kept while moving around the product in the same tab, and the save bar
+    still says they are not saved.
+- OpenAPI unchanged by these additions.
+
+### Designer integration contract (for APPL-X4b's integration work)
+
+| Step | What | Status |
+|---|---|---|
+| 1 | Read-only look at a saved scenario from the designer (`POST /scenarios/evaluate` with `scenario_id`, and `policy_document` while the policy has unsaved edits) | **done** |
+| 2 | The live-preview picker lists saved scenarios of the policy beside the quick examples, clearly grouped | proposed |
+| 3 | Requirement and survey inspectors ("in the saved scenarios") read saved scenarios | proposed |
+| 4 | Quick examples become optional starting points that are saved as scenarios; `prototype/evaluate` then has no caller in a saved-policy configuration | proposed; precondition of retiring that endpoint (D-446) |
+
+Steps 2–4 change accepted designer behaviour and journeys, so they are left for a reviewed checkpoint.
+

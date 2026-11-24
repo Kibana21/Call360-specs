@@ -1,0 +1,58 @@
+[WebServer] INFO:     Started server process [69433]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+Survey identities created in the test schema: 19
+
+Running 26 tests using 1 worker
+
+  ✓   1 [applicability] › e2e/applicability/journey.appl.ts:49:1 › X1R.1 the surveys are real: Survey Studio lists them, published, with modules, questions and branching (6.8s)
+  ✓   2 [applicability] › e2e/applicability/journey.appl.ts:91:1 › X1R.2 Journey A: from a blank policy, an ILP condition linked to the real published Survey A, opened and returned to (4.1s)
+  ✓   3 [applicability] › e2e/applicability/journey.appl.ts:148:1 › X1R.3 Journeys B, D: NFTF → B, ILP AND NFTF → C; all three apply; an unknown fact; a duplicate resolved explicitly (4.2s)
+[WebServer] 7:29:38 pm [vite] (client) [console.warn] React Flow: It seems like you are hiding the attribution. Please only do this when you are subscribed to React Flow Pro: https://reactflow.dev/remove-attr
+[WebServer] You can ignore this warning if you are subscribed.
+  ✓   4 [applicability] › e2e/applicability/journey.appl.ts:199:1 › X1R.4 Journey C: the combined survey explicitly replaces the two; invalid replacements are blocked beside the requirement (3.8s)
+  ✓   5 [applicability] › e2e/applicability/journey.appl.ts:239:1 › X1R.5 Journey G: a missing variable and a joined condition made inside the designer; several surveys; a new scenario (3.8s)
+  ✓   6 [applicability] › e2e/applicability/journey.appl.ts:296:1 › X1R.6 several policies: a pattern, a copy, a comparison, choose-one with an explicit fallback, a simulated baseline (3.9s)
+  ✓   7 [applicability] › e2e/applicability/journey.appl.ts:344:1 › X1R.7 scale: 20, 50 and 100 requirements stay navigable in cards and on the canvas (10.2s)
+  ✓   8 [applicability] › e2e/applicability/journey.appl.ts:386:1 › X1R.8 from Survey Studio back to applicability; nothing overflows; no serious accessibility violation (30.5s)
+  ✓   9 [applicability] › e2e/applicability/journey.appl.ts:428:1 › X1R.9 Journey F: a published showcase survey run on its own in Survey Studio's simulator (2.0s)
+  ✓  10 [applicability] › e2e/applicability/library.appl.ts:72:1 › X2.1 primary criterion: a variable, into a profile, into a named AND / OR / NOT condition — saved, published by three people, reused at its exact version (15.0s)
+  ✓  11 [applicability] › e2e/applicability/library.appl.ts:216:1 › X2.2 two people edit the same draft: the second save is refused, nothing is overwritten, and the choice is explicit (2.2s)
+  ✓  12 [applicability] › e2e/applicability/library.appl.ts:262:1 › X2.3 without the applicability permissions the saved library is closed, and the screen says so (1.2s)
+  ✓  13 [applicability] › e2e/applicability/library.appl.ts:275:1 › X2.4 a newer published survey version is adopted deliberately; the pinned reference never moves by itself (2.8s)
+  ✓  14 [applicability] › e2e/applicability/library.appl.ts:312:1 › X2.5 ordering by keyboard and by dragging; a palette item dragged onto a requirement (1.9s)
+[WebServer] 7:30:58 pm [vite] (client) [console.warn] React Flow: It seems like you are hiding the attribution. Please only do this when you are subscribed to React Flow Pro: https://reactflow.dev/remove-attr
+[WebServer] You can ignore this warning if you are subscribed.
+[WebServer] 7:31:03 pm [vite] (client) [console.warn] React Flow: It seems like you are hiding the attribution. Please only do this when you are subscribed to React Flow Pro: https://reactflow.dev/remove-attr
+[WebServer] You can ignore this warning if you are subscribed.
+[WebServer] 7:31:10 pm [vite] (client) [console.warn] React Flow: It seems like you are hiding the attribution. Please only do this when you are subscribed to React Flow Pro: https://reactflow.dev/remove-attr
+[WebServer] You can ignore this warning if you are subscribed.
+  ✓  15 [applicability] › e2e/applicability/library.appl.ts:353:1 › X2.6 graph focus: at 20, 50 and 100 requirements the selection and its neighbourhood are inside the viewport (18.0s)
+  ✓  16 [applicability] › e2e/applicability/library.appl.ts:399:1 › X2.7 the header at 1440 is quiet, nothing overflows, and no serious accessibility violation on the library screens (7.4s)
+  ✓  17 [applicability] › e2e/applicability/saved-policies.appl.ts:74:1 › X3.1 Journeys A and B: a blank policy, named and coded, saved, the browser closed, reopened in a new session, and evaluated from what it pins (14.4s)
+  ✓  18 [applicability] › e2e/applicability/saved-policies.appl.ts:200:1 › X3.2 Journey C: Survey C replaces A and B — saved, reloaded, evaluated (3.8s)
+  ✓  19 [applicability] › e2e/applicability/saved-policies.appl.ts:231:1 › X3.3 Journey D: a newer condition version is offered, never applied; adopting it is deliberate and undoable (9.3s)
+  ✓  20 [applicability] › e2e/applicability/saved-policies.appl.ts:292:1 › X3.4 Journey E: a draft dependency is allowed and reported; a change to it is noticed, not silently evaluated (4.5s)
+  ✓  21 [applicability] › e2e/applicability/saved-policies.appl.ts:345:1 › X3.5 Journey F: two signed-in people edit the same policy; the second save is refused and nothing is overwritten (3.2s)
+  ✓  22 [applicability] › e2e/applicability/saved-policies.appl.ts:383:1 › X3.6 Journey G: from a saved policy to the published survey in Survey Studio, and back to the same editing context (2.8s)
+  ✓  23 [applicability] › e2e/applicability/saved-policies.appl.ts:413:1 › X3.7 Journey H: read-only without the permission to edit; closed without the applicability permissions; refusals by the server (2.3s)
+[WebServer] 7:32:08 pm [vite] (client) [console.warn] React Flow: It seems like you are hiding the attribution. Please only do this when you are subscribed to React Flow Pro: https://reactflow.dev/remove-attr
+[WebServer] You can ignore this warning if you are subscribed.
+[WebServer] 7:32:13 pm [vite] (client) [console.warn] React Flow: It seems like you are hiding the attribution. Please only do this when you are subscribed to React Flow Pro: https://reactflow.dev/remove-attr
+[WebServer] You can ignore this warning if you are subscribed.
+[WebServer] 7:32:19 pm [vite] (client) [console.warn] React Flow: It seems like you are hiding the attribution. Please only do this when you are subscribed to React Flow Pro: https://reactflow.dev/remove-attr
+[WebServer] You can ignore this warning if you are subscribed.
+  ✓  24 [applicability] › e2e/applicability/saved-policies.appl.ts:445:1 › X3.8 Journey I: 20, 50 and 100 saved requirements, a long name, a deep condition, keyboard, widths and accessibility (31.0s)
+D418 at the moment of the click: saved policies are "loading", the button is disabled
+D418 the server answered the creation with: ["201 {\"id\":\"fd5854ee-9c57-4eae-a85c-6db7680524b6\",\"market_code\":\"SG\",\"code\":\"SCALE-REVIEW-20-4\",\"name\":\"Scale review · 20 req"]; the designer OPENED
+  ✓  25 [applicability] › e2e/applicability/zz-d418.appl.ts:13:1 › D-418 a policy created before the list of saved policies has loaded (4.8s)
+D418M gallery: 19 saved policies listed in 100 ms after sign-in
+D418M gallery load: GET /api/v1/applicability/policies ×1 (slowest 51 ms) | GET /api/v1/applicability/policies/{id}?inspection=false ×19 (slowest 65 ms)
+D418M opening one policy: designer and its saved evaluation on screen in 164 ms
+D418M opening one policy: POST /api/v1/applicability/policies/{id}/evaluate ×2 (slowest 83 ms) | POST /api/v1/applicability/policies/{id}/inspect ×1 (slowest 130 ms)
+D418M saving one policy: POST /api/v1/applicability/policies/{id}/preview ×2 (slowest 81 ms) | POST /api/v1/applicability/policies/{id}/inspect ×2 (slowest 143 ms) | PUT /api/v1/applicability/policies/{id}/draft ×1 (slowest 199 ms) | GET /api/v1/applicability/policies/{id}?inspection=false ×1 (slowest 6 ms) | POST /api/v1/applicability/policies/{id}/evaluate ×2 (slowest 69 ms)
+  ✓  26 [applicability] › e2e/applicability/zz-d418.appl.ts:41:1 › D-418 measurements: what the gallery and one opened policy ask the server for, with a populated gallery (4.0s)
+
+  26 passed (3.6m)

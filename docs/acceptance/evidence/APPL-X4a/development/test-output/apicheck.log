@@ -1,0 +1,5 @@
+
+> call360-frontend@0.1.0 api:check
+> node scripts/api-generate.mjs --check
+
+api:check OK (openapi 50d663987a1c6ac231ee5c090b72b8435566a4b00fbba14805fedab4ddb1a9cc)
