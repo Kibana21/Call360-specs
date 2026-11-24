@@ -1,0 +1,53 @@
+== who is who (permissions as the server reports them)
+   author: Dev Applicability Author — ['applicability.edit', 'applicability.read', 'survey.read'] — markets ['SG']
+   checker: Dev Applicability Checker — ['applicability.approve', 'applicability.read', 'survey.read'] — markets ['SG']
+   publisher: Dev Applicability Publisher — ['applicability.publish', 'applicability.read', 'survey.read'] — markets ['SG']
+== unsupported identities cannot reach the library
+ok   no session, list: 401 AUTH_REQUIRED
+ok   dev.survey.author (holds no applicability permission), list: 403 FORBIDDEN
+ok   dev.survey.author, workspace: 403 FORBIDDEN
+ok   dev.survey.publisher (holds no applicability permission), list: 403 FORBIDDEN
+ok   dev.survey.publisher, workspace: 403 FORBIDDEN
+ok   dev.rule.author (holds no applicability permission), list: 403 FORBIDDEN
+ok   dev.rule.author, workspace: 403 FORBIDDEN
+ok   dev.finding.checker (holds no applicability permission), list: 403 FORBIDDEN
+ok   dev.finding.checker, workspace: 403 FORBIDDEN
+== each person may do only their own part
+ok   checker creates a draft: 403 FORBIDDEN
+ok   publisher creates a draft: 403 FORBIDDEN
+ok   author creates a draft: 201 separation_check
+ok   a save on a stale revision is refused: 409 STALE_REVISION
+ok   checker saves the draft: 403 FORBIDDEN
+ok     … and the database is unchanged by the refusals: 200 
+ok   author submits: 200 separation_check
+ok   author approves their own submission: 403 FORBIDDEN
+ok   publisher approves: 403 FORBIDDEN
+ok   publisher publishes before any approval (bypass): 409 NOT_APPROVED
+ok   author edits the draft while it is in review: 409 CANDIDATE_OPEN
+ok     … and the frozen candidate is unchanged: 200 
+ok   checker approves: 200 separation_check
+ok   checker publishes what they approved: 403 FORBIDDEN
+ok   author publishes their own submission: 403 FORBIDDEN
+ok   publisher publishes: 200 separation_check
+== a published version cannot be changed
+   separation_check: version 1 · submitted by Dev Applicability Author · approved by Dev Applicability Checker · published by Dev Applicability Publisher · content 90651a7820228ebb… · manifest 4bbd283de37906a8…
+   history: CREATED(Author) → SUBMITTED(Author) → APPROVED(Checker) → PUBLISHED(Publisher)
+ok   saving over a published item without starting a draft: 409 NO_DRAFT
+ok   there is no operation that writes a version (PUT): 405 METHOD_NOT_ALLOWED
+ok   publishing the same candidate again: 409 NOT_APPROVED
+ok   deciding a published candidate: 409 NOT_SUBMITTED
+ok     … the version reads back identical and the database is unchanged: 200 
+== market isolation
+ok   author creates in market MY: 403 MARKET_NOT_IN_SCOPE
+ok   author reads the workspace of market MY: 403 MARKET_NOT_IN_SCOPE
+ok   author tests an expression against market MY: 403 MARKET_NOT_IN_SCOPE
+ok   an item that does not exist for this market: 404 NOT_FOUND
+ok   a reference to something outside this market is a blocker: 200 
+ok     … and nothing above changed the database: 200 
+== the persisted library answers through the Python evaluator
+ok   ILP with NFTF, facts {'product_family': 'ILP', 'nftf': True}: TRUE: 200 
+ok   ILP with NFTF, facts {'product_family': 'ILP', 'nftf': False}: FALSE: 200 
+ok   ILP with NFTF, facts {'product_family': 'ILP'}: UNKNOWN: 200 
+   published workspace: 15 variables, 8 profiles, 8 conditions
+
+39 of 39 checks as expected

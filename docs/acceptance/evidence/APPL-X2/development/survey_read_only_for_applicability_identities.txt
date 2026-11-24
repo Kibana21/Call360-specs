@@ -1,0 +1,51 @@
+== Dev Applicability Author: ['applicability.edit', 'applicability.read', 'survey.read']
+ok   reads the survey listing: 200 
+ok   reads a published version: 200 
+ok   reads its published documents (for the preview): 200 
+ok   runs the applicability evaluator (prototype operation): 200 
+ok   creates a survey: 403 FORBIDDEN
+ok   saves a survey draft: 403 FORBIDDEN
+ok   changes a survey draft (operations): 403 FORBIDDEN
+ok   submits a survey for review: 403 FORBIDDEN
+ok   issues a survey code: 403 FORBIDDEN
+ok   approves a survey candidate: 403 FORBIDDEN
+ok   publishes a survey candidate: 403 FORBIDDEN
+ok   starts a survey simulation: 403 FORBIDDEN
+ok   withdraws a published survey: 403 FORBIDDEN
+ok   reads the legacy assignment policy (not granted): 403 FORBIDDEN
+ok   creates a legacy survey binding (not granted): 403 FORBIDDEN
+== Dev Applicability Checker: ['applicability.approve', 'applicability.read', 'survey.read']
+ok   reads the survey listing: 200 
+ok   reads a published version: 200 
+ok   reads its published documents (for the preview): 200 
+ok   runs the applicability evaluator (prototype operation): 200 
+ok   creates a survey: 403 FORBIDDEN
+ok   saves a survey draft: 403 FORBIDDEN
+ok   changes a survey draft (operations): 403 FORBIDDEN
+ok   submits a survey for review: 403 FORBIDDEN
+ok   issues a survey code: 403 FORBIDDEN
+ok   approves a survey candidate: 403 FORBIDDEN
+ok   publishes a survey candidate: 403 FORBIDDEN
+ok   starts a survey simulation: 403 FORBIDDEN
+ok   withdraws a published survey: 403 FORBIDDEN
+ok   reads the legacy assignment policy (not granted): 403 FORBIDDEN
+ok   creates a legacy survey binding (not granted): 403 FORBIDDEN
+== Dev Applicability Publisher: ['applicability.publish', 'applicability.read', 'survey.read']
+ok   reads the survey listing: 200 
+ok   reads a published version: 200 
+ok   reads its published documents (for the preview): 200 
+ok   runs the applicability evaluator (prototype operation): 200 
+ok   creates a survey: 403 FORBIDDEN
+ok   saves a survey draft: 403 FORBIDDEN
+ok   changes a survey draft (operations): 403 FORBIDDEN
+ok   submits a survey for review: 403 FORBIDDEN
+ok   issues a survey code: 403 FORBIDDEN
+ok   approves a survey candidate: 403 FORBIDDEN
+ok   publishes a survey candidate: 403 FORBIDDEN
+ok   starts a survey simulation: 403 FORBIDDEN
+ok   withdraws a published survey: 403 FORBIDDEN
+ok   reads the legacy assignment policy (not granted): 403 FORBIDDEN
+ok   creates a legacy survey binding (not granted): 403 FORBIDDEN
+ok   Survey Studio definitions, candidates, versions, drafts, lifecycle events and simulations are unchanged by all of the above
+
+46 of 46 checks as expected

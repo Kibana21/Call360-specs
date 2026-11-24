@@ -1,6 +1,6 @@
 # Call360 — roadmap of checkpoints
 
-**Updated 2026-11-23, with APPL-X1.** This is an index of where each line of work stands and what has been *proposed*
+**Updated 2026-11-24, with APPL-X3 accepted and enabled on development.** This is an index of where each line of work stands and what has been *proposed*
 next. It authorises nothing: a checkpoint is implemented only on the owner's explicit authorisation of that named
 checkpoint (workspace `CLAUDE.md` §10). The current state in detail is `docs/plans/SESSION_HANDOFF.md` §0; every
 decision is in `docs/plans/survey-studio/06_SS-01_DECISION_REGISTER.md`.
@@ -20,7 +20,10 @@ decision is in `docs/plans/survey-studio/06_SS-01_DECISION_REGISTER.md`.
 | MIG-1 | Script Studio retirement readiness — assessment, **accepted** (D-356); B-1 and B-2 ruled (D-357, D-358) | `51_…` |
 | SHARED-1 | Assignment Rules and Finding Rules on their own — **accepted as technically verified** (D-370); development at `0037` with the setting on and four dedicated identities | `52_…`, `53_…`, `54_…` |
 | APP-1 / OPS-1 | architecture assessment — **assessment only, presented for review** | `55_…` |
-| APPL-X1 | Survey Applicability Studio — architecture, evaluator and working prototype; **built, presented for design acceptance**; no migration | `56_…`, `57_…`, `58_…` |
+| APPL-X1 | Survey Applicability Studio — architecture, evaluator and prototype; **accepted as a technically verified prototype and direction** (D-386) | `56_…`, `57_…` |
+| APPL-X1R | UX refinement, rulings AP-1…AP-10, and the showcase on **real published Survey Studio surveys**; **accepted as the product-design baseline and technically verified prototype** (D-393) | `59_…`, `56_…` §14 |
+| APPL-X2 | Governed applicability library — persisted variables, profiles and reusable conditions with server-enforced three-person publication; migration `0038`; **ACCEPTED as technically verified (D-401); enabled on local development 2026-11-24 (D-407 … D-409); awaiting review of the enablement** | `60_…`, `61_…`, `62_…` |
+| APPL-X3 | Persistent Applicability Policies — saved working drafts with their exact dependency snapshot; migration `0039`; **ACCEPTED as technically verified on the test schema (D-419); `0039` applied to local development and saved policies enabled 2026-11-24 (D-421, D-422); awaiting review of the enablement** | `64_…`, `65_…`, `66_…` |
 
 None of this is business UX, screen-reader, Compliance or production acceptance.
 
@@ -28,8 +31,8 @@ None of this is business UX, screen-reader, Compliance or production acceptance.
 
 | Checkpoint | What | Needs first |
 |---|---|---|
-| **APPL-X2** *(next in the applicability programme)* | Variable Library, Profiles and Condition Lab, persisted | acceptance of APPL-X1; rulings AP-1…AP-10 (D-382) |
-| APPL-X3 … X6 | policy and designer; scenarios and publication; Survey Studio integration; legacy survey-assignment retirement | each its own authorisation; `58_…` |
+| **APPL-X4** *(next in the applicability programme)* | Persistent Scenario Studio, Applicability Policy governance and publication: saved scenarios and suites with exact snapshots, immutable candidates, three-person publication, blockers including `PIN_DIFFERS`, recorded synthetic evaluations, version comparison; proposed additive migration `0040` | the owner's authorisation and answers to Q-1…Q-6; **assessment only**, `67_…` |
+| APPL-X5 … X6 | Survey Studio integration; legacy survey-assignment retirement | each its own authorisation; `58_…` |
 | **APP-1a** *(follows the applicability fact contract)* | a read-only, stateless application view for a case (rule inputs and mapped survey facts with lineage) and a selection preview; writes nothing operational | the owner's authorisation; `55_…` §13 |
 | Governance harmonisation | rules (two people) versus bindings and content (three) | a Business decision (D-372) |
 | Cross-kind conflict scope | CK-1…CK-3, with OR-2 / OR-3 | an owner decision (D-374) |

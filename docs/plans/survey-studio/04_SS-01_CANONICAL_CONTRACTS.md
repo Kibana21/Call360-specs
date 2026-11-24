@@ -2515,3 +2515,77 @@ Migration `0037` is applied to local development and `shared_rule_services_enabl
 permissions are held only by four development-only roles (`DEV_RULE_AUTHOR`, `DEV_RULE_CHECKER`,
 `DEV_FINDING_AUTHOR`, `DEV_FINDING_CHECKER`). No standing role holds one.
 
+## 24. The governed Applicability library (APPL-X2) — additive, off by default
+
+Full specification: `60_APPL-X2_LIBRARY_ARCHITECTURE_API_AND_MIGRATION.md`. Verified on the test schema only.
+
+### 24.1 What is added
+
+| | |
+|---|---|
+| Setting | `applicability_library_enabled` (off by default). Needs migration `0038_applicability_library`; with it on, readiness fails closed on an earlier schema; with it off, a schema at `0037` serves everything else |
+| Operations | fourteen under the path prefix `/api/v1/applicability` (`60_…` §5). None of the existing operations changed |
+| Schemas | twenty-one, all named `Applicability…` |
+| Permissions | `applicability.read`, `.edit`, `.approve`, `.publish` — created by the migration, granted to no role, independent of `survey.*` and `script.*` |
+| Tables | `applicability_asset`, `applicability_asset_version`, `applicability_asset_dependency`, `applicability_event` |
+
+### 24.2 Contract rules
+
+* Publication needs three different people; refused by the service (403 `SELF_REVIEW_DENIED`,
+  `SELF_PUBLISH_DENIED`, `APPROVER_PUBLISH_DENIED`) and by `CHECK` constraints. A refusal is recorded.
+* A draft is saved with `expected_revision`; a stale one is refused with 409 `STALE_REVISION` and nothing is
+  overwritten.
+* A candidate pins exact published versions of its own market; a draft is never a published dependency.
+* A published version never changes; a later version of something it pins does not affect it.
+* Another market's item answers 404.
+* Nothing here selects a survey for a case, assigns anything or permits a call. Applicability policies are not
+  stored. Assignment rules, survey bindings and requirement groups are neither read nor written.
+
+### 24.3 Authorization contract of Survey Applicability Studio (owner rulings of 2026-11-24)
+
+| Need | Permission | Note |
+|---|---|---|
+| read the library | `applicability.read` | |
+| draft and submit | `applicability.edit` | |
+| approve or return | `applicability.approve` | never one's own submission |
+| publish | `applicability.publish` | never as the submitter or the approver |
+| **open the screen, read published survey versions, run the evaluator** | **`survey.read`** | **an explicit, read-only dependency of the screen (D-408)** |
+
+`survey.read` is required because the workspace is part of Survey Studio, links requirements to published survey
+versions read from Survey Studio, and runs the stateless evaluator behind that permission. It is **declared per
+role**. It is never implied by an applicability permission, the migration grants it to nobody, and it is **not given
+automatically to any future role**: role provisioning must name it. It gives no right to create, edit, approve,
+publish or simulate a survey.
+
+Cross-market (D-402): another market's individual item answers 404; another market's workspace or test answers 403;
+nothing about another market's items is disclosed. Locking (D-403): a draft is locked while its candidate is in
+review; a return or a withdrawal reopens the same draft and never changes the frozen candidate.
+
+### 24.4 No silent dependency upgrade (D-405)
+
+`POST /applicability/assets/{id}/submit` accepts `pins`: the exact versions the submitter reviewed (as returned by
+`validate`). When given, the submission is refused with 409 `PINS_CHANGED` — and nothing is frozen — unless they are
+exactly what would be pinned now. The portal always sends them, after showing each version with its fingerprint and
+requiring confirmation. A candidate's content fingerprint, manifest fingerprint and pins are shown to the reviewer
+before the decision. One schema (`ApplicabilityPinAck`) and one optional field are added; nothing else changed.
+
+## 25. Persistent Applicability Policies (APPL-X3) — additive, off by default
+
+Full specification: `64_APPL-X3_PERSISTENT_POLICIES_ARCHITECTURE_AND_CONTRACTS.md`. Verified on the test schema only.
+
+| | |
+|---|---|
+| Setting | `applicability_policies_enabled` (off by default; effective only with `applicability_library_enabled`). Needs migration `0039_applicability_policy`; with it off, a schema at `0038` serves everything else |
+| Operations | ten under `/api/v1/applicability/policies` (`64_…` §5). None of the existing operations changed |
+| Schemas | fifteen, named `ApplicabilityPolicy…` |
+| Permissions | none added. `applicability.read` / `applicability.edit`, and `survey.read` on every operation |
+| Tables | `applicability_policy`, `applicability_policy_dependency`, `applicability_policy_event` |
+
+Contract rules: a policy is a working draft, saved with `expected_revision` (409 `STALE_REVISION`, nothing
+overwritten). Every dependency is recorded at an exact version or draft revision with its fingerprint and is never
+moved to a newer one except by an edit of the document. A survey reference must be an exact published Survey Studio
+version of the policy's market, with both fingerprints (422 `INVALID_SURVEY_REFERENCE` otherwise). `evaluate` runs
+the saved revision; `preview` runs an unsaved document and is marked so; both are refused while a pinned draft has
+moved. Another market's policy answers 404. **There is no publication of policies**: no candidate, no approval, no
+published version. A selection plan assigns nothing and permits no call.
+

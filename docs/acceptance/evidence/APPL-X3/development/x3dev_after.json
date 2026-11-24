@@ -1,0 +1,900 @@
+{
+ "settings": {
+  "app_env": "local",
+  "schema": "call360",
+  "expected_database": "Call360_db",
+  "host": "localhost",
+  "port": 5432,
+  "survey_definitions_enabled": true
+ },
+ "connection": {
+  "database": "Call360_db",
+  "role": "Call360_db_user",
+  "schema": "call360",
+  "server_addr": "::1/128",
+  "server_port": 5432,
+  "pg_version": "15.12",
+  "read_only": "on"
+ },
+ "schemas": [
+  "call360",
+  "call360_test"
+ ],
+ "alembic_revision": [
+  "0039_applicability_policy"
+ ],
+ "test_alembic_revision": [
+  "0039_applicability_policy"
+ ],
+ "tables": {
+  "alembic_version": {
+   "rows": 1,
+   "digest": "27f69b58135ff40f8b42dc745cdcb368"
+  },
+  "answer_observation": {
+   "rows": 555,
+   "digest": "6d06ca85ff35a6a73eb0d92686f47ea0"
+  },
+  "app_group": {
+   "rows": 14,
+   "digest": "8bdb608527e57d53283b17f1bb8658c8"
+  },
+  "applicability_asset": {
+   "rows": 32,
+   "digest": "040e98c2ab9d2c927b958fe2c15e121f"
+  },
+  "applicability_asset_dependency": {
+   "rows": 38,
+   "digest": "3805314062bf8b51222321ba783ce7dd"
+  },
+  "applicability_asset_version": {
+   "rows": 32,
+   "digest": "94a64e042bd0774b3ede77c89042312e"
+  },
+  "applicability_event": {
+   "rows": 135,
+   "digest": "9a1dffb5f5a1e1b57a3551c643399297"
+  },
+  "applicability_policy": {
+   "rows": 0,
+   "digest": "empty"
+  },
+  "applicability_policy_dependency": {
+   "rows": 0,
+   "digest": "empty"
+  },
+  "applicability_policy_event": {
+   "rows": 0,
+   "digest": "empty"
+  },
+  "assignment_rule_change_event": {
+   "rows": 31,
+   "digest": "f38e76e0db15917ce85e714c36e5c87f"
+  },
+  "assignment_rule_draft": {
+   "rows": 6,
+   "digest": "90054e9c6febbe0bafb73ec3bdb5702b"
+  },
+  "assignment_rule_publication": {
+   "rows": 5,
+   "digest": "6ad3e4c7a02327d94f98e00a44642165"
+  },
+  "audit_event": {
+   "rows": 3895,
+   "digest": "d2c629c2d1546f201d38762f089e6b78"
+  },
+  "auth_session": {
+   "rows": 330,
+   "digest": "89989ba1b80e890d5fdabfa058d49764"
+  },
+  "callback_case": {
+   "rows": 258,
+   "digest": "cd08b11ad4dc299cc282b07d5d5051da"
+  },
+  "case_contact_selection": {
+   "rows": 372,
+   "digest": "daa667827752e12f49752f00d7335fd5"
+  },
+  "case_event": {
+   "rows": 1690,
+   "digest": "339ec9f02db37860043f8354210d77aa"
+  },
+  "case_hold": {
+   "rows": 22,
+   "digest": "7f6d6dbf64e10fbd097338f1986a204e"
+  },
+  "code_list": {
+   "rows": 10,
+   "digest": "1fdc46474626cac9b950ef33169395bd"
+  },
+  "code_list_version": {
+   "rows": 10,
+   "digest": "a200344bb34fd95eb77358e505c85a2b"
+  },
+  "code_value": {
+   "rows": 40,
+   "digest": "360118193005ca749ada54d6b9c6df89"
+  },
+  "contact_attempt": {
+   "rows": 415,
+   "digest": "ee2594fb833846abaf9b7ddb2dd1e3ed"
+  },
+  "contact_method": {
+   "rows": 597,
+   "digest": "d0abc902e579ac3ccf816233c2b775da"
+  },
+  "control": {
+   "rows": 5,
+   "digest": "a7d453011ab27175b98f044795c55d63"
+  },
+  "control_mapping": {
+   "rows": 12,
+   "digest": "a086f3f617fd8b5f7a9b145f2cb3bbdb"
+  },
+  "conversation_session": {
+   "rows": 95,
+   "digest": "76cff3d7b3da3b9e9aa14e0e7d0c1ea3"
+  },
+  "external_reference": {
+   "rows": 840,
+   "digest": "3a57dbdaa7f55376a2f2573bef8aa2a5"
+  },
+  "feature_flag": {
+   "rows": 4,
+   "digest": "138d79b1e597c75e94d03ca2699e049e"
+  },
+  "feature_flag_change": {
+   "rows": 0,
+   "digest": "empty"
+  },
+  "field_change": {
+   "rows": 0,
+   "digest": "empty"
+  },
+  "finding": {
+   "rows": 26,
+   "digest": "b08efc5a999e7f882509bf7e157b6968"
+  },
+  "finding_rule_set_event": {
+   "rows": 15,
+   "digest": "790a985b6a5da34a990facc40e3fedeb"
+  },
+  "finding_rule_set_version": {
+   "rows": 2,
+   "digest": "94dd6a57a43579bf119fc530757bea7b"
+  },
+  "fsc_representative": {
+   "rows": 24,
+   "digest": "5ad0aa743c9b9e7c87b5ba700238d26b"
+  },
+  "group_membership": {
+   "rows": 13,
+   "digest": "a9d4d24a0d6e27127286c66376774914"
+  },
+  "group_role_mapping": {
+   "rows": 15,
+   "digest": "eea48d6e64141f15aab77aef9f6858c4"
+  },
+  "group_scope_mapping": {
+   "rows": 13,
+   "digest": "f820a7ff66e8006d4a86a88d984a954a"
+  },
+  "identity_binding": {
+   "rows": 13,
+   "digest": "aa2822a6b90c2ff5bdb7f6585878e7f3"
+  },
+  "identity_provider": {
+   "rows": 1,
+   "digest": "dd27954f23f426163f22c73b651d0d9a"
+  },
+  "intake_item": {
+   "rows": 8,
+   "digest": "d6ec07b674bd662ee75398572cd6fcc3"
+  },
+  "intake_run": {
+   "rows": 8,
+   "digest": "5f945ec67fbdc169b28c644e4a7094fb"
+  },
+  "lab_budget": {
+   "rows": 2,
+   "digest": "6c18d2eda55637207b0a056a6be8f76a"
+  },
+  "lab_config_change": {
+   "rows": 6,
+   "digest": "52f8852c5693de33f274a1d4b0b9fa17"
+  },
+  "lab_control": {
+   "rows": 1,
+   "digest": "8452cf295d508deccc8d74dec18bfc88"
+  },
+  "lab_dataset": {
+   "rows": 1,
+   "digest": "1b44975ca85f56dbb1c6f44c13907879"
+  },
+  "lab_experiment": {
+   "rows": 3,
+   "digest": "f93b8205f824a418a2a3f9cf2076a508"
+  },
+  "lab_media": {
+   "rows": 8,
+   "digest": "9086a69d07b56ee7bfe0e9d14b28e046"
+  },
+  "lab_paid_authorisation": {
+   "rows": 2,
+   "digest": "45532b52138f5f790289af525a7c7967"
+  },
+  "lab_prompt": {
+   "rows": 9,
+   "digest": "c3177bb976bdceec48768d03a37fe2b3"
+  },
+  "lab_prompt_version": {
+   "rows": 13,
+   "digest": "d7250f7528281b9f66f2ec9c6aa7f6c9"
+  },
+  "lab_reservation": {
+   "rows": 6,
+   "digest": "45e400f6a04f54beac4c7a52ec6e4f61"
+  },
+  "lab_session": {
+   "rows": 24,
+   "digest": "f47bbe821e80f4acc521d002b75e6e72"
+  },
+  "lab_session_event": {
+   "rows": 414,
+   "digest": "15ac9e127e3bcd79af7e8eda46cb4ff9"
+  },
+  "lab_speech_assessment": {
+   "rows": 0,
+   "digest": "empty"
+  },
+  "lab_test_case": {
+   "rows": 4,
+   "digest": "25206e6f53ca712cc83d9df2e8186f42"
+  },
+  "lab_test_case_revision": {
+   "rows": 5,
+   "digest": "46402ab72e484f10dd8e1f6bda9470a1"
+  },
+  "lab_transcript": {
+   "rows": 19,
+   "digest": "93517cf77bb149a8cbc9033959c0f494"
+  },
+  "lab_trial": {
+   "rows": 18,
+   "digest": "a68f2fb0da89516b0a7dafa97975937a"
+  },
+  "local_credential": {
+   "rows": 13,
+   "digest": "99d173f054f2fc0610d9afac044d3064"
+  },
+  "login_attempt": {
+   "rows": 330,
+   "digest": "c5064c796afa3195e3b6cd7df9a80c94"
+  },
+  "media_asset": {
+   "rows": 18,
+   "digest": "6f61a35052a4b2d14052ee3bf20362ff"
+  },
+  "media_chunk": {
+   "rows": 174,
+   "digest": "71f7a27f5da2d90f607f2d1e7f84a9f3"
+  },
+  "module_question": {
+   "rows": 46,
+   "digest": "1a24ba7c2d3e00bd8ff2951e807d1f55"
+  },
+  "party": {
+   "rows": 327,
+   "digest": "ae19780231fa984cc09e3c7bab76c24b"
+  },
+  "permission": {
+   "rows": 57,
+   "digest": "b4d32e311023d1fb5a517fb1d825f383"
+  },
+  "policy": {
+   "rows": 237,
+   "digest": "e51824cc913933ab45f616b8c479dc45"
+  },
+  "policy_fact_snapshot": {
+   "rows": 258,
+   "digest": "b426e4d3acb148ca089dabe3f977579a"
+  },
+  "policy_party_role": {
+   "rows": 1056,
+   "digest": "2fa8cebee0cd97744d170e7c44214949"
+  },
+  "principal": {
+   "rows": 13,
+   "digest": "3134762b88de85cf4437bd0690f23e43"
+  },
+  "question_bank_item": {
+   "rows": 38,
+   "digest": "5c93c38354b3c4fe2e7befbff24a3aee"
+  },
+  "question_execution": {
+   "rows": 555,
+   "digest": "10625e43b9278bd9f5bd2289d4a9f674"
+  },
+  "question_revision": {
+   "rows": 39,
+   "digest": "74cb450d8682ee8892fe0273d2bd6ef5"
+  },
+  "question_revision_detail": {
+   "rows": 23,
+   "digest": "46338bba8956eed8c48ef8e8876b3ee5"
+  },
+  "refresh_token": {
+   "rows": 411,
+   "digest": "47517683082c37a3d8c60726f3b98d16"
+  },
+  "refresh_token_family": {
+   "rows": 330,
+   "digest": "4e51439fa0ec3490b5e825c30c934056"
+  },
+  "regulatory_reference": {
+   "rows": 2,
+   "digest": "71118d571e7ecb64ea8e7573ba7d168c"
+  },
+  "review_approval": {
+   "rows": 1,
+   "digest": "543aedd56322f742c4c86b07aa66e061"
+  },
+  "review_decision": {
+   "rows": 5,
+   "digest": "67f75a32268af77210d9376e2b3e63fb"
+  },
+  "risk_assessment": {
+   "rows": 297,
+   "digest": "982abc1ff092fed7bb03ac971df3412d"
+  },
+  "risk_factor_result": {
+   "rows": 490,
+   "digest": "5af7bd0624eace270c7108835567ec40"
+  },
+  "risk_rule_set_version": {
+   "rows": 2,
+   "digest": "49de14f865d91637f3d815357c28b3aa"
+  },
+  "role": {
+   "rows": 13,
+   "digest": "507f9edccb716d15b9235788142dbc5f"
+  },
+  "role_permission": {
+   "rows": 87,
+   "digest": "146c97296ddcc1ceab3eff5a48dd5ddd"
+  },
+  "rule_evaluation": {
+   "rows": 421,
+   "digest": "94444c1a7bec537f0571fc84bf685b91"
+  },
+  "sale_event": {
+   "rows": 258,
+   "digest": "31a01cc14e576df0d24606ad650558c3"
+  },
+  "script_assignment": {
+   "rows": 251,
+   "digest": "e4975710ec6d0bbbf12fb9dd8da30145"
+  },
+  "script_assignment_attempt": {
+   "rows": 7,
+   "digest": "67f5710d4389d13b02bf94f3e2a4489a"
+  },
+  "script_assignment_rule_version": {
+   "rows": 10,
+   "digest": "2d1ad8848c83e406a5f2960bb1b9cc8a"
+  },
+  "script_change_event": {
+   "rows": 58,
+   "digest": "4694fb277ccf2d1cf8dce1ca29763515"
+  },
+  "script_family": {
+   "rows": 7,
+   "digest": "c777d4123c4d4cb444a1c1c5d2a1b5aa"
+  },
+  "script_module": {
+   "rows": 19,
+   "digest": "ed965f4a14b9f1f8bb3a9a7c89eea985"
+  },
+  "script_section": {
+   "rows": 40,
+   "digest": "dbd3a6f2b9f6f201014e3575cb64666c"
+  },
+  "script_simulation_event": {
+   "rows": 341,
+   "digest": "2fbc8b276a36ed7dca7a3518dbd567ac"
+  },
+  "script_simulation_run": {
+   "rows": 10,
+   "digest": "824b4e9a394d5f99cef90ed8431f4897"
+  },
+  "script_version": {
+   "rows": 11,
+   "digest": "a9aacf10c96b90b8bf6362a5143866c8"
+  },
+  "script_version_control_link": {
+   "rows": 11,
+   "digest": "0178350d5519381cad289c4e089e979d"
+  },
+  "session_event": {
+   "rows": 247,
+   "digest": "388a6f00b395ded2e5157d10b4167026"
+  },
+  "simulation_answer_evaluation": {
+   "rows": 5,
+   "digest": "1c74dfb8b80c2fcd49948c3bce6ccee3"
+  },
+  "simulation_batch": {
+   "rows": 3,
+   "digest": "52c4a5ffeedfa6b7b2ca61b44b1d96c7"
+  },
+  "simulation_content_snapshot": {
+   "rows": 3,
+   "digest": "f61fcc378ffe7ef73cc1381a29a733a0"
+  },
+  "simulation_finding": {
+   "rows": 4,
+   "digest": "3a6dea59bae71de304c109f6bcd90f4c"
+  },
+  "simulation_finding_set": {
+   "rows": 3,
+   "digest": "fbea385e4c1d4130561775b5c869e451"
+  },
+  "simulation_result": {
+   "rows": 10,
+   "digest": "f521e629f99782f754b514b06e3a5e5e"
+  },
+  "simulation_scenario": {
+   "rows": 4,
+   "digest": "cd0eb192a78979863728f1d5852402a9"
+  },
+  "simulation_scenario_revision": {
+   "rows": 5,
+   "digest": "07ad8abb235547b7ed9f1cf19a7c2f72"
+  },
+  "survey_asset_usage": {
+   "rows": 411,
+   "digest": "f737665d5992e27a7b4b8a35ec2d830d"
+  },
+  "survey_asset_version": {
+   "rows": 117,
+   "digest": "3de88fa62107c81da597bdb6a7eac748"
+  },
+  "survey_assignment_binding": {
+   "rows": 5,
+   "digest": "3e79af7132640d946bd6a6a6ea496972"
+  },
+  "survey_assignment_binding_event": {
+   "rows": 16,
+   "digest": "448161bb59327d238d208f2cc231de0f"
+  },
+  "survey_assignment_evaluation": {
+   "rows": 5,
+   "digest": "f96de90c5a6e59196556057cc6482ef6"
+  },
+  "survey_assignment_group": {
+   "rows": 4,
+   "digest": "653a6987777ddfda5c1c8954690dd9a1"
+  },
+  "survey_assignment_group_event": {
+   "rows": 13,
+   "digest": "512a66d696513100d7a552658edacfa9"
+  },
+  "survey_assignment_group_member": {
+   "rows": 5,
+   "digest": "ec31d68cac798dd244909089cab150d7"
+  },
+  "survey_assignment_simulation": {
+   "rows": 1,
+   "digest": "259391d640b102a29b897774a95a8d4c"
+  },
+  "survey_call_plan": {
+   "rows": 22,
+   "digest": "9d9e7394d253e0d61943dd35c2a193af"
+  },
+  "survey_candidate": {
+   "rows": 14,
+   "digest": "f8aa57971dcef0c1df69a535b3f076fd"
+  },
+  "survey_catalog_entry": {
+   "rows": 16,
+   "digest": "e8abc35eb5ced30b4a776d3c5c065d4e"
+  },
+  "survey_composite_plan": {
+   "rows": 9,
+   "digest": "e7e0f18f9c87cfd7f934804274d96ab9"
+  },
+  "survey_composite_plan_member": {
+   "rows": 19,
+   "digest": "dd47995b1d247bf346775fa2aa054d8f"
+  },
+  "survey_control_mapping": {
+   "rows": 4,
+   "digest": "d8eb31f266faa6c629f25a38cc034e1d"
+  },
+  "survey_control_mapping_event": {
+   "rows": 14,
+   "digest": "e9a61fc9a262dbd72eb19ab33450c9ac"
+  },
+  "survey_control_policy": {
+   "rows": 1,
+   "digest": "050a792f308e9d2a72dc3106f49ea3f3"
+  },
+  "survey_control_policy_event": {
+   "rows": 3,
+   "digest": "c8ce248915197c07425e5e0d9da322d8"
+  },
+  "survey_control_result": {
+   "rows": 10,
+   "digest": "49fc7f6004894fe376e8716b9dbe10e4"
+  },
+  "survey_coordinated_simulation": {
+   "rows": 7,
+   "digest": "b5680ef02d75177d05d62409ab09f286"
+  },
+  "survey_coordinated_simulation_step": {
+   "rows": 12,
+   "digest": "fc3bb49018ecba7bd82c4260d7c9de4b"
+  },
+  "survey_definition": {
+   "rows": 14,
+   "digest": "f5eeff7b7f9d5104c865285d74722e3b"
+  },
+  "survey_draft": {
+   "rows": 14,
+   "digest": "9affb4a27a01b58685c8d7a2559d1a83"
+  },
+  "survey_evaluation_finding": {
+   "rows": 8,
+   "digest": "00d806c2df10551e5abdaab6af14550d"
+  },
+  "survey_evaluation_policy": {
+   "rows": 3,
+   "digest": "701a0e6e076c652b999bb0576b51b395"
+  },
+  "survey_evidence_observation": {
+   "rows": 18,
+   "digest": "aca76d248fc0ee29cbaf80b844c3c0ea"
+  },
+  "survey_execution_assurance": {
+   "rows": 5,
+   "digest": "5b7a1079fcc100e4e3c5956d141942f3"
+  },
+  "survey_execution_assurance_survey": {
+   "rows": 7,
+   "digest": "eee8dde7a8586efb406878ab23f89670"
+  },
+  "survey_issued_code": {
+   "rows": 69,
+   "digest": "e20319bf6742a7c925f99ef0f68cdb62"
+  },
+  "survey_journey_evaluation": {
+   "rows": 5,
+   "digest": "e59d3bbae19cc2103f32fb1ec382e2e9"
+  },
+  "survey_lifecycle_event": {
+   "rows": 56,
+   "digest": "5fd06a79ed4612772bfd9c8366dd0db8"
+  },
+  "survey_obligation_finding": {
+   "rows": 8,
+   "digest": "3c9a848491c087ee7944d5e55c42f387"
+  },
+  "survey_obligation_observation": {
+   "rows": 29,
+   "digest": "69f6d20dee6c1c263dd3876ebc18d461"
+  },
+  "survey_obligation_result": {
+   "rows": 9,
+   "digest": "d59a0e6117c46a06690aa68061cbf247"
+  },
+  "survey_run": {
+   "rows": 82,
+   "digest": "59ba57304b9db951a94e63a0ffa48eab"
+  },
+  "survey_simulation": {
+   "rows": 29,
+   "digest": "566817296a08aa37da741e0b4f174a3a"
+  },
+  "survey_simulation_input": {
+   "rows": 68,
+   "digest": "96d4acd208427fc99d92c0b4b104ea5c"
+  },
+  "survey_version": {
+   "rows": 13,
+   "digest": "a74ee14cf29befcf00b637910e6201ba"
+  },
+  "survey_wording_approval": {
+   "rows": 68,
+   "digest": "ac7b575c536f86f45b2fd5e9aaa63689"
+  },
+  "transcript_run": {
+   "rows": 18,
+   "digest": "4f8955b0a9814aea93c958e5bd50da92"
+  },
+  "transcript_segment": {
+   "rows": 47,
+   "digest": "c2a28bff5169423f57ee8ab9eb634c42"
+  }
+ },
+ "columns_digest": "de798f76d1402bc2ecd3b47853930dcc",
+ "constraints": 2617,
+ "triggers": [
+  "answer_observation_check@answer_observation",
+  "answer_observation_immutable@answer_observation",
+  "applicability_asset_guard@applicability_asset",
+  "applicability_dependency_guard@applicability_asset_dependency",
+  "applicability_event_guard@applicability_event",
+  "applicability_policy_dependency_guard@applicability_policy_dependency",
+  "applicability_policy_event_guard@applicability_policy_event",
+  "applicability_policy_guard@applicability_policy",
+  "applicability_version_guard@applicability_asset_version",
+  "assignment_rule_change_event_immutable@assignment_rule_change_event",
+  "assignment_rule_check@script_assignment_rule_version",
+  "assignment_rule_draft_guard@assignment_rule_draft",
+  "assignment_rule_draft_kind_guard@assignment_rule_draft",
+  "assignment_rule_market_check@script_assignment_rule_version",
+  "assignment_rule_publication_immutable@assignment_rule_publication",
+  "assignment_rule_version_guard@script_assignment_rule_version",
+  "audit_event_no_update_delete@audit_event",
+  "callback_case_cancellation_reason_ref@callback_case",
+  "callback_case_closure_reason_ref@callback_case",
+  "callback_case_guard@callback_case",
+  "callback_case_market@callback_case",
+  "case_contact_selection_immutable@case_contact_selection",
+  "case_contact_selection_rule_basis_ref@case_contact_selection",
+  "case_event_immutable@case_event",
+  "case_hold_guard@case_hold",
+  "case_hold_hold_reason_ref@case_hold",
+  "case_hold_sync@case_hold",
+  "code_list_version_guard@code_list_version",
+  "code_value_guard@code_value",
+  "contact_attempt_guard@contact_attempt",
+  "contact_method_guard@contact_method",
+  "contact_selection_check@case_contact_selection",
+  "conversation_session_guard@conversation_session",
+  "external_reference_immutable@external_reference",
+  "feature_flag_change_append_only@feature_flag_change",
+  "field_change_immutable@field_change",
+  "finding_guard@finding",
+  "finding_rule_set_event_immutable@finding_rule_set_event",
+  "finding_rule_set_guard@finding_rule_set_version",
+  "group_scope_mapping_market@group_scope_mapping",
+  "intake_item_immutable@intake_item",
+  "intake_run_immutable@intake_run",
+  "intake_run_market@intake_run",
+  "lab_config_change_immutable@lab_config_change",
+  "lab_media_purge_guard@lab_media",
+  "lab_paid_auth_guard@lab_paid_authorisation",
+  "lab_prompt_version_immutable@lab_prompt_version",
+  "lab_reservation_guard@lab_reservation",
+  "lab_session_event_immutable@lab_session_event",
+  "lab_speech_assessment_immutable@lab_speech_assessment",
+  "lab_test_case_revision_immutable@lab_test_case_revision",
+  "lab_transcript_purge_guard@lab_transcript",
+  "lab_trial_immutable@lab_trial",
+  "media_asset_guard@media_asset",
+  "media_chunk_immutable@media_chunk",
+  "module_question_guard@module_question",
+  "module_question_lock@module_question",
+  "policy_fact_snapshot_check@policy_fact_snapshot",
+  "policy_fact_snapshot_immutable@policy_fact_snapshot",
+  "policy_market@policy",
+  "question_execution_guard@question_execution",
+  "question_revision_detail_immutable@question_revision_detail",
+  "question_revision_immutable@question_revision",
+  "regulatory_reference_market@regulatory_reference",
+  "review_approval_guard@review_approval",
+  "review_decision_immutable@review_decision",
+  "risk_assessment_band_code_ref@risk_assessment",
+  "risk_assessment_guard@risk_assessment",
+  "risk_factor_result_factor_code_ref@risk_factor_result",
+  "risk_factor_result_guard@risk_factor_result",
+  "risk_rule_set_version_immutable@risk_rule_set_version",
+  "risk_successor_check@risk_assessment",
+  "role_permission_no_reserved@role_permission",
+  "rule_evaluation_immutable@rule_evaluation",
+  "sale_event_guard@sale_event",
+  "script_assignment_attempt_immutable@script_assignment_attempt",
+  "script_assignment_case_check@script_assignment",
+  "script_assignment_check@script_assignment",
+  "script_assignment_immutable@script_assignment",
+  "script_assignment_rule_kind_check@script_assignment",
+  "script_assignment_rule_version_market@script_assignment_rule_version",
+  "script_change_event_immutable@script_change_event",
+  "script_family_market@script_family",
+  "script_module_guard@script_module",
+  "script_module_lock@script_module",
+  "script_section_guard@script_section",
+  "script_section_module_lock@script_section",
+  "script_simulation_event_immutable@script_simulation_event",
+  "script_simulation_run_guard@script_simulation_run",
+  "script_version_control_link_guard@script_version_control_link",
+  "script_version_guard@script_version",
+  "session_event_immutable@session_event",
+  "simulation_answer_evaluation_immutable@simulation_answer_evaluation",
+  "simulation_batch_immutable@simulation_batch",
+  "simulation_content_snapshot_immutable@simulation_content_snapshot",
+  "simulation_finding_immutable@simulation_finding",
+  "simulation_finding_set_immutable@simulation_finding_set",
+  "simulation_result_immutable@simulation_result",
+  "simulation_scenario_guard@simulation_scenario",
+  "simulation_scenario_revision_immutable@simulation_scenario_revision",
+  "survey_asset_version_guard@survey_asset_version",
+  "survey_assignment_binding_event_guard@survey_assignment_binding_event",
+  "survey_assignment_binding_event_immutable@survey_assignment_binding_event",
+  "survey_assignment_binding_immutable@survey_assignment_binding",
+  "survey_assignment_binding_survey_only@survey_assignment_binding",
+  "survey_assignment_evaluation_immutable@survey_assignment_evaluation",
+  "survey_assignment_group_event_guard@survey_assignment_group_event",
+  "survey_assignment_group_event_immutable@survey_assignment_group_event",
+  "survey_assignment_group_immutable@survey_assignment_group",
+  "survey_assignment_group_member_immutable@survey_assignment_group_member",
+  "survey_assignment_simulation_immutable@survey_assignment_simulation",
+  "survey_binding_market_check@survey_assignment_binding",
+  "survey_call_plan_immutable@survey_call_plan",
+  "survey_call_plan_survey_only@survey_call_plan",
+  "survey_candidate_immutable@survey_candidate",
+  "survey_composite_plan_immutable@survey_composite_plan",
+  "survey_composite_plan_member_immutable@survey_composite_plan_member",
+  "survey_control_mapping_event_guard@survey_control_mapping_event",
+  "survey_control_mapping_event_immutable@survey_control_mapping_event",
+  "survey_control_mapping_immutable@survey_control_mapping",
+  "survey_control_policy_event_guard@survey_control_policy_event",
+  "survey_control_policy_event_immutable@survey_control_policy_event",
+  "survey_control_policy_immutable@survey_control_policy",
+  "survey_control_result_immutable@survey_control_result",
+  "survey_coordinated_simulation_immutable@survey_coordinated_simulation",
+  "survey_coordinated_simulation_step_immutable@survey_coordinated_simulation_step",
+  "survey_definition_kind_guard@survey_definition",
+  "survey_definition_market@survey_definition",
+  "survey_draft_guard@survey_draft",
+  "survey_evaluation_finding_immutable@survey_evaluation_finding",
+  "survey_evaluation_policy_immutable@survey_evaluation_policy",
+  "survey_evidence_observation_immutable@survey_evidence_observation",
+  "survey_execution_assurance_immutable@survey_execution_assurance",
+  "survey_execution_assurance_survey_immutable@survey_execution_assurance_survey",
+  "survey_group_member_market_check@survey_assignment_group_member",
+  "survey_issued_code_immutable@survey_issued_code",
+  "survey_journey_evaluation_immutable@survey_journey_evaluation",
+  "survey_lifecycle_event_guard@survey_lifecycle_event",
+  "survey_lifecycle_event_immutable@survey_lifecycle_event",
+  "survey_obligation_finding_immutable@survey_obligation_finding",
+  "survey_obligation_observation_immutable@survey_obligation_observation",
+  "survey_obligation_result_immutable@survey_obligation_result",
+  "survey_run_guard@survey_run",
+  "survey_simulation_immutable@survey_simulation",
+  "survey_simulation_input_immutable@survey_simulation_input",
+  "survey_simulation_survey_only@survey_simulation",
+  "survey_version_guard@survey_version",
+  "survey_version_immutable@survey_version",
+  "survey_wording_approval_immutable@survey_wording_approval",
+  "transcript_run_guard@transcript_run",
+  "transcript_segment_immutable@transcript_segment"
+ ],
+ "functions": [
+  "answer_observation_check",
+  "applicability_asset_guard",
+  "applicability_dependency_guard",
+  "applicability_event_guard",
+  "applicability_policy_dependency_guard",
+  "applicability_policy_event_guard",
+  "applicability_policy_guard",
+  "applicability_version_guard",
+  "assert_code_ref",
+  "assert_market_code",
+  "assignment_rule_check",
+  "assignment_rule_draft_guard",
+  "assignment_rule_draft_kind_guard",
+  "assignment_rule_market_check",
+  "assignment_rule_version_guard",
+  "audit_event_append_only",
+  "callback_case_guard",
+  "case_hold_guard",
+  "case_hold_sync",
+  "code_list_version_guard",
+  "code_value_guard",
+  "contact_attempt_guard",
+  "contact_method_guard",
+  "contact_selection_check",
+  "conversation_session_guard",
+  "fact_snapshot_check",
+  "feature_flag_change_append_only",
+  "finding_guard",
+  "finding_rule_set_guard",
+  "forbid_change",
+  "lab_paid_auth_guard",
+  "lab_purge_guard",
+  "lab_reservation_guard",
+  "media_asset_guard",
+  "question_execution_guard",
+  "review_approval_guard",
+  "risk_assessment_guard",
+  "risk_factor_result_guard",
+  "risk_successor_check",
+  "role_permission_no_reserved",
+  "sale_event_guard",
+  "script_assignment_case_check",
+  "script_assignment_check",
+  "script_assignment_rule_kind_check",
+  "script_child_guard",
+  "script_draft_module_lock",
+  "script_module_guard",
+  "script_simulation_run_guard",
+  "script_version_guard",
+  "script_version_valid_at",
+  "simulation_scenario_guard",
+  "survey_asset_version_guard",
+  "survey_assignment_binding_event_guard",
+  "survey_assignment_group_event_guard",
+  "survey_binding_market_check",
+  "survey_control_mapping_event_guard",
+  "survey_control_policy_event_guard",
+  "survey_definition_kind_guard",
+  "survey_draft_guard",
+  "survey_group_member_market_check",
+  "survey_lifecycle_event_guard",
+  "survey_module_not_a_survey",
+  "survey_run_guard",
+  "survey_version_guard",
+  "transcript_run_guard"
+ ],
+ "permissions": [
+  "admin.groups.manage",
+  "admin.sessions.manage",
+  "admin.users.manage",
+  "admin.users.read",
+  "applicability.approve",
+  "applicability.edit",
+  "applicability.publish",
+  "applicability.read",
+  "assignment_rule.approve",
+  "assignment_rule.edit",
+  "assignment_rule.publish",
+  "assignment_rule.read",
+  "audit.read",
+  "case.read",
+  "config.manage",
+  "config.read",
+  "dashboard.read",
+  "evidence.export",
+  "finding_rule.approve",
+  "finding_rule.edit",
+  "finding_rule.publish",
+  "finding_rule.read",
+  "intake.manual.submit",
+  "intake.mock.sync",
+  "intake.read",
+  "party.read",
+  "pii.unmasked",
+  "policy.read",
+  "queue.read",
+  "recording.read",
+  "review.approve",
+  "review.decide",
+  "risk.override.approve",
+  "risk.override.request",
+  "risk.read",
+  "saved_view.manage_own",
+  "script.approve",
+  "script.assign",
+  "script.edit",
+  "script.publish",
+  "script.read",
+  "script.simulate",
+  "search.use",
+  "survey.approve",
+  "survey.assignment.read",
+  "survey.edit",
+  "survey.evaluate",
+  "survey.evaluation.read",
+  "survey.publish",
+  "survey.read",
+  "survey.simulate",
+  "system.health.read",
+  "transcript.sensitive.read",
+  "voice.preflight.read",
+  "voice.session.start",
+  "voicelab.manage",
+  "voicelab.use"
+ ]
+}

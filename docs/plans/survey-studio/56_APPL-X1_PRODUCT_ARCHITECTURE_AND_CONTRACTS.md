@@ -411,3 +411,77 @@ From APPL-X2 the same evaluator is called by persisted operations and these prot
 
 None of these is a compliance policy. What a business condition *means* (what NFTF is, when a replacement survey is
 required) is not decided anywhere in this design.
+
+## 14. Amendment of 2026-11-23 (APPL-X1R): owner rulings and the published-survey reference
+
+APPL-X1 is accepted as a technically verified prototype and architectural direction. The owner ruled AP-1…AP-10
+(D-387); where this section differs from §3–§5 and §13 above, **this section governs**.
+
+### 14.1 Replacement (AP-1) — replaces §5.3's chain rule
+
+A requirement's `replaces` names its **final** targets. A chain — a replaced requirement that itself replaces
+something — is not allowed: validation reports `REPLACEMENT_CHAIN` as a blocker on the requirement, and the
+evaluator refuses to evaluate such a policy. Cycles, self-replacement and unknown targets are blockers as before.
+Nothing transitive is ever applied.
+
+### 14.2 The same survey required more than once (AP-2) — replaces §3.4's `same_survey` and §5.5
+
+`same_survey` is removed. A policy may carry explicit statements instead:
+
+```json
+"shared_deliveries": [ { "survey": "S-…", "requirements": ["r1", "r2"], "note": "…" } ]
+```
+
+meaning *one delivery of this survey satisfies exactly these requirements*. When several active requirements select
+one survey: if a statement covers **all** of them, the survey appears once with every requirement recorded
+(`SURVEY_SHARED_DELIVERY`); otherwise the plan is unresolved (`DUPLICATE_SURVEY`), naming those requirements. A
+statement never extends to a requirement it does not name. Validation finds reachable collisions by enumeration and
+blocks them. Different versions of one survey are always an error.
+
+### 14.3 Governance (AP-3) — replaces the second row of §8
+
+Published **variable, profile, condition and policy** versions all need three different identities: maker, checker,
+publisher. Drafting and synthetic scenario testing need none. Until persistence is authorised this lifecycle is a
+labelled simulation; only Survey Studio's publication is server-enforced.
+
+### 14.4 Choose one (AP-8) — replaces the "otherwise" of §5.4
+
+An alternative is `{survey, when, fallback?}`. It needs a criterion or `fallback: true`; one with neither is
+incomplete (`MISSING_CRITERION`, blocker) and is never chosen. At most one fallback. No fallback and nothing eligible
+is unresolved.
+
+### 14.5 Profiles and scope
+
+Profiles organise the variables that describe an application. They **never** decide whether a policy applies, and a
+policy's profiles do not enter evaluation. A policy applies exactly when its explicit `scope` is true. A fact given
+from outside an application's own profiles is read and marked `outside_profiles`; where a profile narrows a value, a
+value outside it is invalid.
+
+### 14.6 Confirmed as proposed
+
+AP-4 (boolean derived variables only), AP-5 (no currency conversion), AP-6 (definite and pending shown separately;
+an unresolved plan is not execution-ready), AP-7 (several policies in scope stay unresolved), AP-9 (navigation
+unchanged until APPL-X5), AP-10 (independent permissions, market isolation, role separation; nothing widened).
+
+### 14.7 The published-survey reference
+
+```json
+{ "code": "S-APPL-DEMO-ILP", "version": 1, "label": "1.0", "name": "…",
+  "version_id": "<survey_version.id>", "definition_id": "<survey_definition.id>",
+  "fingerprint": "<content_sha256>", "manifest": "<manifest_sha256>", "market": "SG" }
+```
+
+Read-only integration, established in APPL-X1R and to be reused unchanged by APPL-X3:
+
+| Need | Existing operation |
+|---|---|
+| surveys with a published version | `GET /survey-definitions` (`latest_version_id`) |
+| the version's identity and fingerprints | `GET /survey-versions/{id}` (must be `PUBLISHED`) |
+| its modules, questions, wording, options, routes | `GET /survey-candidates/{candidate_id}/documents` |
+| who submitted, approved, published | the `history` of the candidate and the version |
+
+A reference is never moved to a newer version implicitly; adopting one is an explicit edit. A reference Survey
+Studio does not list is `SURVEY_NOT_PINNED` — a blocker — and nothing is substituted. A published policy's manifest
+pins: variable, profile and condition versions; the policy definition; the evaluator contract; each survey version
+with content and manifest fingerprints; the delivery order; the shared deliveries.
+

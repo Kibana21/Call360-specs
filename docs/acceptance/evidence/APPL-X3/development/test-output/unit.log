@@ -1,0 +1,13 @@
+
+> call360-frontend@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.12 /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend
+
+
+ Test Files  42 passed (42)
+      Tests  636 passed (636)
+   Start at  04:30:51
+   Duration  4.58s (transform 14.01s, setup 3.08s, import 23.69s, tests 14.54s, environment 19.21s)
+

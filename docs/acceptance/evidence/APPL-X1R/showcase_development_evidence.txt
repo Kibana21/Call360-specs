@@ -1,0 +1,295 @@
+APPL-X1R — the synthetic showcase surveys created in LOCAL DEVELOPMENT through Survey Studio's governed API, 2026-11-23. Names, counts and digests only.
+
+== Before
+connection: {'database': 'Call360_db', 'role': 'Call360_db_user', 'schema': 'call360', 'server_addr': '::1/128', 'server_port': 5432, 'pg_version': '15.12', 'read_only': 'on'}
+revision: ['0037_shared_rule_services'] | tables: 140 | rows: 16545
+backup: _db_backups/call360_dev_before_appl_showcase_20261123.dump | sha256 08484a082fc9e720543d16aeb5fc3f3e3ca03f58a6a2bf2f970902a45b27dde5 | 140 tables, 16,545 rows, row counts equal the inventory; restore-to-SQL dry run clean
+
+== After: what changed, table by table
+revision: ['0037_shared_rule_services'] -> ['0037_shared_rule_services'] | tables added: [] | removed: []
+triggers same: True | functions same: True | permissions same: True | columns same: True
+  audit_event: 3544 -> 3592 rows
+  auth_session: 255 -> 267 rows
+  login_attempt: 255 -> 267 rows
+  refresh_token: 333 -> 345 rows
+  refresh_token_family: 255 -> 267 rows
+  survey_asset_usage: 179 -> 411 rows
+  survey_asset_version: 41 -> 117 rows
+  survey_candidate: 8 -> 14 rows
+  survey_definition: 8 -> 14 rows
+  survey_draft: 8 -> 14 rows
+  survey_issued_code: 18 -> 69 rows
+  survey_lifecycle_event: 32 -> 56 rows
+  survey_version: 7 -> 13 rows
+  survey_wording_approval: 28 -> 68 rows
+unchanged tables: 126 of 140
+legacy and operational record sets identical: ['assignment rule versions (every pre-0037 column)', 'rule identity, version, target, checksum', 'rule publications', 'rule change events', 'rule drafts (every pre-0037 column)', 'script families', 'script versions', 'script assignments', 'callback cases', 'survey bindings', 'survey binding events', 'requirement groups', 'requirement group members', 'composite plans', 'table conversation_session', 'table survey_run', 'table finding', 'table finding_rule_set_version', 'table finding_rule_set_event', 'table review_approval', 'table review_decision', 'table simulation_finding', 'table survey_evaluation_finding', 'table contact_attempt', 'table survey_assignment_evaluation', 'table survey_coordinated_simulation', 'table survey_journey_evaluation']
+record sets that grew: [('table audit_event', 3544, 3592), ('table survey_version', 7, 13), ('table survey_candidate', 8, 14)]
+
+== Created (setup report)
+Applicability Showcase — Synthetic Demo — SETUP
+SYNTHETIC DEMONSTRATION — NOT APPROVED FOR CUSTOMER CALLS.
+People: author = dev.survey.author, checker = dev.survey.checker, publisher = dev.survey.publisher
+
+[CREATED_AND_PUBLISHED] MODULE M-100019 — Showcase welcome and understanding check (synthetic)
+    created and published
+    definition id      4d6950ed-3098-4464-ad48-6c5643b0260e
+    published version  4077a702-fc96-4d56-ab37-d74ecc39d6b7  (label 1.0, number 1, PUBLISHED)
+    content sha256     3b55d1929614e920de6119ce250722b27088a30ea66498ec8d3260f5e53bd1bc
+    manifest sha256    6c2afad47b16898ec35293b1edf9b9c98dc9da3e237ae10152181a04eac61b94
+    blueprint sha256   2708b9a4b4437fc2d4833ac5a9d14b9931fb5f8a0d7711a70fe629b857a83b0e  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module module: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: survey ends COMPLETED
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+
+[CREATED_AND_PUBLISHED] SURVEY S-APPL-DEMO-ILP — Applicability Showcase · A · ILP product understanding (synthetic demo)
+    created and published
+    definition id      ebcaa2fb-f539-4794-9be7-4e76085b7d15
+    published version  faf176f9-d486-41a5-be39-20221563ee50  (label 1.0, number 1, PUBLISHED)
+    content sha256     dc1effc4925fd57fa14f3f2c549534ba0fe0a18d6ae4215acc4f5cfb9e658977
+    manifest sha256    4dc6080ab147f4715603fab965144763b67d8d375d0250c3c2936dbff50e2836
+    blueprint sha256   7861134f877b5212383c8900c1d189135b6e4e3a7bd4484474b3bce4ac4da957  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module mi-welcome: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)  [the reusable module, pinned by exact revision]
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+    module mi-ilp-understanding: M-100029 rev 1 — ILP product understanding (synthetic)
+      n1 FREE_TEXT Q-100026: In your own words, what do you understand this plan to be for? (synthetic demonstration question)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100027: Were the main features of the plan explained to you in a way you could follow? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 SINGLE_SELECT Q-100028: Which part would you most like to have explained again? (synthetic demonstration question)
+          answers: The charges | The fund choices | How long the plan runs | Something else
+          ANY -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+    module mi-closing: M-100030 rev 1 — Showcase closing (synthetic)
+      n1 STATEMENT S-100031: That is the end of this demonstration. Thank you. (synthetic demonstration statement)
+          AFTER_CAPTURE -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+
+[CREATED_AND_PUBLISHED] SURVEY S-APPL-DEMO-NFTF — Applicability Showcase · B · NFTF additional questions (synthetic demo)
+    created and published
+    definition id      e7e8b183-a036-48f2-af43-7c889690ff52
+    published version  fb493495-26c0-4be0-b364-5e3cb01ce1ef  (label 1.0, number 1, PUBLISHED)
+    content sha256     086b9b1d7e4c251646da0bed999e0e78b1d0a23d3108eabad3b1c53e8843b12b
+    manifest sha256    b5766c06095d1a8f318e28a0f3eaea3680d8f0dfc9b3b188ad37eded8adddc3e
+    blueprint sha256   64fc3f1a33a8fcab7bdd7f0765733121aefddae588bd443cdc32a7323377836f  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module mi-welcome: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)  [the reusable module, pinned by exact revision]
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+    module mi-nftf-additional: M-100039 rev 1 — NFTF additional questions (synthetic)
+      n1 SINGLE_SELECT Q-100035: How was the plan mainly discussed with you? (synthetic demonstration question)
+          answers: By video call | By phone call | By messages or email | Another way
+          VIDEO -> go to n2
+          PHONE -> go to n3
+          MESSAGES -> go to n3
+          ANOTHER_WAY -> go to n3
+      n2 YES_NO Q-100036: Could you see and hear the adviser clearly during the video call? (synthetic demonstration question)
+          answers: Yes | No
+          ANY -> go to n3
+      n3 MULTI_SELECT Q-100037: Which of these did you receive after the discussion? You may choose more than one. (synthetic demonstration question)
+          answers: A summary of the plan | A copy of the application | None of these
+          ANY of ['NOTHING'] -> go to n4
+          otherwise -> module ends COMPLETED
+      n4 FREE_TEXT Q-100038: Please describe what you were expecting to receive. (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+    module mi-closing: M-100040 rev 1 — Showcase closing (synthetic)
+      n1 STATEMENT S-100041: That is the end of this demonstration. Thank you. (synthetic demonstration statement)
+          AFTER_CAPTURE -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+
+[CREATED_AND_PUBLISHED] SURVEY S-APPL-DEMO-COMBINED — Applicability Showcase · C · Combined ILP + NFTF (synthetic demo)
+    created and published
+    definition id      ecc11701-32a8-4076-a1dd-5fd3173a0125
+    published version  23ef5369-c85f-42b4-bacd-aa5220a4ce0f  (label 1.0, number 1, PUBLISHED)
+    content sha256     cd14fdc85902e2e5f15ea9bf11a47163b7348965246c250dbefff76fa953f360
+    manifest sha256    6a977cb552dd447da140a44e2e40139eb5642598f068c7198e08f44b3d823168
+    blueprint sha256   c72ac0192fe6e49d513b57a04df14758a8daf0cba2cc74ee21d6f4fab0bc8b33  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module mi-welcome: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)  [the reusable module, pinned by exact revision]
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+    module mi-combined-ilp: M-100050 rev 1 — Combined · ILP part (synthetic)
+      n1 SINGLE_SELECT Q-100045: Which of these best describes why you chose this plan? (synthetic demonstration question)
+          answers: Saving for the future | Looking after my family | A mix of both | I am not sure
+          SAVING -> module ends COMPLETED
+          FAMILY -> module ends COMPLETED
+          MIX -> module ends COMPLETED
+          NOT_SURE -> go to n2
+      n2 FREE_TEXT Q-100046: In your own words, what do you understand this plan to be for? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: jump to module mi-closing
+    module mi-combined-nftf: M-100051 rev 1 — Combined · NFTF part (synthetic)
+      n1 MULTI_SELECT Q-100047: Which of these were used when the plan was discussed with you? You may choose more than one. (synthetic demonstration question)
+          answers: Video call | Phone call | Messages or email
+          ANY -> go to d1
+      d1 DECISION on C-100049 — A video call was one of the ways used (synthetic)
+          MATCH -> go to n2
+          NO_MATCH -> module ends COMPLETED
+      n2 YES_NO Q-100048: Could you see and hear the adviser clearly during the video call? (synthetic demonstration question)
+          answers: Yes | No
+          ANY -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+    module mi-closing: M-100052 rev 1 — Showcase closing (synthetic)
+      n1 STATEMENT S-100053: That is the end of this demonstration. Thank you. (synthetic demonstration statement)
+          AFTER_CAPTURE -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+
+[CREATED_AND_PUBLISHED] SURVEY S-APPL-DEMO-REPLACEMENT — Applicability Showcase · D · Replacement scenario (synthetic demo)
+    created and published
+    definition id      0f60e20e-2cac-40b6-9df7-820dcee1b8a2
+    published version  ed762f57-18ce-4ab8-8ec7-c4b7ea7517bd  (label 1.0, number 1, PUBLISHED)
+    content sha256     c2e24c7de04a5dd04c6acf3d6a0820e88caf846d3fe7378c0f6d481a02aabe78
+    manifest sha256    9d2a6d44a476420449faafefdd78d11be3aff2e23e9b2cff0b906e7d33e93e34
+    blueprint sha256   9e0be3e2774a9a34c1fd5eb2681c0c381741ed94572af7c8ae3b1aa33176c1c4  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module mi-welcome: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)  [the reusable module, pinned by exact revision]
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+    module mi-replacement: M-100059 rev 1 — Replacement scenario (synthetic)
+      n1 YES_NO Q-100056: Did this plan take the place of a plan you already had? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> go to n2
+          NO -> module ends COMPLETED
+      n2 MULTI_SELECT Q-100057: Which of these were talked through with you before you decided? You may choose more than one. (synthetic demonstration question)
+          answers: The differences between the two plans | Any costs of changing | Neither of these
+          ANY -> go to n3
+      n3 FREE_TEXT Q-100058: In your own words, why did you decide to change plans? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+    module mi-closing: M-100060 rev 1 — Showcase closing (synthetic)
+      n1 STATEMENT S-100061: That is the end of this demonstration. Thank you. (synthetic demonstration statement)
+          AFTER_CAPTURE -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+
+[CREATED_AND_PUBLISHED] SURVEY S-APPL-DEMO-RIDER — Applicability Showcase · E · Rider scenario (synthetic demo)
+    created and published
+    definition id      1b9fe8d7-72ba-41cc-a194-42441a24c432
+    published version  d42b3c29-57bf-40c3-b6f9-99f4b15cd551  (label 1.0, number 1, PUBLISHED)
+    content sha256     689a0b44d398325ffc9a0ffe64a5ec1f2edb2d28d607ec88b8d82adf5a4c8cb6
+    manifest sha256    dc2f236ea21dbb68b94531f1de3a03e4057f490bd7081cc597518319815db4e2
+    blueprint sha256   714a77cb61a3d43f6c330376e26b48bfc10da3f116e4eb8cce5bc8eee0b3a5ca  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module mi-welcome: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)  [the reusable module, pinned by exact revision]
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+    module mi-rider: M-100067 rev 1 — Rider scenario (synthetic)
+      n1 YES_NO Q-100064: Did you add any optional extra cover to your plan? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> go to n2
+          NO -> module ends COMPLETED
+      n2 SINGLE_SELECT Q-100065: Who suggested adding the extra cover? (synthetic demonstration question)
+          answers: I asked for it | The adviser suggested it | I do not remember
+          MYSELF -> module ends COMPLETED
+          ADVISER -> module ends COMPLETED
+          DO_NOT_REMEMBER -> go to n3
+      n3 FREE_TEXT Q-100066: Please tell us what you remember about the extra cover. (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: continue to the next module
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+    module mi-closing: M-100068 rev 1 — Showcase closing (synthetic)
+      n1 STATEMENT S-100069: That is the end of this demonstration. Thank you. (synthetic demonstration statement)
+          AFTER_CAPTURE -> module ends COMPLETED
+      when the module ends COMPLETED: continue to the next module
+
+Reusable module M-100019 revision 1 is pinned by: S-APPL-DEMO-ILP, S-APPL-DEMO-NFTF, S-APPL-DEMO-COMBINED, S-APPL-DEMO-REPLACEMENT, S-APPL-DEMO-RIDER
+RESULT: OK — everything is published as defined
+
+== Second run (idempotent)
+Applicability Showcase — Synthetic Demo — SETUP
+SYNTHETIC DEMONSTRATION — NOT APPROVED FOR CUSTOMER CALLS.
+People: author = dev.survey.author, checker = dev.survey.checker, publisher = dev.survey.publisher
+
+[ALREADY_PUBLISHED_REUSED] MODULE M-100019 — Showcase welcome and understanding check (synthetic)
+    already published, reused; nothing was changed
+    definition id      4d6950ed-3098-4464-ad48-6c5643b0260e
+    published version  4077a702-fc96-4d56-ab37-d74ecc39d6b7  (label 1.0, number 1, PUBLISHED)
+    content sha256     3b55d1929614e920de6119ce250722b27088a30ea66498ec8d3260f5e53bd1bc
+    manifest sha256    6c2afad47b16898ec35293b1edf9b9c98dc9da3e237ae10152181a04eac61b94
+    blueprint sha256   2708b9a4b4437fc2d4833ac5a9d14b9931fb5f8a0d7711a70fe629b857a83b0e  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module module: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+          AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED
+      when the module ends COMPLETED: survey ends COMPLETED
+      when the module ends CLARIFICATION_REQUIRED: survey ends CLARIFICATION_REQUIRED
+
+[ALREADY_PUBLISHED_REUSED] SURVEY S-APPL-DEMO-ILP — Applicability Showcase · A · ILP product understanding (synthetic demo)
+    already published, reused; nothing was changed
+    definition id      ebcaa2fb-f539-4794-9be7-4e76085b7d15
+    published version  faf176f9-d486-41a5-be39-20221563ee50  (label 1.0, number 1, PUBLISHED)
+    content sha256     dc1effc4925fd57fa14f3f2c549534ba0fe0a18d6ae4215acc4f5cfb9e658977
+    manifest sha256    4dc6080ab147f4715603fab965144763b67d8d375d0250c3c2936dbff50e2836
+    blueprint sha256   7861134f877b5212383c8900c1d189135b6e4e3a7bd4484474b3bce4ac4da957  (independent of server-issued codes)
+    authored by dev.survey.author · approved by dev.survey.checker · published by dev.survey.publisher
+    module mi-welcome: M-100019 rev 1 — Showcase welcome and understanding check (synthetic)  [the reusable module, pinned by exact revision]
+      n1 STATEMENT S-100021: Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)
+          AFTER_CAPTURE -> go to n2
+      n2 YES_NO Q-100022: Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)
+          answers: Yes | No
+          YES -> module ends COMPLETED
+          NO -> go to n3
+      n3 FREE_TEXT Q-100023: In your own words, what do you remember about that conversation? (synthetic demonstration question)
+
+== Verify-only before: exit 1, 6 MISSING. Verify-only after: exit 0.

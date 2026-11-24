@@ -1,0 +1,378 @@
+[
+ {
+  "kind": "CONDITION",
+  "code": "is_ilp",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "55c59b3a-b9c3-473c-9106-cd139957e325",
+  "content_sha256": "2526fbc981b3374938fbf0e07b26776d8360f9b30ef6d31fb08b8ff139e21ac1",
+  "manifest_sha256": "51752103dd1da953f7a0e910b5dad34f16413954544ce84f81355198db889b49",
+  "pins": [
+   "variable is_ilp v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "nftf_applies",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "d35b7b45-3548-4e2b-a750-6ba72adfbd30",
+  "content_sha256": "933782318c84a22ea02c16adbb72c8fb25d0ccc38e4182abea6236e5b6b80989",
+  "manifest_sha256": "0ee122216b7b0801172b235923001e24c34ff42f8bff6e0812f19bb7d9464e8b",
+  "pins": [
+   "variable nftf v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "ilp_with_nftf",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "5bd69436-1340-4fc1-bc44-25c3ca49f3fb",
+  "content_sha256": "4db40599d174bd926f4654db2035839938c2b42dbbb3b14595bf5f8802c7ba20",
+  "manifest_sha256": "ded7ac11d3e87ff900504de0a1aa1540ee1aa297a9195de5eb1b8084443a567f",
+  "pins": [
+   "condition is_ilp v1",
+   "condition nftf_applies v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "ilp_without_nftf",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "5e6dbe00-8e5b-44a0-9ac6-b07a1dab6bde",
+  "content_sha256": "91b607025fd24fd75264614a5ba443466523169a89e285c533652809df61283b",
+  "manifest_sha256": "8301347b0578bbcf2ab4ac67ada1057b25618d56484e756d68d590dbddcb4a7e",
+  "pins": [
+   "condition is_ilp v1",
+   "condition nftf_applies v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "replacement_applies",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "7c59caa3-8fad-4481-8a92-b952c5759eb8",
+  "content_sha256": "8cf402dc7c812de740aa4088777c20bf1fb27d650a997b8481bc8fc36bea31a7",
+  "manifest_sha256": "1c12928b52041d2f1063ef7ad7feb05d19823bbdb4cd2fe9b99f278cd718c265",
+  "pins": [
+   "variable replacement v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "high_premium",
+  "version_no": 1,
+  "status": "SUPERSEDED",
+  "version_id": "353a319c-32ef-44c6-9e95-6ea24135076e",
+  "content_sha256": "f9de32cea2140304553fa89d773b58f88eebcc61d3fdd4750e28f8f06390e549",
+  "manifest_sha256": "fe9a4107db5359a07f605dd1470ee728248ce4a85763ebc5f13f618a627f8df5",
+  "pins": [
+   "variable annual_premium v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "high_premium",
+  "version_no": 2,
+  "status": "PUBLISHED",
+  "version_id": "4de76aa4-acf2-4cb8-bdd5-ff6d42fd7a66",
+  "content_sha256": "eacb016ad08a53a46a99cb5b3d17a2a6f86d37c88a39554bd9870b6f3fc2c4a5",
+  "manifest_sha256": "6fb894999a8baa64444ff5ad857324c7cd0c3203cbaf28643977c16a8cbc88b6",
+  "pins": [
+   "variable annual_premium v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "rider_includes_ci",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "c1e51831-cde5-4804-a6bf-381721096cf3",
+  "content_sha256": "396949e5650a82b3c17e4ba7e289422c811e027311c6b6d4e3fb9d6f3b01c923",
+  "manifest_sha256": "8f49356ddd75a1dc0642b7f7ab3c0c37442ae112acd4026698151a52487be80b",
+  "pins": [
+   "variable selected_riders v1"
+  ]
+ },
+ {
+  "kind": "CONDITION",
+  "code": "senior_ilp_outside_nftf",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "c57d2317-b2ac-4ee8-99c9-0e0f20fdfc42",
+  "content_sha256": "9484a513b6b0ffa44c2f820c8e2479d67a7a4dcc8cb93797ff99a6fa5eb222e2",
+  "manifest_sha256": "685d44be24d6fa34c96d7852c5254aba6af349da6cf56b13f8509eb881b9db4b",
+  "pins": [
+   "condition is_ilp v1",
+   "condition nftf_applies v1",
+   "variable replacement v1",
+   "variable senior_applicant v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "common",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "39410515-0c90-441c-87ce-36ea85a8b88c",
+  "content_sha256": "8baec5d0cca6ffbd3628b29649ba9d68a1299232eaa250a97dd9efe7ccf413eb",
+  "manifest_sha256": "dc7d5c66db7fbc0732b2d4f81dbff76d1ba105cc4dd70baf7d9fffd0f6b8234f",
+  "pins": [
+   "variable annual_premium v1",
+   "variable commencement_date v1",
+   "variable customer_age v1",
+   "variable market v1",
+   "variable premium_frequency v1",
+   "variable product_family v1",
+   "variable risk_class v1",
+   "variable sales_channel v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "ilp_extension",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "95d9421d-dba2-4ef2-a03e-843ab4a3d769",
+  "content_sha256": "cc11b8a5267d4d242c8b3bb6ad85afda8c39262e64f0e7fcb16660681786b6de",
+  "manifest_sha256": "d3a150904188c82d08f4a5b4723599fd41a757f73c858fa6c88b7b596ababf51",
+  "pins": [
+   "profile common v1",
+   "variable is_ilp v1",
+   "variable product_family v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "protection_extension",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "2d2e5fc3-076c-44fd-aadb-7b21c58f7a84",
+  "content_sha256": "972a08426bacee12c7214e698f3ffff0f79fab32a3a5c36dd368842b1347937c",
+  "manifest_sha256": "a2bee5f30c7c69e6db72ad9708ac49de63531b91d1b84a2672e6630f0a3fb84a",
+  "pins": [
+   "profile common v1",
+   "variable product_family v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "nftf_extension",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "8424f02f-d5a2-453a-bea1-556e64016b3c",
+  "content_sha256": "221d95b4ac8a90258b083aae8ee90e6333c358a70fd8a8bba0978e5691f24088",
+  "manifest_sha256": "357ea9cd4aa5c3c9e6fb287ef678c22ecc5f73343759633ff3e3eeb56c4fc864",
+  "pins": [
+   "variable nftf v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "replacement_extension",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "0119c9e8-1949-425b-92b6-ed8f7eaf0694",
+  "content_sha256": "5cd23bb512669068af0f73c6890bf110fbe9d5690ba112863ca25a8e895e67ee",
+  "manifest_sha256": "06b630d0b64fc031fca6ec9cb98a26543b5f08eb7c7d793444e7a36b1d008dac",
+  "pins": [
+   "variable replacement v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "rider_extension",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "dd9460b1-26fe-4bf7-8248-01d378bac6ae",
+  "content_sha256": "8158981491bbdae58851a8a37d93742689e7436240c6e3dfd3e13fd0c52c180f",
+  "manifest_sha256": "b0b8c522ca8d908a97602ce969c14fa183260399cc0d547331d21935853ee6a8",
+  "pins": [
+   "variable selected_riders v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "new_business",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "ec929420-6040-4545-8948-8e575edcde7e",
+  "content_sha256": "8755f00a4da8e166394bcbf891c6a08ad04d5f32a22b899c9fd238e7c648781e",
+  "manifest_sha256": "7b0cc6cdb1c5702955437602bdf557f49852974615f1d716e6a855b316d4931d",
+  "pins": [
+   "profile common v1",
+   "profile nftf_extension v1",
+   "profile replacement_extension v1",
+   "profile rider_extension v1",
+   "variable is_ilp v1"
+  ]
+ },
+ {
+  "kind": "PROFILE",
+  "code": "new_profile",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "1939e67c-055d-4dde-9a10-954b72a6585b",
+  "content_sha256": "4407605f0691608eb5453587f62a33fcd33f88a2a7e8fd5bbf9198c333b9d2e0",
+  "manifest_sha256": "a14695266804d9d4dea6527ffbac6eb28d51487a6b5e7abab3669f7c603e277a",
+  "pins": [
+   "profile common v1",
+   "variable senior_applicant v1"
+  ]
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "market",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "f72fbe26-2e8d-4f5a-9214-297e589c6639",
+  "content_sha256": "4abca7f3b30fbd28a0adaef19c43aa9783e120e6fde91fb6c4a392a8af403eed",
+  "manifest_sha256": "a1f6e5ba6cd295229334377906d5bac5ea0f5c9e618bb08e51603dc8fb7cb726",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "product_family",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "43558d6e-2891-4f12-a25a-b17c6245a8e5",
+  "content_sha256": "cfdb02f630d65ec3e5b4da70caf9394a71cd58397e82e5a1a63b41934fcd5ace",
+  "manifest_sha256": "df7a73290479c43a620a7e5967c0928e61ac568178ba9b0b89cfaee0d7d0231c",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "is_ilp",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "2d7b3e9e-c9d6-483a-8c70-bab17ed8fa86",
+  "content_sha256": "d1d7b6e41e184955fef5dafc337598266c834f158482a0a83a72e0cf815b34ee",
+  "manifest_sha256": "dbcbeff1d4816ff76cc2e37881837e2e1370d715af0bebf00d8380e68238354e",
+  "pins": [
+   "variable product_family v1"
+  ]
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "selected_riders",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "d9bdbe51-c718-4649-b903-84f566860e7c",
+  "content_sha256": "17bedd90cc199409226628c1cee7211edc38eb14fcf14eab6c6eb94c153a5e82",
+  "manifest_sha256": "a3c346fe4e6c52fc782a8427681d4d0ba50df6cc05e722ee7623a6379326b388",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "sales_channel",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "af6b8b16-cb5f-4909-b222-34fe1ae32304",
+  "content_sha256": "93f5631376d2ec9f973d397e0c11e02c5b7a0135ee36499141087dd716c090bd",
+  "manifest_sha256": "57a4233a8aad589245d0ec3a9f4134c31f7a17547b856e19116e855adb5eaf52",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "nftf",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "6b1152ef-9e2a-4a9a-aa92-ed7af6a8664c",
+  "content_sha256": "2282731851eb57e9c1d5afcc566322671748c563ff5d0bf15d867cd777552234",
+  "manifest_sha256": "fc997bf7b5f6f1864f5236f0355ebbd028812a7a51c88a97332d1d8b732c6456",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "replacement",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "3c9fda21-afe7-4645-83d1-355bd545656c",
+  "content_sha256": "2d2fab4d36a22560a7b06425a8cea047032895c96a3dd3307fe1940ee1c05fd8",
+  "manifest_sha256": "69400f4d00d83e1e529cab57e683f4e21fece126eb0ad6d71129d1898ef41ff0",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "premium_frequency",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "f9c384a1-b0f0-4760-86cb-8dcf574e5a1b",
+  "content_sha256": "e25f97155586cabb37ca6a81ecc29a270c0f8481167394bc4691646f8cd8c127",
+  "manifest_sha256": "9972b71eca68c296a8a694c33c4bed3eefe6f754199177a3b86252e9783cb545",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "annual_premium",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "cdc01558-c645-4c45-8cba-7beb6c8583ca",
+  "content_sha256": "0f3bade31699d1d8ab746545d14df4f61592e63264a3aae6325e769c78fd52df",
+  "manifest_sha256": "ca2218ee55f608ee5c3e39201f591bc25068f42948dc1f6bd4ad91337faa2eab",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "risk_class",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "41af48fd-cf6a-4d3d-aa53-a1e1f8903820",
+  "content_sha256": "4ba666fcb5d5923725038532a02f57aa98a378169f787804e328d83df9410043",
+  "manifest_sha256": "2ecca461142ae5563d95a58dcf1be4f7dc03cb812165eca47d9cc9bf02fc7506",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "customer_age",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "c131a3bd-2723-4303-9bf9-e12b4f7b5a5b",
+  "content_sha256": "3720d32bbe46de4ba760c6dce5b52f1f6ea003070e496f6042751099615e325c",
+  "manifest_sha256": "614935e091a5f2058c244fa304c5d3453e323a15dc56bee63f411073782b5455",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "commencement_date",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "762dbf40-5bd2-4a59-9e5a-ef5da42e911b",
+  "content_sha256": "ef04916f3c4d662f98a32f124f7a7cb0667e6877e5c7c16d2fc268c311d4b133",
+  "manifest_sha256": "866f784e00f996a0e8985967fe9f65515c9cd95af81a34fa726e45e8c3b72c4d",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "governance_check",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "4dd1ea2c-3ed4-42dc-b831-2dfbdaa9d405",
+  "content_sha256": "2b43920c2bb5cbebbb7058cb0e29f9b5d0f2ec087f48a80b5d6b4600e80759d9",
+  "manifest_sha256": "9ca85227064795a21277edd18395b771c675dd1103c0e124ef267b8b108d3cdd",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "senior_applicant",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "cb474230-b68c-42fc-b164-86a98eab44a8",
+  "content_sha256": "902b1943683ef9d31b2f08df3af2047d10ffff0db9d7a5ffbf2aaec221df7537",
+  "manifest_sha256": "2062650a78da0b3de83ccd329d5a3cc05d6176e06fff5af9fd85d1b9b7a4db06",
+  "pins": []
+ },
+ {
+  "kind": "VARIABLE",
+  "code": "separation_check",
+  "version_no": 1,
+  "status": "PUBLISHED",
+  "version_id": "95619458-8fac-40fc-b560-74c6c75b5faf",
+  "content_sha256": "90651a7820228ebb3c11f968fe4257ed2b5a8a4105ec0473245d7268f138ed3f",
+  "manifest_sha256": "4bbd283de37906a82e7ab0f70ef6094ccba6562120c1db7b47103d940c11c422",
+  "pins": []
+ }
+]

@@ -1,0 +1,23 @@
+[WebServer] INFO:     Started server process [88096]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+
+Running 13 tests using 1 worker
+
+  ✓   1 [prototype] › e2e/prototype/conditions.proto.ts:49:1 › SS-02B.1 conditions and routing: decision points, reusable conditions, earlier answers, unknown, ordered rules, limits, undo (20.6s)
+  ✓   2 [prototype] › e2e/prototype/connections.proto.ts:67:1 › SS-02B.2.1 connection editing: select, disconnect, redraw, refuse, undo, parity, keyboard (37.4s)
+  ✓   3 [prototype] › e2e/prototype/governance.proto.ts:28:1 › SS-02C: validation, comparison and the simulated maker-checker journey, from library to published version (24.6s)
+  ✓   4 [prototype] › e2e/prototype/governance.proto.ts:388:1 › SS-02 closure: Graph menus near the bottom of the window stay fully on screen (3.7s)
+  ✓   5 [prototype] › e2e/prototype/graph.proto.ts:61:1 › SS-02B.2 graph builder: Guided/Graph parity, editing in the graph, large module, survey graph, keyboard (47.4s)
+  ✓   6 [prototype] › e2e/prototype/graph.proto.ts:352:1 › SS-02B.2 corrections: selection limits are never changed silently; condition references are stable and typed (5.2s)
+  ✓   7 [prototype] › e2e/prototype/refinements.proto.ts:43:1 › SS-02A.1 refinements: blank module, duplicate, interruptions, unresolved branches, undo, widths (27.1s)
+  ✓   8 [prototype] › e2e/prototype/refinements.proto.ts:277:1 › SS-02A.1 keyboard-only authoring: survey, modules, reorder, routes, questions, options, duplicate, undo (4.1s)
+  ✓   9 [prototype] › e2e/prototype/rules.proto.ts:31:1 › SS-02B.3.1 business rules: a jump does not bypass eligibility; terminal states are told apart; an invalid draft does not run (8.1s)
+  ✓  10 [prototype] › e2e/prototype/simulator.proto.ts:39:1 › SS-02B.3 journey simulator: seven synthetic customers, explanations, comparison, step/back/restart, after an edit (20.3s)
+  ✓  11 [prototype] › e2e/prototype/survey-studio.proto.ts:30:1 › SS-02A journeys A–H: build a survey, shape a module, test a condition, undo and redo (31.8s)
+  ✓  12 [prototype] › e2e/prototype/uc01.proto.ts:25:1 › UC-01: statements, typed answers, wording with variables, delivery and the call plan, on one model (9.6s)
+  ✓  13 [prototype] › e2e/prototype/uc02.proto.ts:24:1 › UC-02: a computable plan is never a live-call approval; the plan is compact and opens on demand (6.2s)
+
+  13 passed (4.2m)

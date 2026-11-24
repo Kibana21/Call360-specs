@@ -1,0 +1,10 @@
+All checks passed!
+282 files already formatted
+Success: no issues found in 136 source files
+OpenAPI matches (13eb5190b264ab0c405e97334238832162c8206b7b2c226ac70b636e27412766)
+tsc clean
+eslint clean
+ Test Files  42 passed (42)
+      Tests  636 passed (636)
+✓ built in 222ms
+api:check OK (openapi 13eb5190b264ab0c405e97334238832162c8206b7b2c226ac70b636e27412766)

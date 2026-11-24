@@ -11,7 +11,162 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-23, latest (Survey Applicability Studio, APPL-X1) — read this block first; it supersedes the blocks below where they differ.**
+> **Update 2026-11-24, newest (APPL-X3 ACCEPTED, development at 0039) — read this block first; it supersedes the
+> blocks below where they differ.**
+> - **APPL-X3 ACCEPTED as technically verified on the test schema** (D-419). Owner rulings on D-416 in D-420:
+>   `PIN_DIFFERS` is a draft diagnostic now and MUST block publication in APPL-X4; `DEPENDENCY_STALE` fails closed;
+>   prototype endpoints stay, feature-gated; saved scenarios in APPL-X4 keep exact profile snapshots.
+> - **DEVELOPMENT IS AT `0039_applicability_policy`** (owner-authorised, applied 2026-11-24, D-421). Backup
+>   `_db_backups/call360_dev_before_0039_20261124.dump` (+ manifest); recovery in `_db_backups/RESTORE.md`
+>   "Rolling 0039 back". `.env` has `APPLICABILITY_POLICIES_ENABLED=true` and the library on. Start the dev frontend
+>   with `VITE_SURVEY_STUDIO_PERSISTED=1 VITE_SURVEY_APPLICABILITY=1 VITE_APPLICABILITY_LIBRARY=1
+>   VITE_APPLICABILITY_POLICIES=1`. NEVER run `make migrate` / `make seed`; a future `0040` needs its own
+>   authorisation.
+> - Development now holds two synthetic policies (`SHOWCASE-ILP-NFTF`, 4 requirements; `SHOWCASE-DEPENDENCIES`,
+>   1 requirement, pinned to "High premium" v2) and an empty library item shell `draft_example`. No role or grant
+>   changed; identities are the three `dev.applicability.*` accounts.
+> - After acceptance (frontend only, no API change): canvas brought inside the browser window on focus (D-423);
+>   "Archived policies" with Restore in the gallery (D-424); creation disabled until the saved policies are loaded,
+>   gallery read once (D-425); new test file `e2e/applicability/zz-d418.appl.ts`.
+> - **D-418 stays OPEN** (owner's ruling): cause established and fix verified (D-425, `66_…` §8.4), but only the
+>   owner closes it. Voice Studio reliability issue open; Voice Studio untouched.
+> - **APPL-X4 is an ASSESSMENT ONLY** (`survey-studio/67_…`, D-426). **Nothing is authorised next:** not APPL-X4,
+>   APP-1a, OPS-1, VOICE-1, legacy retirement. This session committed nothing; the owner manages Git (check `git status`
+>   in each repository for what is uncommitted).
+> - Report: `survey-studio/66_APPL-X3_ACCEPTANCE_AND_DEVELOPMENT_ENABLEMENT.md`; evidence
+>   `docs/acceptance/evidence/APPL-X3/development/`.
+>
+> **Update 2026-11-24 (APPL-X3 built on the test schema) — superseded by the block above where they differ; in
+> particular development is NO LONGER at 0038.**
+> - **APPL-X2 development enablement ACCEPTED** (D-411); `0038` is the accepted development baseline.
+> - **APPL-X3 (persistent Applicability Policies) — BUILT AND VERIFIED ON THE TEST SCHEMA; awaiting owner
+>   acceptance. UNCOMMITTED.** Documents `survey-studio/64_…` (specification, migration), `65_…` (report);
+>   D-411…D-418; evidence `docs/acceptance/evidence/APPL-X3/`.
+> - **DEVELOPMENT IS UNTOUCHED AND MUST STAY SO:** dev DB at `0038`; migration `0039_applicability_policy` exists in
+>   the backend but is NOT applied to dev; `MIGRATION_HEAD` is `0039` and a schema at `0038` is accepted while
+>   `applicability_policies_enabled` is off (it is off in dev; the library is on). NEVER run `make migrate`. The dev
+>   frontend runs WITHOUT `VITE_APPLICABILITY_POLICIES`, so policies there are still in the tab.
+> - Backend: `migrations/versions/0039_applicability_policy.py` (3 tables, 3 guards, NO permission; foreign keys to
+>   the library AND to `survey_definition` / `survey_version`); `app/domain/survey/applicability/policies.py`
+>   (`normalise`, `resolve` — workspace built from EXACT pins, `inspect`, `run`, `save`, `consistent`);
+>   `app/api/applicability_policies.py` (10 operations under `/api/v1/applicability/policies`; every one also needs
+>   `survey.read`); setting `applicability_policies_enabled` (effective only with the library);
+>   `tests/test_applicability_policies.py` (9). The evaluator was NOT changed. Prototype operations were NOT removed
+>   (D-416(c)).
+> - Dependency model (D-412): condition and survey versions in the references; variables, profiles and draft
+>   conditions in the document's `pins`; the server completes and validates pins on save and stores a `snapshot`,
+>   mirrored as `applicability_policy_dependency` rows in the same transaction. A moved DRAFT pin → evaluation
+>   refused (`DEPENDENCY_STALE`) until reconciled. `PIN_DIFFERS` when a published condition was published against
+>   another variable version.
+> - Frontend: `flag.ts::applicabilityPolicies`; `policyStore.ts` (what the server holds; `isUnsaved`);
+>   `policyService.tsx` (provider, `PolicyBar`, `Dependencies`, `RequirementDeps`, `NameAndCode`); `api.ts` routes a
+>   saved policy to `evaluate` / `preview` / `inspect`; store computes `unsaved`; `Policies.tsx` (gallery) on saved
+>   policies; persona switch hidden with saved policies; Governance page is a readiness page for them.
+>   **CASE-INSENSITIVE FILESYSTEM: `Policies.tsx` (gallery) and `policyService.tsx` are different files — never
+>   create a name that differs from an existing one only by case** (it happened; restored from the session record).
+> - Browser: `e2e/applicability/saved-policies.appl.ts` (X3.1…X3.8, journeys A–I); `journey.appl.ts` and
+>   `library.appl.ts` adapted to saved policies; new test identity `survey_applsecond`. `playwright.applicability`
+>   runs with library AND policies on.
+> - Open: D-416 (a)–(h) for the owner; D-418; D-397 (e)–(j); carried UX items.
+> - **Nothing is authorised next.** Do NOT apply `0039` to development, start APPL-X4, APP-1a, OPS-1, VOICE-1 or
+>   legacy retirement. Do NOT touch Voice Studio.
+>
+> **Update 2026-11-24, newest (APPL-X2 development enablement) — superseded by the block above where they differ.**
+> - **APPL-X2 ACCEPTED** as technically verified on the test schema (D-401). Rulings D-402 (cross-market 404 / 403),
+>   D-403 (draft locked during review), D-404 (policy drafts may read library drafts; mark them in APPL-X3, enforce
+>   in APPL-X4), D-405 (no silent dependency upgrade — implemented: reviewed `pins` sent with submit, 409
+>   `PINS_CHANGED`; shown to author and reviewer), D-406 (voice timeline defect retained, NOT fixed).
+> - **LOCAL DEVELOPMENT IS NOW AT `0038_applicability_library`** (owner-authorised 2026-11-24; D-407). Backup
+>   `_db_backups/call360_dev_before_0038_20261124.dump` + `.manifest.json`; recovery in `_db_backups/RESTORE.md`
+>   ("Rolling 0038 back": downgrade REFUSES now that the library has content; the way back is the full restore).
+>   `.env` has `APPLICABILITY_LIBRARY_ENABLED=true`; the dev frontend must be started with
+>   `VITE_SURVEY_STUDIO_PERSISTED=1 VITE_SURVEY_APPLICABILITY=1 VITE_APPLICABILITY_LIBRARY=1`.
+> - **Three development identities** (D-408): `dev.applicability.author / .checker / .publisher`, roles
+>   `DEV_APPL_AUTHOR / _CHECKER / _PUBLISHER`: `applicability.read` + one of edit / approve / publish, + `survey.read`
+>   (owner-authorised, read-only, declared per role — NEVER grant it automatically to a future role; contract
+>   `04_…` §24.3). Passwords only in gitignored `Call360-backend/.secrets/dev_survey_accounts.json` (10 identities
+>   now) — never print them. Script `scripts/dev_applicability_identities.py`. Do NOT create further identities or
+>   grant anything else without the owner.
+> - **The synthetic library is published in development** (D-409): 26 showcase items via
+>   `scripts/appl_library_setup.py` (idempotent; `--verify-only`) + five demonstration items (`governance_check`,
+>   `separation_check`, `senior_applicant`, profile `new_profile`, `senior_ilp_outside_nftf`). Published items cannot
+>   be removed. Policies and scenarios are still in the browser tab.
+> - Documents: `survey-studio/62_…` (enablement report), `63_…` (APPL-X3 readiness — ASSESSMENT ONLY), `60_…`,
+>   `61_…`; D-401…D-410; evidence `docs/acceptance/evidence/APPL-X2/development/`.
+> - Open: D-397 (e)–(j) not ruled; D-405's open part (drafts do not record intended dependency versions); D-410
+>   (`new_profile` code, identity rules not exercisable on dev, long policy title truncated); the six questions of
+>   `63_…` §5; carried UX items (`62_…` §12).
+> - **Nothing is authorised next.** Do NOT start APPL-X3 (no table, no migration), APP-1a, OPS-1, VOICE-1 or legacy
+>   retirement. Do NOT touch Voice Studio.
+>
+> **Update 2026-11-23, newest (APPL-X2) — superseded by the block above where they differ.**
+> - **APPL-X1R ACCEPTED** as the product-design baseline and technically verified prototype (D-393). AP-1…AP-10
+>   retained; D-394 (facts outside profiles), D-395 (shared delivery is a technical mechanism only), D-396
+>   (three people for library items; policy governance simulated until APPL-X4).
+> - **APPL-X2 — BUILT AND VERIFIED ON THE TEST SCHEMA; awaiting the owner's review. UNCOMMITTED.** Documents
+>   `survey-studio/60_…` (specification, migration) and `61_…` (report); D-397…D-400; evidence
+>   `docs/acceptance/evidence/APPL-X2/`.
+> - **DEVELOPMENT IS UNTOUCHED AND MUST STAY SO until the owner authorises it:** dev DB at `0037`; migration
+>   `0038_applicability_library` exists in the backend but is NOT applied to dev; `MIGRATION_HEAD` is `0038` and a
+>   schema at `0037` is still accepted while `applicability_library_enabled` is off (it is off in dev). NEVER run
+>   `make migrate`. No dev identity holds an applicability permission; the showcase LIBRARY is not in dev (the
+>   showcase SURVEYS are, from APPL-X1R). The dev frontend runs WITHOUT `VITE_APPLICABILITY_LIBRARY`, so it shows the
+>   in-tab prototype.
+> - Backend: `migrations/versions/0038_applicability_library.py` (4 tables, guards, 4 permissions granted to nobody);
+>   `app/domain/survey/applicability/library.py`; `app/api/applicability_library.py` (14 operations under
+>   `/api/v1/applicability`); setting `applicability_library_enabled`; `scripts/appl_library_setup.py` +
+>   `appl_library_seed.json` (showcase library through the governed API, idempotent); `scripts/appl_fixture_survey.py`
+>   (two-version TEST fixture survey); tests `tests/test_applicability_library.py` (15),
+>   `tests/test_appl_fixture_survey.py`; `tests/support.py::APPLICABILITY_TABLES` used by older migration tests.
+>   The evaluator (`logic.py`, `evaluator.py`, `analysis.py`) was NOT changed.
+> - Frontend: `src/features/applicability/library.tsx` (the only caller of the library API: provider, save states,
+>   conflict handling, `LibraryBar`, `LibraryDot`); `flag.ts::applicabilityLibrary`; store `adoptLibrary`;
+>   header reworked (`Kept` control in `Shell.tsx`); canvas lays out only what is shown and refits
+>   (`DesignerCanvas.tsx`); `model/describe.ts::same` (key-order-independent comparison — the database reorders JSON
+>   keys); policy labels say "in this tab only".
+> - Browser: `e2e/applicability/library.appl.ts` (X2.1…X2.7; three signed-in people `survey_applauthor`,
+>   `survey_applchecker`, `survey_applpublisher` created by `scripts/e2e_survey_setup.py`) and the nine journeys of
+>   `journey.appl.ts`, both under `playwright.applicability.config.ts` (library ON there). Same ports as the other
+>   suites: never run two at once.
+> - Open: D-397 (choices), D-398 (a policy draft may read a library draft; not marked or blocked yet), D-399 (voice
+>   timing flake: cause found in `VoiceSessionTimeline.tsx`, NOT fixed, out of scope), D-400 (development
+>   authorisations requested).
+> - **Nothing is authorised next.** Do NOT apply `0038` to development, create development identities, start
+>   APPL-X3, APP-1a, OPS-1, VOICE-1 or legacy retirement.
+>
+> **Update 2026-11-23, newest (APPL-X1R) — superseded by the block above where they differ.**
+> - **APPL-X1 accepted as a technically verified prototype and direction** (D-386). **APPL-X1R — BUILT AND TECHNICALLY
+>   VERIFIED, awaiting the owner's DESIGN REVIEW; uncommitted.** Documents `survey-studio/59_…` (report), `56_…` §14
+>   (rulings and the published-survey reference), `58_…` (plan, updated); D-386…D-392; evidence
+>   `docs/acceptance/evidence/APPL-X1R/`.
+> - **Rulings AP-1…AP-10 implemented** (D-387): no replacement chains (blocker + evaluator refusal); NO global
+>   `same_survey` — per-collision `shared_deliveries: [{survey, requirements}]`, otherwise `DUPLICATE_SURVEY`
+>   unresolved; choose-one alternatives need a criterion or `fallback: true`; three-person governance for variables,
+>   profiles, conditions and policies (simulated and labelled in the prototype); profiles NEVER decide applicability
+>   (a policy's profiles do not enter evaluation; only `scope` does; a given fact outside profiles is read and marked
+>   `outside_profiles`).
+> - **Real showcase surveys exist in local development** (D-388): module `M-100019` and surveys `S-APPL-DEMO-ILP`,
+>   `-NFTF`, `-COMBINED`, `-REPLACEMENT`, `-RIDER`, version 1.0, published through the governed API by
+>   `dev.survey.author` / `.checker` / `.publisher`. Script `Call360-backend/scripts/appl_showcase_setup.py`
+>   (HTTP only, idempotent, `--verify-only`); test `tests/test_appl_showcase.py`. Backup
+>   `_db_backups/call360_dev_before_appl_showcase_20261123.dump`. Development is still `0037`; no table or migration.
+>   Do not modify or re-publish these surveys.
+> - **Applicability reads real published surveys** (D-389): `src/features/applicability/surveys.ts` (catalogue via
+>   `/survey-definitions`, `/survey-versions/{id}`, `/survey-candidates/{id}/documents`), `SurveyPicker.tsx`,
+>   `SurveyPreview.tsx`, `crossnav.ts` + `WhereUsed.tsx` (return bar and "where used" inside Survey Studio:
+>   `PersistedStudioRoot.tsx`, `SurveyOverview.tsx`). The fake catalogue is gone; a reference is
+>   `{code, version, label, version_id, definition_id, fingerprint, manifest, market}`.
+> - **Workspace:** several policies (`Policies.tsx` gallery, templates in `model/seed.ts`, `scalePolicy`), policy
+>   switcher, `RequirementEditor.tsx` (focused editor), compact cards with search / filter / group, canvas overview
+>   and neighbourhood above twelve requirements, scenario fact editor scoped to what the policy reads.
+> - Browser suite: `e2e/applicability/journey.appl.ts` (9 scenarios) with its own global setup that publishes the
+>   showcase in the TEST schema through the governed API. Same ports as the other suites: never run two at once.
+> - Open with the owner: design review; D-391 (choices); D-392 (not demonstrated: no usability measured with people,
+>   no screen-reader test, drag and drop untested, "adopt newer version" untested).
+> - **Nothing is authorised next.** Do NOT start APPL-X2 persistence, APP-1a, OPS-1, MIG-2, legacy retirement, voice
+>   or Genesys work.
+>
+> **Update 2026-11-23, latest (Survey Applicability Studio, APPL-X1) — superseded by the block above where they differ.**
 > - **A new programme was started by the owner: Survey Applicability Studio** (D-379). It is a NEW survey-centred
 >   product that must NOT sit on assignment rules, survey bindings or requirement groups, and must not write into
 >   them. Legacy records are preserved untouched. Phases APPL-X1 … X6; **only APPL-X1 was authorised.**

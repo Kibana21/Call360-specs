@@ -1,0 +1,1216 @@
+{
+  "banner": "SYNTHETIC DEMONSTRATION \u2014 NOT APPROVED FOR CUSTOMER CALLS.",
+  "collection": "Applicability Showcase \u2014 Synthetic Demo",
+  "mode": "SETUP",
+  "module": {
+    "approved_by": "dev.survey.checker",
+    "authored_by": "dev.survey.author",
+    "blueprint_sha256": "2708b9a4b4437fc2d4833ac5a9d14b9931fb5f8a0d7711a70fe629b857a83b0e",
+    "candidate_id": "d63f44ed-3a6c-4bc0-9b7d-a81be065f752",
+    "code": "M-100019",
+    "content_sha256": "3b55d1929614e920de6119ce250722b27088a30ea66498ec8d3260f5e53bd1bc",
+    "definition_id": "4d6950ed-3098-4464-ad48-6c5643b0260e",
+    "detail": "created and published",
+    "key": "MODULE",
+    "kind": "MODULE",
+    "manifest_intact": true,
+    "manifest_sha256": "6c2afad47b16898ec35293b1edf9b9c98dc9da3e237ae10152181a04eac61b94",
+    "name": "Showcase welcome and understanding check (synthetic)",
+    "notes": [],
+    "published_by": "dev.survey.publisher",
+    "state": "CREATED_AND_PUBLISHED",
+    "structure": [
+      {
+        "instance": "module",
+        "module": "M-100019",
+        "name": "Showcase welcome and understanding check (synthetic)",
+        "outcomes": [
+          "COMPLETED",
+          "CLARIFICATION_REQUIRED"
+        ],
+        "reused_module": false,
+        "revision": 1,
+        "routes": {
+          "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+          "COMPLETED": "survey ends COMPLETED"
+        },
+        "steps": [
+          {
+            "answer_type": "STATEMENT",
+            "branches": [
+              "AFTER_CAPTURE -> go to n2"
+            ],
+            "delivery_mode": "CONTROLLED_TTS",
+            "item": "S-100021",
+            "node": "n1",
+            "options": [],
+            "routing_mode": "ALL_TO_NEXT",
+            "text": "Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)",
+            "type": "STATEMENT"
+          },
+          {
+            "answer_type": "YES_NO",
+            "branches": [
+              "YES -> module ends COMPLETED",
+              "NO -> go to n3"
+            ],
+            "delivery_mode": "CONTROLLED_TTS",
+            "item": "Q-100022",
+            "node": "n2",
+            "options": [
+              {
+                "code": "YES",
+                "label": "Yes"
+              },
+              {
+                "code": "NO",
+                "label": "No"
+              }
+            ],
+            "routing_mode": "PER_CHOICE",
+            "text": "Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)",
+            "type": "QUESTION"
+          },
+          {
+            "answer_type": "FREE_TEXT",
+            "branches": [
+              "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+            ],
+            "delivery_mode": "CONTROLLED_TTS",
+            "item": "Q-100023",
+            "node": "n3",
+            "options": [],
+            "routing_mode": "ALL_TO_NEXT",
+            "text": "In your own words, what do you remember about that conversation? (synthetic demonstration question)",
+            "type": "QUESTION"
+          }
+        ]
+      }
+    ],
+    "version_id": "4077a702-fc96-4d56-ab37-d74ecc39d6b7",
+    "version_label": "1.0",
+    "version_no": 1,
+    "version_status": "PUBLISHED"
+  },
+  "ok": true,
+  "people": {
+    "author": "dev.survey.author",
+    "checker": "dev.survey.checker",
+    "publisher": "dev.survey.publisher"
+  },
+  "reuse": {
+    "module": "M-100019",
+    "pinned_by": [
+      {
+        "instance": "mi-welcome",
+        "module": "M-100019",
+        "revision": 1,
+        "survey": "S-APPL-DEMO-ILP"
+      },
+      {
+        "instance": "mi-welcome",
+        "module": "M-100019",
+        "revision": 1,
+        "survey": "S-APPL-DEMO-NFTF"
+      },
+      {
+        "instance": "mi-welcome",
+        "module": "M-100019",
+        "revision": 1,
+        "survey": "S-APPL-DEMO-COMBINED"
+      },
+      {
+        "instance": "mi-welcome",
+        "module": "M-100019",
+        "revision": 1,
+        "survey": "S-APPL-DEMO-REPLACEMENT"
+      },
+      {
+        "instance": "mi-welcome",
+        "module": "M-100019",
+        "revision": 1,
+        "survey": "S-APPL-DEMO-RIDER"
+      }
+    ],
+    "revision": 1
+  },
+  "surveys": [
+    {
+      "approved_by": "dev.survey.checker",
+      "authored_by": "dev.survey.author",
+      "blueprint_sha256": "7861134f877b5212383c8900c1d189135b6e4e3a7bd4484474b3bce4ac4da957",
+      "candidate_id": "aca99f77-53a6-4d20-83c3-925a8cee15bd",
+      "code": "S-APPL-DEMO-ILP",
+      "content_sha256": "dc1effc4925fd57fa14f3f2c549534ba0fe0a18d6ae4215acc4f5cfb9e658977",
+      "definition_id": "ebcaa2fb-f539-4794-9be7-4e76085b7d15",
+      "detail": "created and published",
+      "key": "ILP",
+      "kind": "SURVEY",
+      "manifest_intact": true,
+      "manifest_sha256": "4dc6080ab147f4715603fab965144763b67d8d375d0250c3c2936dbff50e2836",
+      "name": "Applicability Showcase \u00b7 A \u00b7 ILP product understanding (synthetic demo)",
+      "notes": [],
+      "published_by": "dev.survey.publisher",
+      "state": "CREATED_AND_PUBLISHED",
+      "structure": [
+        {
+          "instance": "mi-welcome",
+          "module": "M-100019",
+          "name": "Showcase welcome and understanding check (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": true,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> go to n2"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100021",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> module ends COMPLETED",
+                "NO -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100022",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100023",
+              "node": "n3",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, what do you remember about that conversation? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-ilp-understanding",
+          "module": "M-100029",
+          "name": "ILP product understanding (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> go to n2"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100026",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, what do you understand this plan to be for? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> module ends COMPLETED",
+                "NO -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100027",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Were the main features of the plan explained to you in a way you could follow? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "SINGLE_SELECT",
+              "branches": [
+                "ANY -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100028",
+              "node": "n3",
+              "options": [
+                {
+                  "code": "CHARGES",
+                  "label": "The charges"
+                },
+                {
+                  "code": "FUND_CHOICES",
+                  "label": "The fund choices"
+                },
+                {
+                  "code": "DURATION",
+                  "label": "How long the plan runs"
+                },
+                {
+                  "code": "SOMETHING_ELSE",
+                  "label": "Something else"
+                }
+              ],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Which part would you most like to have explained again? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-closing",
+          "module": "M-100030",
+          "name": "Showcase closing (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100031",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "That is the end of this demonstration. Thank you. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            }
+          ]
+        }
+      ],
+      "version_id": "faf176f9-d486-41a5-be39-20221563ee50",
+      "version_label": "1.0",
+      "version_no": 1,
+      "version_status": "PUBLISHED"
+    },
+    {
+      "approved_by": "dev.survey.checker",
+      "authored_by": "dev.survey.author",
+      "blueprint_sha256": "64fc3f1a33a8fcab7bdd7f0765733121aefddae588bd443cdc32a7323377836f",
+      "candidate_id": "052e61f6-0950-42ea-a712-ffbd490ae06c",
+      "code": "S-APPL-DEMO-NFTF",
+      "content_sha256": "086b9b1d7e4c251646da0bed999e0e78b1d0a23d3108eabad3b1c53e8843b12b",
+      "definition_id": "e7e8b183-a036-48f2-af43-7c889690ff52",
+      "detail": "created and published",
+      "key": "NFTF",
+      "kind": "SURVEY",
+      "manifest_intact": true,
+      "manifest_sha256": "b5766c06095d1a8f318e28a0f3eaea3680d8f0dfc9b3b188ad37eded8adddc3e",
+      "name": "Applicability Showcase \u00b7 B \u00b7 NFTF additional questions (synthetic demo)",
+      "notes": [],
+      "published_by": "dev.survey.publisher",
+      "state": "CREATED_AND_PUBLISHED",
+      "structure": [
+        {
+          "instance": "mi-welcome",
+          "module": "M-100019",
+          "name": "Showcase welcome and understanding check (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": true,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> go to n2"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100021",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> module ends COMPLETED",
+                "NO -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100022",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100023",
+              "node": "n3",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, what do you remember about that conversation? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-nftf-additional",
+          "module": "M-100039",
+          "name": "NFTF additional questions (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "SINGLE_SELECT",
+              "branches": [
+                "VIDEO -> go to n2",
+                "PHONE -> go to n3",
+                "MESSAGES -> go to n3",
+                "ANOTHER_WAY -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100035",
+              "node": "n1",
+              "options": [
+                {
+                  "code": "VIDEO",
+                  "label": "By video call"
+                },
+                {
+                  "code": "PHONE",
+                  "label": "By phone call"
+                },
+                {
+                  "code": "MESSAGES",
+                  "label": "By messages or email"
+                },
+                {
+                  "code": "ANOTHER_WAY",
+                  "label": "Another way"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "How was the plan mainly discussed with you? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "ANY -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100036",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Could you see and hear the adviser clearly during the video call? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "MULTI_SELECT",
+              "branches": [
+                "ANY of ['NOTHING'] -> go to n4",
+                "otherwise -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100037",
+              "node": "n3",
+              "options": [
+                {
+                  "code": "SUMMARY",
+                  "label": "A summary of the plan"
+                },
+                {
+                  "code": "APPLICATION_COPY",
+                  "label": "A copy of the application"
+                },
+                {
+                  "code": "NOTHING",
+                  "label": "None of these"
+                }
+              ],
+              "routing_mode": "ORDERED_RULES",
+              "text": "Which of these did you receive after the discussion? You may choose more than one. (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100038",
+              "node": "n4",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Please describe what you were expecting to receive. (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-closing",
+          "module": "M-100040",
+          "name": "Showcase closing (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100041",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "That is the end of this demonstration. Thank you. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            }
+          ]
+        }
+      ],
+      "version_id": "fb493495-26c0-4be0-b364-5e3cb01ce1ef",
+      "version_label": "1.0",
+      "version_no": 1,
+      "version_status": "PUBLISHED"
+    },
+    {
+      "approved_by": "dev.survey.checker",
+      "authored_by": "dev.survey.author",
+      "blueprint_sha256": "c72ac0192fe6e49d513b57a04df14758a8daf0cba2cc74ee21d6f4fab0bc8b33",
+      "candidate_id": "2db0cdac-1ec3-4ff3-b793-35f75a865236",
+      "code": "S-APPL-DEMO-COMBINED",
+      "content_sha256": "cd14fdc85902e2e5f15ea9bf11a47163b7348965246c250dbefff76fa953f360",
+      "definition_id": "ecc11701-32a8-4076-a1dd-5fd3173a0125",
+      "detail": "created and published",
+      "key": "COMBINED",
+      "kind": "SURVEY",
+      "manifest_intact": true,
+      "manifest_sha256": "6a977cb552dd447da140a44e2e40139eb5642598f068c7198e08f44b3d823168",
+      "name": "Applicability Showcase \u00b7 C \u00b7 Combined ILP + NFTF (synthetic demo)",
+      "notes": [],
+      "published_by": "dev.survey.publisher",
+      "state": "CREATED_AND_PUBLISHED",
+      "structure": [
+        {
+          "instance": "mi-welcome",
+          "module": "M-100019",
+          "name": "Showcase welcome and understanding check (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": true,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> go to n2"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100021",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> module ends COMPLETED",
+                "NO -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100022",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100023",
+              "node": "n3",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, what do you remember about that conversation? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-combined-ilp",
+          "module": "M-100050",
+          "name": "Combined \u00b7 ILP part (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "jump to module mi-closing",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "SINGLE_SELECT",
+              "branches": [
+                "SAVING -> module ends COMPLETED",
+                "FAMILY -> module ends COMPLETED",
+                "MIX -> module ends COMPLETED",
+                "NOT_SURE -> go to n2"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100045",
+              "node": "n1",
+              "options": [
+                {
+                  "code": "SAVING",
+                  "label": "Saving for the future"
+                },
+                {
+                  "code": "FAMILY",
+                  "label": "Looking after my family"
+                },
+                {
+                  "code": "MIX",
+                  "label": "A mix of both"
+                },
+                {
+                  "code": "NOT_SURE",
+                  "label": "I am not sure"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Which of these best describes why you chose this plan? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100046",
+              "node": "n2",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, what do you understand this plan to be for? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-combined-nftf",
+          "module": "M-100051",
+          "name": "Combined \u00b7 NFTF part (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "MULTI_SELECT",
+              "branches": [
+                "ANY -> go to d1"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100047",
+              "node": "n1",
+              "options": [
+                {
+                  "code": "VIDEO",
+                  "label": "Video call"
+                },
+                {
+                  "code": "PHONE",
+                  "label": "Phone call"
+                },
+                {
+                  "code": "MESSAGES",
+                  "label": "Messages or email"
+                }
+              ],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Which of these were used when the plan was discussed with you? You may choose more than one. (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "branches": [
+                "MATCH -> go to n2",
+                "NO_MATCH -> module ends COMPLETED"
+              ],
+              "condition": "C-100049",
+              "condition_name": "A video call was one of the ways used (synthetic)",
+              "node": "d1",
+              "type": "DECISION"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "ANY -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100048",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Could you see and hear the adviser clearly during the video call? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-closing",
+          "module": "M-100052",
+          "name": "Showcase closing (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100053",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "That is the end of this demonstration. Thank you. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            }
+          ]
+        }
+      ],
+      "version_id": "23ef5369-c85f-42b4-bacd-aa5220a4ce0f",
+      "version_label": "1.0",
+      "version_no": 1,
+      "version_status": "PUBLISHED"
+    },
+    {
+      "approved_by": "dev.survey.checker",
+      "authored_by": "dev.survey.author",
+      "blueprint_sha256": "9e0be3e2774a9a34c1fd5eb2681c0c381741ed94572af7c8ae3b1aa33176c1c4",
+      "candidate_id": "7924c961-2adc-4688-b66c-1daed5cfdab1",
+      "code": "S-APPL-DEMO-REPLACEMENT",
+      "content_sha256": "c2e24c7de04a5dd04c6acf3d6a0820e88caf846d3fe7378c0f6d481a02aabe78",
+      "definition_id": "0f60e20e-2cac-40b6-9df7-820dcee1b8a2",
+      "detail": "created and published",
+      "key": "REPLACEMENT",
+      "kind": "SURVEY",
+      "manifest_intact": true,
+      "manifest_sha256": "9d2a6d44a476420449faafefdd78d11be3aff2e23e9b2cff0b906e7d33e93e34",
+      "name": "Applicability Showcase \u00b7 D \u00b7 Replacement scenario (synthetic demo)",
+      "notes": [],
+      "published_by": "dev.survey.publisher",
+      "state": "CREATED_AND_PUBLISHED",
+      "structure": [
+        {
+          "instance": "mi-welcome",
+          "module": "M-100019",
+          "name": "Showcase welcome and understanding check (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": true,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> go to n2"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100021",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> module ends COMPLETED",
+                "NO -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100022",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100023",
+              "node": "n3",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, what do you remember about that conversation? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-replacement",
+          "module": "M-100059",
+          "name": "Replacement scenario (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> go to n2",
+                "NO -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100056",
+              "node": "n1",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Did this plan take the place of a plan you already had? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "MULTI_SELECT",
+              "branches": [
+                "ANY -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100057",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "DIFFERENCES",
+                  "label": "The differences between the two plans"
+                },
+                {
+                  "code": "COSTS",
+                  "label": "Any costs of changing"
+                },
+                {
+                  "code": "NEITHER",
+                  "label": "Neither of these"
+                }
+              ],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Which of these were talked through with you before you decided? You may choose more than one. (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100058",
+              "node": "n3",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, why did you decide to change plans? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-closing",
+          "module": "M-100060",
+          "name": "Showcase closing (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100061",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "That is the end of this demonstration. Thank you. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            }
+          ]
+        }
+      ],
+      "version_id": "ed762f57-18ce-4ab8-8ec7-c4b7ea7517bd",
+      "version_label": "1.0",
+      "version_no": 1,
+      "version_status": "PUBLISHED"
+    },
+    {
+      "approved_by": "dev.survey.checker",
+      "authored_by": "dev.survey.author",
+      "blueprint_sha256": "714a77cb61a3d43f6c330376e26b48bfc10da3f116e4eb8cce5bc8eee0b3a5ca",
+      "candidate_id": "5eb52b35-0782-4f0f-9302-990a4a13b493",
+      "code": "S-APPL-DEMO-RIDER",
+      "content_sha256": "689a0b44d398325ffc9a0ffe64a5ec1f2edb2d28d607ec88b8d82adf5a4c8cb6",
+      "definition_id": "1b9fe8d7-72ba-41cc-a194-42441a24c432",
+      "detail": "created and published",
+      "key": "RIDER",
+      "kind": "SURVEY",
+      "manifest_intact": true,
+      "manifest_sha256": "dc2f236ea21dbb68b94531f1de3a03e4057f490bd7081cc597518319815db4e2",
+      "name": "Applicability Showcase \u00b7 E \u00b7 Rider scenario (synthetic demo)",
+      "notes": [],
+      "published_by": "dev.survey.publisher",
+      "state": "CREATED_AND_PUBLISHED",
+      "structure": [
+        {
+          "instance": "mi-welcome",
+          "module": "M-100019",
+          "name": "Showcase welcome and understanding check (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": true,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> go to n2"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100021",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Hello. This is a synthetic demonstration script and not a real customer call. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            },
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> module ends COMPLETED",
+                "NO -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100022",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Do you remember recently discussing a plan with an adviser? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100023",
+              "node": "n3",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "In your own words, what do you remember about that conversation? (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-rider",
+          "module": "M-100067",
+          "name": "Rider scenario (synthetic)",
+          "outcomes": [
+            "COMPLETED",
+            "CLARIFICATION_REQUIRED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "CLARIFICATION_REQUIRED": "survey ends CLARIFICATION_REQUIRED",
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "YES_NO",
+              "branches": [
+                "YES -> go to n2",
+                "NO -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100064",
+              "node": "n1",
+              "options": [
+                {
+                  "code": "YES",
+                  "label": "Yes"
+                },
+                {
+                  "code": "NO",
+                  "label": "No"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Did you add any optional extra cover to your plan? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "SINGLE_SELECT",
+              "branches": [
+                "MYSELF -> module ends COMPLETED",
+                "ADVISER -> module ends COMPLETED",
+                "DO_NOT_REMEMBER -> go to n3"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100065",
+              "node": "n2",
+              "options": [
+                {
+                  "code": "MYSELF",
+                  "label": "I asked for it"
+                },
+                {
+                  "code": "ADVISER",
+                  "label": "The adviser suggested it"
+                },
+                {
+                  "code": "DO_NOT_REMEMBER",
+                  "label": "I do not remember"
+                }
+              ],
+              "routing_mode": "PER_CHOICE",
+              "text": "Who suggested adding the extra cover? (synthetic demonstration question)",
+              "type": "QUESTION"
+            },
+            {
+              "answer_type": "FREE_TEXT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends CLARIFICATION_REQUIRED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "Q-100066",
+              "node": "n3",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "Please tell us what you remember about the extra cover. (synthetic demonstration question)",
+              "type": "QUESTION"
+            }
+          ]
+        },
+        {
+          "instance": "mi-closing",
+          "module": "M-100068",
+          "name": "Showcase closing (synthetic)",
+          "outcomes": [
+            "COMPLETED"
+          ],
+          "reused_module": false,
+          "revision": 1,
+          "routes": {
+            "COMPLETED": "continue to the next module"
+          },
+          "steps": [
+            {
+              "answer_type": "STATEMENT",
+              "branches": [
+                "AFTER_CAPTURE -> module ends COMPLETED"
+              ],
+              "delivery_mode": "CONTROLLED_TTS",
+              "item": "S-100069",
+              "node": "n1",
+              "options": [],
+              "routing_mode": "ALL_TO_NEXT",
+              "text": "That is the end of this demonstration. Thank you. (synthetic demonstration statement)",
+              "type": "STATEMENT"
+            }
+          ]
+        }
+      ],
+      "version_id": "d42b3c29-57bf-40c3-b6f9-99f4b15cd551",
+      "version_label": "1.0",
+      "version_no": 1,
+      "version_status": "PUBLISHED"
+    }
+  ]
+}

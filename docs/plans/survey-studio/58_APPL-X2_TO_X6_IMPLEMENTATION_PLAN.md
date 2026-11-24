@@ -6,40 +6,57 @@ Depends on the owner's acceptance of APPL-X1 (`56_…`, `57_…`) and on decisio
 
 ---
 
+## Update of 2026-11-23 (after APPL-X1R)
+
+* AP-1…AP-10 are ruled (D-387) and implemented in the evaluator; they are no longer an entry condition.
+* **Read-only integration with real published Survey Studio versions already exists** (APPL-X1R: catalogue, exact
+  reference, picker, preview, navigation both ways; `56_…` §14.7). APPL-X3 **reuses** it and adds only persistence
+  of the reference and a real, indexed "where used". It is not to be rebuilt.
+* AP-3: variables, profiles and conditions are governed by three identities, like policies. APPL-X2 therefore
+  carries the three-person lifecycle and the permissions `applicability.read / edit / approve / publish` from the
+  start, and APPL-X4 reuses it for policies.
+* The policy document has `shared_deliveries` and alternatives with `fallback`; it has no `same_survey`.
+* The showcase surveys exist in development and are created in the test schema by `scripts/appl_showcase_setup.py`.
+
 ## Entry conditions for APPL-X2
 
 | | |
 |---|---|
 | APPL-X1 design accepted | the document model, three-valued logic and selection semantics of `56_…` |
-| AP-1…AP-10 ruled | or explicitly left at the proposed value |
+| AP-1…AP-10 | ruled 2026-11-23 (D-387) |
 | Fact contract | the typed fact interface of `56_…` §7 agreed as the input shape (it is also APP-1's) |
 
-## APPL-X2 — Variable Library, Profiles and Condition Lab, persisted
+## APPL-X2 — Variable Library, Profiles and Condition Lab, persisted — **BUILT, verified on the test schema (2026-11-23)**
 
-| | |
+Specification `60_…`; report `61_…`. What was planned here and what was built:
+
+| Planned | Built |
 |---|---|
-| Schema | `applicability_asset`, `applicability_asset_version` (insert-only versions; kind VARIABLE / PROFILE / CONDITION), `applicability_event`. One migration, test schema first |
-| Backend | store with optimistic concurrency; validation through the existing `analysis` module; `condition-test` on persisted versions; permissions `applicability.read / edit` and the library approval of AP-3; market isolation on every operation |
-| Frontend | the three screens on the generated client; the in-memory store replaced screen by screen; conflict handling when someone else saved first ("your change and theirs", never a silent overwrite) |
-| Removed | the prototype's `analyse` and `condition-test` operations once their persisted equivalents exist |
-| Tests | versions immutable; a published version never changes; cycles refused; market isolation; migration up, down and partial failure; the evaluator's 21 tests unchanged |
-| Not in X2 | policies, scenarios, publication of policies |
+| three tables | **four**: a dependency table was added for foreign-key integrity of pins and an indexed "where used" (`60_…` §1.2). No separate draft table (`60_…` §1.1) |
+| `applicability.read / edit` and the library approval | all four permissions `applicability.read / edit / approve / publish`, granted to no role; three different people enforced by the service and by `CHECK` constraints |
+| `condition-test` on persisted versions | `POST /applicability/test` against the persisted library (published or authoring view) |
+| remove the prototype's `analyse` and `condition-test` | **not removed**: the in-memory policy of the prototype still uses them. They go with APPL-X3 / X4, when policies are persisted |
+| the three screens on the generated client | done behind `VITE_APPLICABILITY_LIBRARY=1`; without it the prototype behaves as in APPL-X1R |
+
+**Before APPL-X3 can run anywhere but the test schema:** the owner's authorisation to apply `0038` to development,
+to create development identities holding the applicability permissions, and to publish the showcase library there
+(`60_…` §7.1). None is authorised.
 
 ## APPL-X3 — Applicability Policy and Designer, persisted
 
 | | |
 |---|---|
-| Schema | `applicability_policy`, `applicability_policy_draft` |
-| Backend | draft save with expected revision; survey picker over **real published survey versions** (read-only); pinning by version and content fingerprint; `evaluate` on a saved draft |
+| Schema | `applicability_policy`, with its one working draft on the row as for library assets (`60_…` §1.1) — review whether a draft table is needed at all |
+| Backend | draft save with expected revision; the published-survey reference of `56_…` §14.7 persisted and checked on save (the read integration exists since APPL-X1R); references to library items resolved to **published library versions** (`60_…` §3.1) — a policy draft may read a library draft, a policy candidate may not; `evaluate` on a saved draft, built from the persisted workspace |
 | Frontend | cards, canvas and matrix on saved drafts; real surveys in the palette; autosave state; undo and redo over server revisions |
-| Tests | the ten mandatory cases through the API; a survey version that is not published cannot be pinned; a pinned version survives a newer publication; drag and drop covered by browser tests |
+| Tests | the ten mandatory cases through the API; a survey version that is not published cannot be pinned; a pinned version survives a newer publication; drag and drop and keyboard ordering are covered since APPL-X2 (journey X2.5); deliberate adoption of a newer survey version since APPL-X2 (X2.4) |
 
 ## APPL-X4 — Scenario Studio, Impact and Publication
 
 | | |
 |---|---|
-| Schema | `applicability_scenario`, `applicability_policy_candidate`, `applicability_policy_version`, `applicability_evaluation` (`record_class = 'SIMULATION'`) |
-| Backend | scenarios and suites; generation; impact; submission as an immutable candidate with manifest and fingerprint; **three different identities** enforced by the service and the database; `applicability.approve / publish`; audit events; supersession |
+| Schema | `applicability_scenario`, policy candidates and versions on the pattern of `applicability_asset_version` (reuse its guards and `CHECK`s rather than a second design), `applicability_evaluation` (`record_class = 'SIMULATION'`) |
+| Backend | scenarios and suites; generation; impact; submission as an immutable candidate with manifest and fingerprint; **three different identities** enforced by the service and the database, as already done for library assets; the same `applicability.approve / publish`; the D-394 contract for acknowledging or resolving profile mismatches at publication; audit events; supersession |
 | Frontend | governance on real candidates and real identities; pending-action lists; regression scenarios in review |
 | Tests | self-approval, publication by the approver and by the maker refused; a blocker stops submission; a candidate is immutable; published versions reproduce their fingerprint from their own row; audit trail |
 

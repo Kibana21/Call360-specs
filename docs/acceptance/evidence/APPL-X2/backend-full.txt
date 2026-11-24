@@ -1,0 +1,27 @@
+........................................................................ [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 20%]
+........................................................................ [ 27%]
+........................................................................ [ 33%]
+........................................................................ [ 40%]
+........................................................................ [ 47%]
+........................................................................ [ 54%]
+........................................................................ [ 60%]
+........................................................................ [ 67%]
+........................................................................ [ 74%]
+........................................................................ [ 81%]
+........................................................................ [ 87%]
+........................................................................ [ 94%]
+.........................................................                [100%]
+=============================== warnings summary ===============================
+tests/test_assignment_rules.py::test_create_configure_simulate_submit_approve_publish
+tests/test_assignment_rules.py::test_permissions_abandon_and_scope
+tests/test_recording.py::test_local_retention_purges_audio_and_keeps_metadata
+tests/test_script_authoring.py::test_create_edit_submit_approve_publish_by_a_different_checker
+tests/test_script_draft_isolation.py::test_control_link_and_question_changes_stay_inside_their_draft
+tests/test_script_draft_isolation.py::test_abandon_draft_is_audited_frozen_and_deletes_nothing
+tests/test_transcript.py::test_both_tracks_transcribed_with_speakers_times_provenance_and_audited_access
+  /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/tests/conftest.py:87: SAWarning: transaction already deassociated from connection
+    tx.rollback()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
