@@ -1,6 +1,6 @@
 # Call360 — roadmap of checkpoints
 
-**Updated 2026-11-24, with APPL-X4a accepted and enabled on development.** This is an index of where each line of work stands and what has been *proposed*
+**Updated 2026-11-24, with APPL-X4a accepted and enabled on development, APPL-X4b accepted and enabled on development, and APPL-X5a built on the test schema (awaiting acceptance).** This is an index of where each line of work stands and what has been *proposed*
 next. It authorises nothing: a checkpoint is implemented only on the owner's explicit authorisation of that named
 checkpoint (workspace `CLAUDE.md` §10). The current state in detail is `docs/plans/SESSION_HANDOFF.md` §0; every
 decision is in `docs/plans/survey-studio/06_SS-01_DECISION_REGISTER.md`.
@@ -32,8 +32,11 @@ None of this is business UX, screen-reader, Compliance or production acceptance.
 
 | Checkpoint | What | Needs first |
 |---|---|---|
-| **APPL-X4b** *(next in the applicability programme)* | Applicability Policy governance and publication: readiness gate, frozen candidate, mandatory passing and meaningful suite, `PIN_DIFFERS` blocking, three people, published versions, supersession, draft-versus-published impact; proposed additive migration `0041` | review of the APPL-X4a enablement; the owner's authorisation; Q-a…Q-f are ruled (D-441…D-446), Q-g and Q-h open; **specification only**, `70_…` |
-| APPL-X5 … X6 | Survey Studio integration; legacy survey-assignment retirement | each its own authorisation; `58_…` |
+| **APPL-X4b** | Applicability Policy governance and publication: readiness gate with explained blockers, frozen candidate, mandatory passing suite with independently stated expectations, `PIN_DIFFERS` blocking, three different people, immutable numbered versions, supersession, impact, explicit run targets; migration `0041_applicability_publication`; **ACCEPTED as technically verified on the test schema (D-459)**; evidence-integrity hardening done (D-460); **`0041` applied to local development and publication enabled there (D-468); one synthetic policy `GOV-DEMO-ILP-NFTF` published by three people; ACCEPTED (D-469); development baseline `0041`** | `survey-studio/72_…`, `73_…`, `75_…` |
+| Designer integration, steps 2–4 | Using saved scenarios inside the Applicability designer beyond the read-only picker. Separate checkpoint (D-454). **Not authorised** | `survey-studio/68_…` addendum |
+| **APPL-X5a** | Coordinated published-survey execution in simulation: an explicit published policy version × synthetic facts → an immutable selection plan → the selected published surveys executed in order, once each → resume, replay, verification; a versioned fact correspondence between application and survey facts; the voice-neutral turn runtime; migration `0042_applicability_journey`; **BUILT and technically verified on the isolated test schema only (D-479); awaiting owner acceptance; NOT applied to development** | `survey-studio/77_…`, `78_…`, `79_…` |
+| APPL-X5b | Journey evaluation, findings, control-policy evaluation, assurance and the end-to-end trace for applicability journeys. **Readiness assessment written (`80_…`, D-480); six owner questions; NOT authorised** | `survey-studio/80_…` |
+| APPL-X6 | Legacy survey-assignment retirement | its own authorisation; `58_…` |
 | **APP-1a** *(follows the applicability fact contract)* | a read-only, stateless application view for a case (rule inputs and mapped survey facts with lineage) and a selection preview; writes nothing operational | the owner's authorisation; `55_…` §13 |
 | Governance harmonisation | rules (two people) versus bindings and content (three) | a Business decision (D-372) |
 | Cross-kind conflict scope | CK-1…CK-3, with OR-2 / OR-3 | an owner decision (D-374) |

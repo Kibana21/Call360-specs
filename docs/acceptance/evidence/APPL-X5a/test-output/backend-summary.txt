@@ -1,0 +1,4 @@
+  /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/tests/conftest.py:87: SAWarning: transaction already deassociated from connection
+    tx.rollback()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html

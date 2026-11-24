@@ -1,0 +1,24 @@
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+Survey identities created in the test schema: 20
+
+Running 10 tests using 1 worker
+
+X5A-SEEN-A [{"item":"1:mi-welcome/n2","type":"YES_NO"},{"item":"1:mi-ilp-understanding/n1","type":"FREE_TEXT"},{"item":"1:mi-ilp-understanding/n2","type":"YES_NO"}]
+  ✓   1 [journeys] › e2e/journeys/journey.jny.ts:161:1 › X5a.1 Journeys A and B: a published policy version is chosen explicitly; its selection is shown with its reasons; one survey is walked to completion and verified (4.6s)
+X5A-SEEN-D [{"item":"2:mi-welcome/n2","type":"YES_NO"},{"item":"2:mi-replacement/n1","type":"YES_NO"},{"item":"2:mi-replacement/n2","type":"MULTI_SELECT"},{"item":"2:mi-replacement/n3","type":"FREE_TEXT"}]
+  ✓   2 [journeys] › e2e/journeys/journey.jny.ts:228:1 › X5a.2 Journey C: two surveys in the policy’s order — the second begins only after the first is completed (4.3s)
+X5A-SEEN-C [{"item":"1:mi-welcome/n2","type":"YES_NO"},{"item":"1:mi-combined-ilp/n1","type":"SINGLE_SELECT"},{"item":"1:mi-combined-nftf/n1","type":"MULTI_SELECT"},{"item":"1:mi-combined-nftf/n2","type":"YES_NO"}]
+  ✓   3 [journeys] › e2e/journeys/journey.jny.ts:273:1 › X5a.3 Journey D: an explicit replacement — the combined survey runs; the two it replaces are named and never executed (2.8s)
+  ✓   4 [journeys] › e2e/journeys/journey.jny.ts:296:1 › X5a.4 Journey E: a declared shared delivery — one survey is executed once and fulfils both requirements (2.7s)
+  ✓   5 [journeys] › e2e/journeys/journey.jny.ts:314:1 › X5a.5 Journey F: a fact that is not known leaves the selection unresolved — the needed fact is named and no survey starts (1.9s)
+X5A-INCOMPLETE {"state":"ENDED_WITH_OUTCOME","survey_outcome":"CLARIFICATION_REQUIRED"}
+  ✓   6 [journeys] › e2e/journeys/journey.jny.ts:335:1 › X5a.6 Journey G: a survey that does not complete — the journey stops, keeps the exact reason, and starts no further survey (1.7s)
+X5A-UNKNOWN-SURVEY-FACT ["CROSS_SURVEY_POLICY_UNRESOLVED","MISSING_INFORMATION_HALT",{"at":"mi-high-value","state":"MISSING_INFORMATION_HALT","reason":"ELIGIBILITY_UNKNOWN"},["ENDED","WAITING","WAITING"]]
+  ✓   7 [journeys] › e2e/journeys/journey.jny.ts:358:1 › X5a.7 Journey H: survey facts and a fact correspondence; numbers and an acknowledgement; the browser is closed and the journey resumes at the right question (7.1s)
+X5A-REFUSALS {"an option that does not exist":"UNKNOWN_OPTION","a stale input count":"STALE_TURN","a stale item key":"INPUT_NOT_CURRENT","a question of the NEXT survey":"INPUT_NOT_CURRENT","a non-answer this question does not allow":"NON_ANSWER_NOT_ALLOWED","no CSRF token":403,"another person without the permission (the applicability author)":403,"a policy version that does not exist":404,"a fact the policy version does not read":"FACT_UNKNOWN","an invalid fact value":"FACT_INVALID","the working draft instead of a published version":404,"duplicate, same key":["ACCEPTED","ACCEPTED",true,true],"same key, different answer":"IDEMPOTENCY_KEY_REUSED"}
+  ✓   8 [journeys] › e2e/journeys/journey.jny.ts:456:1 › X5a.8 Journey I: invalid, stale, duplicate, out-of-turn and concurrent submissions never advance or corrupt a journey (5.1s)
+X5A-RUNNER-CANNOT {"save a policy":403,"save a fact correspondence":403,"submit a policy":403,"approve a candidate":403,"publish a candidate":403,"evaluate a journey (needs survey.evaluate)":403}
+  ✓   9 [journeys] › e2e/journeys/journey.jny.ts:528:1 › X5a.9 a superseded version is never chosen silently; a person without the permission to simulate reads and cannot run (2.1s)
+  ✓  10 [journeys] › e2e/journeys/journey.jny.ts:575:1 › X5a.10 four widths, keyboard and an accessibility scan of the journey pages (19.4s)
+
+  10 passed (1.1m)

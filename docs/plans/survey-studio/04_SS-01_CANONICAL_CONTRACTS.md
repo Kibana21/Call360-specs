@@ -2608,5 +2608,54 @@ applied to development**; awaiting owner acceptance.
 - **Coverage** is requirement- and condition-level, of the scenarios run; `exhaustive` is always false.
 - 22 operations under `/api/v1/applicability/{scenarios,suites,runs}`; permissions `applicability.read`,
   `applicability.edit`, `survey.read`; no new permission. Migration `0040_applicability_scenarios`.
-- No published Applicability Policy exists yet (APPL-X4b, `70_…`).
+- Published Applicability Policies are §27.
 
+## 27. APPL-X4b — governed publication of Applicability Policies (test schema only)
+
+Full specification: `72_APPL-X4b_ARCHITECTURE_AND_CONTRACTS.md`. Built and verified on the isolated test schema; **not
+applied to development**; awaiting owner acceptance.
+
+- **Readiness** is computed by the server from the saved revision and one recorded run the author chose. A blocker is
+  `{code, message, action, prevents[SUBMISSION|APPROVAL|PUBLICATION], at}`. The newest run is never chosen.
+- **Independence:** an expectation with `source = PROPOSED_FROM_RESULT` is never independent evidence and is never
+  converted. Every material behaviour needs a passing scenario whose expectation is `AUTHORED`.
+- **Expectation authorship:** `stated_by`, `stated_at` — written by the server when stated content changes; never
+  accepted from a client.
+- **Candidate:** frozen `document`, `manifest` (snapshot and definitions), `evidence`, `candidate_sha256`. Status
+  SUBMITTED, APPROVED, RETURNED, WITHDRAWN, PUBLISHED. Submitter, checker and publisher are three different people,
+  enforced in the service and by CHECK constraints.
+- **Revalidation** at approval and at publication, against the frozen candidate only; by content fingerprint; nothing
+  refreshed, substituted or upgraded.
+- **Version:** numbered per policy, written from the candidate, immutable; at most one PUBLISHED; the earlier becomes
+  SUPERSEDED and stays readable and verifiable.
+- **Run target** (`record.target`): `DRAFT` with revision, `CANDIDATE` or `VERSION` with id; required once a candidate
+  or version exists (`TARGET_REQUIRED`).
+- 13 operations under `/api/v1/applicability`; permissions `applicability.read`, `.edit`, `.approve`, `.publish`,
+  with `survey.read`; no new permission. Migration `0041_applicability_publication`.
+- A published policy is configuration. Nothing reads it to select a survey for a case, plan a callback or start a
+  session.
+
+## 28. APPL-X5a — synthetic journeys over published policy versions (test schema only)
+
+Full specification: `78_APPL-X5a_ARCHITECTURE_AND_CONTRACTS.md`; fact correspondence: `77_…`. Built and verified on
+the isolated test schema; **not applied to development**; awaiting owner acceptance.
+
+- **Selection plan** (`call360.applicability-selection-plan/1`): one exact published policy version (id and three
+  fingerprints), a synthetic fact snapshot and its fingerprint, the evaluator contract, the evaluator's complete plan
+  and its fingerprint, the outcome. `selection_source = APPLICABILITY`; `record_class = SYNTHETIC`. Immutable.
+- **Outcomes:** `SURVEYS_SELECTED` (execution may begin), `NO_SURVEY_REQUIRED`, `UNRESOLVED`, `OUT_OF_SCOPE`,
+  `SCOPE_UNRESOLVED` (recorded; nothing executes). Not known is never false.
+- **Journey:** steps are the selected surveys in the plan's order, each at its pinned published version, each executed
+  once by one existing single-survey simulation. A declared shared delivery is one step with several requirements.
+- **Continuation:** only after `COMPLETED`. Otherwise `CROSS_SURVEY_POLICY_UNRESOLVED` (surveys waiting) or
+  `ENDED_INCOMPLETE` (last survey), with the engine's exact terminal object. No continuation rule exists.
+- **Fact correspondence** (`call360.applicability-fact-correspondence/1`): IDENTITY only; source = one published
+  variable version by id and fingerprint; target = one catalog field by attribute fingerprint; same type only; chosen
+  by the person; frozen in the journey's start record (`call360.applicability-journey-start/1`). Synthetic only; not
+  a dependency of any policy.
+- **Runtime** (`call360.applicability-journey-runtime/1`): `next → Turn | End`, `submit(item_key, expected_inputs,
+  answer, idempotency_key) → Accepted | Rejected`, `state`, `verify`. The server decides the next question; a client
+  proposes an answer to exactly the current turn. Optional `interaction` evidence is proposed, never accepted fact.
+- 16 operations under `/api/v1/applicability`; permissions `applicability.read`, `survey.read`, `survey.simulate`
+  (and `applicability.edit` to save a correspondence); no new permission. Migration `0042_applicability_journey`.
+- Nothing here selects a survey for a real case, plans a callback or starts a session.

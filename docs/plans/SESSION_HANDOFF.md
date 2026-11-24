@@ -11,8 +11,89 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-24, newest (APPL-X4a ACCEPTED, development at 0040) — read this block first; it supersedes the
-> blocks below where they differ.**
+> **Update 2026-11-25, newest (APPL-X5a BUILT on the test schema, awaiting acceptance) — read this block first; it
+> supersedes the blocks below where they differ.**
+> - **APPL-X4b development enablement ACCEPTED** (D-469). Development baseline `0041_applicability_publication`;
+>   `GOV-DEMO-ILP-NFTF` version 1 is the accepted governance demonstration artefact. Keep the 15 `dev.admin`
+>   simulations exactly as they are.
+> - **APPL-X5 is split** (D-470): X5a (selection, coordinated execution, browser journey, resume/replay, evidence,
+>   voice-neutral runtime) and X5b (evaluation, findings, assurance, trace). Owner rulings Q-1…Q-8 = D-471…D-477.
+> - **APPL-X5a built and technically verified ON THE TEST SCHEMA ONLY** (D-479): migration
+>   `0042_applicability_journey` EXISTS as a file (parent `0041`) and is **NOT applied to development — needs separate
+>   authorisation**. `MIGRATION_HEAD` is `0042`; development at `0041` is accepted because
+>   `applicability_journeys_enabled` is off there. Backend `applicability/journeys.py` +
+>   `api/applicability_journeys.py` (16 operations, runtime contract `call360.applicability-journey-runtime/1`);
+>   frontend `Journeys.tsx`, `journeyApi.ts`, flag `VITE_APPLICABILITY_JOURNEYS`; Playwright
+>   `playwright.journeys.config.ts` (`e2e/journeys/journey.jny.ts`, 10 journeys). Documents `survey-studio/77_…`
+>   (fact-correspondence design decision), `78_…` (architecture), `79_…` (report), `80_…` (X5b readiness, not
+>   authorised).
+> - **Test-only identity** `e2e.survey.journey` (D-478): exactly `applicability.read`, `survey.read`,
+>   `survey.simulate`; exists only in `scripts/e2e_survey_setup.py` for `call360_test`. Do not create it, or any
+>   equivalent, in development. In development only `dev.admin` holds that combination — do not use it as a shortcut.
+> - Journeys reuse the accepted evaluator, publication reader, execution engine and simulation service WITHOUT editing
+>   them. Nothing reads or writes assignment rules, bindings, groups or composite plans. A journey creates NEW,
+>   labelled `survey_simulation` rows referenced by its steps; older simulations are never touched.
+> - **Nothing is authorised next:** not `0042` on development, APPL-X5b, APP-1a, OPS-1, VOICE-0/1, Genesys, designer
+>   integration steps 2–4, legacy retirement. SEVEN Playwright configurations now share ports and the test schema: run
+>   them one at a time, never with pytest. This session committed nothing.
+>
+> **Update 2026-11-24, earlier (APPL-X4b enabled on development).**
+> - The owner authorised proceeding from the preflight stop (D-467) with the current state as baseline; the 15
+>   `dev.admin` survey simulations (38 inputs) must be **preserved exactly** — never delete, reset, modify or recreate
+>   them (fingerprints in the backup manifest and `acceptance/evidence/APPL-X4b/development/`).
+> - **DEVELOPMENT IS AT `0041_applicability_publication`** (applied 2026-11-24, D-468). Backup
+>   `_db_backups/call360_dev_before_0041_20261124.dump` (+ manifest); recovery in `_db_backups/RESTORE.md` "Rolling
+>   0041 back". `.env` has `APPLICABILITY_PUBLICATION_ENABLED=true`. Start the dev frontend with the five earlier
+>   `VITE_…` settings plus `VITE_APPLICABILITY_PUBLICATION=1`. NEVER `make migrate` / `make seed`. `0042` does not
+>   exist and is not authorised.
+> - Development now also holds policy `GOV-DEMO-ILP-NFTF` (**version 1 PUBLISHED**, permanent; working draft at
+>   revision 3), six `GOV-*` scenarios, suite `GOV-DEMO-REGRESSION`, two runs, candidate 1 (withdrawn) and
+>   candidate 2 (published). `SHOWCASE-*` policies, `SHOW-*` scenarios, `SHOWCASE-REGRESSION` and its three runs are
+>   untouched. `dev.admin` was not used and its membership is unchanged (review open).
+> - Full record: `survey-studio/75_…`. APPL-X5 assessment: `76_…` (not authorised). **Nothing is authorised next.**
+>
+> **Update 2026-11-24, earlier (APPL-X4b accepted; hardening; preflight stop).**
+> - **APPL-X4b ACCEPTED as technically verified on the test schema** (D-459), subject to hardening D-460.
+> - **Hardening done** (`publication.py` only, `_revision_drift`): a supporting suite or scenario edited after the run
+>   and restored byte for byte never regains eligibility — revisions the run recorded are checked at submission,
+>   approval and publication (`REVISION_ADVANCED`). Test `test_evidence_edited_and_restored_never_regains_eligibility`;
+>   browser journey X4b.4 updated. Proof in `survey-studio/75_…` §3.
+> - **Development enablement of `0041` is AUTHORISED but I STOPPED AT PREFLIGHT (D-465, per D-453):** development
+>   differs from the accepted `0040` baseline by one `dev.admin` sign-in and 15 survey simulations (38 inputs) made by
+>   `dev.admin` at 20:47–20:50 on 2026-11-24. **No backup, migration, setting or record made in development. Do not
+>   proceed until the owner explicitly says the state is the new baseline.** If more time passes, redo the preflight.
+> - After the go-ahead, in order: backup + manifest + `RESTORE.md`; stop dev API; `alembic upgrade
+>   0041_applicability_publication` only; verify; `APPLICABILITY_PUBLICATION_ENABLED=true`, frontend
+>   `VITE_APPLICABILITY_PUBLICATION=1`; demonstration with ONLY `dev.applicability.author` / `.checker` /
+>   `.publisher` in separate browser sessions on a NEW policy `GOV-DEMO-ILP-NFTF` with NEW `GOV-*` scenarios and
+>   suite `GOV-DEMO-REGRESSION` (`75_…` §5); one published version only; never use `dev.admin`; never touch
+>   `SHOWCASE-REGRESSION` or its three runs; then full regression and integrity comparison.
+> - **APPL-X5 readiness assessment written** (`survey-studio/76_…`, D-466): assessment only, eight owner questions,
+>   NOT authorised.
+>
+> **Update 2026-11-24, earlier (APPL-X4b built on the test schema).**
+> - **APPL-X4a development enablement ACCEPTED** (D-452); development baseline `0040_applicability_scenarios`.
+> - **PROCESS RULE (D-453, procedural exception recorded):** for every migration — full preflight before any
+>   mutation, compare with the latest accepted baseline, and **STOP for the owner on materially unexpected state even
+>   when it is explained**. An explanation is not authorisation. Never repair or reverse user changes; never restore
+>   retention-purged records; do not alter `dev.admin` membership.
+> - **APPL-X4b built and technically verified ON THE TEST SCHEMA ONLY** (D-457): migration
+>   `0041_applicability_publication` now EXISTS as a file (parent `0040`) and is **NOT applied to development —
+>   needs separate authorisation**. `MIGRATION_HEAD` is `0041`; development at `0040` is accepted because
+>   `applicability_publication_enabled` is off there. Backend `publication.py` + `api/applicability_publication.py`
+>   (13 operations); frontend `Publication.tsx`, `publicationApi.ts`, flag `VITE_APPLICABILITY_PUBLICATION`;
+>   Playwright `playwright.publication.config.ts` (`e2e/publication/governance.pub.ts`, 7 journeys). Documents
+>   `survey-studio/72_…` (architecture), `73_…` (report), `74_…` (development-enablement readiness, not authorised).
+> - Rulings implemented: explicit run target once a candidate or version exists (D-455); designer steps 2–4 are a
+>   separate checkpoint (D-454); shared-shell accessible names fixed in `AppShell.tsx` (three lines) and one `app.css` rule, with
+>   `e2e/shell-narrow.spec.ts` (D-456) — D-450's defect is closed; Voice Studio reliability defect still open.
+> - **Open items for the owner:** acceptance of X4b; `dev.admin` access review (`73_…` §11: it holds
+>   `applicability.read` / `.edit`, could submit a candidate, cannot approve or publish); D-458 notes.
+> - **Nothing is authorised next:** not `0041` on development, designer integration, APPL-X5, APP-1a, OPS-1,
+>   VOICE-0/1, Genesys, legacy retirement. Six Playwright configurations now share ports and the test schema: run
+>   them one at a time, never with pytest. This session committed nothing.
+>
+> **Update 2026-11-24, earlier (APPL-X4a ACCEPTED, development at 0040).**
 > - **APPL-X4a ACCEPTED as technically verified on the test schema** (D-438). Owner rulings D-439…D-446: the
 >   evaluation model stands, and a variable-version mismatch must NOT pass a gating result when the value is invalid
 >   under the policy's definition (implemented: `VARIABLE_VERSION_INCOMPATIBLE`); limits are validated safety limits;

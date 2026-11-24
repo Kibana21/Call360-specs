@@ -1,0 +1,223 @@
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+
+Running 37 tests using 1 worker
+
+  ✓   1 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1280px (3.0s)
+  ✓   2 [chromium] › e2e/a11y.spec.ts:12:3 › FE-04 / E2E-17 (partial) accessibility and layout at 1440px (3.0s)
+  ✓   3 [chromium] › e2e/a11y.spec.ts:37:1 › FE-04 unauthorized and session-expired screens are accessible (1.4s)
+  ✓   4 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1280px (1.2s)
+  ✓   5 [chromium] › e2e/a11y.spec.ts:48:3 › UI-1…UI-5 mockup fidelity regressions at 1440px (1.2s)
+  ✓   6 [chromium] › e2e/assignment-rules.spec.ts:10:1 › S2-B Assignment Rules: create, configure, simulate, submit, approve by a checker, publish (8.3s)
+  ✓   7 [chromium] › e2e/auth.spec.ts:4:1 › E2E-01 unauthenticated redirect, login, landing with real session data, logout (1.5s)
+  ✓   8 [chromium] › e2e/auth.spec.ts:29:1 › E2E-15 tokens only in HttpOnly cookies; no storage or URL tokens; CSRF and origin enforced (742ms)
+  ✓   9 [chromium] › e2e/auth.spec.ts:53:1 › D-23 two tabs refreshing an expired access token concurrently keep the session (1.5s)
+  ✓  10 [chromium] › e2e/auth.spec.ts:72:1 › E2E-18 (partial) branding and terminology (725ms)
+  ✓  11 [chromium] › e2e/config.spec.ts:5:1 › E2E-20 Configuration: market label version (non-governed), governed denial, stage-locked flags, USER denied (1.9s)
+  ✓  12 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1280px (1.7s)
+  ✓  13 [chromium] › e2e/config.spec.ts:64:3 › FE-04 Configuration screen accessibility at 1440px (1.7s)
+  ✓  14 [chromium] › e2e/conversation-lifecycle.spec.ts:41:1 › S2-D.1: lifecycle script → assignment → normal closing, identity failure and declined to proceed (7.1s)
+  ✘  15 [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout (33.2s)
+  ✘  16 [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data (3.5s)
+  ✓  17 [chromium] › e2e/permissions.spec.ts:4:1 › E2E-10 (partial) USER is denied Administration in the UI and by the API (820ms)
+  ✓  18 [chromium] › e2e/permissions.spec.ts:14:1 › E2E-13 (partial) ADMIN disables a user: that user is signed out on the next request; audit shows before/after (2.0s)
+  ✓  19 [chromium] › e2e/script-assignment.spec.ts:11:1 › S2-C assignment: new sale → callback case → preview → apply → pinned script → hold released (3.0s)
+  ✓  20 [chromium] › e2e/script-studio.spec.ts:23:1 › S2-A Script Studio: create, edit, submit, approve by a different checker, publish, immutable (6.6s)
+  ✓  21 [chromium] › e2e/shell-narrow.spec.ts:9:3 › shared shell: navigation links and the account button have accessible names at 761px (1.0s)
+  ✓  22 [chromium] › e2e/shell-narrow.spec.ts:9:3 › shared shell: navigation links and the account button have accessible names at 760px (997ms)
+  ✓  23 [chromium] › e2e/shell-narrow.spec.ts:9:3 › shared shell: navigation links and the account button have accessible names at 390px (994ms)
+  ✓  24 [chromium] › e2e/shell-narrow.spec.ts:41:1 › shared shell: the correction changes no layout — the navigation is pixel-for-pixel where it was (703ms)
+  ✓  25 [chromium] › e2e/simulation-evaluation.spec.ts:34:1 › S3-A: rules in Script Studio → simulate → wrong answers → evaluate → evidence trace → baseline scenario → batch (7.6s)
+  ✓  26 [chromium] › e2e/simulation-findings.spec.ts:41:1 › S3-B: finding rules (maker-checker) → simulate → evaluate → findings with severity, controls and evidence (8.7s)
+  ✓  27 [chromium] › e2e/simulation-workbench.spec.ts:33:1 › S2-E: draft script → scenarios → batch run → coverage → version comparison → interactive version test (7.2s)
+  ✓  28 [chromium] › e2e/text-simulator.spec.ts:25:1 › S2-D: new sale → case → assignment → text simulation → complete sequence → trace (4.9s)
+  ✘  29 [chromium] › e2e/workbench-review.spec.ts:49:1 › S3-C: synthetic operational case → findings → review → disposition → blocked premature verification → escalation → maker-checker verification (6.2s)
+  ✘  30 [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER) (5.6s)
+  ✓  31 [voice] › e2e/voice.spec.ts:76:1 › S1-A browser voice: a denied microphone never creates a session (1.2s)
+  ✘  32 [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history (5.6s)
+  ✓  33 [voice] › e2e/voice.spec.ts:146:1 › S1-B tab closure: the session is interrupted, then finalised as abandoned (36.7s)
+  ✓  34 [voice] › e2e/voice.spec.ts:171:1 › S1-C recording: consent → record → interruption → stop → complete evidence; refusal records nothing (11.7s)
+  ✓  35 [voice] › e2e/voice.spec.ts:229:1 › S1-C recording: upload failure and a mid-session refresh are reported as partial, never filled in (50.9s)
+  ✓  36 [voice] › e2e/voice.spec.ts:277:1 › S1-D transcript: recorded conversation → local transcription → Call Detail → synchronised playback → segment seek (11.9s)
+  ✓  37 [voice] › e2e/zz-voice-lab.voice.spec.ts:14:1 › S1-E.1 Voice Lab: prompt → session → recording/transcript → dataset → mock experiment → evaluation → budget refusals → kill switch (20.0s)
+
+
+  1) [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "intake-errors@1280: label-content-name-mismatch (a[aria-label=\"Script Studio\"]) — Fix any of the following:
+    +   Text inside the element is not included in the accessible name",
+    + ]
+
+       at cp04a-checks.ts:121
+
+      119 |       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+      120 |       const serious = result.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
+    > 121 |       expect(serious.map((v) => `${name}@${width}: ${v.id} (${v.nodes.map((x) => x.target.join(' ')).join(', ')}) — ${v.nodes[0]?.failureSummary ?? ''}`)).toEqual([]);
+          |                                                                                                                                                            ^
+      122 |     }
+      123 |     await page.screenshot({ path: `test-results/screens/${name}-${width}.png`, fullPage: true });
+      124 |     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        at a11yAndLayout (/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/cp04a-checks.ts:121:156)
+        at cp04bAdmin (/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/cp04b-checks.ts:68:3)
+        at /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/overview.spec.ts:64:3
+
+    Error Context: test-results/overview-F1-Overview-F2-re-a3fc8-gapore-data-a11y-and-layout-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/overview-F1-Overview-F2-re-a3fc8-gapore-data-a11y-and-layout-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/overview-F1-Overview-F2-re-a3fc8-gapore-data-a11y-and-layout-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+       at cp04a-checks.ts:110
+
+      108 |   // USER sees the intake-created case through the ordinary read APIs.
+      109 |   const cases = await (await page.request.get(`/api/v1/cases?q=${INTAKE.policy.policy_ref}`)).json();
+    > 110 |   expect(cases.total).toBe(1);
+          |                       ^
+      111 | }
+      112 |
+      113 | export async function a11yAndLayout(page: Page, name: string): Promise<void> {
+        at cp04aUser (/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/cp04a-checks.ts:110:23)
+        at /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/overview.spec.ts:78:3
+
+    Error Context: test-results/overview-F1-Overview-F2-re-9dd23-he-same-real-Singapore-data-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/overview-F1-Overview-F2-re-9dd23-he-same-real-Singapore-data-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/overview-F1-Overview-F2-re-9dd23-he-same-real-Singapore-data-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e/workbench-review.spec.ts:49:1 › S3-C: synthetic operational case → findings → review → disposition → blocked premature verification → escalation → maker-checker verification 
+
+    Error: expect(page).not.toHaveURL(expected) failed
+
+    Expected pattern: not /\/login/
+    Received string: "http://127.0.0.1:5174/login?returnTo=%2Freviews"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "not toHaveURL" with timeout 5000ms
+        14 × locator resolved to <html lang="en">…</html>
+           - unexpected value "http://127.0.0.1:5174/login?returnTo=%2Freviews"
+
+
+       at helpers.ts:19
+
+      17 |   await page.getByLabel('Password').fill(account.password);
+      18 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 19 |   await expect(page).not.toHaveURL(/\/login/);
+         |                          ^
+      20 |   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
+      21 | }
+      22 |
+        at signIn (/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/helpers.ts:19:26)
+        at /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/workbench-review.spec.ts:60:3
+
+    Error Context: test-results/workbench-review-S3-C-synt-296dd--maker-checker-verification-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workbench-review-S3-C-synt-296dd--maker-checker-verification-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workbench-review-S3-C-synt-296dd--maker-checker-verification-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER) 
+
+    Error: expect(page).not.toHaveURL(expected) failed
+
+    Expected pattern: not /\/login/
+    Received string: "http://127.0.0.1:5174/login?returnTo=%2F"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "not toHaveURL" with timeout 5000ms
+        14 × locator resolved to <html lang="en">…</html>
+           - unexpected value "http://127.0.0.1:5174/login?returnTo=%2F"
+
+
+       at helpers.ts:19
+
+      17 |   await page.getByLabel('Password').fill(account.password);
+      18 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 19 |   await expect(page).not.toHaveURL(/\/login/);
+         |                          ^
+      20 |   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
+      21 | }
+      22 |
+        at signIn (/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/helpers.ts:19:26)
+        at /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/voice.spec.ts:13:3
+
+    Error Context: test-results/voice-S1-A-browser-voice-f-f0b76-op-and-failure-states-USER--voice/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/voice-S1-A-browser-voice-f-f0b76-op-and-failure-states-USER--voice/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/voice-S1-A-browser-voice-f-f0b76-op-and-failure-states-USER--voice/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history 
+
+    Error: expect(page).not.toHaveURL(expected) failed
+
+    Expected pattern: not /\/login/
+    Received string: "http://127.0.0.1:5174/login?returnTo=%2F"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "not toHaveURL" with timeout 5000ms
+        14 × locator resolved to <html lang="en">…</html>
+           - unexpected value "http://127.0.0.1:5174/login?returnTo=%2F"
+
+
+       at helpers.ts:19
+
+      17 |   await page.getByLabel('Password').fill(account.password);
+      18 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 19 |   await expect(page).not.toHaveURL(/\/login/);
+         |                          ^
+      20 |   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
+      21 | }
+      22 |
+        at signIn (/Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/helpers.ts:19:26)
+        at /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-frontend/e2e/voice.spec.ts:91:3
+
+    Error Context: test-results/voice-S1-B-persistence-Sta-2263a-ll-Detail-shows-the-history-voice/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/voice-S1-B-persistence-Sta-2263a-ll-Detail-shows-the-history-voice/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/voice-S1-B-persistence-Sta-2263a-ll-Detail-shows-the-history-voice/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    [chromium] › e2e/overview.spec.ts:47:1 › F1 Overview + F2 register, queues, search + F3 Call Detail + F4 Policy Explorer and Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration + CP0.6 integrated journey (ADMIN): real Singapore data; a11y and layout 
+    [chromium] › e2e/overview.spec.ts:71:1 › F1 Overview + F2 register and queues + F3 Call Detail + F4 Policy Detail + F5 Risk Workbench + CP0.4a intake + CP0.4b Manual Intake portal + F6 Script Studio + F7 Review Workbench + CP0.1B-3 Administration (USER): the same real Singapore data 
+    [chromium] › e2e/workbench-review.spec.ts:49:1 › S3-C: synthetic operational case → findings → review → disposition → blocked premature verification → escalation → maker-checker verification 
+    [voice] › e2e/voice.spec.ts:12:1 › S1-A browser voice: full duplex with barge-in, safe stop and failure states (USER) 
+    [voice] › e2e/voice.spec.ts:90:1 › S1-B persistence: Start → Stop survives a refresh; a mid-session refresh resumes the same session; Call Detail shows the history 
+  32 passed (4.6m)

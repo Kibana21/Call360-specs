@@ -1,0 +1,7 @@
+development revision: 0041_applicability_publication | journey tables: 0 | journeys setting: False
+policy: GOV-DEMO-ILP-NFTF | version 1 PUBLISHED | version 8168c61ea62e document 3699c75082aa manifest a9b917405086
+  ILP only               -> SURVEYS_SELECTED   selected ['ILP v1'] pending [] needs [] replaced [] plan a5939c6712c7
+  ILP replacement sale   -> SURVEYS_SELECTED   selected ['ILP v1', 'REPLACEMENT v1'] pending [] needs [] replaced [] plan 3e88febd7342
+  ILP with NFTF          -> SURVEYS_SELECTED   selected ['COMBINED v1'] pending [] needs [] replaced ['r1', 'r2'] plan ce1f79855114
+  neither                -> NO_SURVEY_REQUIRED selected [] pending [] needs [] replaced [] plan dacce77148eb
+  NFTF not known         -> UNRESOLVED         selected [] pending ['ILP', 'NFTF', 'COMBINED'] needs ['nftf'] replaced [] plan 11c02f2f5dc2

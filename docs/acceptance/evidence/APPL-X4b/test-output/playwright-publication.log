@@ -1,0 +1,16 @@
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+Survey identities created in the test schema: 19
+
+Running 7 tests using 1 worker
+
+  ✓  1 [publication] › e2e/publication/governance.pub.ts:97:1 › X4b.1 Journey A: readiness, an immutable candidate, approval by a second person, publication by a third, and a version that is its candidate (5.9s)
+  ✓  2 [publication] › e2e/publication/governance.pub.ts:186:1 › X4b.2 Journey B: returned with a reason; the author changes the policy, runs the updated suite against an explicit target, and submits a new candidate (5.7s)
+X4B-BLOCKERS {"no suite":["SUITE_REQUIRED"],"all expectations proposed from results":["EXPECTATIONS_NOT_INDEPENDENT"],"a material behaviour covered only by a result-derived expectation":["BEHAVIOUR_ONLY_RESULT_DERIVED"],"a failing suite":["SUITE_FAILED"],"an exploratory suite":["COVERAGE_NOT_MEANINGFUL","SUITE_REQUIRED"],"outdated evidence (a scenario changed)":["EVIDENCE_OUT_OF_DATE"],"an unpublished dependency":["EVIDENCE_OUT_OF_DATE","UNPUBLISHED_DEPENDENCY"],"a changed (stale) dependency":["DEPENDENCY_STALE","EVIDENCE_OUT_OF_DATE"],"PIN_DIFFERS":["PIN_DIFFERS"],"a profile mismatch in a gating scenario":["PROFILE_MISMATCH","SUITE_FAILED"]}
+  ✓  3 [publication] › e2e/publication/governance.pub.ts:257:1 › X4b.3 Journey C: every readiness blocker is refused by the server and explained on the screen (9.0s)
+  ✓  4 [publication] › e2e/publication/governance.pub.ts:360:1 › X4b.4 Journeys D and E: evidence changed after approval refuses publication; restored and published, version 2 supersedes version 1 (3.9s)
+  ✓  5 [publication] › e2e/publication/governance.pub.ts:405:1 › X4b.5 Journey F: impact between two published versions on one dataset; every run names what it evaluated (2.8s)
+X4B-CROSSOVERS {"author approves own candidate":403,"second author approves":403,"publisher approves":403,"publisher publishes before approval":"NOT_APPROVED","second author withdraws another person’s candidate":"NOT_SUBMITTER","checker submits":403,"checker approves with the wrong fingerprint":"MANIFEST_CHANGED","checker publishes what they approved":403,"author publishes own candidate":403,"publisher publishes with the wrong version number":"VERSION_CHANGED","publisher without the CSRF token":403,"change a published version (PUT)":405,"delete a published version":405}
+  ✓  6 [publication] › e2e/publication/governance.pub.ts:445:1 › X4b.6 Journey G: three signed-in people — every authorised step and every prohibited crossover (2.7s)
+  ✓  7 [publication] › e2e/publication/governance.pub.ts:501:1 › X4b.7 four widths, keyboard and an accessibility scan of the governance pages (15.7s)
+
+  7 passed (58.0s)
