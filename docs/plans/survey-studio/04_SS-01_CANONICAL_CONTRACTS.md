@@ -2589,3 +2589,24 @@ the saved revision; `preview` runs an unsaved document and is marked so; both ar
 moved. Another market's policy answers 404. **There is no publication of policies**: no candidate, no approval, no
 published version. A selection plan assigns nothing and permits no call.
 
+## 26. APPL-X4a — synthetic scenarios, regression suites and recorded runs (test schema only)
+
+Full specification: `68_APPL-X4a_ARCHITECTURE_AND_CONTRACTS.md`. Built and verified on the isolated test schema; **not
+applied to development**; awaiting owner acceptance.
+
+- **Scenario document:** `name`, `description`, `profiles`, `facts` (a value, `null` = not known, absent = not
+  provided), `pins`. No customer, policy-number, case or session field exists. `record_class` is `SYNTHETIC`.
+- **Scenario snapshot** (`call360.applicability-scenario-snapshot/1`): per variable and profile — asset id, version
+  id, version number (or draft revision), content and manifest fingerprints.
+- **Expectation:** `status`, `selected [{code, version}]`, `pending`, optional `replaced`, `needs`; `confirmed` must
+  be true; `source` AUTHORED or PROPOSED_FROM_RESULT. Never written by the server from a result.
+- **Run record** (`call360.applicability-evaluation-run/1`): the policy document, manifest and definitions read; the
+  suite as run; per result the scenario as it was, the expectation, the complete plan, the verdict. Immutable;
+  re-evaluable from the record alone.
+- **Verdicts:** PASSED, FAILED, COULD_NOT_EVALUATE, INVALID_DEFINITION, NO_EXPECTATION. Inability to evaluate never
+  passes.
+- **Coverage** is requirement- and condition-level, of the scenarios run; `exhaustive` is always false.
+- 22 operations under `/api/v1/applicability/{scenarios,suites,runs}`; permissions `applicability.read`,
+  `applicability.edit`, `survey.read`; no new permission. Migration `0040_applicability_scenarios`.
+- No published Applicability Policy exists yet (APPL-X4b, `70_…`).
+

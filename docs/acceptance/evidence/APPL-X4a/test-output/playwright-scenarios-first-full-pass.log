@@ -1,0 +1,24 @@
+[WebServer] INFO:     Started server process [2942]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+E2E schema reset, S0-SEED-1 seeded and 5 accounts created
+Survey identities created in the test schema: 19
+
+Running 10 tests using 1 worker
+
+  ✓   1 [scenarios] › e2e/scenarios/studio.scn.ts:106:1 › X4.1 Journey A: a synthetic ILP scenario is created with a name and a reviewed code, saved, the browser closed, and reopened identical (9.0s)
+  ✓   2 [scenarios] › e2e/scenarios/studio.scn.ts:195:1 › X4.2 Journey B: a variant is a saved scenario; one changed fact shows exactly which surveys change and why (7.3s)
+  ✓   3 [scenarios] › e2e/scenarios/studio.scn.ts:266:1 › X4.3 Journey C: a regression suite with explicitly stated expectations is saved, reopened, and run against the saved policy (5.2s)
+  ✓   4 [scenarios] › e2e/scenarios/studio.scn.ts:331:1 › X4.4 Journey D: a wrong expectation fails with the exact difference; nothing is corrected automatically; the person corrects it (4.0s)
+  ✓   5 [scenarios] › e2e/scenarios/studio.scn.ts:379:1 › X4.5 Journey E: a published profile version stays pinned; a newer one is offered, adopted deliberately, undone; a mismatch is refused in a gating suite (6.0s)
+  ✓   6 [scenarios] › e2e/scenarios/studio.scn.ts:437:1 › X4.6 Journey F: a recorded run reads the same after the policy, a scenario and the library have changed; it reproduces; runs are compared (4.6s)
+  ✓   7 [scenarios] › e2e/scenarios/studio.scn.ts:510:1 › X4.7 Journey G: not known, not provided and invalid values are three states, shown as the evaluator reports them (3.6s)
+X4A-SCALE 120 scenarios created through the API in 2054 ms; gallery of 120 listed in 445 ms; suite of 120 × 100 requirements run and recorded in 2458 ms on screen, 934 ms evaluating
+  ✓   8 [scenarios] › e2e/scenarios/studio.scn.ts:539:1 › X4.8 Journey H: a hundred requirements and a hundred and twenty scenarios — paged, bounded, with honest coverage (11.6s)
+X4A-SECURITY {"checker creates a scenario":403,"checker saves a scenario":403,"checker archives a scenario":403,"checker saves a suite":403,"checker records a run":403,"author, other market":"MARKET_NOT_IN_SCOPE","author, unknown scenario":404,"author, stale revision":"STALE_REVISION","author, invalid pin":"INVALID_DEPENDENCY_PIN","author, unknown fact":"UNKNOWN_REFERENCE","author, unconfirmed expectation":"EXPECTATION_NOT_CONFIRMED","author, change a recorded run (PUT)":405,"author, delete a recorded run":405,"author, write without the CSRF token":403,"author, wrong CSRF token":403}
+  ✓   9 [scenarios] › e2e/scenarios/studio.scn.ts:605:1 › X4.9 Journey I: read-only and unauthorised people; another market; stale, invalid and oversized requests; evidence cannot be changed (4.8s)
+X4A-A11Y-SHELL ["button-name","link-name"] in the application shell at phone width (51 nodes) — outside the studio, not changed here
+  ✓  10 [scenarios] › e2e/scenarios/studio.scn.ts:664:1 › X4.10 keyboard, four widths and an accessibility scan (20.5s)
+
+  10 passed (1.5m)

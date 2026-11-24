@@ -11,8 +11,38 @@ authorisation; never mark anything accepted without the owner's explicit words.
 
 ## 0. Current state — read this first (2026-11-19)
 
-> **Update 2026-11-24, newest (APPL-X3 ACCEPTED, development at 0039) — read this block first; it supersedes the
-> blocks below where they differ.**
+> **Update 2026-11-24, newest (APPL-X4a built on the TEST schema) — read this block first; it supersedes the blocks
+> below where they differ.**
+> - **APPL-X3 development enablement ACCEPTED** (D-427); `0039` is the development baseline. **D-418 CLOSED as fixed
+>   with a regression watch** (D-433): reopen if "the designer did not open after creation" recurs. Voice Studio
+>   reliability defect still open, Voice Studio untouched.
+> - Owner rulings Q-1…Q-6 (D-428…D-432): X4 split into **X4a** (scenarios, suites, recorded runs) and **X4b**
+>   (governance and publication, NOT started, needs X4a accepted first); a published policy will need a passing,
+>   MEANINGFUL suite; no `PIN_DIFFERS` override; a SUPERSEDED published version stays a valid pin; prototype
+>   endpoints retire only after every caller has migrated.
+> - **APPL-X4a — BUILT AND VERIFIED ON THE TEST SCHEMA; awaiting owner acceptance; UNCOMMITTED.** Documents
+>   `survey-studio/68_…` (architecture), `69_…` (report), `70_…` (X4b readiness specification); D-427…D-437;
+>   evidence `docs/acceptance/evidence/APPL-X4a/`.
+> - **DEVELOPMENT IS UNTOUCHED AND MUST STAY SO:** dev DB at `0039`; migration `0040_applicability_scenarios` exists in
+>   the backend but is NOT applied to dev; `MIGRATION_HEAD` is `0040`, and a schema at `0039` is accepted while
+>   `applicability_scenarios_enabled` is off (it is off in dev). NEVER run `make migrate`. The dev frontend runs
+>   WITHOUT `VITE_APPLICABILITY_SCENARIOS`, so step 4 there is still the in-tab scenario lab.
+> - Backend: `migrations/versions/0040_applicability_scenarios.py` (7 tables, 6 guards, 14 FKs, NO permission);
+>   `app/domain/survey/applicability/scenarios.py` (`normalise`, `resolve`, `Evaluator`, `evaluate`, `expectation`,
+>   `check`, `coverage`, `run_suite`, `verify`, `compare_runs`, `against_current`); `app/api/applicability_scenarios.py`
+>   (22 operations under `/api/v1/applicability/{scenarios,suites,runs}`); `tests/test_applicability_scenarios.py`
+>   (11). Evaluator and `policies.py` NOT changed. Prototype operations NOT removed.
+> - Frontend: `src/features/applicability/scenarioApi.ts`, `ScenarioStudio.tsx`, `SuiteBuilder.tsx`, `RunHistory.tsx`;
+>   route `scenarios` switches on `applicabilityScenarios()`; Playwright `playwright.scenarios.config.ts` +
+>   `e2e/scenarios/studio.scn.ts` (10 journeys). It shares ports 8001/5174 and the test schema with the other four
+>   configurations: never run two at once.
+> - Model in one line: a scenario pins variable and profile versions; an evaluation reads the POLICY's variables and
+>   conditions and the SCENARIO's profiles; expectations are stated and confirmed by a person; a run is immutable and
+>   re-evaluable from its own record; coverage never claims to be exhaustive.
+> - **Nothing is authorised next:** not the `0040` development migration, not APPL-X4b, APP-1a, OPS-1, VOICE-1,
+>   legacy retirement. This session committed nothing; the owner manages Git.
+>
+> **Update 2026-11-24 (APPL-X3 ACCEPTED, development at 0039) — superseded by the block above where they differ.**
 > - **APPL-X3 ACCEPTED as technically verified on the test schema** (D-419). Owner rulings on D-416 in D-420:
 >   `PIN_DIFFERS` is a draft diagnostic now and MUST block publication in APPL-X4; `DEPENDENCY_STALE` fails closed;
 >   prototype endpoints stay, feature-gated; saved scenarios in APPL-X4 keep exact profile snapshots.

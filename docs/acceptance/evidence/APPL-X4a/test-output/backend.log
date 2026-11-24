@@ -1,0 +1,19 @@
+......................................................................................
+APPL-X4a scale (wall seconds, recorded evaluation ms) for 100 requirements: {10: (0.13, 75), 50: (0.62, 428), 200: (2.29, 1454)}
+.................................................Created 'first.admin' in LOCAL_ADMIN (principal 88a2a8e6-b220-48f8-9cdc-51910ee439e8).
+Refusing: an active administrator already exists. Use Administration to manage users.
+Refusing: password is too common
+.............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[2026-11-24 16:47:33.784] [ctranslate2] [thread 16810399] [warning] Tip: experimental MPS backend is available and often 2x+ faster than CPU on Apple Silicon (varies by workload and hardware). Try device="mps".
+...........................................
+=============================== warnings summary ===============================
+tests/test_assignment_rules.py::test_create_configure_simulate_submit_approve_publish
+tests/test_assignment_rules.py::test_permissions_abandon_and_scope
+tests/test_recording.py::test_local_retention_purges_audio_and_keeps_metadata
+tests/test_script_authoring.py::test_create_edit_submit_approve_publish_by_a_different_checker
+tests/test_script_draft_isolation.py::test_control_link_and_question_changes_stay_inside_their_draft
+tests/test_script_draft_isolation.py::test_abandon_draft_is_audited_frozen_and_deletes_nothing
+tests/test_transcript.py::test_both_tracks_transcribed_with_speakers_times_provenance_and_audited_access
+  /Users/kartik/Documents/Work/Projects/Call360/Call360/Call360-backend/tests/conftest.py:87: SAWarning: transaction already deassociated from connection
+    tx.rollback()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html

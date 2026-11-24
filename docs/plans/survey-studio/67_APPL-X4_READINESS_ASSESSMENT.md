@@ -1,7 +1,8 @@
 # 67 — APPL-X4 readiness assessment
 
 **Checkpoint proposed:** APPL-X4 — Persistent Scenario Studio, Applicability Policy Governance and Publication.
-**Status:** ASSESSMENT ONLY. Nothing here is built. **APPL-X4 is NOT authorised.**
+**Status:** ASSESSMENT — superseded in detail by `68_…` (APPL-X4a, built on the test schema) and `70_…` (APPL-X4b readiness
+specification), following the owner's rulings D-428 … D-432. Kept for traceability.
 **Date:** 2026-11-24. **Baseline:** development at `0039_applicability_policy`, APPL-X3 accepted (D-419).
 **Data:** synthetic only. **Simulation only:** no operational case, session, contact attempt or call is selected,
 planned or changed by anything in this checkpoint.
@@ -46,7 +47,9 @@ planned or changed by anything in this checkpoint.
   the previous one (kept, never deleted, status `SUPERSEDED`).
 - **Publication blockers** (server-side, all must be absent):
   1. any dependency that is not an approved **published** version (no drafts, no candidates) — point 12;
-  2. a pinned Survey Studio version that is not `PUBLISHED`, or whose fingerprint differs from the pin — point 17;
+  2. a pinned Survey Studio version that was never genuinely published (missing, of another market, or whose
+     fingerprint differs from the pin) — point 17. **Corrected per owner ruling Q-5 (D-431): a version that is
+     `SUPERSEDED` was genuinely published and remains a valid pin, with a notice; it is not a blocker;**
   3. any `DEPENDENCY_STALE`;
   4. any evaluator `error`-level analysis finding (unreachable, contradictory, replacement cycle);
   5. **`PIN_DIFFERS`** — see 2.3;
